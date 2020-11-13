@@ -1,0 +1,41 @@
+<div class="container">
+    <div style="margin-top: 25px;" >
+        <button class="btn btn-success btn-circle pull-left" routerLink="/adminbooks/add"  title="Add CLass" type="submit">Add <i class="fas fa-plus"></i></button>
+    </div>
+<div style="margin-top:10px;" class="table-responsive" >
+      <table class="table table-bordered" >
+        <thead>
+            <tr>
+              <th>Title</th>
+              <th>description</th>
+              <th>publishDate</th>
+              <th>pageCount</th>
+              <th>price</th>
+              <th>availableQuantity</th>
+              <th>imageUrl</th>
+              <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let each of books">
+              <td>{{each.title}}</td>
+              <td>{{each.description}}</td>
+              <td>{{each.publishDate}}</td>
+              <td>{{each.pageCount}}</td>
+              <td>{{each.price}}</td>
+              <td>{{each.availableQuantity}}</td>
+              <td><img src="{{each.imageUrl}}" class="backgr2"></td>
+              <td style="width: 90px;">
+                  <i class="fas fa-edit" style="margin-right: 5px;"
+                  title="Edit"></i>
+                  <i class="fas fa-trash" style="margin-right: 5px;"
+                       title="Delete"></i>
+                  <i class="far fa-file-alt"
+                     title="Info"></i>
+              </td>
+            </tr>
+        </tbody>
+    </table>
+
+    </div>
+  </div>

@@ -1,0 +1,11 @@
+.nav-item li{
+  color: black;
+}
+.navbar {
+  background-color: rgb(71, 71, 70);
+  margin-top: 4px;
+}
+a{
+  color: aliceblue;
+  font-size: 18px;
+}

@@ -1,0 +1,80 @@
+.jumbotron {
+  background-color: #353535;
+  margin-top: 3px;
+  padding: 20px;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.login{
+	padding: 4em 0;
+}
+
+.main-agileits {
+  width: 30%;
+  margin: 0em auto ;
+  box-shadow: 0px 0px 15px 0px #D6D6D6;
+  -o-box-shadow: 0px 0px 15px 0px #D6D6D6;
+  -moz-box-shadow: 0px 0px 15px 0px #D6D6D6;
+  -webkit-box-shadow: 0px 0px 15px 0px #D6D6D6;
+  padding: 3em ;
+}
+
+.form-w3agile h3{
+  color: #029241;
+  font-size: 2.5em;
+  text-align: center;
+  margin-bottom: 1.5em;
+}
+
+.form-w3agile  input[type="submit"]:hover{
+  background:#029241;
+}
+
+.form-w3agile input[type="submit"] {
+  background: #fdb515;
+  color: #FFFFFF;
+  padding: 10px 0;
+  margin-bottom: 25px;
+  font-size: 1em;
+  width: 50%;
+  border-radius: 10px;
+  margin-left: 25%;
+}
+.key  input[type="text"],.key  input[type="password"] {
+  width: 89%;
+  padding: 10px 10px;
+  font-size: 1em;
+  border: none;
+  border-bottom: none;
+  outline: none;
+  color: #999;
+  float: left;
+  background: none;
+}
+.key i{
+float: left;
+color: #999;
+font-size: 1.1em;
+padding: 13px;
+}
+.key {
+  background: #fff;
+  border: 1px solid #999;
+  margin-bottom: 2em;
+}
+
+.forg a {
+  text-decoration: none;
+  color: #029241;
+  font-size:1em;
+}
+.forg a:hover{
+color:#fdb515;
+}
+.forg-left{
+float:left;
+}
+.forg-right{
+float:right;
+}

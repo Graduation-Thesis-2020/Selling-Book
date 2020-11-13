@@ -1,0 +1,112 @@
+
+
+
+<!-- <form [formGroup]="form" (ngSubmit)="submitForm()"> -->
+<!-- //<form enctype="multipart/form-data" method="post" action="/"> -->
+  <div class="container">
+      <nav class="navbar navbar-expand-sm" >
+        <ul class="navbar-nav" >
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/admin/listbook']">Sách</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/admin/listauthor']">Tác Giả</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/admin/listcate']">Thể Loại</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/admin/listreview']">Đánh Giá</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/admin/listpub']">Nhà Xuất Bản</a>
+        </li>
+        </ul>
+      </nav>
+    </div>
+
+  <div class="container">
+      <h1 style="margin-top: 30px;">Thêm Sách</h1>
+      <div class="ser-t">
+          <b></b>
+          <span><i></i></span>
+          <b class="line"></b>
+        </div>
+
+      <div class="col-m">
+          <div class="container" style="width:50%;">
+
+
+                <div >
+                  <h3>Tựa sách</h3>
+                  <input #title type="text" [alt]="form.value.title" class="form-control"    placeholder="tên sách"  >
+                </div>
+                <div>
+                  <h3>Mô tả</h3>
+                  <input #description  type="text" [alt]="form.value.description" class="form-control"  placeholder="nội dung sách"  >
+                </div>
+                <div>
+                  <h3>Ngày Xuất Bản</h3>
+                  <input #publishDate type="date" class="form-control"  placeholder="ngày xuất bản" >
+                </div>
+                <div>
+                  <h3>Số Trang</h3>
+                  <input #pageCount type="number" [alt]="form.value.pageCount" class="form-control"  placeholder="số lượng trang" >
+                </div>
+                <div>
+                  <h3>Giá</h3>
+                  <input #price type="number" [alt]="form.value.price" class="form-control"  placeholder="giá" >
+                  </div>
+                <div>
+                    <h3>Tên Tác Giả</h3>
+                    <select class="custom-select" #author1>
+                      <option *ngFor="let aut of author"  [value]="aut._id"  >{{aut.name}}</option>
+                    </select>
+                </div>
+
+                <div>
+                  <h3>Nhà Xuất Bản</h3>
+                  <select class="custom-select" #publisher1>
+                      <option *ngFor="let pub of publisher"  [value]="pub._id"  >{{pub.name}}</option>
+                    </select>
+              </div>
+                <div>
+                    <h3>Số lượng có sẵn</h3>
+                    <input #availableQuantity type="number" [alt]="form.value.availableQuantity" class="form-control"  placeholder="có sẵn"  >
+                </div>
+                <div>
+                  <h3>Giảm Giá</h3>
+                  <input #discount type="number" [alt]="form.value.discount" class="form-control" placeholder="giảm giá" >
+              </div>
+              <div>
+                <h3>Thể Loại</h3>
+                <select class="custom-select" #categories1>
+                    <option *ngFor="let cate of cate"  [value]="cate._id">{{cate.name}}</option>
+                </select>
+            </div>
+
+                <div>
+                  <h3>Image</h3>
+                    <div class="form-group">
+                    <input #image name="image" type="file" accept="images/*" (change)="handleFileInput($event.target.files)" class="form-control"  >
+
+                    </div>
+                </div>
+                <div>
+                  <label></label>
+                  <button class="btn btn-secondary btn-circle pull-right" style="margin-top: 15px; margin-left: 10px;" title="Add"
+                    type="submit" routerLink="/admin/listbook">Back <i class="fas fa-undo"></i></button>
+                  <button class="btn btn-success btn-circle pull-right" style="margin-top: 15px;" title="Add"
+                    type="submit" (click)="save2(title.value, description.value,publishDate.value, pageCount.value,
+                    price.value, availableQuantity.value, publisher1.value, author1.value, categories1.value, discount.value, FileUpload)">Save<i class="fa fa-check-square-o"></i></button>
+                </div>
+            </div>
+</div>
+
+
+  </div>
+
+<!-- </form> -->
+
+
+

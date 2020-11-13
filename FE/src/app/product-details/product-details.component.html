@@ -1,0 +1,121 @@
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-4">Chi Tiết Sản Phẩm</h1>
+    <p class="lead">chi tiết sản phẩm!</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-m">
+    <div class="row">
+      <div class="col-5">
+        <a class="offer-img">
+          <img src="{{ books.imageUrl }}" class="img-responsive" alt="" />
+        </a>
+      </div>
+
+      <div class="col-7">
+        <div class="single-right">
+          <h3>{{ books.title }}</h3>
+          <div class="in-pa1">
+            <h6 routerLink="/books/{{ author._id }}/authors/{{ author.name }}">
+              <span>Tác giả: </span> {{ author.name }}
+            </h6>
+            <div
+              class="row"
+              *ngFor="let cate of cates"
+              routerLink="/books/{{ cate._id }}/categories/{{ cate.name }}"
+            >
+              <span class="col-u" style="margin-left: 14px">Thể loại: </span>
+              <div class="col-auto m-wthree">
+                <h5>{{ cate.name }}</h5>
+              </div>
+            </div>
+            <div
+              *ngFor="let pub of pub"
+              routerLink="/books/{{ pub._id }}/publishers/{{ pub.name }}"
+            >
+              <h6 *ngIf="pub._id === books.publisher">
+                <span>Nhà Xuất Bản: </span>{{ pub.name }}
+              </h6>
+            </div>
+            <h6>
+              <span>Ngày Xuất Bản: </span
+              >{{ books.publishDate | date: "dd/MM/yyyy" }}
+            </h6>
+          </div>
+
+          <div class="pr-single">
+            <p class="reduced" *ngIf="books.discount !== '0'">
+              <del>{{ books.price }} VNĐ</del>{{ books.discount }} VNĐ
+            </p>
+            <p class="reduced" *ngIf="books.discount === '0'">
+              {{ books.price }} VNĐ
+            </p>
+          </div>
+
+          <p class="in-pa">{{ books.description }}</p>
+
+          <div class="add add-3">
+            <button
+              class="btn btn-danger my-cart-btn my-cart-b"
+              (click)="add(books._id)"
+            >
+              Thêm Giỏ Hàng
+            </button>
+          </div>
+
+          <div>
+            <h2>Đánh giá</h2>
+            <!-- <div *ngFor="let each of books.reviews; let i = index">
+                  <p class="reduced" (click)="getReviewfromID(each)" >{{i+1}}.Người Ẩn Danh</p>
+              </div>
+              <div>
+                  <p class="reduced">{{review.comment}}</p>
+              </div> -->
+            <div *ngFor="let each of reviews; let i = index">
+              <p class="reduced1">
+                <i class="fas fa-user" style="margin-right: 5px"></i>Người Ẩn
+                Danh({{ i }})
+              </p>
+              <p class="reduced3">
+                Bình chọn {{ each.review }}
+                <i class="fas fa-star" style="margin-right: 5px"></i>
+              </p>
+              <div class="col-n">
+                <p class="reduced2">Bình Luận: {{ each.comment }}</p>
+              </div>
+            </div>
+            <div></div>
+
+            <div class="col-e">
+              <h5>
+                Bình chọn:
+                <select #star class="custom-select" style="width: 10%">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                sao
+              </h5>
+              <textarea
+                #comment
+                class="form-control"
+                placeholder="nhập bình luận.."
+              ></textarea>
+              <button
+                class="btn btn-danger my-cart-btn my-cart-b1 pull-right"
+                (click)="save(star.value, comment.value)"
+                tyle="submit"
+              >
+                Bình Luận
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

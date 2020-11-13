@@ -1,0 +1,57 @@
+<p>{{title}}</p>
+<div class="jumbotron">
+    <div class="container">
+      <h1 class="display-4">Add book</h1>
+    </div>
+
+</div>
+
+<div class="container">
+    <div class="col-m">
+        <div class="container" style="width:50%;">
+            <div >
+              <h3>Tựa sách</h3>
+              <input #title type="text" class="form-control"    placeholder="tên sách" >
+            </div>
+            <div>
+              <h3>Mô tả</h3>
+              <input #description type="text" class="form-control"  placeholder="nội dung sách" >
+            </div>
+            <div>
+              <h3>Ngày Xuất Bản</h3>
+              <input #publishDate type="date" class="form-control"  placeholder="ngày xuất bản" >
+            </div>
+            <div>
+              <h3>Số Trang</h3>
+              <input #pageCount type="number" class="form-control"  placeholder="số lượng trang" >
+            </div>
+            <div>
+              <h3>Giá</h3>
+              <input #price type="number" class="form-control" placeholder="giá" >
+              </div>
+            <!-- <div>
+                <h3>Tên Tác Giả</h3>
+                <input #classname type="text" class="form-control" [(ngModel)]="Book.author" placeholder="tên tác giả" required>
+            </div> -->
+            <div>
+                <h3>Số lượng có sẵn</h3>
+                <input # type="number" class="form-control"  placeholder="có sẵn" >
+            </div>
+            <div>
+              <h3>Image</h3>
+              <img src="URL" style="width: 200px; height:200px">
+              <input  type="file" accept="images/*"  class="form-control"  >
+
+          </div>
+            <div>
+              <label></label>
+              <button class="btn btn-secondary btn-circle pull-right" style="margin-top: 15px; margin-left: 10px;" title="Add"
+                type="submit" >Back <i class="fas fa-undo"></i></button>
+              <button class="btn btn-success btn-circle pull-right" style="margin-top: 15px;" title="Add"
+                type="submit" >Save<i class="fa fa-check-square-o"></i></button>
+            </div>
+
+        </div>
+
+    </div>
+</div>

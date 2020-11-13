@@ -1,0 +1,157 @@
+<div class="container">
+  <div
+    class="jumbotron"
+    style="
+      margin-top: 4px;
+      height: 400px;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-image: url(https://muenchen.mitvergnuegen.com/wp-content/uploads/sites/3/2017/10/literatur-moths-680x383.jpg);
+    "
+  >
+    <div class="banner-info">
+      <h3>CHÀO MỪNG ĐẾN VỚI CỬA HÀNG SÁCH</h3>
+      <div class="search-form">
+        <form class="form-inline">
+          <input
+            type="text"
+            placeholder="tìm kiếm..."
+            #search1
+            style="font-size: 18px; font-weight: bold"
+          />
+          <button type="submit" (click)="search(search1.value)"></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--content-->
+<div class="content-top">
+  <div class="container">
+    <div class="spec">
+      <h3>Sản Phẩm</h3>
+      <div class="ser-t">
+        <b></b>
+        <span><i></i></span>
+        <b class="line"></b>
+      </div>
+    </div>
+
+    <div class="tab-head">
+      <!-- <nav class="nav-sidebar">
+                  <ul class="nav tabs ">
+                    <li class="active"><a href="#tab1" data-toggle="tab">Thiếu Nhi</a></li>
+                    <li class=""><a href="#tab2" data-toggle="tab">Văn Học</a></li>
+                    <li class=""><a href="#tab3" data-toggle="tab">Đời Sống</a></li>
+                    <li class=""><a href="#tab4" data-toggle="tab">Tiểu Thuyết</a></li>
+                  </ul>
+                </nav> -->
+      <div class="tab-content tab-content-t">
+        <div class="tab-pane active text-style" id="tab1">
+          <div class="row">
+            <div class="col-md-3 m-wthree" *ngFor="let bk of books">
+              <div class="col-m">
+                <a routerLink="/details/{{ bk._id }}" class="offer-img">
+                  <img src="{{ bk.imageUrl }}" class="img-responsive" alt="" />
+                  <div class="offer" *ngIf="bk.discount !== '0'">
+                    <p><span>Sale Off</span></p>
+                  </div>
+                </a>
+                <div class="mid-1">
+                  <div class="women" routerLink="/details/{{ bk._id }}">
+                    <h6>
+                      <a [routerLink]="['/details']">{{ bk.title }}</a>
+                    </h6>
+                  </div>
+                  <div class="mid-2">
+                    <p *ngIf="bk.discount === '0'">{{ bk.price }} đ</p>
+                    <p *ngIf="bk.discount !== '0'">
+                      <label>{{ bk.price }} đ</label
+                      ><em class="item_price">{{ bk.discount }} đ</em>
+                    </p>
+                    <div class="block">
+                      <div class="starbox small ghosting"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="add">
+                    <button
+                      class="btn btn-danger my-cart-btn my-cart-b"
+                      (click)="AddtoCart(bk._id)"
+                    >
+                      <a [routerLink]="[{ id: bk._id }]"></a>Thêm Giỏ Hàng
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+
+<!--content-->
+<div class="content-mid">
+  <div class="container">
+    <div class="row justify-content-start">
+      <div class="col-4">
+        <div
+          class="col-md1"
+          routerLink="/books/5de91d09e3ef6d4d68566461/categories/Sách Thiếu Nhi"
+        >
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF4x2nr7ALrcTqrDgD40kuwadyzjD0RsdY3T_loPq8cZQHSFAV&s"
+            class="backgr2"
+            alt=""
+          />
+          <div class="big-sale2">
+            <h3>Tuổi <span>Thơ</span></h3>
+            <p>Là thứ khó quên nhất của chúng ta</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div
+          class="col-md2"
+          routerLink="/books/5de91ca4e3ef6d4d6856645d/categories/Văn Học"
+        >
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF4x2nr7ALrcTqrDgD40kuwadyzjD0RsdY3T_loPq8cZQHSFAV&s"
+            class="backgr2"
+            alt=""
+          />
+          <div class="big-sale">
+            <div class="big-sale1">
+              <h3>Văn <span>Học</span></h3>
+              <p>Bách khoa toàn thư</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div
+          class="col-md3"
+          routerLink="/books/5de91c7ee3ef6d4d6856645c/categories/Trinh Thám"
+        >
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF4x2nr7ALrcTqrDgD40kuwadyzjD0RsdY3T_loPq8cZQHSFAV&s"
+            class="backgr2"
+            alt=""
+          />
+          <div class="big-sa">
+            <h6>Tuyển Tập</h6>
+            <h3>Trinh<span> Thám</span></h3>
+            <p>
+              Từ người tốt đến kẻ xấu, cái thiện-cái ác, nạn nhân hay thủ phạm
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

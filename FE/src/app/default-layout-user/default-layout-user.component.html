@@ -1,0 +1,270 @@
+<div class="header">
+  <div class="container">
+    <div class="logo">
+      <h1>
+        <a [routerLink]="['/home']"
+          ><b>T<br />H<br />E</b>Book Store<span>The Best Store Online</span></a
+        >
+      </h1>
+    </div>
+
+    <ul class="c">
+      <li>
+        <a [routerLink]="['/login']"
+          ><i class="fa fa-user" aria-hidden="true"></i>Đăng Nhập</a
+        >
+      </li>
+      <li>
+        <!-- <a [routerLink]="['/cart']"
+            ><i class="fa fa-shopping-cart" aria-hidden="true"></i>Giỏ hàng</a
+          > -->
+      </li>
+      <!-- <li><a [routerLink]="['/register']"><i class="fa fa-arrow-right" aria-hidden="true"></i>Đăng Ký</a></li> -->
+    </ul>
+
+    <div class="header-ri">
+      <ul class="social-top">
+        <li>
+          <a href="https://www.facebook.com/koolsssssss" class="icon facebook"
+            ><i class="fa fa-facebook" aria-hidden="true"></i><span></span
+          ></a>
+        </li>
+        <li>
+          <a href="https://www.facebook.com/hung.lu1998" class="icon twitter"
+            ><i class="fa fa-twitter" aria-hidden="true"></i><span></span
+          ></a>
+        </li>
+      </ul>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" [routerLink]="['/home']"
+        ><img
+          src="https://donghuongkontum.files.wordpress.com/2015/02/logo-sc3a1ch.jpeg?w=589&h=589"
+          style="width: 30px; height: 30px"
+          alt=""
+      /></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="nav-top">
+          <nav class="navbar navbar-default">
+            <div class="ccc">
+              <ul class="nav navbar-nav">
+                <li class="active">
+                  <a [routerLink]="['/home']" class="hyper"
+                    ><span>Trang Chủ</span></a
+                  >
+                </li>
+
+                <li class="dropdown">
+                  <a
+                    href="#"
+                    class="dropdown-toggle hyper"
+                    data-toggle="dropdown"
+                    ><span>Sách Tiếng Việt<b class="caret"></b></span
+                  ></a>
+                  <ul class="dropdown-menu multi">
+                    <div class="row">
+                      <div class="col-sm-3" *ngFor="let cate of cates">
+                        <ul class="multi-column-dropdown">
+                          <li>
+                            <a
+                              routerLink="/books/{{ cate._id }}/categories/{{
+                                cate.name
+                              }}"
+                              ><i
+                                class="fa fa-angle-right"
+                                aria-hidden="true"
+                              ></i
+                              >{{ cate.name }}</a
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a
+                    href="#"
+                    class="dropdown-toggle hyper"
+                    data-toggle="dropdown"
+                    ><span> Nhà Xuất Bản <b class="caret"></b></span
+                  ></a>
+                  <ul class="dropdown-menu multi multi1">
+                    <div class="row">
+                      <div class="col-sm-3" *ngFor="let pub of pubs">
+                        <ul class="multi-column-dropdown">
+                          <li>
+                            <a
+                              routerLink="/books/{{ pub._id }}/publishers/{{
+                                pub.name
+                              }}"
+                              ><i
+                                class="fa fa-angle-right"
+                                aria-hidden="true"
+                              ></i
+                              >{{ pub.name }}
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a
+                    href="#"
+                    class="dropdown-toggle hyper"
+                    data-toggle="dropdown"
+                    ><span>Tác Giả<b class="caret"></b></span
+                  ></a>
+                  <ul class="dropdown-menu multi multi2">
+                    <div class="row">
+                      <div class="col-sm-3" *ngFor="let aut of auts">
+                        <ul class="multi-column-dropdown">
+                          <li>
+                            <a
+                              routerLink="/books/{{ aut._id }}/authors/{{
+                                aut.name
+                              }}"
+                              ><i
+                                class="fa fa-angle-right"
+                                aria-hidden="true"
+                              ></i
+                              >{{ aut.name }}</a
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </ul>
+                </li>
+
+                <li>
+                  <div class="cart">
+                    <a [routerLink]="['/cart']"
+                      ><span class="fa fa-shopping-cart my-cart-icon"
+                        >(<small>{{ countItem }}</small
+                        >)</span
+                      ></a
+                    >
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>
+<router-outlet></router-outlet>
+
+<!--footer-->
+<div class="footer" style="margin-top: 100px">
+  <div class="container">
+    <div class="row justify-content-start">
+      <div class="col-md-3 footer-grid">
+        <h3>About Us</h3>
+        <p>
+          Tuyển tập những bộ sách hay và mới nhất hiện nay. Đảm bảo trải nghiệm
+          tốt cho người dùng.
+        </p>
+      </div>
+      <div class="col-md-3 footer-grid">
+        <h3>Menu</h3>
+        <ul>
+          <li><a routerLink="/home">Home</a></li>
+          <li>
+            <a routerLink="/books/5de91ca4e3ef6d4d6856645d/categories/Văn Học"
+              >Sách Tiếng Việt</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/books/5de763dec9e5f738e8b048aa/publishers/Nhà xuất bản Trẻ"
+              >Nhà Xuất Bản</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/books/5de90654e004934a94e6937b/authors/Nguyễn Nhật Ánh"
+              >Tác Giả</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-3 footer-grid">
+        <h3>Dịch Vụ</h3>
+        <ul>
+          <li><a href="https://www.facebook.com/koolsssssss">Liên Hệ</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3 footer-grid">
+        <h3>My Account</h3>
+        <ul>
+          <li><a routerLink="/login">Đăng nhập</a></li>
+        </ul>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="footer-bottom">
+      <h2>
+        <a routerLink="/home"
+          ><b>T<br />H<br />E</b>Book Store<span>The Best Store Online</span></a
+        >
+      </h2>
+      <p class="fo-para">
+        Việc đọc rất quan trọng. Nếu bạn biết cách đọc, cả thế giới sẽ mở ra cho
+        bạn
+      </p>
+      <ul class="social-fo">
+        <li>
+          <a href="https://www.facebook.com/koolsssssss" class="face"
+            ><i class="fa fa-facebook" aria-hidden="true"></i
+          ></a>
+        </li>
+        <li>
+          <a href="https://www.facebook.com/hung.lu1998" class="twi"
+            ><i class="fa fa-twitter" aria-hidden="true"></i
+          ></a>
+        </li>
+      </ul>
+      <div class="address">
+        <div class="row justify-content-start">
+          <div class="col-md-4 fo-grid1">
+            <p><i class="fa fa-home" aria-hidden="true"></i>Thủ Đức</p>
+          </div>
+          <div class="col-md-4 fo-grid1">
+            <p>
+              <i class="fa fa-phone" aria-hidden="true"></i>+1234 758 839 ,
+              +1273 748 730
+            </p>
+          </div>
+          <div class="col-md-4 fo-grid1">
+            <p>
+              <a href="https://angular.io/"
+                ><i class="fa fa-envelope-o" aria-hidden="true"></i
+                >angular@gmail.com</a
+              >
+            </p>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="container">
+    <nav class="navbar navbar-expand-sm" >
+      <ul class="navbar-nav" >
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/listbook']">Sách</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/listauthor']">Tác Giả</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/listcate']">Thể Loại</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/listreview']">Đánh Giá</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/listpub']">Nhà Xuất Bản</a>
+      </li>
+      </ul>
+    </nav>
+  </div>
+
+<div class="container">
+    <h1 style="margin-top: 30px;">Danh sách Sách</h1>
+    <div class="ser-t">
+        <b></b>
+        <span><i></i></span>
+        <b class="line"></b>
+      </div>
+    <div style="margin-bottom: 50px;" >
+        <button class="btn btn-success btn-circle pull-left" routerLink="/admin/addbook"  title="Add CLass" type="submit">Thêm<i class="fas fa-plus"></i></button>
+    </div>
+<div style="margin-top:10px;" class="table-responsive" >
+      <table class="table table-bordered" >
+        <thead>
+            <tr>
+              <th>Tiêu Đề</th>
+              <th>Mô tả</th>
+              <th>Ngày xuất bản</th>
+              <th>Số Trang</th>
+              <th>Giá</th>
+              <th>Có sẵn</th>
+              <th>Ảnh</th>
+              <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let each of books | paginate: config">
+              <td>{{each.title}}</td>
+              <td>{{each.description}}</td>
+              <td>{{each.publishDate | date:'dd/MM/yyyy'}}</td>
+              <td>{{each.pageCount}}</td>
+              <td>{{each.price}}</td>
+              <td>{{each.availableQuantity}}</td>
+              <td><img src="{{each.imageUrl}}" class="backgr"></td>
+              <td style="width: 90px;">
+                  <i class="fas fa-edit" style="margin-right: 10px;"
+                   title="Edit"  routerLink="/admin/editbook/{{each._id}}"></i>
+                  <i class="fas fa-trash"
+                    (click)="delete(each.title, each._id)" title="Delete"></i>
+              </td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls style="text-align: center;" (pageChange)="pageChanged($event)"></pagination-controls>
+    </div>
+  </div>

@@ -1,0 +1,106 @@
+<div class="container">
+    <nav class="navbar navbar-expand-sm" >
+      <ul class="navbar-nav" >
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/listbook']">Sách</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/listauthor']">Tác Giả</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/listcate']">Thể Loại</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/listreview']">Đánh Giá</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/listpub']">Nhà Xuất Bản</a>
+      </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container">
+      <h1 style="margin-top: 30px;">Thay Đổi Thông Tin Sách</h1>
+      <div class="ser-t">
+          <b></b>
+          <span><i></i></span>
+          <b class="line"></b>
+        </div>
+      <div class="col-m">
+
+          <div class="container" style="width:50%;">
+                <div >
+                  <h3>Tựa sách</h3>
+                  <input #title type="text" class="form-control" [(ngModel)]="book.title"  placeholder="Devil K" >
+                </div>
+                <div>
+                  <h3>Mô tả</h3>
+                  <input #description  type="text" class="form-control" [(ngModel)]="book.description" placeholder="Trần" >
+                </div>
+                <div>
+                  <h3>Ngày Xuất Bản</h3>
+                  <input #publishDate type="date" class="form-control" [(ngModel)]="book.publishDate" placeholder="ngày xuất bản" >
+                </div>
+                <div>
+                    <h3>Số Trang</h3>
+                    <input #pageCount  type="number" class="form-control" [(ngModel)]="book.pageCount" placeholder="Trần" >
+                  </div>
+                <div>
+                  <h3>Giá</h3>
+                  <input #price  type="number" class="form-control" [(ngModel)]="book.price" placeholder="Trần" >
+                </div>
+                <div>
+                  <h3>Giảm Giá</h3>
+                  <input #discount  type="number" class="form-control" [(ngModel)]="book.discount" placeholder="Trần" >
+                </div>
+                <div>
+                  <h3>Số lượng có sẵn</h3>
+                  <input #availableQuantity  type="number" class="form-control" [(ngModel)]="book.availableQuantity" placeholder="Trần" >
+                </div>
+                <div>
+                    <h3>Tên Tác Giả</h3>
+                    <select class="custom-select" #author1 [(ngModel)]="book.author">
+                        <option *ngFor="let aut of author" [value]="aut._id" [selected]="aut._id === book.author[0]"  >{{aut.name}}</option>
+                    </select>
+                </div>
+                <div>
+                    <h3>Nhà Xuất Bản</h3>
+                    <select class="custom-select" #publisher1 [(ngModel)]="book.publisher">
+                        <option *ngFor="let pub of pub" [value]="pub._id" [selected]="pub._id === book.publisher[0]" >{{pub.name}}</option>
+                    </select>
+                </div>
+                <div>
+                    <h3>Thể Loại</h3>
+                    <select class="custom-select" #categories1 [(ngModel)]="book.categories">
+                        <option *ngFor="let cate of cate" [value]="cate._id" [selected]="cate._id === book.categories[0]"  >{{cate.name}}</option>
+                    </select>
+                </div>
+                <div>
+                    <h3>Ảnh</h3>
+                    <img src="{{book.imageUrl}}" class="backgr">
+                </div>
+                <!-- <div>
+                      <div class="form-group">
+                      <input #image name="image" type="file"  accept="images/*" (change)="handleFileInput($event.target.files)" class="form-control"  >
+                </div> -->
+
+                <div>
+                  <label></label>
+                  <button class="btn btn-secondary btn-circle pull-right" style="margin-top: 15px; margin-left: 10px;" title="Add"
+                     [routerLink]="['/admin/listbook']" >Back <i class="fas fa-undo"></i></button>
+                  <!-- <button class="btn btn-success btn-circle pull-right" style="margin-top: 15px;" title="Add"
+                    type="submit" (click)="save2(title.value, description.value,publishDate.value, pageCount.value,
+                    price.value, availableQuantity.value, publisher1.value, author1.value, categories1.value, discount.value, FileUpload)" >Save<i class="fa fa-check-square-o"></i></button> -->
+                    <button class="btn btn-success btn-circle pull-right" style="margin-top: 15px;" title="Add"
+                    type="submit" (click)="save()" >Save<i class="fa fa-check-square-o"></i></button>
+                </div>
+            </div>
+
+
+         </div>
+
+
+  </div>
+
+

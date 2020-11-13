@@ -1,0 +1,54 @@
+<div class="container">
+  <nav class="navbar navbar-expand-sm" >
+    <ul class="navbar-nav" >
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/admin/listbook']">Sách</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/admin/listauthor']">Tác Giả</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/admin/listcate']">Thể Loại</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/admin/listreview']">Đánh Giá</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/admin/listpub']">Nhà Xuất Bản</a>
+    </li>
+    </ul>
+  </nav>
+</div>
+
+<div class="container">
+    <h1 style="margin-top: 30px;">Danh Sách Đánh Giá</h1>
+    <div class="ser-t">
+        <b></b>
+        <span><i></i></span>
+        <b class="line"></b>
+      </div>
+  <div style=" margin-bottom: 50px;" >
+  </div>
+<div style="margin-top:10px;" class="table-responsive" >
+    <table class="table table-bordered" >
+      <thead>
+          <tr>
+            <th>Bình Luận</th>
+            <th>Đánh Giá</th>
+            <th>Action</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let rv of reviews | paginate: config">
+            <td>{{rv.comment}}</td>
+            <td><b>{{rv.review}}</b><i class="fas fa-star" style="margin-left: 10px;"></i></td>
+            <td style="width: 90px;">
+                <i class="fas fa-trash" (click)="delete(rv.comment, rv._id)"
+                   title="Delete"></i>
+            </td>
+          </tr>
+      </tbody>
+  </table>
+  <pagination-controls style="text-align: center;" (pageChange)="pageChanged($event)"></pagination-controls>
+  </div>
+</div>

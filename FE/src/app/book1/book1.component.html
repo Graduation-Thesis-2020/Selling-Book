@@ -1,0 +1,162 @@
+<div class="container">
+  <div class="container">
+    <div
+      class="jumbotron"
+      style="
+        margin-top: 4px;
+        height: 400px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-image: url(https://nguyenhoaquan.com/wp-content/uploads/2018/10/jessica-ruscello-196422-unsplash-1200x800.jpg);
+      "
+    >
+      <div class="banner-info">
+        <h3>{{ id1 }}</h3>
+        <!-- <div class="search-form">
+            <form class="form-inline">
+              <input type="text" placeholder="Search..." name="Search...">
+              <button type="submit"></button>
+            </form>
+          </div> -->
+      </div>
+    </div>
+  </div>
+
+  <!--content-->
+
+  <!--content-->
+  <div class="content-top">
+    <div class="container">
+      <div class="spec">
+        <h3>Sản Phẩm</h3>
+        <div class="ser-t">
+          <b></b>
+          <span><i></i></span>
+          <b class="line"></b>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3 m-wthree" *ngFor="let book of books">
+          <div class="col-m">
+            <a routerLink="/details/{{ book._id }}" class="offer-img">
+              <img src="{{ book.imageUrl }}" class="img-responsive" alt="" />
+              <div class="offer" *ngIf="book.discount !== '0'">
+                <p><span>Sale</span></p>
+              </div>
+            </a>
+            <div class="mid-1">
+              <div class="women" routerLink="/details/{{ book._id }}">
+                <h6>
+                  <a href="single.html">{{ book.title }}</a>
+                </h6>
+              </div>
+              <div class="mid-2">
+                <p *ngIf="book.discount === '0'">{{ book.price }} đ</p>
+                <p *ngIf="book.discount !== '0'">
+                  <label>{{ book.price }} đ</label
+                  ><em class="item_price">{{ book.discount }} đ</em>
+                </p>
+                <div class="block">
+                  <div class="starbox small ghosting"></div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="add">
+                <button
+                  class="btn btn-danger my-cart-btn my-cart-b"
+                  (click)="add()"
+                >
+                  Thêm Giỏ Hàng
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+
+  <!--content-->
+  <div class="content-mid">
+    <div class="container">
+      <div class="row justify-content-start">
+        <div class="col-4">
+          <div
+            class="col-md1"
+            routerLink="/books/5de91d09e3ef6d4d68566461/categories/Sách Thiếu Nhi"
+          >
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF4x2nr7ALrcTqrDgD40kuwadyzjD0RsdY3T_loPq8cZQHSFAV&s"
+              class="backgr2"
+              alt=""
+            />
+            <div class="big-sale2">
+              <h3>Tuổi <span>Thơ</span></h3>
+              <p>Là thứ khó quên nhất của chúng ta</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div
+            class="col-md2"
+            routerLink="/books/5de91ca4e3ef6d4d6856645d/categories/Văn Học"
+          >
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF4x2nr7ALrcTqrDgD40kuwadyzjD0RsdY3T_loPq8cZQHSFAV&s"
+              class="backgr2"
+              alt=""
+            />
+            <div class="big-sale">
+              <div class="big-sale1">
+                <h3>Văn <span>Học</span></h3>
+                <p>Bách khoa toàn thư</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div
+            class="col-md3"
+            routerLink="/books/5de91c7ee3ef6d4d6856645c/categories/Trinh Thám"
+          >
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF4x2nr7ALrcTqrDgD40kuwadyzjD0RsdY3T_loPq8cZQHSFAV&s"
+              class="backgr2"
+              alt=""
+            />
+            <div class="big-sa">
+              <h6>Tuyển Tập</h6>
+              <h3>Trinh<span> Thám</span></h3>
+              <p>
+                Từ người tốt đến kẻ xấu, cái thiện-cái ác, nạn nhân hay thủ phạm
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div style="margin-top:10px;" class="table-responsive" >
+      <table class="table table-bordered" >
+        <thead>
+            <tr>
+              <th>Class ID</th>
+              <th>Class Name</th>
+              <th>Capacity</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let each of books">
+              <td>{{each.title}}</td>
+              <td><img src="{{each.imageUrl}}" class="backgr2"></td>
+              <td>{{each._id}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    </div> -->
+</div>
