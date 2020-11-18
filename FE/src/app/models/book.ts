@@ -44,3 +44,8 @@ export interface Books2 {
   image: File;
   //discount: string;
 }
+export interface BooksInCart {
+  _id: string;
+  title: string;
+  price: number;
+}

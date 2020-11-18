@@ -9,6 +9,7 @@ import { PublisherService } from '../service/publisher.service';
 import { Publisher } from '../models/publisher';
 import { Author } from '../models/author';
 import { Cate } from '../models/cate';
+import { Item } from '../models/cart';
 @Component({
   selector: 'app-book1',
   templateUrl: './book1.component.html',
@@ -21,6 +22,9 @@ export class Book1Component implements OnInit {
   auts: Author[];
   books1: Books[];
   cates1: Cate[];
+  items: Item[] = [];
+  total: number;
+  countItem: number;
   id1: string = this.route.snapshot.paramMap.get('id1');
   constructor(private BooksService: BooksService,
               private route: ActivatedRoute,
@@ -50,6 +54,7 @@ export class Book1Component implements OnInit {
     await this.getAllCate();
     await this.getAllAuthor();
     await this.getAllPub();
+    await this.loadCart();
   }
   getAllPub() {
     this.publisherService.getPublishers().subscribe(res => this.pubs = res);
@@ -75,6 +80,66 @@ export class Book1Component implements OnInit {
   async add(){
     await alert('Thêm Thành Công');
   }
-
+  AddtoCart(id:string) {
+    // const id = this.route.snapshot.paramMap.get('id');
+    // this.cartService.AddtoCart(id).subscribe(res => this.mess = res);
+    this.route.params.subscribe((params) => {
+      if (id) {
+        this.BooksService.getBooksFromID(id).subscribe(
+          (result) => {
+            const item: Item = {
+              product: result,
+              total: 1,
+            };
+            if (localStorage.getItem('cart') == null) {
+              let cart: any = [];
+              cart.push(JSON.stringify(item));
+              localStorage.setItem('cart', JSON.stringify(cart));
+            } else {
+              let cart: any = JSON.parse(localStorage.getItem("cart"));
+              let index: number = -1;
+              for (var i = 0; i < cart.length; i++) {
+                let item: Item = JSON.parse(cart[i]);
+                if (item.product._id == id) {
+                  index = i;
+                  break;
+                }
+              }
+              if (index == -1) {
+                cart.push(JSON.stringify(item));
+                localStorage.setItem("cart", JSON.stringify(cart));
+              } else {
+                let item: Item = JSON.parse(cart[index]);
+                item.total += 1;
+                cart[index] = JSON.stringify(item);
+                localStorage.setItem("cart", JSON.stringify(cart));
+              }
+            }
+            alert('Thêm Thành Công');
+            this.loadCart();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } else {
+        this.loadCart();
+      }
+    });
+  }
+  loadCart() {
+    this.total = 0;
+    this.items = [];
+    let cart: any = JSON.parse(localStorage.getItem("cart"));
+    for (var i = 0; i < cart.length; i++) {
+      let item: Item = JSON.parse(cart[i]);
+      this.items.push({
+        product: item.product,
+        total: item.total,
+      });
+      this.total += item.product.price * item.total;
+    }
+    this.countItem = this.items.length;
+  }
 
 }

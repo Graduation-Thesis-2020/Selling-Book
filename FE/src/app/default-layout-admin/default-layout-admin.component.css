@@ -1,0 +1,17 @@
+.nav-item li {
+  color: black;
+}
+.nav-item span {
+  font-size: 20px;
+}
+.navbar {
+  background-color: rgb(71, 71, 70);
+  margin-top: 4px;
+}
+a {
+  color: aliceblue;
+  font-size: 24px;
+}
+#sidebar {
+  font-size: 30px;
+}

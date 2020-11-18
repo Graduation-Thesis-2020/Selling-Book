@@ -1,31 +1,180 @@
-
-<div class="jumbotron">
+<div class="body-all h-100">
+  <div class="jumbotron">
     <div class="container">
       <h1 class="display-4">Đăng Ký</h1>
-      <p class="lead">Hãy đăng kí để trở thành khách hàng thân thiết của cửa hàng chúng tôi!</p>
+      <p class="lead">
+        Hãy đăng kí để trở thành khách hàng thân thiết của cửa hàng chúng tôi!
+      </p>
     </div>
-
   </div>
 
-
-      <div class="login">
-        <div class="main-agileits">
-            <div class="form-w3agile">
-              <h3>Đăng Ký</h3>
-              <form action="#" method="post">
-                  <div class="key">
-                      <i class="fa fa-user" aria-hidden="true"></i>
-                      <input #gmail type="text" placeholder="Email: *@gmail.com">
-                      <div class="clearfix"></div>
-                    </div>
-                    <div class="key">
-                      <i class="fa fa-envelope" aria-hidden="true"></i>
-                      <input #password type="password"  placeholder="password">
-                      <div class="clearfix"></div>
-                    </div>
-                <input type="submit" value="Đăng Ký" (click)="signup(gmail.value, password.value)" >
-              </form>
-            </div>
-
+  <div class="container h-100 img-fluid">
+    <div class="row">
+      <div class="col-4">
+        <div class="intro">
+          <div class="info">
+            <p class="title">Tạo tài khoản</p>
+            <p class="sub-title">
+              Tạo tài khoản để theo dõi đơn hàng, lưu danh sách sản phẩm yêu
+              thích, nhận nhiều ưu đãi hấp dẫn.
+            </p>
+            <img
+              src="https://png.pngtree.com/png-vector/20190810/ourlarge/pngtree-shop-store-market-building-shopping-flat-color-icon-vector-png-image_1653492.jpg"
+              width="300"
+              height="300"
+            />
           </div>
         </div>
+      </div>
+
+      <div class="col-8">
+        <div class="card">
+          <div class="card-header bg-white">Đăng kí thông tin</div>
+          <div class="card-body mx-3">
+            <form>
+              <div class="form-group row">
+                <label for="input1" class="col-sm-4 col-form-label"
+                  >Họ và tên<span>*</span></label
+                >
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="name" #name />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="input2" class="col-sm-4 col-form-label"
+                  >Số điện thoại<span>*</span></label
+                >
+                <div class="col-sm-8">
+                  <input type="number" class="form-control" id="phone" #phone />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="input5" class="col-sm-4 col-form-label"
+                  >Email (Tên tài khoản)<span>*</span></label
+                >
+                <div class="col-sm-8">
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="inputEmail"
+                    #email
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="input7" class="col-sm-4 col-form-label"
+                  >Mật khẩu<span>*</span></label
+                >
+                <div class="col-sm-8">
+                  <input type="password" class="form-control" #password />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="input7" class="col-sm-4 col-form-label"
+                  >Xác nhận mật khẩu<span>*</span></label
+                >
+                <div class="col-sm-8">
+                  <input
+                    type="password"
+                    class="form-control"
+                    #confirmPassword
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="input3" class="col-sm-4 col-form-label"
+                  >Ngày sinh</label
+                >
+                <div class="col-sm-8">
+                  <input
+                    type="date"
+                    class="form-control"
+                    format="mm/dd/yyyy"
+                    #birthday
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="input4" class="col-sm-4 col-form-label"
+                  >Giới tính<span>*</span></label
+                >
+
+                <div class="col-sm-5">
+                  <div
+                    class="custom-control custom-radio custom-control-inline"
+                  >
+                    <input
+                      type="radio"
+                      id="customRadioInline1"
+                      name="custom"
+                      class="custom-control-input"
+                      value="Nam"
+                      (change)="onItemChange($event.target.value)"
+                    />
+                    <label class="custom-control-label" for="customRadioInline1"
+                      >Nam</label
+                    >
+                  </div>
+                  <div
+                    class="custom-control custom-radio custom-control-inline"
+                  >
+                    <input
+                      type="radio"
+                      id="customRadioInline2"
+                      name="custom"
+                      class="custom-control-input"
+                      value="Nữ"
+                      (change)="onItemChange($event.target.value)"
+                    />
+                    <label class="custom-control-label" for="customRadioInline2"
+                      >Nữ</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="input5" class="col-sm-4 col-form-label"
+                  >Địa chỉ<span>*</span></label
+                >
+                <div class="col-sm-8">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="inputEmail"
+                    #address
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="card-footer bg-white text-center">
+            <button
+              type="submit"
+              class="btn btn-danger my-3"
+              (click)="
+                signup(
+                  name.value,
+                  phone.value,
+                  email.value,
+                  password.value,
+                  confirmPassword.value,
+                  birthday.value,
+                  address.value
+                )
+              "
+            >
+              ĐĂNG KÍ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

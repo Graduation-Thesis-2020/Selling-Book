@@ -3,6 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { CartService } from '../service/cart.service';
 import { Cart, Item, Mess } from '../models/cart';
 import { BooksService } from 'src/app/service/book.service';
+import { AuthorService } from '../service/author.service';
+import { PublisherService } from '../service/publisher.service';
+import { CateService } from './../service/cate.service';
+import { Publisher } from '../models/publisher';
+import { Author } from '../models/author';
+import { Cate } from '../models/cate';
 
 
 @Component({
@@ -16,15 +22,23 @@ export class CartComponent implements OnInit {
   countItem: number;
   carts: Cart;
   mess: Mess;
+  pubs: Publisher[];
+  auts: Author[];
+  cates1: Cate[];
   constructor(
     private route: ActivatedRoute,
     private BooksService: BooksService,
-    private cartService: CartService
+    private cartService: CartService,
+    private AuthorsService: AuthorService,
+    private CateService: CateService,
+    private publisherService: PublisherService
   ) {}
 
   async ngOnInit() {
-    //await this.AddtoCarts();
-    //await this.GetCart();
+    this.getAllAuthor();
+    this.getAllCate();
+    this.getAllPub();
+    
     this.route.params.subscribe((params) => {
       const id = params.id;
       if (id) {
@@ -38,7 +52,7 @@ export class CartComponent implements OnInit {
               let cart: any = [];
               cart.push(JSON.stringify(item));
               localStorage.setItem('cart', JSON.stringify(cart));
-              
+
             } else {
               let cart: any = JSON.parse(localStorage.getItem("cart"));
               let index: number = -1;
@@ -134,5 +148,14 @@ export class CartComponent implements OnInit {
       .toPromise()
       .then((res) => (this.carts = res));
     await console.log(this.carts);
+  }
+  getAllPub() {
+    this.publisherService.getPublishers().subscribe(res => this.pubs = res);
+  }
+  getAllAuthor() {
+    this.AuthorsService.getAuthors().subscribe(res => this.auts = res);
+  }
+  getAllCate() {
+    this.CateService.getCates().subscribe(res => this.cates1 = res);
   }
 }

@@ -1,4 +1,4 @@
-import { Books, Books1 } from "./book";
+import { Books, Books1, BooksInCart } from "./book";
 
 export interface Cart {
   item: Books;
@@ -28,7 +28,16 @@ export interface Item {
   total: number;
   product: Books;
 }
-
+export interface Item1 {
+  product: BooksInCart;
+  total: number;
+}
+export interface Item2 {
+  _id: string;
+  title: string;
+  price: number;
+  total: number;
+}
 export interface CartModelPublic {
   total: number;
   prodData: [

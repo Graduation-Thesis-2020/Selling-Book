@@ -1,7 +1,7 @@
 import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Order } from '../models/order';
+import { Order, Order1, OrderDetail } from '../models/order';
 
 
 const httpOptions = {
@@ -18,15 +18,16 @@ export class OrderService {
     private http: HttpClient
   ) { }
   orderURL = 'http://localhost:8080/orders';
-
-  getOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(this.orderURL).pipe();
+  getOrders(): Observable<Order1[]> {
+    return this.http.get<Order1[]>(this.orderURL).pipe();
   }
   delete(id: string): Observable<Order> {
     return this.http.delete<Order>(`${this.orderURL}/${id}`);
   }
-  addOrder(Order: Order): Observable<Order> {
-    return this.http.post<Order>(this.orderURL, Order);
+  addOrder(Order: Order1): Observable<Order1> {
+    return this.http.post<Order1>(this.orderURL, Order);
   }
-
+  getOrdersDetail(id): Observable<OrderDetail> {
+    return this.http.get<OrderDetail>(`${this.orderURL}/${id}/orderDetails`).pipe();
+  }
 }

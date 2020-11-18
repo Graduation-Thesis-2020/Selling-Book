@@ -1,0 +1,93 @@
+<div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-info font-weight-bold">
+    <div class="container-fluid">
+      <a class="navbar-brand text-warning" [routerLink]="['/admin']">
+        HYPER BOOK</a
+      >
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarText"
+        aria-controls="navbarText"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <span class="navbar-text ml-auto">Welcome to Admin Page</span>
+        <a [routerLink]="['/login']">
+          <i class="fas fa-sign-out-alt ml-3 text-secondary"></i>{{ " " }}
+        </a>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="row">
+  <div
+    class="col-2 collapse show d-md-flex bg-dark pt-2 pl-0 min-vh-100"
+    id="sidebar"
+  >
+    <ul class="nav flex-column flex-nowrap overflow-hidden ml-2">
+      <li class="nav-item">
+        <a class="nav-link text-secondary" [routerLink]="['/admin/listbook']">
+          <i class="fa fa-book col-2"></i>{{ " " }}
+          <span class="d-none d-sm-inline text-light col-10"> Sách </span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link text-danger" [routerLink]="['/admin/listauthor']">
+          <i class="fa fa-user-o col-2"></i>{{ " " }}
+          <span class="d-none d-sm-inline text-light col-10"> Tác Giả </span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link text-warning" [routerLink]="['/admin/listcate']">
+          <i class="fa fa-magic col-2"></i>{{ " " }}
+          <span class="d-none d-sm-inline text-light col-10"> Thể Loại </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-primary" [routerLink]="['/admin/listpub']">
+          <i class="fa fa-cubes col-2"></i>{{ " " }}
+          <span class="d-none d-sm-inline text-light col-10">
+            Nhà Xuất Bản
+          </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-success" [routerLink]="['/admin/listreview']">
+          <i class="fa fa-comment-o col-2"></i>{{ " " }}
+          <span class="d-none d-sm-inline text-light col-10"> Đánh Giá </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-warning" [routerLink]="['/admin/order']">
+          <i class="fa fa-credit-card col-2"></i>{{ " " }}
+          <span class="d-none d-sm-inline text-light col-10"> Hóa Đơn </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-secondary" [routerLink]="['/admin/listreview']">
+          <i class="fa fa-users col-2"></i>{{ " " }}
+          <span class="d-none d-sm-inline text-light col-10"> Tài Khoản </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" [routerLink]="['/admin/listreview']">
+          <i class="fa fa-line-chart col-2"></i>{{ " " }}
+          <span class="d-none d-sm-inline text-light col-10"> Thống Kê </span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-10">
+    <router-outlet></router-outlet>
+  </div>
+</div>

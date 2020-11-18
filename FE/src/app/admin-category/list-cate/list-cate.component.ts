@@ -16,7 +16,7 @@ export class ListCateComponent implements OnInit {
   constructor(private CateService: CateService) {
     this.config = {
     itemsPerPage: 15,
-    currentPage: 1
+    currentPage: 1,
     };
   }
 

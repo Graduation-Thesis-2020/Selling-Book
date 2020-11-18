@@ -1,4 +1,118 @@
 <div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" [routerLink]="['/home']"
+      ><img
+        src="https://donghuongkontum.files.wordpress.com/2015/02/logo-sc3a1ch.jpeg?w=589&h=589"
+        style="width: 30px; height: 30px"
+        alt=""
+    /></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="nav-top">
+        <nav class="navbar navbar-default">
+          <div class="ccc">
+            <ul class="nav navbar-nav">
+              <li class="active">
+                <a [routerLink]="['/home']" class="hyper"
+                  ><span>Trang Chủ</span></a
+                >
+              </li>
+
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"
+                  ><span>Sách Tiếng Việt<b class="caret"></b></span
+                ></a>
+                <ul class="dropdown-menu multi">
+                  <div class="row">
+                    <div class="col-sm-3" *ngFor="let cate of cates1">
+                      <ul class="multi-column-dropdown">
+                        <li>
+                          <a
+                            routerLink="/books/{{ cate._id }}/categories/{{
+                              cate.name
+                            }}"
+                            ><i class="fa fa-angle-right" aria-hidden="true"></i
+                            >{{ cate.name }}</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"
+                  ><span> Nhà Xuất Bản <b class="caret"></b></span
+                ></a>
+                <ul class="dropdown-menu multi multi1">
+                  <div class="row">
+                    <div class="col-sm-3" *ngFor="let pub of pubs">
+                      <ul class="multi-column-dropdown">
+                        <li>
+                          <a
+                            routerLink="/books/{{ pub._id }}/publishers/{{
+                              pub.name
+                            }}"
+                            ><i class="fa fa-angle-right" aria-hidden="true"></i
+                            >{{ pub.name }}
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"
+                  ><span>Tác Giả<b class="caret"></b></span
+                ></a>
+                <ul class="dropdown-menu multi multi2">
+                  <div class="row">
+                    <div class="col-sm-3" *ngFor="let aut of auts">
+                      <ul class="multi-column-dropdown">
+                        <li>
+                          <a
+                            routerLink="/books/{{ aut._id }}/authors/{{
+                              aut.name
+                            }}"
+                            ><i class="fa fa-angle-right" aria-hidden="true"></i
+                            >{{ aut.name }}</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </ul>
+              </li>
+
+              <li>
+                <div class="cart">
+                  <a [routerLink]="['/cart']"
+                    ><span class="fa fa-shopping-cart my-cart-icon"
+                      >(<small>{{ countItem }}</small
+                      >)</span
+                    ></a
+                  >
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </nav>
   <div class="container">
     <div
       class="jumbotron"
@@ -65,7 +179,7 @@
               <div class="add">
                 <button
                   class="btn btn-danger my-cart-btn my-cart-b"
-                  (click)="add()"
+                  (click)="AddtoCart(book._id)"
                 >
                   Thêm Giỏ Hàng
                 </button>

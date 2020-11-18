@@ -1,0 +1,125 @@
+<div style="margin-right: 50px; margin-left: 50px">
+  <h1 style="margin-top: 30px">Danh Sách Hóa Đơn</h1>
+  <div class="ser-t">
+    <b></b>
+    <span><i></i></span>
+    <b class="line"></b>
+  </div>
+  <div style="margin-bottom: 50px"></div>
+  <div style="margin-top: 10px">
+    <table
+      class="table table-bordered table-striped table-hover table-responsive-lg"
+    >
+      <thead style="background-color: rgb(198, 219, 148)">
+        <tr>
+          <th>No.</th>
+          <th>Tên Khách</th>
+          <th>Địa Chỉ</th>
+          <th>Số điện thoại</th>
+          <th>Email</th>
+          <th>Tình trạng</th>
+          <th>Chi tiết</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let od of orders | paginate: config; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td class="text-info font-weight-bold">{{ od.name }}</td>
+          <td>{{ od.address }}</td>
+          <td>
+            {{ od.phone }}
+          </td>
+          <td>{{ od.email }}</td>
+          <td [ngSwitch]="od.status">
+            <span *ngSwitchCase="false" class="badge badge-secondary"
+              >Chưa giao</span
+            >
+            <span *ngSwitchCase="true" class="badge badge-success"
+              >Đã Giao</span
+            >
+          </td>
+          <td style="width: 90px; color: yellowgreen">
+            <i
+              class="fas fa-list"
+              title="Xem chi tiết"
+              data-toggle="modal"
+              data-target="#exampleModal"
+              (click)="detail(od._id, od.totalPrice, od.name)"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls
+      style="text-align: center"
+      (pageChange)="pageChanged($event)"
+    ></pagination-controls>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: aquamarine">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Thông tin chi tiết hóa đơn
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>
+          Khách hàng <span class="text-info">{{ name }}</span>
+        </h3>
+        <div class="card" style="background-color: rgb(242, 250, 241)">
+          <div class="card-body" *ngFor="let i of books">
+            <h5 class="card-title">{{ i.title }}</h5>
+            <div class="row">
+              <div class="col-4">
+                <h6 class="card-subtitle mb-2 text-muted">
+                  {{ i.price }} đồng
+                </h6>
+              </div>
+              <div class="col-4">
+                <p
+                  class="card-subtitle mb-2 text-muted"
+                  style="text-align: right"
+                >
+                  {{ i.qty }}
+                </p>
+              </div>
+              <div class="col-4">
+                <p
+                  class="card-subtitle mb-2 text-muted"
+                  style="text-align: right"
+                >
+                  {{ i.qty * i.price }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body" style="text-align: right">
+            <h5><span class="text-danger">Tổng tiền:</span> {{ total }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
