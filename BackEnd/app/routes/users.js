@@ -1,12 +1,17 @@
 const express = require("express");
 const User = require('../controllers/users');
 const router = express.Router();
+const passport = require('passport');
+const passportConfig = require('../middleware/passport');
+
+
 const authenMiddleware = require('../middleware/authenticated');
 const mongoose = require("mongoose");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const helper = require('../utils/helper');
 const { PagingResult } = require('./../utils/base_response');
+const { session } = require("passport");
 
 
 
@@ -14,9 +19,16 @@ const { PagingResult } = require('./../utils/base_response');
 //.get('/dashboard/customers/register', User.getRegisterUserCustomer)
 router.post('/dashboard/customers/register', User.postRegisterUserCustomer)
   //.get('/dashboard/customers/login',User.getLoginUserCustomer)
-    .post('/dashboard/customers/login', User.postLoginUserCustomer)
+  .post('/dashboard/customers/login', passport.authenticate('local', { session: false }), User.postLoginUserCustomer)
   .get('/dashboard/customers/', User.getAllUserCustomer)
 
+  // LOGIN WITH GOOGLE
+router.post('/auth/google', passport.authenticate('google-plus-token', { session: false } ), User.authGoogle);
+
+  // LOGIN WITH FACEBOOK
+  router.post('/auth/facebook', passport.authenticate('facebook-token', { session: false } ), User.authFacebook);
+
+router.get('/secret', passport.authenticate('jwt', { session: false }), User.secret);
 // router.get('/', (req, res, next) => {
 //   User.find({})
 //       .exec()

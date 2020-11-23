@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const { hash } = require('bcrypt-nodejs');
+const { stringify } = require('querystring');
 
 const userSchema = mongoose.Schema({
     email: {
@@ -13,18 +14,31 @@ const userSchema = mongoose.Schema({
     },
     phone: {
         type: String,
-        required: true,
+ //       required: true,
         unique: true
     },
     password: {
         type: String,
-        required: true
+ //       required: true
     },
-    passwordResetToken: String,
-    passwordResetExpires: Date,
-    facebook_Account: String,
-    google_Account: String,
-    tokens: Array,
+    // passwordResetToken: String,
+    // passwordResetExpires: Date,
+    // facebook_Account: String,
+    // google_Account: String,
+    // tokens: Array,
+    authGoogleID: {
+      type: String,
+      default: null
+    },
+    authFacebookID: {
+      type: String,
+      default: null
+    },
+    authType: {
+      type: String,
+      enum: ['local', 'google', 'facebook'],
+      default: 'local'
+    },
     name: {
         type: String,
         default: null
@@ -47,7 +61,7 @@ const userSchema = mongoose.Schema({
     },
     role: {
         type: Number,
-        default: 2 //  admin:1 , NhanVien: 2, user: 0
+        default: 0 //  admin:1 , NhanVien: 2, user: 0
     }
     // _id: mongoose.Schema.Types.ObjectId
     // username: {

@@ -4,6 +4,14 @@
         "JWT_KEY": "secret",
         "CLOUDINARY_NAME": "dys8lzmjd",
         "CLOUDINARY_API_KEY": "153199597526963",
-        "CLOUDINARY_API_SECRET": "zzM_3m9RkJx6-VCmLTAYL9bDISI"
+        "CLOUDINARY_API_SECRET": "zzM_3m9RkJx6-VCmLTAYL9bDISI",
+        
+        "GOOGLE_CLIENT_ID": "135346650734-qlmd3nn1c76lv8i67m35sp3vfgeddgu4.apps.googleusercontent.com",
+        "GOOGLE_CLIENT_SECRET": "_JB-UoPG0ihO3Dru7B2Pn0IV",
+
+        "FACEBOOK_CLIENT_ID": "418227486015163",
+        "FACEBOOK_CLIENT_SECRET": "51942319efed80204e0e696246b774c5"
+            
+        
     }
 }
