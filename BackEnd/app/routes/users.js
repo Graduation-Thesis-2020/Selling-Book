@@ -20,15 +20,19 @@ const { session } = require("passport");
 router.post('/dashboard/customers/register', User.postRegisterUserCustomer)
   //.get('/dashboard/customers/login',User.getLoginUserCustomer)
   .post('/dashboard/customers/login', passport.authenticate('local', { session: false }), User.postLoginUserCustomer)
-  .get('/dashboard/customers/', User.getAllUserCustomer)
+  .get('/customers', User.getAllUserCustomer)
 
-  // LOGIN WITH GOOGLE
-router.post('/auth/google', passport.authenticate('google-plus-token', { session: false } ), User.authGoogle);
+// LOGOUT ACCOUNT
+router.get('/logout', User.logout);
+// LOGIN WITH GOOGLE
+router.post('/auth/google', passport.authenticate('google-plus-token', { session: false }), User.authGoogle);
 
-  // LOGIN WITH FACEBOOK
-  router.post('/auth/facebook', passport.authenticate('facebook-token', { session: false } ), User.authFacebook);
+// LOGIN WITH FACEBOOK
+router.post('/auth/facebook', passport.authenticate('facebook-token', { session: false }), User.authFacebook);
 
 router.get('/secret', passport.authenticate('jwt', { session: false }), User.secret);
+
+
 // router.get('/', (req, res, next) => {
 //   User.find({})
 //       .exec()

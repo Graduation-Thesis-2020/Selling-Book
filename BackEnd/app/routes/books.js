@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const bookController = require('./../controllers/books');
+const passport = require('passport');
+const passportConfig = require('../middleware/passport');
 //const checkAuth = require('./../middleware/auth');
 
 
