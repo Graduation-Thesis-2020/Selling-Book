@@ -24,7 +24,8 @@ export interface Books1 {
   availableQuantity: number;
   publisher: string;
   author: string;
-  categories: string;
+  //categories: string;
+  categories: string[];
   discount: number;
   image: File;
   //discount: string;

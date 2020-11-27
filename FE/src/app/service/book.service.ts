@@ -61,17 +61,15 @@ export class BooksService {
     const url = `${this.bookURL}?title=${id}`;
     return this.http.get<Books[]>(url).pipe();
   }
-  // searchHeroes(term: string): Observable<Books[]> {
-  //   term = term.trim();
-  //  // Add safe, URL encoded search parameter if there is a search term
-  //   const options = term ?
-  //    { params: new HttpParams().set('name', term) } : {};
+  searchHeroes(term: string): Observable<Books[]> {
+    term = term.trim();
+   // Add safe, URL encoded search parameter if there is a search term
+    const options = term ?
+     { params: new HttpParams().set('title', term) } : {};
 
-  //   return this.http.get<Books[]>(this.heroesUrl, options)
-  //     .pipe(
-  //       catchError(this.handleError<Hero[]>('searchHeroes', []))
-  //     );
-  // }
+    return this.http.get<Books[]>(this.bookURL, options)
+      .pipe();
+  }
   editBook(book: Books): Observable<any> {
     return this.http.patch(`${this.bookURL}/${book._id}`, book, httpOptions).pipe();
   }
@@ -88,6 +86,26 @@ export class BooksService {
     formData.append('publisher', publisher);
     formData.append('author', author);
     formData.append('categories', categories);
+    formData.append('discount', discount);
+    formData.append('image', image);
+
+    return this.http.post<Books1>(this.bookURL, formData)
+  }
+  addBookss1(title: string, description: string,publishDate:Date, pageCount: number,
+    price: number , availableQuantity: number , publisher: string , author: string,
+     categories: string[] , discount: number , image: File): Observable<any> {
+    var formData: any = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('publishDate',publishDate);
+    formData.append('pageCount', pageCount);
+    formData.append('price', price);
+    formData.append('availableQuantity', availableQuantity);
+    formData.append('publisher', publisher);
+    formData.append('author', author);
+    for (let cate of categories) {
+      formData.append('categories[]', cate);
+    }
     formData.append('discount', discount);
     formData.append('image', image);
 

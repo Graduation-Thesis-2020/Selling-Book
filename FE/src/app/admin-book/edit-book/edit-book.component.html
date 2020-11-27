@@ -103,19 +103,21 @@
       </div>
       <div>
         <h3>Thể Loại</h3>
-        <select
-          class="custom-select"
-          #categories1
+        <div class="form-check form-check-inline"  *ngFor="let item of book.categories">
+          <input type="checkbox"  class="form-check-input" [(ngModel)]="item"  (change)="onItemChange($event.target.value)"/>
+            <label class="form-check-label" >{{ item.name }}</label>
+        </div>
+        <div class="form-check form-check-inline"  *ngFor="let cate of cate">
+          <input type="checkbox" id="{{cate.name}}" value="{{cate._id}}" class="form-check-input" [(ngModel)]="ischeked"  (change)="onItemChange($event.target.value)"/>
+            <label class="form-check-label" for="{{cate.name}}">{{ cate.name }}</label>
+        </div>
+        <input
+          #availableQuantity
+          type="text"
+          class="form-control"
           [(ngModel)]="book.categories"
-        >
-          <option
-            *ngFor="let cate of cate"
-            [value]="cate._id"
-            [selected]="cate._id === book.categories[0]"
-          >
-            {{ cate.name }}
-          </option>
-        </select>
+          placeholder="Trần"
+        />
       </div>
       <div>
         <h3>Ảnh</h3>

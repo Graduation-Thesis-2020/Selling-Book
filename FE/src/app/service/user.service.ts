@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { Review } from '../models/review';
-import { User } from '../models/user';
+import { Customer, User } from '../models/user';
 import { Login } from './../models/user';
 
 
@@ -25,14 +25,16 @@ export class UserService {
   ) { }
   SignupURL = 'http://localhost:8080/users/dashboard/customers/register';
   LoginURL = 'http://localhost:8080/users/dashboard/customers/login';
-
+  UserURL = 'http://localhost:8080/users/dashboard/customers';
   Login(Login: Login): Observable<Login> {
     return this.http.post<Login>(this.LoginURL, Login);
   }
   Signup(User: User): Observable<User> {
     return this.http.post<User>(this.SignupURL, User);
   }
-
+  getCustomer(): Observable<Customer[]>{
+    return this.http.get<Customer[]>(this.UserURL).pipe();
+  }
   // getReview(): Observable<Review[]> {
   //   return this.http.get<Review[]>(this.URL).pipe();
   // }

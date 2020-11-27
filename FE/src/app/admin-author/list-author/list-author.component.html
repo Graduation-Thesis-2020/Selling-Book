@@ -20,6 +20,7 @@
     <table class="table table-bordered">
       <thead>
         <tr>
+          <th>No.</th>
           <th>Tác Giả</th>
           <th>Họ</th>
           <th>Tên</th>
@@ -27,7 +28,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let au of authors | paginate: config">
+        <tr *ngFor="let au of authors | paginate: config; let i = index">
+          <td>{{ i + 1 }}</td>
           <td>{{ au.name }}</td>
           <td>{{ au.firstname }}</td>
           <td>{{ au.lastname }}</td>

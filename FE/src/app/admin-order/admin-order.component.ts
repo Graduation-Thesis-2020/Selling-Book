@@ -17,6 +17,8 @@ export class AdminOrderComponent implements OnInit {
   books: itemInOrder[];
   total: number;
   name: string;
+  status: string;
+
   constructor(private orderService: OrderService) {
     this.config = {
     itemsPerPage: 15,
@@ -51,6 +53,11 @@ export class AdminOrderComponent implements OnInit {
     this.name = name;
    });
   }
-
-
+  onItemChange(value) {
+    this.status = value;
+  }
+  changeStatus(){
+    const isChanged = this.status;
+    console.log(isChanged);
+  }
 }

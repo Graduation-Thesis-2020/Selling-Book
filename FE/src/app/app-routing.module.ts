@@ -29,6 +29,7 @@ import { DefaultLayoutUserComponent } from './default-layout-user/default-layout
 import { InfoCartComponent } from './info-cart/info-cart.component';
 import { DefaultLayoutAdminComponent } from './default-layout-admin/default-layout-admin.component';
 import { AdminOrderComponent } from './admin-order/admin-order.component';
+import { AdminUserComponent } from './admin-user/admin-user.component';
 
 
 const routes: Routes = [
@@ -72,6 +73,7 @@ const routes: Routes = [
     {path: 'editpub/:id', component: EditPubComponent},
     {path: 'editbook/:id', component: EditBookComponent},
     {path: 'order', component: AdminOrderComponent},
+    {path: 'customer', component: AdminUserComponent},
   ]},
 
 ]

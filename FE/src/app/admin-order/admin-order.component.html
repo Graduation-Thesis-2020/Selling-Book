@@ -30,11 +30,11 @@
             {{ od.phone }}
           </td>
           <td>{{ od.email }}</td>
-          <td [ngSwitch]="od.status">
-            <span *ngSwitchCase="false" class="badge badge-secondary"
+          <td [ngSwitch]="od.status" data-toggle="modal" data-target="#statusModal" (click)="detail(od._id, od.totalPrice, od.name)">
+            <span *ngSwitchCase="'chưa giao'" class="badge badge-secondary"
               >Chưa giao</span
             >
-            <span *ngSwitchCase="true" class="badge badge-success"
+            <span *ngSwitchCase="'true'" class="badge badge-success"
               >Đã Giao</span
             >
           </td>
@@ -117,6 +117,66 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="statusModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: aquamarine">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Đơn hàng: <span class="text-info">{{ name }}</span>
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-group">
+          <div>
+            <label for="input4" class="col-form-label"
+            >Thay đổi tình trạng</label>
+          </div>
+
+
+          <div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline1" name="custom" class="custom-control-input" value="Chưa giao" (change)="onItemChange($event.target.value)"/>
+                <label class="custom-control-label text-secondary font-weight-bold" for="customRadioInline1">Chưa Giao</label>
+              </div>
+            <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="customRadioInline2" name="custom" class="custom-control-input" value="Đang giao" (change)="onItemChange($event.target.value)"/>
+              <label class="custom-control-label text-primary font-weight-bold" for="customRadioInline2">Đang Giao</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline3" name="custom" class="custom-control-input" value="Đã giao" (change)="onItemChange($event.target.value)"/>
+                <label class="custom-control-label text-success font-weight-bold" for="customRadioInline3">Đã Giao</label>
+              </div>
+            <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="customRadioInline4" name="custom" class="custom-control-input" value="Hủy" (change)="onItemChange($event.target.value)"/>
+              <label class="custom-control-label text-danger font-weight-bold" for="customRadioInline4">Hủy</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="changeStatus()">
           Close
         </button>
       </div>

@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
               private PubService: PublisherService,
               private AuthorService: AuthorService,) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.getAllBook();
     this.getAllCate();
     this.getAllAuthor();
@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
     this.AuthorService.getAuthors().subscribe(res => this.auts = res);
   }
   getAllBook() {
-    this.BooksService.getBooks().subscribe(res => this.books = res);
+    this.BooksService.getBooks().subscribe(book => this.books = book);
   }
   getAllCate() {
     this.CateService.getCates().subscribe(res => this.cates = res);
@@ -122,15 +122,17 @@ export class HomeComponent implements OnInit {
     }
     this.countItem = this.items.length;
   }
-  async add(id: string){
-    await this.cartService.AddtoCart(id).toPromise().then(res => this.mess = res);
-    await console.log(this.mess.message);
-  }
+  // async add(id: string){
+  //   await this.cartService.AddtoCart(id).toPromise().then(res => this.mess = res);
+  //   await console.log(this.mess.message);
+  // }
   // GetCart() {
   //   this.cartService.getShoppingCart().subscribe(res => this.carts = res);
   //   console.log(this.carts);
   // }
   search(id: string){
-    this.BooksService.searchBook(id).subscribe(res => this.books = res);
+    console.log(id);
+    this.BooksService.searchBook(id).subscribe(book => this.books = book);
+    //this.BooksService.searchHeroes(id).subscribe(book => this.books = book);
   }
 }

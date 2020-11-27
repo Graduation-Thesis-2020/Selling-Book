@@ -23,12 +23,12 @@
             </h6>
             <div
               class="row"
-              *ngFor="let cate of cates"
-              routerLink="/books/{{ cate._id }}/categories/{{ cate.name }}"
+
             >
               <span class="col-u" style="margin-left: 14px">Thể loại: </span>
-              <div class="col-auto m-wthree">
-                <h5>{{ cate.name }}</h5>
+              <div class="col-auto m-wthree" *ngFor="let cate of cates"
+              routerLink="/books/{{ cate._id }}/categories/{{ cate.name }}">
+                <h5>{{ cate.name }}.</h5>
               </div>
             </div>
             <div

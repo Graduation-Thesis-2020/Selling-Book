@@ -1,0 +1,54 @@
+<div style="margin-right: 50px; margin-left: 50px">
+  <h1 style="margin-top: 30px">Danh Sách Khách Hàng</h1>
+  <div class="ser-t">
+    <b></b>
+    <span><i></i></span>
+    <b class="line"></b>
+  </div>
+  <div style="margin-bottom: 50px"></div>
+  <div style="margin-top: 10px">
+    <table
+      class="table table-bordered table-striped table-hover table-responsive-lg"
+    >
+      <thead style="background-color: rgb(198, 219, 148)">
+        <tr>
+          <th>No.</th>
+          <th>Tên Khách</th>
+          <th>Địa Chỉ</th>
+          <th>Số điện thoại</th>
+          <th>Email</th>
+          <th>Giới tính</th>
+          <th>Cách đăng nhập</th>
+          <th>Tình trạng</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cus of cus | paginate: config; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td class="text-info font-weight-bold">{{ cus.name }}</td>
+          <td>{{ cus.address }}</td>
+          <td>
+            {{ cus.phone }}
+          </td>
+          <td>{{ cus.email }}</td>
+          <td>{{ cus.gender }}</td>
+          <td>{{ cus.authType }}</td>
+          <td style="width: 90px; color: yellowgreen">
+            <i
+              class="fas fa-list"
+              title="Xem chi tiết"
+              data-toggle="modal"
+              data-target="#exampleModal"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls
+      style="text-align: center"
+      (pageChange)="pageChanged($event)"
+    ></pagination-controls>
+  </div>
+</div>
+
+  

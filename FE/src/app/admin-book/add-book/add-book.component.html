@@ -99,11 +99,16 @@
       </div>
       <div>
         <h3>Thể Loại</h3>
-        <select class="custom-select" #categories1>
+        <!-- <select class="custom-select" #categories1>
           <option *ngFor="let cate of cate" [value]="cate._id">
             {{ cate.name }}
           </option>
-        </select>
+        </select> -->
+
+        <div class="form-check form-check-inline"  *ngFor="let cate of cate">
+          <input type="checkbox" id="{{cate.name}}" value="{{cate._id}}" class="form-check-input"  (change)="onItemChange($event.target.value)"/>
+            <label class="form-check-label" for="{{cate.name}}">{{ cate.name }}</label>
+        </div>
       </div>
 
       <div>
@@ -136,7 +141,7 @@
           title="Add"
           type="submit"
           (click)="
-            save2(
+            save(
               title.value,
               description.value,
               publishDate.value,
@@ -145,7 +150,6 @@
               availableQuantity.value,
               publisher1.value,
               author1.value,
-              categories1.value,
               discount.value,
               FileUpload
             )

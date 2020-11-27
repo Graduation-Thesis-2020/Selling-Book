@@ -19,10 +19,11 @@
     <table class="table table-bordered">
       <thead>
         <tr>
+          <th>No.</th>
           <th>Tiêu Đề</th>
           <th>Tác Giả</th>
+          <th>Nhà xuất bản</th>
           <th>Ngày xuất bản</th>
-          <th>Số Trang</th>
           <th>Giá</th>
           <th>Có sẵn</th>
           <th>Ảnh</th>
@@ -30,11 +31,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let each of books | paginate: config">
+        <tr *ngFor="let each of books | paginate: config; let i = index">
+          <td>{{ i+1 }}</td>
           <td>{{ each.title }}</td>
-          <td>{{ each.author }}</td>
+          <td>{{ each.author.name }}</td>
+          <td>{{ each.publisher.name }}</td>
           <td>{{ each.publishDate | date: "dd/MM/yyyy" }}</td>
-          <td>{{ each.pageCount }}</td>
           <td>{{ each.price }}</td>
           <td>{{ each.availableQuantity }}</td>
           <td><img src="{{ each.imageUrl }}" class="backgr" /></td>

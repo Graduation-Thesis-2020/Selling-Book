@@ -26,6 +26,8 @@ export class EditBookComponent implements OnInit {
   selectFile = null;
   showMessage: string;
   imageURL = '/assets/image/00128.jpg';
+  tempArr: any = { "category": [] };
+  ischeked: boolean;
   constructor(private route: ActivatedRoute, private BookService: BooksService, private location: Location,
     private AuthorService: AuthorService, private PubService: PublisherService, private CateService: CateService) { }
 
@@ -85,5 +87,8 @@ export class EditBookComponent implements OnInit {
     }
     reader.readAsDataURL(this.FileUpload);
     console.log(this.FileUpload);
+  }
+  onItemChange(value) {
+    this.tempArr.category.push(value);
   }
 }

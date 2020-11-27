@@ -12,7 +12,7 @@ import { Login } from './../models/user';
 export class LoginComponent implements OnInit {
 
   public login;
-  public mess;
+  public mess: [];
   constructor(private serService: UserService, private router: Router) { }
 
   ngOnInit() {
@@ -32,10 +32,12 @@ export class LoginComponent implements OnInit {
 
     }
     else {
-      alert(this.mess.error.message);
+      //alert(this.mess.error.message);
     }
     this.mess=null;
     console.log(this.mess);
+    // console.log(this.login);
+    // console.log(this.mess);
   }
 
 }
