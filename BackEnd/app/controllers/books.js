@@ -360,25 +360,33 @@ module.exports = {
 
 
   // Search Book By title
-  searchBookByCategory: async (req, res, next) => {
+  searchBookByTitle: async (req, res, next) => {
     let searchOptions = {}
     if (req.query.title != null && req.query.title !== '') {
-      searchOptions.title = new RegExp(req.query.title, 'i')
+        searchOptions.title = new RegExp(req.query.title, 'i')
     }
     try {
-      const books = await Book.find(searchOptions)
-      res.status(200).json({
-        books: books,
-        searchOptions: req.query
-      });
-      // res.render('authors/index', {
-      //     authors: authors,
-      //     searchOptions: req.query
-      // })
+        const books = await Book.find(searchOptions).populate([{
+          path: 'categories', select: 'name', model: category
+        }, {
+          path: 'reviews', select: 'review date comment ', model: review
+        }, {
+          path: 'author', select: 'name firstname lastname', model: author
+        }, {
+          path: 'publisher', select: 'name', model: publisher
+        }]);
+        res.status(200).json({
+            books: books,
+            searchOptions: req.query
+        });
+        // res.render('authors/index', {
+        //     authors: authors,
+        //     searchOptions: req.query
+        // })
     } catch {
-      res.redirect('/')
+        res.redirect('/')
     }
-  },
+},
 
 
 }
