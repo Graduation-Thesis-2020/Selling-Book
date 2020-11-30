@@ -5,6 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Books, Books1, Books2, BooksInCart } from '../models/book';
 import { RootObj, RootObj2 } from '../models/root-obj';
 import { ApiService } from './api.service';
+import { BookEdit } from 'src/app/models/book';
 
 
 
@@ -45,6 +46,10 @@ export class BooksService {
     const url = `${this.bookURL}/${id}`;
     return this.http.get<Books>(url).pipe();
   }
+  getBooksFromID1(id: string): Observable<BookEdit> {
+    const url = `${this.bookURL}/${id}`;
+    return this.http.get<BookEdit>(url).pipe();
+  }
   getBooksFromCateID(id: string): Observable<Books[]> {
     const url = `${this.bookURL}/${id}/categories`;
     return this.http.get<Books[]>(url).pipe();
@@ -58,7 +63,7 @@ export class BooksService {
     return this.http.get<Books[]>(url).pipe();
   }
   searchBook(id: string): Observable<Books[]> {
-    const url = `${this.bookURL}?title=${id}`;
+    const url = `${this.bookURL}/search?title=${id}`;
     return this.http.get<Books[]>(url).pipe();
   }
   searchHeroes(term: string): Observable<Books[]> {
@@ -130,7 +135,7 @@ export class BooksService {
   }
   EditBookss1(_id:string, title: string, description: string,publishDate:Date, pageCount: number,
     price: number , availableQuantity: number , publisher: string , author: string,
-     categories: string , discount: number , image: File): Observable<any> {
+     categories: string[] , discount: number , image: File): Observable<any> {
     var formData: any = new FormData();
     formData.append('title', title);
     formData.append('description', description);
@@ -140,7 +145,9 @@ export class BooksService {
     formData.append('availableQuantity', availableQuantity);
     formData.append('publisher', publisher);
     formData.append('author', author);
-    formData.append('categories', categories);
+    for (let cate of categories) {
+      formData.append('categories[]', cate);
+    }
     formData.append('discount', discount);
     formData.append('image', image);
 

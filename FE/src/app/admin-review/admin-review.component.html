@@ -14,18 +14,20 @@
           <th>Tên Sách</th>
           <th>Bình Luận</th>
           <th>Đánh Giá</th>
-          <th>Action</th>
+          <th>Ngày</th>
+          <th>Thao tác</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let rv of reviews | paginate: config; let i = index">
           <td>{{ i + 1 }}</td>
-          <td></td>
+          <td>{{ rv.bookId.title }}</td>
           <td>{{ rv.comment }}</td>
           <td>
             <b>{{ rv.review }}</b
             ><i class="fas fa-star" style="margin-left: 10px"></i>
           </td>
+          <td>{{ rv.date | date: 'dd/MM/yyyy' }}</td>
           <td style="width: 90px">
             <i
               class="fas fa-trash"

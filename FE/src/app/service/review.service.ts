@@ -5,7 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Books, Books1 } from '../models/book';
 import { RootObj, RootObj2 } from '../models/root-obj';
 import { ApiService } from './api.service';
-import { Review } from '../models/review';
+import { Review, ReviewDetail } from '../models/review';
 
 
 
@@ -29,6 +29,10 @@ export class ReviewsService {
   getReview(): Observable<Review[]> {
     return this.http.get<Review[]>(this.URL).pipe();
   }
+  getReviewDetail(): Observable<ReviewDetail[]> {
+    return this.http.get<ReviewDetail[]>(this.URL).pipe();
+  }
+
 
   getReviewFromID(id: string): Observable<Review> {
     const url = `${this.URL}/${id}`;

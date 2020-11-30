@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Review } from '../models/review';
+import { Review, ReviewDetail } from '../models/review';
 import { ReviewsService } from '../service/review.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { ReviewsService } from '../service/review.service';
 })
 export class AdminReviewComponent implements OnInit {
 
-  reviews: Review[];
+  reviews: ReviewDetail[];
   review: Review;
   config: any;
 
@@ -29,7 +29,7 @@ export class AdminReviewComponent implements OnInit {
   }
 
   getAllReviews() {
-    this.ReviewsService.getReview().subscribe(res => this.reviews = res);
+    this.ReviewsService.getReviewDetail().subscribe(res => this.reviews = res);
   }
   delete(title, id) {
     const ans = confirm('Xóa bình luận: ' + title );
