@@ -137,6 +137,7 @@ export class BooksService {
     price: number , availableQuantity: number , publisher: string , author: string,
      categories: string[] , discount: number , image: File): Observable<any> {
     var formData: any = new FormData();
+    formData.append('_id', _id);
     formData.append('title', title);
     formData.append('description', description);
     formData.append('publishDate',publishDate);
@@ -151,7 +152,8 @@ export class BooksService {
     formData.append('discount', discount);
     formData.append('image', image);
 
-    return this.http.patch(`${this.bookURL}/${_id}`, formData, httpOptions).pipe();
+    return this.http.patch(`${this.bookURL}/${_id}`, formData).pipe();
+
   }
 }
 
