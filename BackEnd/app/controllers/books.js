@@ -10,6 +10,7 @@ const category = require('./../models/category');
 const review = require('./../models/review');
 const author = require('./../models/author');
 const publisher = require('./../models/publisher');
+const { findOne } = require('../models/book');
 
 // configuration CLOUDINARY
 cloudinary.config({
@@ -62,7 +63,7 @@ module.exports = {
   // },
 
 
-  createBook: (req, res, next) => {
+  createBook: async (req, res, next) => {
     cloudinary.v2.uploader.upload(req.file.path, async (err, result) => {
       if (err) {
         //req.flash('error', err.message);
@@ -101,6 +102,9 @@ module.exports = {
       book.publisher = req.body.publisher;
       book.discount = req.body.discount;
 
+
+
+
       book.save()
         .then(result => {
           console.log(result);
@@ -128,7 +132,22 @@ module.exports = {
       });
 
       // add book in books of Category
-      Category.findById(req.body.categories, (err, cate) => {
+      // Category.findById(req.body.categories, (err, cate) => {
+      //   if (err) {
+      //     return res.status(204).json({
+      //       error: err
+      //     });
+      //   }
+      //   cate.books.push(book);
+      //   cate.save();
+      // });
+
+      const catedata = req.body.categories;
+      const catelength = catedata.length;
+  //    return res.status(200).json(catedata[0]);
+      let i;
+      for (i = 0; i < catelength; i++) {
+       Category.findById(catedata[i] , (err, cate) => {
         if (err) {
           return res.status(204).json({
             error: err
@@ -137,6 +156,7 @@ module.exports = {
         cate.books.push(book);
         cate.save();
       });
+      }
       // add book in books of Publisher
       Publisher.findById(req.body.publisher, (err, publisher) => {
         if (err) {
@@ -363,30 +383,27 @@ module.exports = {
   searchBookByTitle: async (req, res, next) => {
     let searchOptions = {}
     if (req.query.title != null && req.query.title !== '') {
-        searchOptions.title = new RegExp(req.query.title, 'i')
+      searchOptions.title = new RegExp(req.query.title, 'i')
     }
     try {
-        const books = await Book.find(searchOptions).populate([{
-          path: 'categories', select: 'name', model: category
-        }, {
-          path: 'reviews', select: 'review date comment ', model: review
-        }, {
-          path: 'author', select: 'name firstname lastname', model: author
-        }, {
-          path: 'publisher', select: 'name', model: publisher
-        }]);
-        res.status(200).json({
-            books: books,
-            searchOptions: req.query
-        });
-        // res.render('authors/index', {
-        //     authors: authors,
-        //     searchOptions: req.query
-        // })
+      const books = await Book.find(searchOptions).populate([{
+        path: 'categories', select: 'name', model: category
+      }, {
+        path: 'reviews', select: 'review date comment ', model: review
+      }, {
+        path: 'author', select: 'name firstname lastname', model: author
+      }, {
+        path: 'publisher', select: 'name', model: publisher
+      }]);
+      res.status(200).json(books);
+      // res.render('authors/index', {
+      //     authors: authors,
+      //     searchOptions: req.query
+      // })
     } catch {
-        res.redirect('/')
+      res.redirect('/')
     }
-},
+  },
 
 
 }
