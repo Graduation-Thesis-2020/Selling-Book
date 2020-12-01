@@ -7,6 +7,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const passport = require('passport');
+const cors = require('cors');
 // content 
 const app = express();
 const bookRoutes = require('./app/routes/books');
@@ -18,6 +19,7 @@ const staffRoutes = require('./app/routes/staffs');
 const publisherRoutes = require('./app/routes/publishers');
 const reviewRoutes = require('./app/routes/reviews');
 const cartRoutes = require('./app/routes/carts');
+const adminRoutes = require('./app/routes/admins');
 const auth = require('./app/middleware/auth')
 
 
@@ -40,6 +42,7 @@ mongoose.connect(//'mongodb+srv://admin:' + process.env.MONGO_ATLAS_PW + '@selli
 //Ép Mongoose sử dụng thư viện promise toàn cục
 mongoose.Promise = global.Promise;
 
+app.use(cors());
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'))
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -73,6 +76,7 @@ app.use('/staffs', staffRoutes);
 app.use('/publishers', publisherRoutes);
 app.use('/reviews', reviewRoutes);
 app.use('/carts', cartRoutes);
+app.use('/admins', adminRoutes);
 app.use((req, res, next) => {
   const error = new Error("Not found");
   error.status = 404;

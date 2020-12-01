@@ -3,14 +3,14 @@ const Author = require('./../models/author');
 const Category = require('./../models/category');
 const Publisher = require('./../models/publisher');
 const User = require('./../models/user');
-const comment = require('./../models/review');
+const Comment = require('./../models/review');
 const mongoose = require('mongoose');
 const cloudinary = require('cloudinary');
 const category = require('./../models/category');
 const review = require('./../models/review');
 const author = require('./../models/author');
 const publisher = require('./../models/publisher');
-const { findOne } = require('../models/book');
+const { findOne, updateOne } = require('../models/book');
 
 // configuration CLOUDINARY
 cloudinary.config({
@@ -20,47 +20,6 @@ cloudinary.config({
 });
 module.exports = {
 
-  // Create a Book
-  // createBook: async (req, res, next) => {
-  //     console.log(req.file);
-  //     const book = new Book({
-  //         title: req.body.title,
-  //         description: req.body.description,
-  //         publishDate: new Date(req.body.publishDate),
-  //         pageCount: req.body.pageCount,
-  //         price: req.body.price,
-  //         availableQuantity: req.body.availableQuantity,
-  //         bookImage: req.file.path,
-  //         //      bookImage: req.body.bookImage,
-  //         author: req.body.author,
-  //         publisher: req.body.publisher,
-  //         categories: req.body.categories,
-  //         reviews: req.body.revews,
-  //         discount: req.body.discount
-  //     });
-  //     await book.save().then(result => {
-  //         console.log(result);
-  //         res.status(201).json({
-  //             message: 'Created book successfully',
-  //             createdBook: {
-  //                 title: result.title,
-  //                 price: result.price,
-  //                 _id: result._id,
-  //                 request: {
-  //                     type: 'POST',
-  //                     url: 'http://localhost:8080/books/' + result._id
-  //                 }
-  //             }
-  //         });
-  //     })
-  //         .catch(err => {
-  //             console.log(err);
-  //             res.status(500).json({
-  //                 error: err
-  //             });
-  //         });
-
-  // },
 
 
   createBook: async (req, res, next) => {
@@ -144,18 +103,18 @@ module.exports = {
 
       const catedata = req.body.categories;
       const catelength = catedata.length;
-  //    return res.status(200).json(catedata[0]);
+      //    return res.status(200).json(catedata[0]);
       let i;
       for (i = 0; i < catelength; i++) {
-       Category.findById(catedata[i] , (err, cate) => {
-        if (err) {
-          return res.status(204).json({
-            error: err
-          });
-        }
-        cate.books.push(book);
-        cate.save();
-      });
+        Category.findById(catedata[i], (err, cate) => {
+          if (err) {
+            return res.status(204).json({
+              error: err
+            });
+          }
+          cate.books.push(book);
+          cate.save();
+        });
       }
       // add book in books of Publisher
       Publisher.findById(req.body.publisher, (err, publisher) => {
@@ -207,7 +166,11 @@ module.exports = {
     }, {
       path: 'publisher', select: 'name', model: publisher
     }]);
-    //let databook = await book.title;
+    if (!book) {
+      return res.status(401).json({
+        message: " Kho Sách rỗng!!!"
+      });
+    }
     return res.status(200).json(book);
   },
 
@@ -239,7 +202,11 @@ module.exports = {
       }, {
         path: 'publisher', select: 'name', model: publisher
       }]);
-      //let databook = await book.title;
+      if (!book) {
+        return res.status(404).json({
+          message: " Không tìm thấy sách!!!"
+        });
+      }
       return res.status(200).json(book);
     } catch {
       return res.status(404).json({
@@ -309,12 +276,16 @@ module.exports = {
     const book = await Book.findById(bookId);
     await book.reviews.id(reviewId).remove();
     await book.save();
+    // xóa review trong model review
+    const review = await Comment.findOne({ _id: reviewId });
+    await review.remove();
+
     res.status(200).json({
-      message: 'errorr'
+      message: 'Ok được rồi!!!'
     });
   },
   // delete Book
-  deleteBook: (req, res, next) => {
+  deleteBook: async (req, res, next) => {
     Book.findById(req.params.bookId, async (err, book) => {
       if (err) {
         return res.status(500).json({
@@ -323,7 +294,47 @@ module.exports = {
       }
       try {
         await cloudinary.v2.uploader.destroy(book.imageId);
+        let cateIdArray = [];
+        cateIdArray = book.categories;
+        let catelength = cateIdArray.length;
+        let i;
+        let catedata;
+        if (catelength != 0) {
+          for (i = 0; i < catelength; i++) {
+            catedata = await Category.findOne(cateIdArray[i]);
+            catedata.books.remove(book._id);
+            await catedata.save();
+          }
+        }
+        //return res.status(200).json(catedata);
+
+        // Xóa ID sách đó trong Model Publisher
+        let pubdata = await Publisher.findOne({ _id: book.publisher });
+        if (pubdata) {
+          await pubdata.books.remove(book._id);
+          await pubdata.save();
+        }
+
+        // Xóa ID book đó trong Model Author
+        let authdata = await Author.findOne({ _id: book.author });
+        if (authdata) {
+          await authdata.books.remove(book._id);
+          await authdata.save();
+        }
+
+        // Xóa tất cả Comment của Book đó
+        let comArray = [];
+        comArray = book.reviews;
+        let comLength = comArray.length;
+        let comdata;
+        if (comLength != 0) {
+          for (i = 0; i < comLength; i++) {
+            comdata = await Comment.findOne(comArray[i]);
+            await comdata.remove();
+          }
+        }
         book.remove();
+
         return res.status(201).json({
           message: 'Book deleted successfully!!!'
         });
@@ -338,7 +349,7 @@ module.exports = {
   },
 
   // update a book on PATCH
-  updateBook: (req, res, next) => {
+  updateBook: async (req, res, next) => {
     const id = req.params.bookId;
     Book.findById(id, async (err, book) => {
       if (err) {
@@ -366,13 +377,87 @@ module.exports = {
 
           book.author = req.body.author;
           //  book.categories.push(req.body.categories);
+          let cateOld = [];
+          cateOld = book.categories;  // lấy cate cũ trong book
           book.categories = req.body.categories;
+
+          // Xóa all cate cũ trong Model Categories để update những cái cate mới vào Model
+          let catelength = cateOld.length;
+          let i;
+          let catedata;
+          if (catelength != 0) {
+            for (i = 0; i < catelength; i++) {
+              catedata = await Category.findOne({ _id: cateOld[i] });
+              catedata.books.remove(book._id);
+              await catedata.save();
+            }
+          }
+          // Push từng cate mới vào Model Categories
+
+          let cateIdArray = [];
+          cateIdArray = req.body.categories;
+          catelength = cateIdArray.length;
+          if (catelength != 0) {
+            for (i = 0; i < catelength; i++) {
+              catedata = await Category.findOne({ _id: cateIdArray[i] });
+              catedata.books.push(book._id);
+              await catedata.save();
+            }
+          }
+          book.publisher = req.body.publisher;
+          book.discount = req.body.discount;
+          book.save();
+          //  res.redirect('/books/' + book._id);
+          return res.status(200).json(book);
+        } else {    // Update Book khi không có Ảnh
+          book.title = req.body.title;
+          book.description = req.body.description;
+          book.publishDate = req.body.publishDate;
+          book.pageCount = req.body.pageCount;
+          book.price = req.body.price;
+          book.availableQuantity = req.body.availableQuantity;
+
+          book.author = req.body.author;
+          //  book.categories.push(req.body.categories);
+          let cateOld = [];
+          cateOld = book.categories;
+          //     console.log('long',book.categories);
+          book.categories = req.body.categories;
+
+          // Xóa all cate cũ trong Model Categories để update những cái cate mới vào Model
+          let catelength = cateOld.length;
+          let i;
+          let catedata;
+          // console.log('long',cateOld);
+          //      return res.status(200).json(catelength);
+          if (catelength != 0) {
+            for (i = 0; i < catelength; i++) {
+              catedata = await Category.findOne({ _id: cateOld[i] });
+              catedata.books.remove(book._id);
+              await catedata.save();
+            }
+          }
+          // Push từng cate mới vào Model Categories
+          let cateIdArray = [];
+          cateIdArray = req.body.categories;
+          catelength = cateIdArray.length;
+          let j;
+          if (catelength != 0) {
+            //    console.log(catelength);
+            //     return res.status(400).json(catelength);
+            for (j = 0; j < catelength; j++) {
+              catedata = await Category.findOne({ _id: cateIdArray[j] });
+              catedata.books.push(book._id);
+              await catedata.save();
+            }
+          }
           book.publisher = req.body.publisher;
           book.discount = req.body.discount;
           book.save();
           //  res.redirect('/books/' + book._id);
           return res.status(200).json(book);
         }
+
       }
     });
   },
@@ -403,6 +488,30 @@ module.exports = {
     } catch {
       res.redirect('/')
     }
+  },
+
+  // Get Book Have DISCOUNT 
+  bookHaveDiscount: async (req, res, next) => {
+    let bookdata = await Book.find();
+    let bookLength = bookdata.length;
+
+    let i;
+    let bookDiscount = [];
+    // if(bookdata[0].discount == '0' )  return res.status(200).json(bookdata[0]);
+    // return res.status(200).json({message:" ko dc"});
+
+    for (i = 0; i < bookLength; i++) {
+      if (parseInt(bookdata[i].discount) != 0) {
+        bookDiscount.push(bookdata[i]);
+      }
+    }
+    if (bookDiscount.length == 0) {
+      return res.status(200).json({
+        message: 'Không có sách nào giảm giá!!!'
+      })
+    }
+    return res.status(200).json(bookDiscount);
+    // return res.status(200).json(bookLength);
   },
 
 

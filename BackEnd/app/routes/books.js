@@ -47,6 +47,10 @@ const upload = multer({
 router.get('/', bookController.getListBook)
   .get('/search/', bookController.searchBookByTitle) // search book by title
 
+  // Get book have discount
+router.get('/discount', bookController.bookHaveDiscount)
+
+
 router.post('/', upload.single('image'), bookController.createBook);
 
 router.route('/:bookId')
