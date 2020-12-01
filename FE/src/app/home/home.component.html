@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" [routerLink]="['/home']"
       ><img
@@ -139,13 +139,197 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
+<section style="background-color: antiquewhite;
+        background-image: url(https://s3.cloud.cmctelecom.vn/tinhte1/2018/04/4282728_oqitDqs.jpg);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        height: 800px;">
+  <div class="header">
+    <div class="container">
+      <div class="logo">
+        <h1>
+          <a [routerLink]="['/home']"
+            ><b>T<br />H<br />E</b>Book Store<span>The Best Store Online</span></a
+          >
+        </h1>
+      </div>
 
+      <ul class="c">
+        <li>
+          <a [routerLink]="['/login']"
+            ><i class="fa fa-user" aria-hidden="true"></i>Đăng Nhập</a
+          >
+        </li>
+        <li>
+          <!-- <a [routerLink]="['/cart']"
+              ><i class="fa fa-shopping-cart" aria-hidden="true"></i>Giỏ hàng</a
+            > -->
+        </li>
+        <!-- <li><a [routerLink]="['/register']"><i class="fa fa-arrow-right" aria-hidden="true"></i>Đăng Ký</a></li> -->
+      </ul>
+
+      <div class="header-ri">
+        <ul class="social-top">
+          <li>
+            <a href="https://www.facebook.com/koolsssssss" class="icon facebook"
+              ><i class="fa fa-facebook" aria-hidden="true"></i><span></span
+            ></a>
+          </li>
+          <li>
+            <a href="https://www.facebook.com/hung.lu1998" class="icon twitter"
+              ><i class="fa fa-twitter" aria-hidden="true"></i><span></span
+            ></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <nav class="navbar navbar-expand-lg border-bottom" >
+      <a class="navbar-brand" style="font-size: 24px; color: antiquewhite; margin-right: 0px;" [routerLink]="['/home']"><i class="fas fa-book"style="padding-top: 30px;" ></i></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon" ></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="nav-top mr-auto">
+          <nav class="navbar navbar-default ">
+            <div class="ccc">
+              <ul class="nav navbar-nav">
+                <li >
+                  <a [routerLink]="['/home']" class="hyper"
+                    ><span>Trang Chủ</span></a
+                  >
+                </li>
+
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"
+                    ><span>Thể loại<b class="caret"></b></span
+                  ></a>
+                  <ul class="dropdown-menu multi">
+                    <div class="row">
+                      <div class="col-sm-3" *ngFor="let cate of cates">
+                        <ul class="multi-column-dropdown">
+                          <li>
+                            <a
+                              routerLink="/books/{{ cate._id }}/categories/{{
+                                cate.name
+                              }}"
+                              ><i class="fa fa-angle-right" aria-hidden="true"></i
+                              >{{ cate.name }}</a
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"
+                    ><span> Nhà Xuất Bản <b class="caret"></b></span
+                  ></a>
+                  <ul class="dropdown-menu multi multi1">
+                    <div class="row">
+                      <div class="col-sm-3" *ngFor="let pub of pubs">
+                        <ul class="multi-column-dropdown">
+                          <li>
+                            <a
+                              routerLink="/books/{{ pub._id }}/publishers/{{
+                                pub.name
+                              }}"
+                              ><i class="fa fa-angle-right" aria-hidden="true"></i
+                              >{{ pub.name }}
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"
+                    ><span>Tác Giả<b class="caret"></b></span
+                  ></a>
+                  <ul class="dropdown-menu multi multi2">
+                    <div class="row">
+                      <div class="col-sm-3" *ngFor="let aut of auts">
+                        <ul class="multi-column-dropdown">
+                          <li>
+                            <a
+                              routerLink="/books/{{ aut._id }}/authors/{{
+                                aut.name
+                              }}"
+                              ><i class="fa fa-angle-right" aria-hidden="true"></i
+                              >{{ aut.name }}</a
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </ul>
+                </li>
+
+
+              </ul>
+
+            </div>
+          </nav>
+        </div>
+
+        <div class="cart">
+          <a [routerLink]="['/cart']"
+            ><span class="fa fa-shopping-cart my-cart-icon"
+              >(<small>{{ countItem }}</small
+              >)</span
+            ></a
+          >
+        </div>
+
+      </div>
+
+    </nav>
+
+    <div class="intro">
+      <div>
+        <img src="https://www.vexels.com/media/users/3/205442/isolated/thumb/675eca58e248dc09449d6197d510e0c9-open-book-hearts-illustration-by-vexels.png"
+        style="background-color: transparent;" alt="" width="250" height="250">
+      </div>
+      <h3>Sách hay, cũng như bạn tốt, ít và được lựa chọn</h3>
+
+      <span> Chọn lựa càng nhiều, thưởng thức càng nhiều..</span>
+    </div>
+
+      <div class="banner-info">
+        <div class="search-form">
+          <form>
+            <div class="input-group mb-3 input-group-lg">
+              <input type="text" class="form-control" #id1 style="font-size: 18px;" placeholder="Hãy chọn cho riêng bạn một cuốn sách phù hợp">
+              <div class="input-group-append">
+                <button class="input-group-text" (click)="search(id1.value)"><i class="fas fa-search"></i></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+</section>
 <!--content-->
 <div class="content-top">
   <div class="container">
     <div class="spec">
-      <h3>Sản Phẩm</h3>
+      <h3>Sản Phẩm Bán Chạy</h3>
       <div class="ser-t">
         <b></b>
         <span><i></i></span>
@@ -163,10 +347,10 @@
                   </ul>
                 </nav> -->
       <div class="tab-content tab-content-t">
-        <div class="tab-pane active text-style" id="tab1">
-          <div class="row">
-            <div class="col-md-3 m-wthree" *ngFor="let bk of books">
-              <div class="col-m">
+        <div class="tab-pane active text-style" id="tab1" >
+          <div class="row" >
+            <div class="col-md-3 m-wthree" *ngFor="let bk of books | slice:0:8" >
+              <div class="col-m" >
                 <a routerLink="/details/{{ bk._id }}" class="offer-img">
                   <img src="{{ bk.imageUrl }}" class="img-responsive" alt="" />
                   <div class="offer" *ngIf="bk.discount !== '0'">
@@ -208,6 +392,71 @@
   </div>
 </div>
 
+<div class="content-top">
+  <div class="container">
+    <div class="spec">
+      <h3>Sản Phẩm</h3>
+      <div class="ser-t">
+        <b></b>
+        <span><i></i></span>
+        <b class="line"></b>
+      </div>
+    </div>
+
+    <div class="tab-head">
+      <!-- <nav class="nav-sidebar">
+                  <ul class="nav tabs ">
+                    <li class="active"><a href="#tab1" data-toggle="tab">Thiếu Nhi</a></li>
+                    <li class=""><a href="#tab2" data-toggle="tab">Văn Học</a></li>
+                    <li class=""><a href="#tab3" data-toggle="tab">Đời Sống</a></li>
+                    <li class=""><a href="#tab4" data-toggle="tab">Tiểu Thuyết</a></li>
+                  </ul>
+                </nav> -->
+      <div class="tab-content tab-content-t">
+        <div class="tab-pane active text-style" id="tab1">
+          <div class="row">
+            <div class="col-md-3 m-wthree" *ngFor="let bk of books | slice:0:8">
+              <div class="col-m">
+                <a routerLink="/details/{{ bk._id }}" class="offer-img">
+                  <img src="{{ bk.imageUrl }}" class="img-responsive" alt="" />
+                  <div class="offer" *ngIf="bk.discount !== '0'">
+                    <p><span>Sale Off</span></p>
+                  </div>
+                </a>
+                <div class="mid-1">
+                  <div class="women" routerLink="/details/{{ bk._id }}">
+                    <h6>
+                      <a [routerLink]="['/details']">{{ bk.title }}</a>
+                    </h6>
+                  </div>
+                  <div class="mid-2">
+                    <p *ngIf="bk.discount === '0'">{{ bk.price }} đ</p>
+                    <p *ngIf="bk.discount !== '0'">
+                      <label>{{ bk.price }} đ</label
+                      ><em class="item_price">{{ bk.discount }} đ</em>
+                    </p>
+                    <div class="block">
+                      <div class="starbox small ghosting"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="add">
+                    <button
+                      class="btn btn-danger my-cart-btn my-cart-b"
+                      (click)="AddtoCart(bk._id)"
+                    >
+                      <a [routerLink]="[{ id: bk._id }]"></a>Thêm Giỏ Hàng
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Toast -->
 
 <!--content-->

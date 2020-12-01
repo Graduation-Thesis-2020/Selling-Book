@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Author } from '../models/author';
 import { Cate } from '../models/cate';
 import { Publisher } from '../models/publisher';
@@ -8,6 +8,7 @@ import { CateService } from '../service/cate.service';
 import { PublisherService } from '../service/publisher.service';
 import { Location } from '@angular/common';
 import { Item } from '../models/cart';
+import { Books } from '../models/book';
 
 @Component({
   selector: 'app-default-layout-user',
@@ -21,6 +22,8 @@ export class DefaultLayoutUserComponent implements OnInit {
   items: Item[] = [];
   total: number;
   countItem: number;
+  books: Books[];
+  dataSearch: string[];
   constructor(private BooksService: BooksService,private PubService: PublisherService,
     private CateService: CateService,private AuthorService: AuthorService,
     private location: Location, ) { }
@@ -31,6 +34,7 @@ export class DefaultLayoutUserComponent implements OnInit {
         this.getAllPub();
         this.getAllAuthor();
         this.loadCart();
+
       }
 
     getAllCate() {
@@ -59,6 +63,12 @@ export class DefaultLayoutUserComponent implements OnInit {
       }
       this.countItem = this.items.length;
     }
+
+    search(id: string){
+      console.log(id);
+      this.BooksService.searchBook(id).subscribe(book => this.books = book);
+    }
+
   }
 
 

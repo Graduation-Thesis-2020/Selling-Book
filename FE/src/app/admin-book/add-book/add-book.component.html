@@ -106,7 +106,7 @@
         </select> -->
 
         <div class="form-check form-check-inline"  *ngFor="let cate of cate">
-          <input type="checkbox" id="{{cate.name}}" value="{{cate._id}}" class="form-check-input"  (change)="onItemChange($event.target.value)"/>
+          <input type="checkbox" id="{{cate.name}}" value="{{cate._id}}" class="form-check-input" (change)="onChange($event.target.value, $event.target.checked)"/>
             <label class="form-check-label" for="{{cate.name}}">{{ cate.name }}</label>
         </div>
       </div>

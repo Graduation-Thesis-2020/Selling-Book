@@ -25,7 +25,7 @@ export class UserService {
   ) { }
   SignupURL = 'http://localhost:8080/users/dashboard/customers/register';
   LoginURL = 'http://localhost:8080/users/dashboard/customers/login';
-  UserURL = 'http://localhost:8080/users/dashboard/customers';
+  UserURL = 'http://localhost:8080/users/customers';
   Login(Login: Login): Observable<Login> {
     return this.http.post<Login>(this.LoginURL, Login);
   }

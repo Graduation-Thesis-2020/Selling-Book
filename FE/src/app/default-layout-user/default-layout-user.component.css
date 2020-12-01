@@ -1,9 +1,17 @@
-/*--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
---*/
+.intro{
+  color: wheat;
+  text-align: center;
+}
+.intro h3{
+  font-size: 44px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+.intro span{
+  font-size: 24px;
+}
+
+
 body{
 	margin:0;
 	padding:0;
@@ -112,7 +120,8 @@ img.img-head {
   display: inline-block;
   position: relative;
   text-decoration: none;
-  color: black;
+  color: white;
+  font-size: 20px;
   width: auto;
   overflow: hidden;
   z-index: 2;
@@ -173,18 +182,19 @@ img.img-head {
 /*-- header --*/
 .header {
     text-align: center;
-	margin-top: 2em;
+	  /* margin-top: 2em; */
 }
 .logo h1{
+  margin-top: 1rem;
    font-family: 'Montserrat', sans-serif;
     font-size: 3em;
-    color: #000;
+    color: white;
 	display: inline-block;
 	position:relative;
 }
 .logo h1 a{
     text-decoration:none;
-    color: #000;
+    color: white;
 }
 .logo h1 span {
     font-size: 12px;
@@ -214,9 +224,10 @@ img.img-head {
 }
 
 .c li a{
-	color: #999;
-  font-size: 0.9em;
-	margin:0 0.5em;
+	color: rgb(253, 249, 249);
+  font-size: 16px;
+  margin:0 0.5em;
+  font-weight: 600;
 }
 .c li a i{
 	margin-right:5px;
@@ -357,11 +368,8 @@ nav.navbar.navbar-default {
     height: 44px;
 }
 .cart{
-	float: right;
-	cursor: pointer;
-	margin-top: 11px;
-  width: 9%;
-  margin-left: 20px;
+  margin-top: 11px;
+  margin-right: 40px;
 }
 
 
@@ -449,7 +457,7 @@ ul.multi-column-dropdown h6 {
 span.fa.fa-shopping-cart.my-cart-icon {
     position: absolute !important;
     font-size: 1.5em;
-    color: #039445;
+    color: #e5e9e7;
 }
 .badge {
     display: inline-block;
@@ -503,14 +511,10 @@ span.fa.fa-shopping-cart.my-cart-icon {
     border: 1px solid #FFF;
     background: rgba(255, 255, 255, 0.45);
 }
-.search-form button[type='submit']{
-    margin-left:3px;
-	  width: 7%;
-    height: 45px;
-    outline: none;
-    border: 1px solid #fff;
-    background: url(../images/can.png) no-repeat 6px 7px #FCCD1E;
-    display: inline-block;
+.search-form button{
+
+    background-color: rgb(231, 177, 231);
+
 }
 .search-form button[type='submit']:hover {
     background: url(../images/can.png) no-repeat 6px 7px #039445;

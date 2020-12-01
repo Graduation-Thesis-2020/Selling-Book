@@ -36,6 +36,7 @@ import { InfoCartComponent } from './info-cart/info-cart.component';
 import { DefaultLayoutAdminComponent } from './default-layout-admin/default-layout-admin.component';
 import { AdminOrderComponent } from './admin-order/admin-order.component';
 import { AdminUserComponent } from './admin-user/admin-user.component';
+import { StorePageComponent } from './store-page/store-page.component';
 
 
 @NgModule({
@@ -70,6 +71,7 @@ import { AdminUserComponent } from './admin-user/admin-user.component';
     DefaultLayoutAdminComponent,
     AdminOrderComponent,
     AdminUserComponent,
+    StorePageComponent,
 
   ],
   imports: [

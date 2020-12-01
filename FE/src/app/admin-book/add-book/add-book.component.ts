@@ -138,19 +138,7 @@ export class AddBookComponent implements OnInit {
       this.images = file;
     }
   }
-  // onSubmit(){
-  //   const formData = new FormData();
-  //   formData.append('image', this.images);
-  //   formData.append('image', this.images);
-  //   formData.append('image', this.images);
-  //   formData.append('image', this.images);
-  //   formData.append('image', this.images);
-  //   formData.append('image', this.images);
-  //   formData.append('image', this.images);
-  //   formData.append('image', this.images);
 
-  //   this.http.post<any>('http://localhost:8080/books', formData).subscribe();
-  // }
   async getAllAuthor() {
     await this.AuthorService.getAuthors().subscribe(res =>this.author = res);
     //console.log(this.author[0].firstname);
@@ -172,5 +160,14 @@ export class AddBookComponent implements OnInit {
   }
   onChangeCategory(event, cate: any, id:string){
     this.tempArr.category.push(id);
+  }
+  onChange(value, isChecked: boolean) {
+    if(isChecked) {
+      this.tempArr.category.push(value);
+    } else {
+      let index = this.tempArr.category.indexOf(value);
+      this.tempArr.category.splice(index,1);
+    }
+    console.log(this.tempArr);
   }
 }

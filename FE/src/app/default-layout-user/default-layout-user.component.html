@@ -1,44 +1,30 @@
-<div class="header">
+
+<div class="top" style="background-image: url(https://s3.cloud.cmctelecom.vn/tinhte1/2018/04/4282728_oqitDqs.jpg)">
   <div class="container">
-    <div class="logo">
-      <h1>
-        <a [routerLink]="['/home']"
-          ><b>T<br />H<br />E</b>Book Store<span>The Best Store Online</span></a
-        >
-      </h1>
-    </div>
+    <nav class="navbar navbar-expand-lg text-light">
+      <span>Contact Us: quangtan14011998@gmail.com</span>
 
-    <ul class="c">
-      <li>
-        <a [routerLink]="['/login']"
-          ><i class="fa fa-user" aria-hidden="true"></i>Đăng Nhập</a
-        >
-      </li>
-      <li>
-        <!-- <a [routerLink]="['/cart']"
-            ><i class="fa fa-shopping-cart" aria-hidden="true"></i>Giỏ hàng</a
-          > -->
-      </li>
-      <!-- <li><a [routerLink]="['/register']"><i class="fa fa-arrow-right" aria-hidden="true"></i>Đăng Ký</a></li> -->
-    </ul>
-
-    <div class="header-ri">
-      <ul class="social-top">
-        <li>
-          <a href="https://www.facebook.com/koolsssssss" class="icon facebook"
-            ><i class="fa fa-facebook" aria-hidden="true"></i><span></span
-          ></a>
-        </li>
-        <li>
-          <a href="https://www.facebook.com/hung.lu1998" class="icon twitter"
-            ><i class="fa fa-twitter" aria-hidden="true"></i><span></span
-          ></a>
-        </li>
-      </ul>
-    </div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <ul class="c">
+          <li>
+            <a [routerLink]="['/login']">Đăng Nhập</a>/
+            <a [routerLink]="['/register']">Đăng Ký</a>
+          </li>
+          <li>
+            <!-- <a [routerLink]="['/cart']"
+                ><i class="fa fa-shopping-cart" aria-hidden="true"></i>Giỏ hàng</a
+              > -->
+          </li>
+          <!-- <li><a [routerLink]="['/register']"><i class="fa fa-arrow-right" aria-hidden="true"></i>Đăng Ký</a></li> -->
+        </ul>
+      </div>
+    </nav>
   </div>
+
 </div>
-<router-outlet></router-outlet>
+<router-outlet ></router-outlet>
 
 <!--footer-->
 <div class="footer" style="margin-top: 100px">

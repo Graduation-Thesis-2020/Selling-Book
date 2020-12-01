@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Books } from '../models/book';
 import { BooksService } from '../service/book.service';
 import { CateService } from '../service/cate.service';
@@ -11,6 +11,7 @@ import { Publisher } from '../models/publisher';
 import { Author } from '../models/author';
 import { PublisherService } from '../service/publisher.service';
 import { AuthorService } from '../service/author.service';
+
 
 @Component({
   selector: 'app-home',
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit {
   carts: Cart;
   pubs: Publisher[];
   auts: Author[];
+  @Input() dataSearch: string;
   constructor(private BooksService: BooksService,
               private CateService: CateService, private route: ActivatedRoute, private cartService: CartService,
               private PubService: PublisherService,
