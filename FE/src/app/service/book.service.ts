@@ -155,5 +155,13 @@ export class BooksService {
     return this.http.patch(`${this.bookURL}/${_id}`, formData).pipe();
 
   }
+  getBooksBestSeller(): Observable<Books[]> {
+    const url = `${this.bookURL}/5fc5e3ea2364e00df46c4550/categories`;
+    return this.http.get<Books[]>(url).pipe();
+  }
+  getBooksComingSoon(): Observable<Books[]> {
+    const url = `${this.bookURL}/5fc5e3fd2364e00df46c4551/categories`;
+    return this.http.get<Books[]>(url).pipe();
+  }
 }
 

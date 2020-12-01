@@ -22,9 +22,7 @@ export class AppComponent {
               private location: Location, ) { }
 
   ngOnInit() {
-      this.getAllCate();
-      this.getAllPub();
-      this.getAllAuthor();
+
     }
 
   getAllCate() {

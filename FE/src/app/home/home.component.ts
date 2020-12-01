@@ -13,6 +13,7 @@ import { PublisherService } from '../service/publisher.service';
 import { AuthorService } from '../service/author.service';
 
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -30,6 +31,8 @@ export class HomeComponent implements OnInit {
   pubs: Publisher[];
   auts: Author[];
   @Input() dataSearch: string;
+  bestseller: Books[];
+  comingsoon: Books[];
   constructor(private BooksService: BooksService,
               private CateService: CateService, private route: ActivatedRoute, private cartService: CartService,
               private PubService: PublisherService,
@@ -41,6 +44,8 @@ export class HomeComponent implements OnInit {
     this.getAllAuthor();
     this.getAllPub();
     this.loadCart();
+    this.getAllBookBestSeller();
+    this.getAllBookComingSoone();
   }
 
   getAllPub() {
@@ -54,6 +59,12 @@ export class HomeComponent implements OnInit {
   }
   getAllCate() {
     this.CateService.getCates().subscribe(res => this.cates = res);
+  }
+  getAllBookBestSeller() {
+    this.BooksService.getBooksBestSeller().subscribe(res => this.bestseller = res);
+  }
+  getAllBookComingSoone() {
+    this.BooksService.getBooksComingSoon().subscribe(res => this.comingsoon = res);
   }
   // search(searchTerm: string) {
   //   this.searchbook = undefined;

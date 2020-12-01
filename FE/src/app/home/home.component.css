@@ -10,6 +10,23 @@
 .intro span{
   font-size: 24px;
 }
+
+.more li {
+  margin-top: 30px;
+  display:inline-block;
+}
+
+.more li a{
+	color: #FAB005;
+  font-size: 18px;
+  margin:0 0.5em;
+  font-weight: bold;
+}
+.more li a i{
+	margin-right:5px;
+	color: #FAB005;
+}
+
 body{
 	margin:0;
 	padding:0;
@@ -546,7 +563,7 @@ span.fa.fa-shopping-cart.my-cart-icon {
     margin-bottom: 3em;
 }
 .spec h3{
-    font-size:3em;
+    font-size:40px;
 	color:#000;
 	margin-bottom:0.5em;
 }

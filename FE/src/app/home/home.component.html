@@ -325,11 +325,11 @@
     </div>
 
 </section>
-<!--content-->
+<!--Ban chay-->
 <div class="content-top">
   <div class="container">
     <div class="spec">
-      <h3>Sản Phẩm Bán Chạy</h3>
+      <h3>Bán Chạy</h3>
       <div class="ser-t">
         <b></b>
         <span><i></i></span>
@@ -338,18 +338,10 @@
     </div>
 
     <div class="tab-head">
-      <!-- <nav class="nav-sidebar">
-                  <ul class="nav tabs ">
-                    <li class="active"><a href="#tab1" data-toggle="tab">Thiếu Nhi</a></li>
-                    <li class=""><a href="#tab2" data-toggle="tab">Văn Học</a></li>
-                    <li class=""><a href="#tab3" data-toggle="tab">Đời Sống</a></li>
-                    <li class=""><a href="#tab4" data-toggle="tab">Tiểu Thuyết</a></li>
-                  </ul>
-                </nav> -->
       <div class="tab-content tab-content-t">
         <div class="tab-pane active text-style" id="tab1" >
           <div class="row" >
-            <div class="col-md-3 m-wthree" *ngFor="let bk of books | slice:0:8" >
+            <div class="col-md-3 m-wthree" *ngFor="let bk of bestseller | slice:0:4" >
               <div class="col-m" >
                 <a routerLink="/details/{{ bk._id }}" class="offer-img">
                   <img src="{{ bk.imageUrl }}" class="img-responsive" alt="" />
@@ -389,9 +381,143 @@
         </div>
       </div>
     </div>
+
+    <ul class="more" style="text-align: right;" *ngIf="bestseller.length>4">
+      <li>
+        <a [routerLink]="['/books/5fc5e3ea2364e00df46c4550/categories/Bán Chạy']"><i class="fas fa-angle-double-right"></i>Xem thêm</a>
+      </li>
+    </ul>
   </div>
 </div>
 
+<!--Tác Giả hay-->
+<div class="jumbotron" style="margin-top: 30px;text-align: center;
+                              background-image: url(https://png.pngtree.com/thumb_back/fw800/background/20200309/pngtree-light-bulbs-on-blue-background-image_331283.jpg);
+                              background-repeat: no-repeat;
+                              background-size: 100% 100%;
+                              color: antiquewhite;">
+  <div class="container" style="margin-top: 100px;">
+    <h1 class="display-4">Tác Giả Nổi Tiếng</h1>
+    <p class="lead">Cửa hàng chúng tôi luôn cập nhật và lựa chọn cho bạn những quyển sách tốt nhất.</p>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col-sm-3">
+        <p style="font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 24px; color: rgb(218, 231, 31);" >nguyễn nhật ánh</p>
+      </div>
+      <div class="col-sm-3">
+        <p style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-weight: bold; font-size: 20px;color: rgb(138, 97, 48);" >D A N <br>B R O W N</p>
+      </div>
+      <div class="col-sm-3">
+        <p style="font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 22px; color: rgb(233, 160, 72);" >PAULO<br> COELHO</p>
+      </div>
+      <div class="col-sm-3">
+        <p style="font-family: Georgia, 'Times New Roman', Times, serif; font-weight: bold; font-size: 24px; color: rgb(230, 44, 220);" >David J. Lieberman</p>
+      </div>
+    </div>
+
+    <p class="lead" style="margin-top: 40px;">
+      <a class="btn btn-outline-info btn-lg" [routerLink]="['/books/5fc5e3ea2364e00df46c4550/categories/Bán Chạy']" role="button">Xem thêm</a>
+    </p>
+  </div>
+
+</div>
+
+<!--Sap Ra Mắt-->
+<div class="content-top">
+  <div class="container">
+    <div class="spec">
+      <h3>Sắp Ra Mắt</h3>
+      <div class="ser-t">
+        <b></b>
+        <span><i></i></span>
+        <b class="line"></b>
+      </div>
+    </div>
+
+    <div class="tab-head">
+
+      <div class="tab-content tab-content-t">
+        <div class="tab-pane active text-style" id="tab1" >
+          <div class="row" >
+            <div class="col-md-3 m-wthree" *ngFor="let bk of comingsoon | slice:0:8" >
+              <div class="col-m" >
+                <a routerLink="/details/{{ bk._id }}" class="offer-img">
+                  <img src="{{ bk.imageUrl }}" class="img-responsive" alt="" />
+                  <div class="offer" *ngIf="bk.discount !== '0'">
+                    <p><span>Sale Off</span></p>
+                  </div>
+                </a>
+                <div class="mid-1">
+                  <div class="women" routerLink="/details/{{ bk._id }}">
+                    <h6>
+                      <a [routerLink]="['/details']">{{ bk.title }}</a>
+                    </h6>
+                  </div>
+                  <div class="mid-2">
+                    <p *ngIf="bk.discount === '0'">{{ bk.price }} đ</p>
+                    <p *ngIf="bk.discount !== '0'">
+                      <label>{{ bk.price }} đ</label
+                      ><em class="item_price">{{ bk.discount }} đ</em>
+                    </p>
+                    <div class="block">
+                      <div class="starbox small ghosting"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="add">
+                    <button
+                      class="btn btn-danger my-cart-btn my-cart-b"
+                      (click)="AddtoCart(bk._id)"
+                    >
+                      <a [routerLink]="[{ id: bk._id }]"></a>Thêm Giỏ Hàng
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ul class="more" style="text-align: center;" *ngIf="comingsoon.length>8">
+      <li>
+        <a [routerLink]="['/login']"><i class="fas fa-angle-double-right"></i>Xem thêm</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron" style="margin-top: 30px;
+                              background-image: url(https://i.pinimg.com/originals/79/ab/ce/79abce42af0d8c98b709ddd93890cf88.png);
+                              background-repeat: no-repeat;
+                              background-size: 100% 100%;
+                              color: antiquewhite;">
+  <div class="container" style="margin-top: 20px;">
+    <div class="row">
+      <div class="col-sm-6">
+        <h1 class="display-4">Hãy Trở Thành Thành Viên</h1>
+        <p class="lead">Để hưởng những ưu đãi cho bạn và nhận những thông báo mới nhất từ chúng tôi.</p>
+        <p class="lead" style="margin-top: 40px;">
+          <a class="btn btn-outline-info btn-lg font-weight-bold" [routerLink]="['/register']" role="button">Đăng ký ngay</a>
+        </p>
+      </div>
+
+
+      <div class="col-sm-6" style="text-align: center;">
+        <img src="https://www.vexels.com/media/users/3/223508/isolated/thumb/3438a276b507ec7eff12e7465c51b1ee-woman-reading-a-book-character-by-vexels.png"
+         width="300" height="300">
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+</div>
+
+<!-- All -->
 <div class="content-top">
   <div class="container">
     <div class="spec">
@@ -455,6 +581,13 @@
         </div>
       </div>
     </div>
+
+    <ul class="more" style="text-align: center;" *ngIf="books.length>8">
+      <li>
+        <a [routerLink]="['/login']"><i class="fas fa-angle-double-right"></i>Xem thêm</a>
+      </li>
+    </ul>
+
   </div>
 </div>
 <!-- Toast -->
