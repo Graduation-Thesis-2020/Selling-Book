@@ -82,9 +82,9 @@ module.exports = {
       validationErrors.push({ message: 'Mật khẩu không chính xác' });
     }
     if (validationErrors.length) {
-      req.flash('errors', validationErrors);
+     // req.flash('errors', validationErrors);
       //  return res.redirect('/dashboard/customers/login');
-      return res.status(500).json({ message: "Bị lỗi rồi" });
+      return res.status(500).json({ message: validationErrors });
     }
     req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
 
@@ -104,7 +104,6 @@ module.exports = {
         return next(err);
       }
       if (existUser) {
-        //   req.flash('errors', { msg: `Email ${existUser.email} đã tồn tại.` });
         return res.status(500).json({
           message: `Email ${existUser.email} đã tồn tại.`
         })
