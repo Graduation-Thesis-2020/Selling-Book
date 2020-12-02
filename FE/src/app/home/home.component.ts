@@ -12,8 +12,6 @@ import { Author } from '../models/author';
 import { PublisherService } from '../service/publisher.service';
 import { AuthorService } from '../service/author.service';
 
-
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -34,6 +32,8 @@ export class HomeComponent implements OnInit {
   bestseller: Books[] =[];
   comingsoon: Books[] = [];
   sale: Books[]= [];
+  isSearch = false;
+  booksearch: Books[]
   constructor(private BooksService: BooksService,
               private CateService: CateService, private route: ActivatedRoute, private cartService: CartService,
               private PubService: PublisherService,
@@ -72,14 +72,7 @@ export class HomeComponent implements OnInit {
     this.BooksService.getBooksSale().subscribe(res => this.sale = res);
   }
 
-  // search(searchTerm: string) {
-  //   this.searchbook = undefined;
-  //   if (searchTerm) {
-  //     this.heroesService
-  //       .searchHeroes(searchTerm)
-  //       .subscribe(heroes => (this.heroes = heroes));
-  //   }
-  // }
+
   AddtoCart(id:string) {
     // const id = this.route.snapshot.paramMap.get('id');
     // this.cartService.AddtoCart(id).subscribe(res => this.mess = res);
@@ -144,7 +137,8 @@ export class HomeComponent implements OnInit {
 
   search(id: string){
     console.log(id);
-    this.BooksService.searchBook(id).subscribe(book => this.books = book);
+    this.isSearch = true;
+    this.BooksService.searchBook(id).subscribe(book => this.booksearch = book);
     //this.BooksService.searchHeroes(id).subscribe(book => this.books = book);
   }
 }
