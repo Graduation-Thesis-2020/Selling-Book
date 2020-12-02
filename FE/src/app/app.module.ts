@@ -37,6 +37,7 @@ import { DefaultLayoutAdminComponent } from './default-layout-admin/default-layo
 import { AdminOrderComponent } from './admin-order/admin-order.component';
 import { AdminUserComponent } from './admin-user/admin-user.component';
 import { StorePageComponent } from './store-page/store-page.component';
+import { BookSaleComponent } from './book-sale/book-sale.component';
 
 
 @NgModule({
@@ -72,6 +73,7 @@ import { StorePageComponent } from './store-page/store-page.component';
     AdminOrderComponent,
     AdminUserComponent,
     StorePageComponent,
+    BookSaleComponent,
 
   ],
   imports: [

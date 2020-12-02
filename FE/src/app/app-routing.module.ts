@@ -30,6 +30,7 @@ import { InfoCartComponent } from './info-cart/info-cart.component';
 import { DefaultLayoutAdminComponent } from './default-layout-admin/default-layout-admin.component';
 import { AdminOrderComponent } from './admin-order/admin-order.component';
 import { AdminUserComponent } from './admin-user/admin-user.component';
+import { BookSaleComponent } from './book-sale/book-sale.component';
 
 
 const routes: Routes = [
@@ -43,6 +44,7 @@ const routes: Routes = [
       path: 'home', component: HomeComponent, canActivate:[],
     },
     {path: 'book1', component: Book1Component},
+    {path: 'sale', component: BookSaleComponent},
     {path: 'books/:id/categories/:id1', component: Book1Component},
     {path: 'books/:id/categories/:id1', component: Book1Component},
     {path: 'books/:id/authors/:id1', component: BookAuthorComponent},
@@ -80,6 +82,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
+
 
 exports: [RouterModule]
 })

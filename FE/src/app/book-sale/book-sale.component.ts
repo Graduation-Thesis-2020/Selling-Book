@@ -1,84 +1,82 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Books } from '../models/book';
 import { BooksService } from '../service/book.service';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { Location } from '@angular/common';
+import { AuthorService } from '../service/author.service';
 import { CateService } from '../service/cate.service';
-import { Cate } from '../models/cate';
-import { BookPubComponent } from '../book-pub/book-pub.component';
-import { ActivatedRoute } from '@angular/router';
-import { CartService } from '../service/cart.service';
-import { Mess, Cart, Item } from '../models/cart';
+import { PublisherService } from '../service/publisher.service';
 import { Publisher } from '../models/publisher';
 import { Author } from '../models/author';
-import { PublisherService } from '../service/publisher.service';
-import { AuthorService } from '../service/author.service';
-
-
-
+import { Cate } from '../models/cate';
+import { Item } from '../models/cart';
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-book-sale',
+  templateUrl: './book-sale.component.html',
+  styleUrls: ['./book-sale.component.css']
 })
-export class HomeComponent implements OnInit {
+export class BookSaleComponent implements OnInit {
+
+  books: Books[];
+  mySubscription: any;
+  pubs: Publisher[];
+  auts: Author[];
+  books1: Books[];
+  cates1: Cate[];
   items: Item[] = [];
   total: number;
   countItem: number;
-  books: Books[];
-  cates: Cate[];
-  searchbook: Books;
-  mess: Mess;
-  carts: Cart;
-  pubs: Publisher[];
-  auts: Author[];
-  @Input() dataSearch: string;
-  bestseller: Books[];
-  comingsoon: Books[];
   sale: Books[];
+  id1: string = this.route.snapshot.paramMap.get('id1');
   constructor(private BooksService: BooksService,
-              private CateService: CateService, private route: ActivatedRoute, private cartService: CartService,
-              private PubService: PublisherService,
-              private AuthorService: AuthorService,) { }
+              private route: ActivatedRoute,
+              private location: Location,
+              private router: Router,
+              private AuthorsService: AuthorService,
+              private CateService: CateService,
+              private publisherService: PublisherService) {
+                this.router.routeReuseStrategy.shouldReuseRoute = function () {
+                  return false;
+                };
+                this.mySubscription = this.router.events.subscribe((event) => {
+                  if (event instanceof NavigationEnd) {
+                    // Trick the Router into believing it's last link wasn't previously loaded
+                    this.router.navigated = false;
+                  }
+                });
+               }
 
-  ngOnInit() {
-    this.getAllBook();
-    this.getAllCate();
-    this.getAllAuthor();
-    this.getAllPub();
-    this.loadCart();
-    this.getAllBookBestSeller();
-    this.getAllBookComingSoone();
-    this.getAllBookSale();
+  ngOnDestroy() {
+    if (this.mySubscription) {
+      this.mySubscription.unsubscribe();
+      }
   }
+   ngOnInit() {
+     this.getAllCate();
+     this.getAllAuthor();
+     this.getAllPub();
+     this.loadCart();
+    this.getAllBookSale();
 
+  }
   getAllPub() {
-    this.PubService.getPublishers().subscribe(res => this.pubs = res);
+    this.publisherService.getPublishers().subscribe(res => this.pubs = res);
   }
   getAllAuthor() {
-    this.AuthorService.getAuthors().subscribe(res => this.auts = res);
-  }
-  getAllBook() {
-    this.BooksService.getBooks().subscribe(book => this.books = book);
+    this.AuthorsService.getAuthors().subscribe(res => this.auts = res);
   }
   getAllCate() {
-    this.CateService.getCates().subscribe(res => this.cates = res);
-  }
-  getAllBookBestSeller() {
-    this.BooksService.getBooksBestSeller().subscribe(res => this.bestseller = res);
-  }
-  getAllBookComingSoone() {
-    this.BooksService.getBooksComingSoon().subscribe(res => this.comingsoon = res);
+    this.CateService.getCates().subscribe(res => this.cates1 = res);
   }
   getAllBookSale() {
     this.BooksService.getBooksSale().subscribe(res => this.sale = res);
   }
-  // search(searchTerm: string) {
-  //   this.searchbook = undefined;
-  //   if (searchTerm) {
-  //     this.heroesService
-  //       .searchHeroes(searchTerm)
-  //       .subscribe(heroes => (this.heroes = heroes));
-  //   }
-  // }
+  refresh(): void {
+    location.reload();
+  }
+  async add(){
+    await alert('Thêm Thành Công');
+  }
   AddtoCart(id:string) {
     // const id = this.route.snapshot.paramMap.get('id');
     // this.cartService.AddtoCart(id).subscribe(res => this.mess = res);
@@ -139,18 +137,5 @@ export class HomeComponent implements OnInit {
       this.total += item.product.price * item.total;
     }
     this.countItem = this.items.length;
-  }
-  // async add(id: string){
-  //   await this.cartService.AddtoCart(id).toPromise().then(res => this.mess = res);
-  //   await console.log(this.mess.message);
-  // }
-  // GetCart() {
-  //   this.cartService.getShoppingCart().subscribe(res => this.carts = res);
-  //   console.log(this.carts);
-  // }
-  search(id: string){
-    console.log(id);
-    this.BooksService.searchBook(id).subscribe(book => this.books = book);
-    //this.BooksService.searchHeroes(id).subscribe(book => this.books = book);
   }
 }

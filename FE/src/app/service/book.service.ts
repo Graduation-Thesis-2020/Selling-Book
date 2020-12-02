@@ -163,5 +163,9 @@ export class BooksService {
     const url = `${this.bookURL}/5fc5e3fd2364e00df46c4551/categories`;
     return this.http.get<Books[]>(url).pipe();
   }
+  getBooksSale(): Observable<Books[]> {
+    const url = `${this.bookURL}/discount`;
+    return this.http.get<Books[]>(url).pipe();
+  }
 }
 

@@ -329,7 +329,7 @@
 <div class="content-top">
   <div class="container">
     <div class="spec">
-      <h3>Bán Chạy</h3>
+      <h3> Sách Bán Chạy</h3>
       <div class="ser-t">
         <b></b>
         <span><i></i></span>
@@ -350,14 +350,14 @@
                   </div>
                 </a>
                 <div class="mid-1">
-                  <div class="women" routerLink="/details/{{ bk._id }}">
+                  <div  routerLink="/details/{{ bk._id }}">
                     <h6>
-                      <a [routerLink]="['/details']">{{ bk.title }}</a>
+                      <a  [routerLink]="['/details']"><div class="hidetext">{{ bk.title }}</div></a>
                     </h6>
                   </div>
                   <div class="mid-2">
-                    <p *ngIf="bk.discount === '0'">{{ bk.price }} đ</p>
-                    <p *ngIf="bk.discount !== '0'">
+                    <p class="price1" *ngIf="bk.discount === '0'">{{ bk.price }} đ</p>
+                    <p class="price" *ngIf="bk.discount !== '0'">
                       <label>{{ bk.price }} đ</label
                       ><em class="item_price">{{ bk.discount }} đ</em>
                     </p>
@@ -382,7 +382,7 @@
       </div>
     </div>
 
-    <ul class="more" style="text-align: right;" *ngIf="bestseller.length>4">
+    <ul class="more" style="text-align: right; padding-bottom: 30px;" *ngIf="bestseller.length>4">
       <li>
         <a [routerLink]="['/books/5fc5e3ea2364e00df46c4550/categories/Bán Chạy']"><i class="fas fa-angle-double-right"></i>Xem thêm</a>
       </li>
@@ -390,12 +390,13 @@
   </div>
 </div>
 
-<!--Tác Giả hay-->
-<div class="jumbotron" style="margin-top: 30px;text-align: center;
+<!--Banner Tác Giả hay-->
+<div class="jumbotron" style="text-align: center;
                               background-image: url(https://png.pngtree.com/thumb_back/fw800/background/20200309/pngtree-light-bulbs-on-blue-background-image_331283.jpg);
                               background-repeat: no-repeat;
                               background-size: 100% 100%;
-                              color: antiquewhite;">
+                              color: antiquewhite;
+                              margin-bottom: 0px;">
   <div class="container" style="margin-top: 100px;">
     <h1 class="display-4">Tác Giả Nổi Tiếng</h1>
     <p class="lead">Cửa hàng chúng tôi luôn cập nhật và lựa chọn cho bạn những quyển sách tốt nhất.</p>
@@ -439,23 +440,23 @@
       <div class="tab-content tab-content-t">
         <div class="tab-pane active text-style" id="tab1" >
           <div class="row" >
-            <div class="col-md-3 m-wthree" *ngFor="let bk of comingsoon | slice:0:8" >
+            <div class="col-md-3 m-wthree" *ngFor="let bk of comingsoon | slice:0:4" >
               <div class="col-m" >
-                <a routerLink="/details/{{ bk._id }}" class="offer-img">
+                <a routerLink="/details/{{ bk._id }}" class="offer-img" >
                   <img src="{{ bk.imageUrl }}" class="img-responsive" alt="" />
                   <div class="offer" *ngIf="bk.discount !== '0'">
                     <p><span>Sale Off</span></p>
                   </div>
                 </a>
                 <div class="mid-1">
-                  <div class="women" routerLink="/details/{{ bk._id }}">
+                  <div routerLink="/details/{{ bk._id }}">
                     <h6>
-                      <a [routerLink]="['/details']">{{ bk.title }}</a>
+                      <a [routerLink]="['/details']"><div class="hidetext">{{ bk.title }}</div></a>
                     </h6>
                   </div>
                   <div class="mid-2">
-                    <p *ngIf="bk.discount === '0'">{{ bk.price }} đ</p>
-                    <p *ngIf="bk.discount !== '0'">
+                    <p class="price1" *ngIf="bk.discount === '0'">{{ bk.price }} đ</p>
+                    <p class="price" *ngIf="bk.discount !== '0'">
                       <label>{{ bk.price }} đ</label
                       ><em class="item_price">{{ bk.discount }} đ</em>
                     </p>
@@ -480,15 +481,114 @@
       </div>
     </div>
 
-    <ul class="more" style="text-align: center;" *ngIf="comingsoon.length>8">
-      <li>
-        <a [routerLink]="['/login']"><i class="fas fa-angle-double-right"></i>Xem thêm</a>
+    <ul class="more" style="text-align: right; padding-bottom: 30px" >
+      <li *ngIf="comingsoon.length>8">
+        <a [routerLink]="['//books/5fc5e3fd2364e00df46c4551/categories/Coming soon']"><i class="fas fa-angle-double-right"></i>Xem thêm</a>
       </li>
     </ul>
   </div>
 </div>
 
-<div class="jumbotron" style="margin-top: 30px;
+<!--Banner Sale-->
+<div class="jumbotron" style="margin-bottom: 0px;
+                              background-image: url(https://s3.cloud.cmctelecom.vn/tinhte1/2018/04/4282728_oqitDqs.jpg);
+                              background-repeat: no-repeat;
+                              background-size: 100% 100%;
+                              color: antiquewhite;">
+  <div class="container" style="margin-top: 20px;">
+    <div class="row">
+      <div class="col-sm-5" style="text-align: center;">
+        <p style="font-size: 40px;"><span style="font-size: 50px; color: crimson; font-weight: 700;">SALE </span> ngập tràn</p>
+        <p style="font-size: 40px;">mua sắm <span style="font-size: 50px; color: crimson; font-weight: 700;">THẢ GA </span></p>
+        <p >
+          <img src="https://www.vexels.com/media/users/3/194003/isolated/thumb/2a1d640bb2330e2dc995f96e6b1aea88-happy-new-year-badge-badge-sticker-by-vexels.png"
+            width="" height="">
+        </p>
+      </div>
+
+
+      <div class="col-sm-7" >
+        <img src="https://t4.ftcdn.net/jpg/02/25/32/01/360_F_225320150_EivwLvo4Ldh30HETzeXupunofs12ejqi.jpg"
+            width="" height="250">
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+</div>
+
+<!--Giảm giá SAle-->
+<div class="content-top">
+  <div class="container">
+    <div class="spec">
+
+      <h3 >Giảm Giá </h3>
+      <div class="ser-t">
+        <b></b>
+        <span><i></i></span>
+        <b class="line"></b>
+      </div>
+    </div>
+
+    <div class="tab-head">
+
+      <div class="tab-content tab-content-t">
+        <div class="tab-pane active text-style" id="tab1" >
+          <div class="row" >
+            <div class="col-md-3 m-wthree" *ngFor="let bk of sale | slice:0:4" >
+              <div class="col-m" >
+                <a routerLink="/details/{{ bk._id }}" class="offer-img">
+                  <img src="{{ bk.imageUrl }}" class="img-responsive" alt="" />
+                  <div class="offer" *ngIf="bk.discount !== '0'">
+                    <p><span>Sale Off</span></p>
+                  </div>
+                </a>
+                <div class="mid-1">
+                  <div routerLink="/details/{{ bk._id }}">
+                    <h6>
+                      <a [routerLink]="['/details']"><div class="hidetext">{{ bk.title }}</div></a>
+                    </h6>
+                  </div>
+                  <div class="mid-2">
+                    <p class="price1" *ngIf="bk.discount === '0'">{{ bk.price }} đ</p>
+                    <p class="price" *ngIf="bk.discount !== '0'">
+                      <label>{{ bk.price }} đ</label
+                      ><em class="item_price">{{ bk.discount }} đ</em>
+                    </p>
+                    <div class="block">
+                      <div class="starbox small ghosting"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="add">
+                    <button
+                      class="btn btn-danger my-cart-btn my-cart-b"
+                      (click)="AddtoCart(bk._id)"
+                    >
+                      <a [routerLink]="[{ id: bk._id }]"></a>Thêm Giỏ Hàng
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ul class="more" style="text-align: right; padding-bottom: 30px" >
+      <li *ngIf="sale.length>4">
+        <a [routerLink]="['/sale']"><i class="fas fa-angle-double-right"></i>Xem thêm</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!--Banner Dang Ký-->
+<div class="jumbotron" style="margin-bottom: 0px;
                               background-image: url(https://i.pinimg.com/originals/79/ab/ce/79abce42af0d8c98b709ddd93890cf88.png);
                               background-repeat: no-repeat;
                               background-size: 100% 100%;
@@ -504,9 +604,27 @@
       </div>
 
 
-      <div class="col-sm-6" style="text-align: center;">
-        <img src="https://www.vexels.com/media/users/3/223508/isolated/thumb/3438a276b507ec7eff12e7465c51b1ee-woman-reading-a-book-character-by-vexels.png"
-         width="300" height="300">
+      <div class="col-sm-6" >
+        <div class="row">
+          <div class="col-sm-6" style="text-align: right;" >
+            <img src="https://www.vexels.com/media/users/3/223508/isolated/thumb/3438a276b507ec7eff12e7465c51b1ee-woman-reading-a-book-character-by-vexels.png"
+            >
+          </div>
+          <div class="col-sm-6">
+            <img src="https://www.vexels.com/media/users/3/206020/isolated/thumb/1c8cca5bf76814a0d31ae66f5f7a7cc1-elderly-woman-reading-character-by-vexels.png"
+            >
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6" style="text-align: right;" >
+            <img src="https://www.vexels.com/media/users/3/219108/isolated/thumb/c9dfc4bf28a6886e9d11b513bf2669af-cook-reading-recipe-book-character-by-vexels.png"
+            >
+          </div>
+          <div class="col-sm-6">
+            <img src="https://www.vexels.com/media/users/3/199941/isolated/thumb/fde270ece75bb26e213f74a07b8bba8d-girl-reading-character-by-vexels.png"
+            >
+          </div>
+        </div>
       </div>
     </div>
 
@@ -517,7 +635,7 @@
 
 </div>
 
-<!-- All -->
+<!-- All San pham -->
 <div class="content-top">
   <div class="container">
     <div class="spec">
@@ -550,15 +668,15 @@
                   </div>
                 </a>
                 <div class="mid-1">
-                  <div class="women" routerLink="/details/{{ bk._id }}">
+                  <div routerLink="/details/{{ bk._id }}">
                     <h6>
-                      <a [routerLink]="['/details']">{{ bk.title }}</a>
+                      <a [routerLink]="['/details']"><div class="hidetext">{{ bk.title }}</div></a>
                     </h6>
                   </div>
                   <div class="mid-2">
-                    <p *ngIf="bk.discount === '0'">{{ bk.price }} đ</p>
-                    <p *ngIf="bk.discount !== '0'">
-                      <label>{{ bk.price }} đ</label
+                    <p class="price1" *ngIf="bk.discount === '0'">{{ bk.price }} đ</p>
+                    <p class="price" *ngIf="bk.discount !== '0'">
+                      <label>{{ bk.price }}đ</label
                       ><em class="item_price">{{ bk.discount }} đ</em>
                     </p>
                     <div class="block">
@@ -582,7 +700,7 @@
       </div>
     </div>
 
-    <ul class="more" style="text-align: center;" *ngIf="books.length>8">
+    <ul class="more" style="text-align: right; padding-bottom: 30px;" *ngIf="books.length>8">
       <li>
         <a [routerLink]="['/login']"><i class="fas fa-angle-double-right"></i>Xem thêm</a>
       </li>

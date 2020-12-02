@@ -1,3 +1,9 @@
+.hidetext{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
 .intro{
   color: wheat;
   text-align: center;
@@ -565,7 +571,8 @@ span.fa.fa-shopping-cart.my-cart-icon {
 .spec h3{
     font-size:40px;
 	color:#000;
-	margin-bottom:0.5em;
+  margin-bottom:0.5em;
+  font-weight: 700;
 }
 .ser-t {
     text-align: center;
@@ -588,7 +595,7 @@ span.fa.fa-shopping-cart.my-cart-icon {
 	width: 40px;
     height: 40px;
     display: block;
-    background: #fff;
+    background:whitesmoke;
     position: absolute;
     top: -7px;
     left: 42%;
@@ -606,7 +613,8 @@ span.fa.fa-shopping-cart.my-cart-icon {
 }
 /*--content--*/
 .content-top{
-	padding:4em 0 0;
+  padding:4em 0 0;
+  background-color: whitesmoke;
 }
 .offer-w3agile{
 	padding:6em 0;
@@ -645,22 +653,30 @@ ul.nav.tabs {
 
 /*----*/
 .mid-1 h6 {
-    font-size: 1.2em;
+    font-size: 20px;
+    font-weight: 500;
 }
 .mid-1 h6 a {
     color: #000000;
-    text-decoration:none;
+
 }
 .mid-1 h6 a:hover {
     color: #FAB005;
 }
-.mid-2 p{
-	float:left;
-	font-size:0.9em;
-	color:#B4B4B4;
+
+.mid-2 .price{
+	font-size:18px;
+	color:rgb(238, 52, 52);
+}
+.mid-2 .price1{
+  font-weight: bold;
+	font-size:18px;
+	color:rgb(238, 52, 52);
 }
 .mid-2 p em{
-	font-style:normal;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
 }
 .mid-2 p label{
 	text-decoration: line-through;
@@ -668,10 +684,10 @@ ul.nav.tabs {
 	margin-right:6px;
 }
 .mid-2 {
-    padding: 1em 0;
+    padding-bottom: 2em;
 }
 .mid-1 {
-    padding: 3em 0 0;
+    padding: 2em 0 0;
 }
 .block {
     float: right;
@@ -681,8 +697,10 @@ ul.nav.tabs {
 }
 .col-m {
     padding: 1em;
-    border: 1px solid #B2B2B2;
+    border: 2px solid #d5e0ac;
+    border-radius: 5px;
     margin-bottom: 20px;
+    background-color: white;
 }
 .offer-img{
 	position:relative;
@@ -690,11 +708,11 @@ ul.nav.tabs {
 }
 .offer-img img{
 	margin:0 auto;
-  width: 70%;
-  height: 200px;
+  width: 90%;
+  height: 250px;
 }
 .offer{
-	    position: absolute;
+	  position: absolute;
     top: 0;
     right: -15px;
     border: 2px solid #ED0612;
@@ -1033,6 +1051,7 @@ ul.product-qty {
 }
 .content-mid {
     padding: 6em 0;
+    background-color: whitesmoke;
 }
 /*--content-mid--*/
 .product {
@@ -3202,11 +3221,7 @@ h1.t-button {
     font-size: 13px;
 }
 
-.img-responsive{
-  display: block;
-  max-width: 100%;
-  height: 500px;
-}
+
 
 .cus1{
   color: #029241;
