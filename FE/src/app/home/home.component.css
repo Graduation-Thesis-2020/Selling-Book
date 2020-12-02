@@ -702,6 +702,10 @@ ul.nav.tabs {
     margin-bottom: 20px;
     background-color: white;
 }
+.coming-img img{
+  width: 80px;
+  height: 80px;
+}
 .offer-img{
 	position:relative;
 	display:block;
