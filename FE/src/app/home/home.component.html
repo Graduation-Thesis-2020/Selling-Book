@@ -325,6 +325,7 @@
     </div>
 
 </section>
+
 <!--Ban chay-->
 <div class="content-top">
   <div class="container">
@@ -382,7 +383,7 @@
       </div>
     </div>
 
-    <ul class="more" style="text-align: right; padding-bottom: 30px;" *ngIf="bestseller.length>4">
+    <ul class="more" style="text-align: right; padding-bottom: 30px;" *ngIf="bestseller?.length>4">
       <li>
         <a [routerLink]="['/books/5fc5e3ea2364e00df46c4550/categories/Bán Chạy']"><i class="fas fa-angle-double-right"></i>Xem thêm</a>
       </li>
@@ -482,7 +483,7 @@
     </div>
 
     <ul class="more" style="text-align: right; padding-bottom: 30px" >
-      <li *ngIf="comingsoon.length>8">
+      <li *ngIf="comingsoon?.length>8">
         <a [routerLink]="['//books/5fc5e3fd2364e00df46c4551/categories/Coming soon']"><i class="fas fa-angle-double-right"></i>Xem thêm</a>
       </li>
     </ul>
@@ -580,7 +581,7 @@
     </div>
 
     <ul class="more" style="text-align: right; padding-bottom: 30px" >
-      <li *ngIf="sale.length>4">
+      <li *ngIf="sale?.length>4">
         <a [routerLink]="['/sale']"><i class="fas fa-angle-double-right"></i>Xem thêm</a>
       </li>
     </ul>
@@ -700,7 +701,7 @@
       </div>
     </div>
 
-    <ul class="more" style="text-align: right; padding-bottom: 30px;" *ngIf="books.length>8">
+    <ul class="more" style="text-align: right; padding-bottom: 30px;" *ngIf="books?.length>8">
       <li>
         <a [routerLink]="['/login']"><i class="fas fa-angle-double-right"></i>Xem thêm</a>
       </li>

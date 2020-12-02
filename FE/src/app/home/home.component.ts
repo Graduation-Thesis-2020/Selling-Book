@@ -31,9 +31,9 @@ export class HomeComponent implements OnInit {
   pubs: Publisher[];
   auts: Author[];
   @Input() dataSearch: string;
-  bestseller: Books[];
-  comingsoon: Books[];
-  sale: Books[];
+  bestseller: Books[] =[];
+  comingsoon: Books[] = [];
+  sale: Books[]= [];
   constructor(private BooksService: BooksService,
               private CateService: CateService, private route: ActivatedRoute, private cartService: CartService,
               private PubService: PublisherService,
@@ -71,6 +71,7 @@ export class HomeComponent implements OnInit {
   getAllBookSale() {
     this.BooksService.getBooksSale().subscribe(res => this.sale = res);
   }
+
   // search(searchTerm: string) {
   //   this.searchbook = undefined;
   //   if (searchTerm) {
@@ -140,14 +141,7 @@ export class HomeComponent implements OnInit {
     }
     this.countItem = this.items.length;
   }
-  // async add(id: string){
-  //   await this.cartService.AddtoCart(id).toPromise().then(res => this.mess = res);
-  //   await console.log(this.mess.message);
-  // }
-  // GetCart() {
-  //   this.cartService.getShoppingCart().subscribe(res => this.carts = res);
-  //   console.log(this.carts);
-  // }
+
   search(id: string){
     console.log(id);
     this.BooksService.searchBook(id).subscribe(book => this.books = book);
