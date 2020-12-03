@@ -1,187 +1,233 @@
-<div class="container">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" [routerLink]="['/home']"
-      ><img
-        src="https://donghuongkontum.files.wordpress.com/2015/02/logo-sc3a1ch.jpeg?w=589&h=589"
-        style="width: 30px; height: 30px"
-        alt=""
-    /></a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <div class="nav-top">
-        <nav class="navbar navbar-default">
-          <div class="ccc">
-            <ul class="nav navbar-nav">
-              <li class="active">
-                <a [routerLink]="['/home']" class="hyper"
-                  ><span>Trang Chủ</span></a
-                >
-              </li>
-
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"
-                  ><span>Thể loại<b class="caret"></b></span
-                ></a>
-                <ul class="dropdown-menu multi">
-                  <div class="row">
-                    <div class="col-sm-3" *ngFor="let cate of cates1">
-                      <ul class="multi-column-dropdown">
-                        <li>
-                          <a
-                            routerLink="/books/{{ cate._id }}/categories/{{
-                              cate.name
-                            }}"
-                            ><i class="fa fa-angle-right" aria-hidden="true"></i
-                            >{{ cate.name }}</a
-                          >
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"
-                  ><span> Nhà Xuất Bản <b class="caret"></b></span
-                ></a>
-                <ul class="dropdown-menu multi multi1">
-                  <div class="row">
-                    <div class="col-sm-3" *ngFor="let pub of pubs">
-                      <ul class="multi-column-dropdown">
-                        <li>
-                          <a
-                            routerLink="/books/{{ pub._id }}/publishers/{{
-                              pub.name
-                            }}"
-                            ><i class="fa fa-angle-right" aria-hidden="true"></i
-                            >{{ pub.name }}
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"
-                  ><span>Tác Giả<b class="caret"></b></span
-                ></a>
-                <ul class="dropdown-menu multi multi2">
-                  <div class="row">
-                    <div class="col-sm-3" *ngFor="let aut of auts">
-                      <ul class="multi-column-dropdown">
-                        <li>
-                          <a
-                            routerLink="/books/{{ aut._id }}/authors/{{
-                              aut.name
-                            }}"
-                            ><i class="fa fa-angle-right" aria-hidden="true"></i
-                            >{{ aut.name }}</a
-                          >
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </ul>
-              </li>
-
-              <li>
-                <div class="cart">
-                  <a [routerLink]="['/cart']"
-                    ><span class="fa fa-shopping-cart my-cart-icon"
-                      >(<small>{{ countItem }}</small
-                      >)</span
-                    ></a
-                  >
-                </div>
-              </li>
-            </ul>
-          </div>
-        </nav>
+<section
+  style="
+    background-color: antiquewhite;
+    background-image: url(https://s3.cloud.cmctelecom.vn/tinhte1/2018/04/4282728_oqitDqs.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 700px;
+  "
+>
+  <div class="header">
+    <div class="container">
+      <div class="logo">
+        <h1>
+          <a [routerLink]="['/home']"
+            ><b>T<br />H<br />E</b>Book Store<span
+              >The Best Store Online</span
+            ></a
+          >
+        </h1>
       </div>
-    </div>
-  </nav>
-  <div
-    class="jumbotron"
-    style="
-      margin-top: 4px;
-      height: 400px;
-      background-repeat: no-repeat;
-      background-size: 100% 100%;
-      background-image: url(https://nguyenhoaquan.com/wp-content/uploads/2018/10/jessica-ruscello-196422-unsplash-1200x800.jpg);
-    "
-  >
-    <div class="banner-info">
-      <h3>{{ id1 }}</h3>
-      <!-- <div class="search-form">
-          <form class="form-inline">
-            <input type="text" placeholder="Search..." name="Search...">
-            <button type="submit"></button>
-          </form>
-        </div> -->
+
+      <ul class="c">
+        <li>
+          <a [routerLink]="['/login']"
+            ><i class="fa fa-user" aria-hidden="true"></i>Đăng Nhập</a
+          >
+        </li>
+        <li>
+          <!-- <a [routerLink]="['/cart']"
+        ><i class="fa fa-shopping-cart" aria-hidden="true"></i>Giỏ hàng</a
+      > -->
+        </li>
+        <!-- <li><a [routerLink]="['/register']"><i class="fa fa-arrow-right" aria-hidden="true"></i>Đăng Ký</a></li> -->
+      </ul>
+
+      <div class="header-ri">
+        <ul class="social-top">
+          <li>
+            <a href="https://www.facebook.com/koolsssssss" class="icon facebook"
+              ><i class="fa fa-facebook" aria-hidden="true"></i><span></span
+            ></a>
+          </li>
+          <li>
+            <a href="https://www.facebook.com/hung.lu1998" class="icon twitter"
+              ><i class="fa fa-twitter" aria-hidden="true"></i><span></span
+            ></a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
-</div>
+  <div class="container">
+    <nav class="navbar navbar-expand-lg border-bottom">
+      <a
+        class="navbar-brand"
+        style="font-size: 24px; color: antiquewhite; margin-right: 0px"
+        [routerLink]="['/home']"
+        ><i class="fas fa-book" style="padding-top: 30px"></i
+      ></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="nav-top mr-auto">
+          <nav class="navbar navbar-default">
+            <div class="ccc">
+              <ul class="nav navbar-nav">
+                <li>
+                  <a [routerLink]="['/home']" class="hyper"
+                    ><span>Trang Chủ</span></a
+                  >
+                </li>
 
-<!--content-->
-<!-- <div class="content-top ">
-      <div class="container">
-          <div class="spec">
-              <h3>Giảm Giá Đặc Biệt</h3>
-              <div class="ser-t">
-                <b></b>
-                <span><i></i></span>
-                <b class="line"></b>
-              </div>
-            </div>
-
-
-                  <div class="row">
-                    <div class="col-md-3 m-wthree" *ngFor="let book of books">
-                      <div class="col-m"  *ngIf="book.discount !=='0'" routerLink="/details/{{book._id}}">
-                        <a  data-toggle="modal" data-target="#myModal1" class="offer-img">
-                          <img src="{{book.imageUrl}}" class="img-responsive" alt="">
-                          <div class="offer" *ngIf="book.discount !=='0'"><p><span>Offer</span></p></div>
-                        </a>
-                        <div class="mid-1">
-                          <div class="women">
-                            <h6>{{book.title}}</h6>
-                          </div>
-                          <div class="mid-2">
-                              <p *ngIf="book.discount ==='0'">{{book.price}} đ</p>
-                              <p *ngIf="book.discount !=='0'"><label>{{book.price}} đ</label><em class="item_price">{{book.discount}} đ</em></p>
-                              <div class="block">
-                              <div class="starbox small ghosting"> </div>
-                            </div>
-                            <div class="clearfix"></div>
-                          </div>
-                          <div class="add">
-                             <button class="btn btn-danger my-cart-btn my-cart-b " data-id="1" data-name="Moong" data-summary="summary 1" data-price="1.50" data-quantity="1" data-image="images/of.png">Add to Cart</button>
-                          </div>
-
-                        </div>
+                <li class="dropdown">
+                  <a
+                    href="#"
+                    class="dropdown-toggle hyper"
+                    data-toggle="dropdown"
+                    ><span>Thể loại<b class="caret"></b></span
+                  ></a>
+                  <ul class="dropdown-menu multi">
+                    <div class="row">
+                      <div class="col-sm-3" *ngFor="let cate of cates1">
+                        <ul class="multi-column-dropdown">
+                          <li>
+                            <a
+                              routerLink="/books/{{ cate._id }}/categories/{{
+                                cate.name
+                              }}"
+                              ><i
+                                class="fa fa-angle-right"
+                                aria-hidden="true"
+                              ></i
+                              >{{ cate.name }}</a
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a
+                    href="#"
+                    class="dropdown-toggle hyper"
+                    data-toggle="dropdown"
+                    ><span> Nhà Xuất Bản <b class="caret"></b></span
+                  ></a>
+                  <ul class="dropdown-menu multi multi1">
+                    <div class="row">
+                      <div class="col-sm-3" *ngFor="let pub of pubs">
+                        <ul class="multi-column-dropdown">
+                          <li>
+                            <a
+                              routerLink="/books/{{ pub._id }}/publishers/{{
+                                pub.name
+                              }}"
+                              ><i
+                                class="fa fa-angle-right"
+                                aria-hidden="true"
+                              ></i
+                              >{{ pub.name }}
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a
+                    href="#"
+                    class="dropdown-toggle hyper"
+                    data-toggle="dropdown"
+                    ><span>Tác Giả<b class="caret"></b></span
+                  ></a>
+                  <ul class="dropdown-menu multi multi2">
+                    <div class="row">
+                      <div class="col-sm-3" *ngFor="let aut of auts">
+                        <ul class="multi-column-dropdown">
+                          <li>
+                            <a
+                              routerLink="/books/{{ aut._id }}/authors/{{
+                                aut.name
+                              }}"
+                              ><i
+                                class="fa fa-angle-right"
+                                aria-hidden="true"
+                              ></i
+                              >{{ aut.name }}</a
+                            >
+                          </li>
+                        </ul>
                       </div>
                     </div>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a [routerLink]="['/books']" class="dropdown-toggle hyper" data-toggle="dropdown"
+                    ><span> Tất Cả Sách </span
+                  ></a>
+                </li>
+                <li class="dropdown">
+                  <a [routerLink]="['/sale']" class="dropdown-toggle hyper" data-toggle="dropdown"
+                    ><span> Ưu Đãi </span
+                  ></a>
+                  <div class="offer-menu" >
+                    <p><span>Giảm giá</span></p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
 
-                    <div class="clearfix"></div>
-                   </div>
-
-
-
+        <div class="cart">
+          <a [routerLink]="['/cart']"
+            ><span class="fa fa-shopping-cart my-cart-icon"
+              >(<small>{{ countItem }}</small
+              >)</span
+            ></a
+          >
+        </div>
       </div>
-    </div> -->
+    </nav>
+
+    <div class="intro">
+      <div>
+        <img
+          src="https://www.vexels.com/media/users/3/205189/isolated/thumb/1969bc6d97d8a4c57fcbba6e66442abe-book-with-flowers-illustration-by-vexels.png"
+          style="background-color: transparent; ;"
+        />
+      </div>
+      <h3>{{name}}</h3>
+    </div>
+
+    <div class="banner-info">
+      <div class="search-form">
+        <form>
+          <div class="input-group mb-3 input-group-lg">
+            <input
+              type="text"
+              class="form-control"
+              #id1
+              style="font-size: 18px"
+              placeholder="Nhập tên sách.."
+            />
+            <div class="input-group-append">
+              <button class="input-group-text" (click)="search(id1.value)">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--content-->
 
 <!--content-->
 <div class="content-top">
@@ -190,32 +236,29 @@
       <h3>Sản Phẩm</h3>
       <div class="ser-t">
         <b></b>
-        <span><i></i></span>
+        <span style="background-color: whitesmoke;"><i></i></span>
         <b class="line"></b>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-md-3 m-wthree" *ngFor="let book of books">
+      <div class="col-md-3 m-wthree" *ngFor="let book of books | paginate: config; let i = index">
         <div class="col-m">
-          <a
-            routerLink="/details/{{ book._id }}"
-            data-toggle="modal"
-            data-target="#myModal1"
-            class="offer-img"
-          >
+          <a routerLink="/details/{{ book._id }}" class="offer-img">
             <img src="{{ book.imageUrl }}" class="img-responsive" alt="" />
             <div class="offer" *ngIf="book.discount !== '0'">
-              <p><span>Sale off</span></p>
+              <p><span>Sale</span></p>
             </div>
           </a>
           <div class="mid-1">
             <div class="women" routerLink="/details/{{ book._id }}">
-              <h6>{{ book.title }}</h6>
+              <h6>
+                <a [routerLink]="['/details']"><div class="hidetext">{{ book.title }}</div></a>
+              </h6>
             </div>
-            <div class="mid-2">
-              <p *ngIf="book.discount === '0'">{{ book.price }} đ</p>
-              <p *ngIf="book.discount !== '0'">
+            <div class="mid-2" *ngIf="book.price !== 0">
+              <p class="price1" *ngIf="book.discount === '0'">{{ book.price }} đ</p>
+              <p class="price" *ngIf="book.discount !== '0'">
                 <label>{{ book.price }} đ</label
                 ><em class="item_price">{{ book.discount }} đ</em>
               </p>
@@ -224,7 +267,8 @@
               </div>
               <div class="clearfix"></div>
             </div>
-            <div class="add">
+
+            <div class="add"  *ngIf="book.price !== 0">
               <button
                 class="btn btn-danger my-cart-btn my-cart-b"
                 (click)="AddtoCart(book._id)"
@@ -232,13 +276,29 @@
                 Thêm Giỏ Hàng
               </button>
             </div>
+            <div class="coming-img" style="text-align: center; padding-top: 23px;" *ngIf="book.price == 0">
+              <img src="https://media.istockphoto.com/vectors/red-rubber-stamp-icon-on-transparent-background-vector-id919297480?b=1&k=6&m=919297480&s=612x612&w=0&h=gkCjvO2o195wYTLNiVKD-7VkajMzgj-_AOmLTmmrL8g=" alt="" width="" height="">
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="clearfix"></div>
+
+    </div>
+
+    <!--k co sách-->
+    <div *ngIf="books?.length == 0" style="text-align: center;">
+      <span style="text-align: center; font-size: 22px;"> Không có sách bạn tìm kiếm.</span>
+    </div>
+
+    <div style="margin-bottom: 0px; margin-top: 2rem;" *ngIf="books?.length>0">
+      <pagination-controls style="text-align: center; margin-top: 2rem;"(pageChange)="pageChanged($event)"
+    ></pagination-controls>
     </div>
   </div>
+
+
+
 </div>
 
 <!--content-->
@@ -282,7 +342,7 @@
       <div class="col-4">
         <div
           class="col-md3"
-          routerLink="/books/5de91c7ee3ef6d4d6856645c/categories/Trinh Thám"
+          routerLink="/books/5de91db3e3ef6d4d68566468/categories/Kinh Dị"
         >
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF4x2nr7ALrcTqrDgD40kuwadyzjD0RsdY3T_loPq8cZQHSFAV&s"
@@ -291,9 +351,9 @@
           />
           <div class="big-sa">
             <h6>Tuyển Tập</h6>
-            <h3>Trinh<span> Thám</span></h3>
+            <h3>Kinh<span> Dị</span></h3>
             <p>
-              Từ người tốt đến kẻ xấu, cái thiện-cái ác, nạn nhân hay thủ phạm
+              Cho người đọc trải qua từng khuôn bậc cảm xúc khác nhau.
             </p>
           </div>
         </div>
@@ -301,23 +361,3 @@
     </div>
   </div>
 </div>
-
-<!-- <div style="margin-top:10px;" class="table-responsive" >
-    <table class="table table-bordered" >
-      <thead>
-          <tr>
-            <th>Class ID</th>
-            <th>Class Name</th>
-            <th>Capacity</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr *ngFor="let each of books">
-            <td>{{each.title}}</td>
-            <td><img src="{{each.imageUrl}}" class="backgr2"></td>
-            <td>{{each._id}}</td>
-          </tr>
-      </tbody>
-  </table>
-
-  </div> -->

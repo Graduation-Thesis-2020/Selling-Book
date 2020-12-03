@@ -1,29 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { Books } from '../models/book';
 import { BooksService } from '../service/book.service';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { Publisher } from '../models/publisher';
-import { Author } from '../models/author';
-import { Cate } from '../models/cate';
 import { AuthorService } from '../service/author.service';
 import { CateService } from '../service/cate.service';
 import { PublisherService } from '../service/publisher.service';
+import { Publisher } from '../models/publisher';
+import { Author } from '../models/author';
+import { Cate } from '../models/cate';
 import { Item } from '../models/cart';
 @Component({
-  selector: 'app-book-author',
-  templateUrl: './book-author.component.html',
-  styleUrls: ['./book-author.component.css']
+  selector: 'app-book-all',
+  templateUrl: './book-all.component.html',
+  styleUrls: ['./book-all.component.css']
 })
-export class BookAuthorComponent implements OnInit {
+export class BookAllComponent implements OnInit {
+
+  books: Books[];
+  pubs: Publisher[];
+  auts: Author[];
+  books1: Books[];
+  cates1: Cate[];
   items: Item[] = [];
   total: number;
   countItem: number;
-  books: Books[];
-  mySubscription: any;
-  pubs: Publisher[];
-  auts: Author[];
-  cates1: Cate[];
   name: string = this.route.snapshot.paramMap.get('id1');
   isSearch= false;
   config: any;
@@ -34,32 +35,18 @@ export class BookAuthorComponent implements OnInit {
               private AuthorsService: AuthorService,
               private CateService: CateService,
               private publisherService: PublisherService) {
-                this.router.routeReuseStrategy.shouldReuseRoute = function () {
-                  return false;
-                };
-                this.mySubscription = this.router.events.subscribe((event) => {
-                  if (event instanceof NavigationEnd) {
-                    // Trick the Router into believing it's last link wasn't previously loaded
-                    this.router.navigated = false;
-                  }
-                });
                 this.config = {
-                  itemsPerPage: 12,
-                  currentPage: 1
-                  };
-               }
+                itemsPerPage: 12,
+                currentPage: 1
+                };}
 
-  ngOnDestroy() {
-    if (this.mySubscription) {
-      this.mySubscription.unsubscribe();
-      }
-  }
-  async ngOnInit() {
-    await this.getAllBookFromAuthorID();
-    await this.getAllCate();
-    await this.getAllAuthor();
-    await this.getAllPub();
-    await this.loadCart();
+
+  ngOnInit() {
+    this.getAllBook();
+     this.getAllCate();
+     this.getAllAuthor();
+     this.getAllPub();
+     this.loadCart();
   }
   getAllPub() {
     this.publisherService.getPublishers().subscribe(res => this.pubs = res);
@@ -70,11 +57,10 @@ export class BookAuthorComponent implements OnInit {
   getAllCate() {
     this.CateService.getCates().subscribe(res => this.cates1 = res);
   }
-
-  async getAllBookFromAuthorID() {
-    const id = this.route.snapshot.paramMap.get('id');
-    await this.BooksService.getBooksFromAuthorID(id).toPromise().then(res => this.books = res);
+  private getAllBook() {
+    this.BooksService.getBooks().subscribe(res => this.books =res);
   }
+
 
   AddtoCart(id:string) {
     // const id = this.route.snapshot.paramMap.get('id');

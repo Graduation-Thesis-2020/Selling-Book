@@ -25,7 +25,9 @@ export class Book1Component implements OnInit {
   items: Item[] = [];
   total: number;
   countItem: number;
-  id1: string = this.route.snapshot.paramMap.get('id1');
+  name: string = this.route.snapshot.paramMap.get('id1');
+  isSearch= false;
+  config: any;
   constructor(private BooksService: BooksService,
               private route: ActivatedRoute,
               private location: Location,
@@ -38,10 +40,13 @@ export class Book1Component implements OnInit {
                 };
                 this.mySubscription = this.router.events.subscribe((event) => {
                   if (event instanceof NavigationEnd) {
-                    // Trick the Router into believing it's last link wasn't previously loaded
                     this.router.navigated = false;
                   }
                 });
+                this.config = {
+                  itemsPerPage: 12,
+                  currentPage: 1
+                  };
                }
 
   ngOnDestroy() {
@@ -70,16 +75,10 @@ export class Book1Component implements OnInit {
   }
   async getAllBookFromCateID() {
     const id = this.route.snapshot.paramMap.get('id');
-    const id1 = this.route.snapshot.paramMap.get('id1');
     await this.BooksService.getBooksFromCateID(id).toPromise().then(res => this.books = res);
     //this.refresh();
   }
-  refresh(): void {
-    location.reload();
-  }
-  async add(){
-    await alert('Thêm Thành Công');
-  }
+
   AddtoCart(id:string) {
     // const id = this.route.snapshot.paramMap.get('id');
     // this.cartService.AddtoCart(id).subscribe(res => this.mess = res);
@@ -141,5 +140,12 @@ export class Book1Component implements OnInit {
     }
     this.countItem = this.items.length;
   }
-
+  search(id: string){
+    console.log(id);
+    this.isSearch = true;
+    this.BooksService.searchBook(id).subscribe(book => this.books = book);
+  }
+  pageChanged(event) {
+    this.config.currentPage = event;
+    }
 }
