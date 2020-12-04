@@ -535,7 +535,7 @@ module.exports = {
   // Get Book Have DISCOUNT 
   bookHaveDiscount: async (req, res, next) => {
     let bookdata = await Book.find();
-    let bookLength ;
+    let bookLength;
     if (bookdata != null && bookdata != '') {
       bookLength = bookdata.length;
     }
@@ -584,7 +584,7 @@ module.exports = {
         message: 'Không có sách nào giảm giá!!!'
       })
     }
-
+  //  return res.status(200).json(bookDiscount);
     try {
 
       let arrayBook = bookDiscount;
@@ -599,7 +599,7 @@ module.exports = {
         if (bookdata != null && bookdata != '') {
           return res.status(200).json(bookdata);
         }
-        
+
         return res.status(404).json({
           message: " Không tìm thấy!!!"
         });

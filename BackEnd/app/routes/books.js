@@ -44,13 +44,17 @@ const upload = multer({
 
 // http://localhost:8080/books
 
+
+router.get('/discount/search/', bookController.searchBookWithDiscount) // search book by book + Discount
+
 router.get('/', bookController.getListBook)
   .get('/search/', bookController.searchBookByTitle) // search book by title
   .get('/:cateId/search/', bookController.searchBookWithCateGory) // search book by book + category
 
+
 // Get book have discount
-router.get('/discount', bookController.bookHaveDiscount)
-  .get('/discount/search/', bookController.searchBookWithDiscount) // search book by book + Discount
+router.get('/discount/', bookController.bookHaveDiscount)
+
 
 
 router.post('/', upload.single('image'), bookController.createBook);
