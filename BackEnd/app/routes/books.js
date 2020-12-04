@@ -54,6 +54,10 @@ router.get('/', bookController.getListBook)
   .get('/:cateId/category/search/', bookController.searchBookWithCateGory) // search book by book + category
   .get('/:authorId/author/search/', bookController.searchBookWithAuthor) // search book by name book + Author
 
+// Hiện tổng trung bình đánh giá của một cuốn sách 
+router.get('/:bookId/averageReview', bookController.averageReviewABook)
+  // Hiện tổng trung bình đánh giá của tất cả cuốn sách 
+  .get('/averageReviewAll')
 
 // Get book have discount
 router.get('/discount/', bookController.bookHaveDiscount)

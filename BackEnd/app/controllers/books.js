@@ -584,7 +584,7 @@ module.exports = {
         message: 'Không có sách nào giảm giá!!!'
       })
     }
-  //  return res.status(200).json(bookDiscount);
+    //  return res.status(200).json(bookDiscount);
     try {
 
       let arrayBook = bookDiscount;
@@ -633,7 +633,7 @@ module.exports = {
         if (bookdata != null && bookdata != '') {
           return res.status(200).json(bookdata);
         }
-        
+
         return res.status(404).json({
           message: " Không tìm thấy!!!"
         });
@@ -646,8 +646,8 @@ module.exports = {
     }
   },
 
-   // search book by name book + Publish
-   searchBookWithPublish: async (req, res, next) => {
+  // search book by name book + Publish
+  searchBookWithPublish: async (req, res, next) => {
     let searchOptions;
     let publishId = req.params.publishId;
     if (req.query.title != null && req.query.title != '') {
@@ -679,6 +679,31 @@ module.exports = {
     } catch {
       return res.redirect('/')
     }
+  },
+
+  averageReviewABook: async (req, res, next) => {
+    let bookId = req.params.bookId;
+    let arrayreview = await Review.find({ bookId: bookId });
+   // let book = await Book.findOne(bookId);
+    //   return res.status(200).json(reviewdata);
+    let reviewlength;
+    let average, sum = 0;
+    let i;
+    if (arrayreview != null && arrayreview != '') {
+      reviewlength = arrayreview.length;
+      for (i = 0; i < reviewlength; i++) {
+        sum += arrayreview[i].review;
+      }
+        average = Math.round(sum / reviewlength) ;
+    //  average = sum / reviewlength;
+      return res.status(200).json({
+        total: reviewlength, 
+        average
+      });
+    }
+    return res.status(200).json({
+      message: " Không có bình luận nào !!!"
+    });
   }
 
 
