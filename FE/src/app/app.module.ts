@@ -38,6 +38,7 @@ import { AdminOrderComponent } from './admin-order/admin-order.component';
 import { AdminUserComponent } from './admin-user/admin-user.component';
 import { StorePageComponent } from './store-page/store-page.component';
 import { BookSaleComponent } from './book-sale/book-sale.component';
+import { BookAllComponent } from './book-all/book-all.component';
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import { BookSaleComponent } from './book-sale/book-sale.component';
     AdminUserComponent,
     StorePageComponent,
     BookSaleComponent,
+    BookAllComponent,
 
   ],
   imports: [

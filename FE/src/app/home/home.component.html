@@ -185,6 +185,7 @@
       </div>
     </div>
   </div>
+  <!--Menu-->
   <div class="container">
     <nav class="navbar navbar-expand-lg border-bottom" >
       <a class="navbar-brand" style="font-size: 24px; color: antiquewhite; margin-right: 0px;" [routerLink]="['/home']"><i class="fas fa-book"style="padding-top: 30px;" ></i></a>
@@ -278,8 +279,19 @@
                     </div>
                   </ul>
                 </li>
-
-
+                <li class="dropdown">
+                  <a [routerLink]="['/books']" class="dropdown-toggle hyper" data-toggle="dropdown"
+                    ><span> Tất Cả Sách </span
+                  ></a>
+                </li>
+                <li class="dropdown">
+                  <a [routerLink]="['/sale']" class="dropdown-toggle hyper" data-toggle="dropdown"
+                    ><span> Ưu Đãi </span
+                  ></a>
+                  <div class="offer-menu" >
+                    <p><span>Giảm giá</span></p>
+                  </div>
+                </li>
               </ul>
 
             </div>
@@ -477,7 +489,7 @@
     </div>
 
     <p class="lead" style="margin-top: 40px;">
-      <a class="btn btn-outline-info btn-lg" [routerLink]="['/books/5fc5e3ea2364e00df46c4550/categories/Bán Chạy']" role="button">Xem thêm</a>
+      <a class="btn btn-outline-info btn-lg" [routerLink]="['/books']" role="button">Lựa chọn ngay</a>
     </p>
   </div>
 
@@ -757,7 +769,7 @@
 
     <ul class="more" style="text-align: right; padding-bottom: 30px;" *ngIf="books?.length>8">
       <li>
-        <a [routerLink]="['/login']"><i class="fas fa-angle-double-right"></i>Xem thêm</a>
+        <a [routerLink]="['/books']"><i class="fas fa-angle-double-right"></i>Xem thêm</a>
       </li>
     </ul>
 
@@ -765,7 +777,7 @@
 </div>
 <!-- Toast -->
 
-<!--content-->
+<!--banner bottom-->
 <div class="content-mid">
   <div class="container">
     <div class="row justify-content-start">
@@ -806,7 +818,7 @@
       <div class="col-4">
         <div
           class="col-md3"
-          routerLink="/books/5de91c7ee3ef6d4d6856645c/categories/Trinh Thám"
+          routerLink="/books/5de91db3e3ef6d4d68566468/categories/Kinh Dị"
         >
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF4x2nr7ALrcTqrDgD40kuwadyzjD0RsdY3T_loPq8cZQHSFAV&s"
@@ -815,9 +827,9 @@
           />
           <div class="big-sa">
             <h6>Tuyển Tập</h6>
-            <h3>Trinh<span> Thám</span></h3>
+            <h3>Kinh<span> Dị</span></h3>
             <p>
-              Từ người tốt đến kẻ xấu, cái thiện-cái ác, nạn nhân hay thủ phạm
+              Cho người đọc trải qua từng khuôn bậc cảm xúc khác nhau.
             </p>
           </div>
         </div>

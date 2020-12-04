@@ -27,7 +27,8 @@ export class BookSaleComponent implements OnInit {
   total: number;
   countItem: number;
   sale: Books[];
-  id1: string = this.route.snapshot.paramMap.get('id1');
+  isSearch= false;
+  config: any;
   constructor(private BooksService: BooksService,
               private route: ActivatedRoute,
               private location: Location,
@@ -44,6 +45,10 @@ export class BookSaleComponent implements OnInit {
                     this.router.navigated = false;
                   }
                 });
+                this.config = {
+                  itemsPerPage: 12,
+                  currentPage: 1
+                  };
                }
 
   ngOnDestroy() {
@@ -69,13 +74,7 @@ export class BookSaleComponent implements OnInit {
     this.CateService.getCates().subscribe(res => this.cates1 = res);
   }
   getAllBookSale() {
-    this.BooksService.getBooksSale().subscribe(res => this.sale = res);
-  }
-  refresh(): void {
-    location.reload();
-  }
-  async add(){
-    await alert('Thêm Thành Công');
+    this.BooksService.getBooksSale().subscribe(res => this.books = res);
   }
   AddtoCart(id:string) {
     // const id = this.route.snapshot.paramMap.get('id');
@@ -138,4 +137,12 @@ export class BookSaleComponent implements OnInit {
     }
     this.countItem = this.items.length;
   }
+  search(id: string){
+    console.log(id);
+    this.isSearch = true;
+    this.BooksService.searchBook(id).subscribe(book => this.books = book);
+  }
+  pageChanged(event) {
+    this.config.currentPage = event;
+    }
 }
