@@ -43,7 +43,7 @@ module.exports = {
         if (bookdata != null && bookdata != '') {
           return res.status(200).json(bookdata);
         }
-        
+
         return res.status(404).json({
           message: " Không tìm thấy!!!"
         });
@@ -535,8 +535,10 @@ module.exports = {
   // Get Book Have DISCOUNT 
   bookHaveDiscount: async (req, res, next) => {
     let bookdata = await Book.find();
-    let bookLength = bookdata.length;
-
+    let bookLength ;
+    if (bookdata != null && bookdata != '') {
+      bookLength = bookdata.length;
+    }
     let i;
     let bookDiscount = [];
     // if(bookdata[0].discount == '0' )  return res.status(200).json(bookdata[0]);
@@ -555,6 +557,60 @@ module.exports = {
     return res.status(200).json(bookDiscount);
     // return res.status(200).json(bookLength);
   },
+
+  // Search Book Have DISCOUNT 
+  searchBookWithDiscount: async (req, res, next) => {
+    let bookdata = await Book.find();
+    let bookLength;
+    let searchOptions;
+    if (req.query.title != null && req.query.title != '') {
+      searchOptions = req.query.title;
+    }
+
+    if (bookdata != null && bookdata != '') {
+      bookLength = bookdata.length;
+    }
+
+    let i;
+    let bookDiscount = [];
+
+    for (i = 0; i < bookLength; i++) {
+      if (parseInt(bookdata[i].discount) != 0) {
+        bookDiscount.push(bookdata[i]);
+      }
+    }
+    if (bookDiscount.length == 0) {
+      return res.status(200).json({
+        message: 'Không có sách nào giảm giá!!!'
+      })
+    }
+
+    try {
+
+      let arrayBook = bookDiscount;
+
+      if (arrayBook != null && arrayBook != '') {
+        let bookdata = await arrayBook.filter(x => x.title.toLowerCase().includes(searchOptions));
+        if (bookdata != null && bookdata != '') {
+          return res.status(200).json(bookdata);
+        }
+
+        bookdata = await arrayBook.filter(x => x.title.includes(searchOptions));
+        if (bookdata != null && bookdata != '') {
+          return res.status(200).json(bookdata);
+        }
+        
+        return res.status(404).json({
+          message: " Không tìm thấy!!!"
+        });
+      }
+      return res.status(404).json({
+        message: "Không có sản phẩm nào !!!"
+      });
+    } catch {
+      throw Error
+    }
+  }
 
 
 }
