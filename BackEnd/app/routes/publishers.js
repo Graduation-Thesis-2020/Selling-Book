@@ -15,7 +15,7 @@ router.use((req, res, next) => {
 router.get('/', publisherController.getListPublisher)
   // Search name Publsher 
   .get('/search', publisherController.searchPublisherByName) //  search Name Publisher
-  .get('/:publishId/search/', publisherController.searchBookWithPublish) // search book by book + Publish
+ 
 
 router.post('/', publisherController.createPublisher);
 

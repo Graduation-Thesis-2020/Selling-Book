@@ -117,40 +117,7 @@ module.exports = {
     } catch {
       res.redirect('/')
     }
-  },
-
-  // search book by name book + Author
-  searchBookWithAuthor: async (req, res, next) => {
-    let searchOptions;
-    let authorId = req.params.authorId;
-    if (req.query.title != null && req.query.title != '') {
-      searchOptions = req.query.title;
-    }
-    try {
-
-      let authorData = await Author.findOne({ _id: authorId }).populate('books');
-      let arrayBook = authorData.books;
-
-      if (arrayBook != null && arrayBook != '') {
-        let bookdata = await arrayBook.filter(x => x.title.toLowerCase().includes(searchOptions));
-        if (bookdata != null && bookdata != '') {
-          return res.status(200).json(bookdata);
-        }
-
-        bookdata = await arrayBook.filter(x => x.title.includes(searchOptions));
-        if (bookdata != null && bookdata != '') {
-          return res.status(200).json(bookdata);
-        }
-        
-        return res.status(404).json({
-          message: " Không tìm thấy!!!"
-        });
-      }
-      return res.status(404).json({
-        message: "Không có sản phẩm nào !!!"
-      });
-    } catch {
-      return res.redirect('/')
-    }
   }
+
+  
 }

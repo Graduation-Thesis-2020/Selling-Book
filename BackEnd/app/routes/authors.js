@@ -13,8 +13,8 @@ router.use((req, res, next) => {
 
 router.get('/', authorController.getListAuthor)
   // Search name author 
-  .get('/search', authorController.searchAuthorByName) //  Search name book
-  .get('/:authorId/search/', authorController.searchBookWithAuthor) // search book by name book + Author
+  .get('/search', authorController.searchAuthorByName) 
+  
 
 
 
