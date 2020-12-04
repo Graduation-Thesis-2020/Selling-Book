@@ -66,14 +66,21 @@ export class BooksService {
     const url = `${this.bookURL}/search?title=${id}`;
     return this.http.get<Books[]>(url).pipe();
   }
-  searchHeroes(term: string): Observable<Books[]> {
-    term = term.trim();
-   // Add safe, URL encoded search parameter if there is a search term
-    const options = term ?
-     { params: new HttpParams().set('title', term) } : {};
-
-    return this.http.get<Books[]>(this.bookURL, options)
-      .pipe();
+  searchBookWithCat(id: string, name: string): Observable<Books[]> {
+    const url = `${this.bookURL}/${id}/category/search?title=${name}`;
+    return this.http.get<Books[]>(url).pipe();
+  }
+  searchBookWithPub(id: string, name: string): Observable<Books[]> {
+    const url = `${this.bookURL}/${id}/publisher/search?title=${name}`;
+    return this.http.get<Books[]>(url).pipe();
+  }
+  searchBookWithAut(id: string, name: string): Observable<Books[]> {
+    const url = `${this.bookURL}/${id}/author/search?title=${name}`;
+    return this.http.get<Books[]>(url).pipe();
+  }
+  searchBookSale( name: string): Observable<Books[]> {
+    const url = `${this.bookURL}/discount/search?title=${name}`;
+    return this.http.get<Books[]>(url).pipe();
   }
   editBook(book: Books): Observable<any> {
     return this.http.patch(`${this.bookURL}/${book._id}`, book, httpOptions).pipe();

@@ -29,6 +29,8 @@ export class BookSaleComponent implements OnInit {
   sale: Books[];
   isSearch= false;
   config: any;
+  bookSearch: Books[];
+  mess: string;
   constructor(private BooksService: BooksService,
               private route: ActivatedRoute,
               private location: Location,
@@ -137,10 +139,11 @@ export class BookSaleComponent implements OnInit {
     }
     this.countItem = this.items.length;
   }
-  search(id: string){
-    console.log(id);
+  search(name1: string){
+    this.bookSearch = null;
+    this.mess = null;
     this.isSearch = true;
-    this.BooksService.searchBook(id).subscribe(book => this.books = book);
+    this.BooksService.searchBookSale(name1).subscribe(book => this.bookSearch = book, error => this.mess = error);
   }
   pageChanged(event) {
     this.config.currentPage = event;

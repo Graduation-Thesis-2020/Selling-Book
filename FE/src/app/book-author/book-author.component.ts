@@ -27,6 +27,8 @@ export class BookAuthorComponent implements OnInit {
   name: string = this.route.snapshot.paramMap.get('id1');
   isSearch= false;
   config: any;
+  bookSearch: Books[];
+  mess: string;
   constructor(private BooksService: BooksService,
               private route: ActivatedRoute,
               private location: Location,
@@ -137,10 +139,12 @@ export class BookAuthorComponent implements OnInit {
     }
     this.countItem = this.items.length;
   }
-  search(id: string){
-    console.log(id);
+  search(name1: string){
+    this.bookSearch = null;
+    this.mess = null;
+    const id = this.route.snapshot.paramMap.get('id');
     this.isSearch = true;
-    this.BooksService.searchBook(id).subscribe(book => this.books = book);
+    this.BooksService.searchBookWithAut(id,name1).subscribe(book => this.bookSearch = book, error => this.mess = error);
   }
   pageChanged(event) {
     this.config.currentPage = event;

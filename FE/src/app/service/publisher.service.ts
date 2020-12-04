@@ -2,6 +2,7 @@ import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from '@angular/core';
 import { Publisher } from '../models/publisher';
 import { Observable } from 'rxjs';
+import { Books } from '../models/book';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -37,5 +38,9 @@ export class PublisherService {
   getPublisherFromPublisherID(id: string): Observable<Publisher> {
     const url = `${this.publisherURL}/${id}`;
     return this.http.get<Publisher>(url).pipe();
+  }
+  searchBookWithPub(id: string, name: string): Observable<Books[]> {
+    const url = `${this.publisherURL}/${id}/search?title=${name}`;
+    return this.http.get<Books[]>(url).pipe();
   }
 }

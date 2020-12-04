@@ -575,7 +575,7 @@ span.fa.fa-shopping-cart.my-cart-icon {
 /*-- //to-top --*/
 .spec {
     text-align: center;
-    margin-bottom: 3em;
+    padding-bottom: 3em;
 }
 .spec h3{
   font-size:40px;

@@ -48,8 +48,9 @@ export class AuthorService {
   delete(id: string): Observable<Author> {
     return this.http.delete<Author>(`${this.authorURL}/${id}`);
   }
-  // delete(id: string): Observable<RootObj<Books>> {
-  //   return this.ApiService.delete<RootObj<Books>>(`${this.ApiService.apiURL.getbooks}/${id}`);
-  // }
+  searchBookWithAut(id: string, name: string): Observable<Books[]> {
+    const url = `${this.authorURL}/${id}/search?title=${name}`;
+    return this.http.get<Books[]>(url).pipe();
+  }
 }
 

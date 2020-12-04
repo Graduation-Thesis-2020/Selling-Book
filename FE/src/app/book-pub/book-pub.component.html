@@ -211,12 +211,12 @@
             <input
               type="text"
               class="form-control"
-              #id1
+              #name1
               style="font-size: 18px"
               placeholder="Nhập tên sách.."
             />
             <div class="input-group-append">
-              <button class="input-group-text" (click)="search(id1.value)">
+              <button class="input-group-text" (click)="search(name1.value)">
                 <i class="fas fa-search"></i>
               </button>
             </div>
@@ -228,7 +228,64 @@
 </section>
 
 <!--content-->
+<!--Ket qua tim kiem-->
+<div class="content-top" *ngIf="isSearch">
+  <div class="container">
+    <div class="spec">
+      <h3 style="font-size: 32px;"> Kết quả tìm kiếm</h3>
+    </div>
 
+    <div *ngIf="mess !== null" style="text-align: center;">
+      <span style="text-align: center; font-size: 22px;"> Không có sách bạn tìm kiếm.</span>
+    </div>
+
+    <div class="tab-head" *ngIf="bookSearch?.length>0" style="background-color: whitesmoke">
+      <div class="tab-content tab-content-t">
+        <div class="tab-pane active text-style" id="tab1" >
+          <div class="row" >
+            <div class="col-md-3 m-wthree" *ngFor="let bk of bookSearch" >
+              <div class="col-m" >
+                <a routerLink="/details/{{ bk._id }}" class="offer-img">
+                  <img src="{{ bk.imageUrl }}" class="img-responsive" alt="" />
+                  <div class="offer" *ngIf="bk.discount !== '0'">
+                    <p><span>Sale Off</span></p>
+                  </div>
+                </a>
+                <div class="mid-1">
+                  <div  routerLink="/details/{{ bk._id }}">
+                    <h6>
+                      <a  [routerLink]="['/details']"><div class="hidetext">{{ bk.title }}</div></a>
+                    </h6>
+                  </div>
+                  <div class="mid-2">
+                    <p class="price1" *ngIf="bk.discount === '0'">{{ bk.price }} đ</p>
+                    <p class="price" *ngIf="bk.discount !== '0'">
+                      <label>{{ bk.price }} đ</label
+                      ><em class="item_price">{{ bk.discount }} đ</em>
+                    </p>
+                    <div class="block">
+                      <div class="starbox small ghosting"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="add">
+                    <button
+                      class="btn btn-danger my-cart-btn my-cart-b"
+                      (click)="AddtoCart(bk._id)"
+                    >
+                      <a [routerLink]="[{ id: bk._id }]"></a>Thêm Giỏ Hàng
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
 <!--content-->
 <div class="content-top">
   <div class="container">

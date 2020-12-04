@@ -137,6 +137,7 @@ export class HomeComponent implements OnInit {
 
   search(id: string){
     console.log(id);
+    this.booksearch = null;
     this.isSearch = true;
     this.BooksService.searchBook(id).subscribe(book => this.booksearch = book);
     //this.BooksService.searchHeroes(id).subscribe(book => this.books = book);
