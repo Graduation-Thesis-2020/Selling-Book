@@ -1,119 +1,170 @@
 const Publisher = require('../models/publisher');
 const mongoose = require('mongoose');
+const Book = require('../models/book');
 
 module.exports = {
 
-    
-    createPublisher :  (req, res, next) => {
-        console.log(req.file);
-        const publisher = new Publisher({
-            name: req.body.name
-        });
-      publisher.save()
+
+  createPublisher: (req, res, next) => {
+    console.log(req.file);
+    const publisher = new Publisher({
+      name: req.body.name
+    });
+    publisher.save()
       .then(result => {
-            console.log(result);
-            res.status(201).json({
-                message: 'Created publisher successfully',
-                createdPublisher: {
-                    publisher: result,
-                }
-            });
-        })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
-
-    },
-
-    
-
-    getListPublisher:  (req, res, next) => {
-         Publisher.find({})
-            .exec()
-            .then(docs => {
-                // const response = {
-                //     count: docs.length,
-                //     publishers: docs.map(doc => {
-                //         return doc
-                //     })
-                // };
-                if (docs.length >= 0) {
-                    res.status(200).json(docs);
-                } else {
-                    res.status(404).json({
-                        message: "No Entries Found"
-                    });
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
-    },
-
-
-    getPublisherID:  (req, res, next) => {
-        const id = req.params.publisherId;
-         Publisher.findById(id)
-            .exec()
-            .then(doc => {
-                console.log("From database", doc);
-                if (doc) {
-                    res.status(200).json(doc);
-                } else {
-                    res.status(404).json({ message: "No valid entry found for provided ID" });
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({ error: err });
-            });
-
-    },
-
-    
-    updatePublisher: (req, res, next) => {
-        const id = req.params.publisherId;
-        Publisher.findByIdAndUpdate(id, {$set: req.body}, { new: true }, (err, publisher) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).json({
-                    error: err
-                });
-            } else {
-                return res.status(200).json({
-                    message: 'Publisher updated',
-                    publisher: publisher
-                });
-            }
+        console.log(result);
+        res.status(201).json({
+          message: 'Created publisher successfully',
+          createdPublisher: {
+            publisher: result,
+          }
         });
-    },
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
 
-    deletePublisher: (req, res, next) => {
-        const id = req.params.publisherId;
-        Publisher.remove({ _id: id })
-            .exec()
-            .then(result => {
-                res.status(200).json({
-                    message: 'Publisher deleted',
-                });
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
+  },
+
+
+
+  getListPublisher: (req, res, next) => {
+    Publisher.find({})
+      .exec()
+      .then(docs => {
+        // const response = {
+        //     count: docs.length,
+        //     publishers: docs.map(doc => {
+        //         return doc
+        //     })
+        // };
+        if (docs.length >= 0) {
+          res.status(200).json(docs);
+        } else {
+          res.status(404).json({
+            message: "No Entries Found"
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
+  },
+
+
+  getPublisherID: (req, res, next) => {
+    const id = req.params.publisherId;
+    Publisher.findById(id)
+      .exec()
+      .then(doc => {
+        console.log("From database", doc);
+        if (doc) {
+          res.status(200).json(doc);
+        } else {
+          res.status(404).json({ message: "No valid entry found for provided ID" });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ error: err });
+      });
+
+  },
+
+
+  updatePublisher: (req, res, next) => {
+    const id = req.params.publisherId;
+    Publisher.findByIdAndUpdate(id, { $set: req.body }, { new: true }, (err, publisher) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          error: err
+        });
+      } else {
+        return res.status(200).json({
+          message: 'Publisher updated',
+          publisher: publisher
+        });
+      }
+    });
+  },
+
+  deletePublisher: (req, res, next) => {
+    const id = req.params.publisherId;
+    Publisher.remove({ _id: id })
+      .exec()
+      .then(result => {
+        res.status(200).json({
+          message: 'Publisher deleted',
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
+  },
+
+  searchPublisherByName: async (req, res, next) => {
+    let searchOptions = {}
+    if (req.query.name != null && req.query.name !== '') {
+      searchOptions.name = new RegExp(req.query.name, 'i')
     }
-   
+    try {
+      const authors = await Publisher.find(searchOptions).populate([{
+        path: 'books', select: 'title', model: Book
+      }]);
+      res.status(200).json(authors);
+    } catch {
+      res.redirect('/')
+    }
+  },
 
-    
+  // search book by name book + Publish
+  searchBookWithPublish: async (req, res, next) => {
+    let searchOptions;
+    let publishId = req.params.publishId;
+    if (req.query.title != null && req.query.title != '') {
+      searchOptions = req.query.title;
+    }
+    try {
 
-    
+      let publishData = await Publisher.findOne({ _id: publishId }).populate('books');
+      let arrayBook = publishData.books;
+
+      if (arrayBook != null && arrayBook != '') {
+
+        let bookdata = await arrayBook.filter(x => x.title.toLowerCase().includes(searchOptions));
+        if (bookdata != null && bookdata != '') {
+          return res.status(200).json(bookdata);
+        }
+
+        bookdata = await arrayBook.filter(x => x.title.includes(searchOptions));
+        if (bookdata != null && bookdata != '') {
+          return res.status(200).json(bookdata);
+        }
+        return res.status(404).json({
+          message: " Không tìm thấy!!!"
+        });
+      }
+      return res.status(404).json({
+        message: "Không có sản phẩm nào !!!"
+      });
+    } catch {
+      return res.redirect('/')
+    }
+  }
+
+
+
+
+
 }
 

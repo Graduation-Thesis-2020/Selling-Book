@@ -46,6 +46,7 @@ const upload = multer({
 
 router.get('/', bookController.getListBook)
   .get('/search/', bookController.searchBookByTitle) // search book by title
+  .get('/:cateId/search/', bookController.searchBookWithCateGory) // search book by book + category
 
   // Get book have discount
 router.get('/discount', bookController.bookHaveDiscount)

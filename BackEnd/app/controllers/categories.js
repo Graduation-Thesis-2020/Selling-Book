@@ -1,5 +1,6 @@
 const Category = require('../models/category');
 const mongoose = require('mongoose');
+const Book = require('./../models/book');
 
 module.exports = {
 
@@ -103,6 +104,21 @@ module.exports = {
                     error: err
                 });
             });
+    },
+
+    searchCategoryByName: async (req, res, next ) => {
+      let searchOptions = {}
+      if (req.query.name != null && req.query.name !== '') {
+        searchOptions.name = new RegExp(req.query.name, 'i')
+      }
+      try {
+        const cates = await Category.find(searchOptions).populate([{
+          path: 'books', select: 'title', model: Book
+        }]);
+        res.status(200).json(cates);
+      } catch {
+        res.redirect('/')
+      }
     }
    
 

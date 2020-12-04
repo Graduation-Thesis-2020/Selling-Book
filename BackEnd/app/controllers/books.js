@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const cloudinary = require('cloudinary');
 const category = require('./../models/category');
 const review = require('./../models/review');
+const Review = require('./../models/review');
 const author = require('./../models/author');
 const publisher = require('./../models/publisher');
 const { findOne, updateOne } = require('../models/book');
@@ -20,7 +21,40 @@ cloudinary.config({
 });
 module.exports = {
 
+  // Search Book with Category
+  searchBookWithCateGory: async (req, res, next) => {
+    let searchOptions;
+    let cateId = req.params.cateId;
+    if (req.query.title != null && req.query.title != '') {
+      searchOptions = req.query.title;
+    }
+    try {
 
+      let cateData = await Category.findOne({ _id: cateId }).populate('books');
+      let arrayBook = cateData.books;
+
+      if (arrayBook != null && arrayBook != '') {
+        let bookdata = await arrayBook.filter(x => x.title.toLowerCase().includes(searchOptions));
+        if (bookdata != null && bookdata != '') {
+          return res.status(200).json(bookdata);
+        }
+
+        bookdata = await arrayBook.filter(x => x.title.includes(searchOptions));
+        if (bookdata != null && bookdata != '') {
+          return res.status(200).json(bookdata);
+        }
+        
+        return res.status(404).json({
+          message: " Không tìm thấy!!!"
+        });
+      }
+      return res.status(404).json({
+        message: "Không có sản phẩm nào !!!"
+      });
+    } catch {
+      return res.redirect('/')
+    }
+  },
 
   createBook: async (req, res, next) => {
     cloudinary.v2.uploader.upload(req.file.path, async (err, result) => {
@@ -382,21 +416,27 @@ module.exports = {
           book.categories = req.body.categories;
 
           // Xóa all cate cũ trong Model Categories để update những cái cate mới vào Model
-          let catelength = cateOld.length;
-          let i;
-          let catedata;
-          if (catelength != 0) {
-            for (i = 0; i < catelength; i++) {
-              catedata = await Category.findOne({ _id: cateOld[i] });
-              catedata.books.remove(book._id);
-              await catedata.save();
+          let catelength, i, catedata;
+          if (cateOld != null && cateOld != '') {
+            catelength = cateOld.length;
+            if (catelength != 0) {
+              for (i = 0; i < catelength; i++) {
+                catedata = await Category.findOne({ _id: cateOld[i] });
+                catedata.books.remove(book._id);
+                await catedata.save();
+              }
             }
           }
           // Push từng cate mới vào Model Categories
 
           let cateIdArray = [];
           cateIdArray = req.body.categories;
-          catelength = cateIdArray.length;
+          if (cateIdArray != null && cateIdArray != '') {
+            catelength = cateIdArray.length;
+          } else {
+            catelength = 0;
+          }
+
           if (catelength != 0) {
             for (i = 0; i < catelength; i++) {
               catedata = await Category.findOne({ _id: cateIdArray[i] });
@@ -425,22 +465,26 @@ module.exports = {
           book.categories = req.body.categories;
 
           // Xóa all cate cũ trong Model Categories để update những cái cate mới vào Model
-          let catelength = cateOld.length;
-          let i;
-          let catedata;
-          // console.log('long',cateOld);
-          //      return res.status(200).json(catelength);
-          if (catelength != 0) {
-            for (i = 0; i < catelength; i++) {
-              catedata = await Category.findOne({ _id: cateOld[i] });
-              catedata.books.remove(book._id);
-              await catedata.save();
+          let catelength, i, catedata;
+          if (cateOld != null && cateOld != '') {
+            catelength = cateOld.length;
+            if (catelength != 0) {
+              for (i = 0; i < catelength; i++) {
+                catedata = await Category.findOne({ _id: cateOld[i] });
+                catedata.books.remove(book._id);
+                await catedata.save();
+              }
             }
           }
           // Push từng cate mới vào Model Categories
           let cateIdArray = [];
           cateIdArray = req.body.categories;
-          catelength = cateIdArray.length;
+          if (cateIdArray != null && cateIdArray != null) {
+            catelength = cateIdArray.length;
+          } else {
+            catelength = 0;
+          }
+
           let j;
           if (catelength != 0) {
             //    console.log(catelength);
@@ -467,10 +511,11 @@ module.exports = {
   // Search Book By title
   searchBookByTitle: async (req, res, next) => {
     let searchOptions = {}
-    if (req.query.title != null && req.query.title !== '') {
+    if (req.query.title != null && req.query.title != '') {
       searchOptions.title = new RegExp(req.query.title, 'i')
     }
     try {
+
       const books = await Book.find(searchOptions).populate([{
         path: 'categories', select: 'name', model: category
       }, {
@@ -480,11 +525,8 @@ module.exports = {
       }, {
         path: 'publisher', select: 'name', model: publisher
       }]);
-      res.status(200).json(books);
-      // res.render('authors/index', {
-      //     authors: authors,
-      //     searchOptions: req.query
-      // })
+      return res.status(200).json(books);
+
     } catch {
       res.redirect('/')
     }

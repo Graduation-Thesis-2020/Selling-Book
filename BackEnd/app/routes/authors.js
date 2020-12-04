@@ -7,18 +7,24 @@ const authorController = require('./../controllers/authors');
 // authentication
 const checkauth = require('./../middleware/auth');
 router.use((req, res, next) => {
-    next();
+  next();
 });
 
 
- router.get('/', authorController.getListAuthor);
-router.post('/',  authorController.createAuthor);
+router.get('/', authorController.getListAuthor)
+  // Search name author 
+  .get('/search', authorController.searchAuthorByName) //  Search name book
+  .get('/:authorId/search/', authorController.searchBookWithAuthor) // search book by name book + Author
+
+
+
+router.post('/', authorController.createAuthor);
 
 router.route('/:authorId')
-    .get(authorController.getAuthorID)
-    .patch(authorController.updateAuthor )
-    .put(authorController.updateAuthor)
-    .delete(authorController.deleteAuthor);
+  .get(authorController.getAuthorID)
+  .patch(authorController.updateAuthor)
+  .put(authorController.updateAuthor)
+  .delete(authorController.deleteAuthor);
 
 
 
