@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BooksService } from '../service/book.service';
 import { Books, Books1 } from '../models/book';
 import { ReviewsService } from '../service/review.service';
-import { Review } from '../models/review';
+import { Rating, Review } from '../models/review';
 import { AuthorService } from '../service/author.service';
 import { Author } from '../models/author';
 import { CateService } from '../service/cate.service';
@@ -12,15 +12,18 @@ import { CartService } from '../service/cart.service';
 import { Item, Mess } from '../models/cart';
 import { PublisherService } from '../service/publisher.service';
 import { Publisher } from '../models/publisher';
-
+import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
+import { BookNew } from './../models/book';
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit {
-
-  books: Books;
+  currentRate:number = 0;
+  num = 100;
+  books: BookNew;
+  bookNew: BookNew;
   review: Review;
   idrv: string;
   reviews: Review[];
@@ -36,6 +39,9 @@ export class ProductDetailsComponent implements OnInit {
   items: Item[] = [];
   total: number;
   countItem: number;
+  rating: Rating;
+  err: string;
+
   constructor(
     private route: ActivatedRoute,
     private BooksService: BooksService,
@@ -46,16 +52,18 @@ export class ProductDetailsComponent implements OnInit {
     private publisherService: PublisherService
   ) { }
 
-  async ngOnInit() {
-    await this.getBookfromRoute();
-    await this.getReviewfromIDBook();
-    await this.getAuthorfromIDBook();
-    await this.getCatefromIDBook();
-    await this.getAllPublisher();
-    await this.getAllBook();
-    await this.getAllCate();
-    await this.getAllAuthor();
-    await this.getAllPub();
+   ngOnInit() {
+     this.getBookfromRoute();
+     this.getReviewfromIDBook();
+     this.getAuthorfromIDBook();
+     this.getCatefromIDBook();
+     this.getAllPublisher();
+     this.getAllBook();
+     this.getAllCate();
+     this.getAllAuthor();
+     this.getAllPub();
+     this.getRating();
+     this.loadCart();
   }
   getAllPub() {
     this.publisherService.getPublishers().subscribe(res => this.pubs = res);
@@ -66,41 +74,43 @@ export class ProductDetailsComponent implements OnInit {
   getAllBook() {
     this.BooksService.getBooks().subscribe(res => this.books1 = res);
   }
+
   getAllCate() {
     this.CateService.getCates().subscribe(res => this.cates1 = res);
   }
-  async getBookfromRoute() {
+   getBookfromRoute() {
     const id = this.route.snapshot.paramMap.get('id');
-    await this.BooksService.getBooksFromID(id).toPromise().then(res => this.books = res);
+    this.BooksService.getBookDetailFromID(id).subscribe(res => this.books = res);
 
   }
-  // getReviewfromID(id: string) {
-  //   const idrv = this.books.reviews;
-  //   this.ReviewService.getReviewFromID(id).subscribe(res => this.review = res);
-  //   console.log(this.review);
-  // }
-  async getReviewfromIDBook() {
+   getRating() {
     const id = this.route.snapshot.paramMap.get('id');
-    await this.ReviewService.getReviewFromIDBook(id).toPromise().then(res => this.reviews = res);
+    this.ReviewService.getRatingBook(id).subscribe(res => this.rating = res, error => this.err = error);
+  }
+   getReviewfromIDBook() {
+    const id = this.route.snapshot.paramMap.get('id');
+    this.ReviewService.getReviewFromIDBook(id).subscribe(res => this.reviews = res);
 
   }
-  async save(review: number, comment: string) {
+
+  save( comment: string) {
     const bookId = this.route.snapshot.paramMap.get('id');
+    const review = this.currentRate;
     const newReview: Review = { review, comment, bookId } as Review;
-    await this.ReviewService.addReview(newReview).toPromise().then(res => this.addreivew = res);
-    await this.getReviewfromIDBook();
+    this.ReviewService.addReview(newReview).subscribe(res => this.addreivew = res);
+    this.getReviewfromIDBook();
   }
-  async getAuthorfromIDBook() {
+   getAuthorfromIDBook() {
     const id = this.route.snapshot.paramMap.get('id');
-    await this.AuthorsService.getAuthorFromIDBook(id).toPromise().then(res => this.author = res);
+    this.AuthorsService.getAuthorFromIDBook(id).subscribe(res => this.author = res);
   }
-  async getCatefromIDBook() {
+   getCatefromIDBook() {
     const id = this.route.snapshot.paramMap.get('id');
-    await this.CateService.getCateFromID(id).toPromise().then(res => this.cates = res);
+    this.CateService.getCateFromID(id).subscribe(res => this.cates = res);
 
   }
-  async getAllPublisher() {
-    await this.publisherService.getPublishers().toPromise().then(res => this.pub = res);
+   getAllPublisher() {
+    this.publisherService.getPublishers().subscribe(res => this.pub = res);
 
   }
   add(id:string) {
@@ -147,5 +157,66 @@ export class ProductDetailsComponent implements OnInit {
       } else {
       }
     });
+  }
+  AddtoCart(id:string) {
+    // const id = this.route.snapshot.paramMap.get('id');
+    // this.cartService.AddtoCart(id).subscribe(res => this.mess = res);
+    this.route.params.subscribe((params) => {
+      if (id) {
+        this.BooksService.getBooksFromID(id).subscribe(
+          (result) => {
+            const item: Item = {
+              product: result,
+              total: 1,
+            };
+            if (localStorage.getItem('cart') == null) {
+              let cart: any = [];
+              cart.push(JSON.stringify(item));
+              localStorage.setItem('cart', JSON.stringify(cart));
+            } else {
+              let cart: any = JSON.parse(localStorage.getItem("cart"));
+              let index: number = -1;
+              for (var i = 0; i < cart.length; i++) {
+                let item: Item = JSON.parse(cart[i]);
+                if (item.product._id == id) {
+                  index = i;
+                  break;
+                }
+              }
+              if (index == -1) {
+                cart.push(JSON.stringify(item));
+                localStorage.setItem("cart", JSON.stringify(cart));
+              } else {
+                let item: Item = JSON.parse(cart[index]);
+                item.total += 1;
+                cart[index] = JSON.stringify(item);
+                localStorage.setItem("cart", JSON.stringify(cart));
+              }
+            }
+            alert('Thêm Thành Công');
+            this.loadCart();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } else {
+        this.loadCart();
+      }
+    });
+  }
+  loadCart() {
+    this.total = 0;
+    this.items = [];
+    let cart: any = JSON.parse(localStorage.getItem("cart"));
+    for (var i = 0; i < cart.length; i++) {
+      let item: Item = JSON.parse(cart[i]);
+      this.items.push({
+        product: item.product,
+        total: item.total,
+      });
+      this.total += item.product.price * item.total;
+    }
+    this.countItem = this.items.length;
   }
 }

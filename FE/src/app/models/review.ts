@@ -13,4 +13,8 @@ export interface ReviewFromBook {
   _id: string;
   title: string;
 }
-
+export interface Rating {
+  total: number;
+  average: number;
+  message: string;
+}

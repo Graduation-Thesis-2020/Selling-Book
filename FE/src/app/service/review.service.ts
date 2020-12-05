@@ -5,7 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Books, Books1 } from '../models/book';
 import { RootObj, RootObj2 } from '../models/root-obj';
 import { ApiService } from './api.service';
-import { Review, ReviewDetail } from '../models/review';
+import { Rating, Review, ReviewDetail } from '../models/review';
 
 
 
@@ -47,6 +47,10 @@ export class ReviewsService {
   }
   delete(id: string): Observable<Review> {
     return this.http.delete<Review>(`${this.URL}/${id}`);
+  }
+  getRatingBook(id: string): Observable<Rating> {
+    const url = `${this.BookURL}/${id}/averageReview`;
+    return this.http.get<Rating>(url).pipe();
   }
 }
 
