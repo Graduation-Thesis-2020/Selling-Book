@@ -82,3 +82,20 @@ export interface BookEdit {
   discount: string;
   image: File;
 }
+export interface BookNew {
+  title: string;
+  description: string;
+  publishDate: Date;
+  pageCount: number;
+  price: number;
+  availableQuantity: number;
+  imageUrl: string;
+  imageId: string;
+  publisher: PubFromBook;
+  author: AuthorFromBook;
+  categories: CatFromBook[];
+  reviews: string[];
+  _id: string;
+  discount: string;
+  image: File;
+}

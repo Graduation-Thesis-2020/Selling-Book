@@ -6,6 +6,7 @@ import { Books, Books1, Books2, BooksInCart } from '../models/book';
 import { RootObj, RootObj2 } from '../models/root-obj';
 import { ApiService } from './api.service';
 import { BookEdit } from 'src/app/models/book';
+import { BookNew } from './../models/book';
 
 
 
@@ -45,6 +46,10 @@ export class BooksService {
   getBooksFromID(id: string): Observable<Books> {
     const url = `${this.bookURL}/${id}`;
     return this.http.get<Books>(url).pipe();
+  }
+  getBookDetailFromID(id: string): Observable<BookNew> {
+    const url = `${this.bookURL}/${id}`;
+    return this.http.get<BookNew>(url).pipe();
   }
   getBooksFromID1(id: string): Observable<BookEdit> {
     const url = `${this.bookURL}/${id}`;

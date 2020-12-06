@@ -1,121 +1,339 @@
-<div class="jumbotron">
-  <div class="container">
-    <h1 class="display-4">Chi Tiết Sản Phẩm</h1>
-    <p class="lead">chi tiết sản phẩm!</p>
-  </div>
-</div>
-
-<div class="container">
-  <div class="col-m">
-    <div class="row">
-      <div class="col-5">
-        <a class="offer-img">
-          <img src="{{ books.imageUrl }}" class="img-responsive" alt="" />
-        </a>
+<section style="background-color: antiquewhite;
+        background-image: url(https://cdn.pixabay.com/photo/2018/12/18/22/29/background-3883179_960_720.jpg);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        height: 300px;">
+  <div class="header">
+    <div class="container">
+      <div class="logo">
+        <h1>
+          <a [routerLink]="['/home']"
+            ><b>T<br />H<br />E</b>Book Store<span>The Best Store Online</span></a
+          >
+        </h1>
       </div>
 
-      <div class="col-7">
-        <div class="single-right">
-          <h3>{{ books.title }}</h3>
-          <div class="in-pa1">
-            <h6 routerLink="/books/{{ author._id }}/authors/{{ author.name }}">
-              <span>Tác giả: </span> {{ author.name }}
-            </h6>
-            <div
-              class="row"
+      <ul class="c">
+        <li>
+          <a [routerLink]="['/login']"
+            ><i class="fa fa-user" aria-hidden="true"></i>Đăng Nhập</a
+          >
+        </li>
 
-            >
-              <span class="col-u" style="margin-left: 14px">Thể loại: </span>
-              <div class="col-auto m-wthree" *ngFor="let cate of cates"
-              routerLink="/books/{{ cate._id }}/categories/{{ cate.name }}">
-                <h5>{{ cate.name }}.</h5>
+      </ul>
+
+      <div class="header-ri">
+        <ul class="social-top">
+          <li>
+            <a href="https://www.facebook.com/koolsssssss" class="icon facebook"
+              ><i class="fa fa-facebook" aria-hidden="true"></i><span></span
+            ></a>
+          </li>
+          <li>
+            <a href="https://www.facebook.com/hung.lu1998" class="icon twitter"
+              ><i class="fa fa-twitter" aria-hidden="true"></i><span></span
+            ></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--Menu-->
+  <div class="container">
+    <nav class="navbar navbar-expand-lg border-bottom" >
+      <a class="navbar-brand" style="font-size: 24px; color: antiquewhite; margin-right: 0px;" [routerLink]="['/home']"><i class="fas fa-book"style="padding-top: 30px;" ></i></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon" ></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="nav-top mr-auto">
+          <nav class="navbar navbar-default ">
+            <div class="ccc">
+              <ul class="nav navbar-nav">
+                <li >
+                  <a [routerLink]="['/home']" class="hyper"
+                    ><span>Trang Chủ</span></a
+                  >
+                </li>
+
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"
+                    ><span>Thể loại<b class="caret"></b></span
+                  ></a>
+                  <ul class="dropdown-menu multi">
+                    <div class="row">
+                      <div class="col-sm-3" *ngFor="let cate of cates1">
+                        <ul class="multi-column-dropdown">
+                          <li>
+                            <a
+                              routerLink="/books/{{ cate._id }}/categories/{{
+                                cate.name
+                              }}"
+                              ><i class="fa fa-angle-right" aria-hidden="true"></i
+                              >{{ cate.name }}</a
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"
+                    ><span> Nhà Xuất Bản <b class="caret"></b></span
+                  ></a>
+                  <ul class="dropdown-menu multi multi1">
+                    <div class="row">
+                      <div class="col-sm-3" *ngFor="let pub of pubs">
+                        <ul class="multi-column-dropdown">
+                          <li>
+                            <a
+                              routerLink="/books/{{ pub._id }}/publishers/{{
+                                pub.name
+                              }}"
+                              ><i class="fa fa-angle-right" aria-hidden="true"></i
+                              >{{ pub.name }}
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"
+                    ><span>Tác Giả<b class="caret"></b></span
+                  ></a>
+                  <ul class="dropdown-menu multi multi2">
+                    <div class="row">
+                      <div class="col-sm-3" *ngFor="let aut of auts">
+                        <ul class="multi-column-dropdown">
+                          <li>
+                            <a
+                              routerLink="/books/{{ aut._id }}/authors/{{
+                                aut.name
+                              }}"
+                              ><i class="fa fa-angle-right" aria-hidden="true"></i
+                              >{{ aut.name }}</a
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a [routerLink]="['/books']" class="dropdown-toggle hyper" data-toggle="dropdown"
+                    ><span> Tất Cả Sách </span
+                  ></a>
+                </li>
+                <li class="dropdown">
+                  <a [routerLink]="['/sale']" class="dropdown-toggle hyper" data-toggle="dropdown"
+                    ><span> Ưu Đãi </span
+                  ></a>
+                  <div class="offer-menu" >
+                    <p><span>Giảm giá</span></p>
+                  </div>
+                </li>
+              </ul>
+
+            </div>
+          </nav>
+        </div>
+
+        <div class="cart">
+          <a [routerLink]="['/cart']"
+            ><span class="fa fa-shopping-cart my-cart-icon"
+              >(<small>{{ countItem }}</small
+              >)</span
+            ></a
+          >
+        </div>
+
+      </div>
+
+    </nav>
+
+
+
+    </div>
+
+</section>
+<ng-template #t let-fill="fill">
+  <span class="star" [class.full]="fill === 100">
+    <span class="half" [style.width.%]="fill">&hearts;</span>&hearts;
+  </span>
+</ng-template>
+<div class="content-top">
+  <div class="container">
+    <div class="col-m">
+      <div class="row">
+        <div class="col-5">
+          <a class="offer-img">
+            <img src="{{ books.imageUrl }}" class="img-responsive" alt="" />
+          </a>
+        </div>
+
+        <div class="col-7">
+          <div class="single-right">
+            <h3>{{ books.title }}</h3>
+            <div class="row" style="margin-left: 0px;" *ngIf="rating.message == null">
+              <ngb-rating rate="{{rating.average}}" [starTemplate]="t"  [readonly]="true" [max]="5" ></ngb-rating>
+              <div class="number-rate" >
+                ({{rating.total}} đánh giá)
               </div>
             </div>
-            <div
-              *ngFor="let pub of pub"
-              routerLink="/books/{{ pub._id }}/publishers/{{ pub.name }}"
-            >
-              <h6 *ngIf="pub._id === books.publisher">
-                <span>Nhà Xuất Bản: </span>{{ pub.name }}
-              </h6>
-            </div>
-            <h6>
-              <span>Ngày Xuất Bản: </span
-              >{{ books.publishDate | date: "dd/MM/yyyy" }}
-            </h6>
-          </div>
-
-          <div class="pr-single">
-            <p class="reduced" *ngIf="books.discount !== '0'">
-              <del>{{ books.price }} VNĐ</del>{{ books.discount }} VNĐ
-            </p>
-            <p class="reduced" *ngIf="books.discount === '0'">
-              {{ books.price }} VNĐ
-            </p>
-          </div>
-
-          <p class="in-pa">{{ books.description }}</p>
-
-          <div class="add add-3">
-            <button
-              class="btn btn-danger my-cart-btn my-cart-b"
-              (click)="add(books._id)"
-            >
-              Thêm Giỏ Hàng
-            </button>
-          </div>
-
-          <div>
-            <h2>Đánh giá</h2>
-            <!-- <div *ngFor="let each of books.reviews; let i = index">
-                  <p class="reduced" (click)="getReviewfromID(each)" >{{i+1}}.Người Ẩn Danh</p>
+            <div class="row" style="margin-left: 0px;" *ngIf="rating.total == null">
+              <ngb-rating rate="0" [starTemplate]="t" [readonly]="true" [max]="5"></ngb-rating>
+              <div class="number-rate" *ngIf="mess == null">
+                (0 đánh giá)
               </div>
-              <div>
-                  <p class="reduced">{{review.comment}}</p>
-              </div> -->
-            <div *ngFor="let each of reviews; let i = index">
-              <p class="reduced1">
-                <i class="fas fa-user" style="margin-right: 5px"></i>Người Ẩn
-                Danh({{ i }})
+            </div>
+
+            <div class="author">
+              <div class="row" style="margin-left: 0px;">
+                <span style="margin-right: 3px; font-size: 18px;">Tác giả: </span>
+                <div class="more" >
+                  <a [routerLink]="['/books/5fc5e3ea2364e00df46c4550/categories/Bán Chạy']"> {{ author.name }}</a>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="mid-2">
+              <p class="price1" *ngIf="books.discount === '0'">{{ books.price }} đ</p>
+              <p class="price" *ngIf="books.discount !== '0'">
+                <label>{{ books.price }} đ</label
+                ><em class="item_price">{{ books.discount }} đ</em>
               </p>
-              <p class="reduced3">
-                Bình chọn {{ each.review }}
-                <i class="fas fa-star" style="margin-right: 5px"></i>
-              </p>
-              <div class="col-n">
-                <p class="reduced2">Bình Luận: {{ each.comment }}</p>
-              </div>
-            </div>
-            <div></div>
 
-            <div class="col-e">
-              <h5>
-                Bình chọn:
-                <select #star class="custom-select" style="width: 10%">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
-                sao
-              </h5>
-              <textarea
-                #comment
-                class="form-control"
-                placeholder="nhập bình luận.."
-              ></textarea>
+            </div>
+
+            <div class="add-cart">
               <button
-                class="btn btn-danger my-cart-btn my-cart-b1 pull-right"
-                (click)="save(star.value, comment.value)"
-                tyle="submit"
+                class="btn btn-danger my-cart-btn my-cart-b"
+                (click)="add(books._id)"
               >
-                Bình Luận
+                Thêm Giỏ Hàng
               </button>
             </div>
+
+
+
+
+
+
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+
+    <div class="descript">
+      <p class="title">Thông tin chi tiết</p>
+      <div class="table-detail">
+        <div class="row" style="font-size: 18px;">
+          <div class="col-3" >
+              Nhà xuất bản
+          </div>
+          <div class="col-9">
+            {{books.publisher.name}}
+          </div>
+          <div class="col-3" >
+            Ngày xuất bản
+          </div>
+          <div class="col-9">
+            {{books.publishDate | date:"dd/MM/yyyy"}}
+          </div>
+          <div class="col-3" >
+            Số trang
+          </div>
+          <div class="col-9">
+            {{books.pageCount}}
+          </div>
+          <div class="col-3" >
+            Thể loại
+          </div>
+          <div class="col-9 row" style="margin-left: 0px;">
+            <p class="catArray" *ngFor="let cat of cates">"{{cat.name}}"</p>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="descript">
+      <p class="title">Mô tả sản phẩm</p>
+      <p class="in-pa">{{ books.description }}</p>
+    </div>
+
+    <div class="descript">
+      <p class="title">Nhận xét
+        </p>
+        <div class="col-e">
+          <div class="rate">
+            <h5 style="font-weight: normal;">
+              Bình chọn: <span class="heart"><ngb-rating [(rate)]="currentRate" [starTemplate]="t" [max]="5"></ngb-rating></span>
+            </h5>
+
+
+          </div>
+
+
+
+          <textarea
+            #comment
+            class="form-control"
+            placeholder="nhập bình luận.."
+          ></textarea>
+
+        </div>
+        <div class="submitRating">
+          <button
+            class="btn btn-outline-danger" style="float: right;"
+            (click)="save(comment.value)"
+            tyle="button"
+          >
+            Gửi nhận xét
+          </button>
+        </div>
+
+        <div class="showReview">
+          <p class="title">Khách hàng đã nhận xét
+            <span class="in-pa" *ngIf="rating.message == null">(hiện có {{rating.total}} lượt đánh giá)</span>
+        <span class="in-pa" *ngIf="rating.total == null">(hiện có 0 lượt đánh giá)</span>
+          </p>
+        </div>
+        <div *ngFor="let each of reviews; let i = index">
+          <p class="reduced1">
+            <i class="fas fa-user" style="margin-right: 5px"></i>Người Ẩn
+            Danh({{ i }})
+          </p>
+          <p class="reduced3">
+            {{ each.review }}
+            &hearts;
+          </p>
+          <div class="col-n">
+            <p class="reduced2">Bình Luận: {{ each.comment }}</p>
+          </div>
+        </div>
+    </div>
+    <div>
+
+
+
+    </div>
   </div>
 </div>
+

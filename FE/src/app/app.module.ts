@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-  
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Book1Component } from './book1/book1.component';
@@ -39,8 +39,8 @@ import { AdminUserComponent } from './admin-user/admin-user.component';
 import { StorePageComponent } from './store-page/store-page.component';
 import { BookSaleComponent } from './book-sale/book-sale.component';
 import { BookAllComponent } from './book-all/book-all.component';
-
-
+import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap' ;
 @NgModule({
   declarations: [
     AppComponent,
@@ -86,6 +86,9 @@ import { BookAllComponent } from './book-all/book-all.component';
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
+    NgbPaginationModule,
+    NgbAlertModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
