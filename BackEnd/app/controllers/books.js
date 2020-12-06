@@ -702,7 +702,7 @@ module.exports = {
         average
       });
     }
-    return res.status(404).json({
+    return res.status(200).json({
       message: " Không có bình luận nào !!!"
     });
   }

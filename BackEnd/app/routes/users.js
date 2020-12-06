@@ -35,18 +35,21 @@ const upload = multer({
 // Phần dành cho Khách hàng
 router.post('/register', User.postRegisterUserCustomer)
   .post('/login', passport.authenticate('local', { session: false }), User.postLoginUserCustomer)
-  .patch('/:userId',upload.single('image'), User.postUpdateUserCustomer)
-  .put('/:userId' , upload.single('image'), User.postUpdateUserCustomer)
+  // Update Profile Customer
+  .patch('/:userId', passport.authenticate('jwt', { session: false }), upload.single('image'), User.postUpdateUserCustomer)
+  .put('/:userId', passport.authenticate('jwt', { session: false }), upload.single('image'), User.postUpdateUserCustomer)
 
 // LOGOUT ACCOUNT
-router.get('/logout', User.logout);
+router.delete('/logout', passport.authenticate('jwt', { session: false }), User.logout);
+
 // LOGIN WITH GOOGLE
 router.post('/auth/google', passport.authenticate('google-plus-token', { session: false }), User.authGoogle);
 
 // LOGIN WITH FACEBOOK
 router.post('/auth/facebook', passport.authenticate('facebook-token', { session: false }), User.authFacebook);
 
-router.get('/secret', passport.authenticate('jwt', { session: false }), User.secret);
+router.get('/secret', passport.authenticate('jwt', { session: false }), User.secret)
+  .get('/getAllCustomer', User.getAllUserCustomer);
 
 
 
