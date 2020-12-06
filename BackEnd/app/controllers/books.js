@@ -684,7 +684,7 @@ module.exports = {
   averageReviewABook: async (req, res, next) => {
     let bookId = req.params.bookId;
     let arrayreview = await Review.find({ bookId: bookId });
-   // let book = await Book.findOne(bookId);
+    // let book = await Book.findOne(bookId);
     //   return res.status(200).json(reviewdata);
     let reviewlength;
     let average, sum = 0;
@@ -694,14 +694,15 @@ module.exports = {
       for (i = 0; i < reviewlength; i++) {
         sum += arrayreview[i].review;
       }
-        average = Math.round(sum / reviewlength) ;
-    //  average = sum / reviewlength;
+      // average = Math.round(sum / reviewlength) ;
+      //average = sum / reviewlength;
+      average = Math.round((sum / reviewlength) * 10) / 10;
       return res.status(200).json({
-        total: reviewlength, 
+        total: reviewlength,
         average
       });
     }
-    return res.status(200).json({
+    return res.status(404).json({
       message: " Không có bình luận nào !!!"
     });
   }

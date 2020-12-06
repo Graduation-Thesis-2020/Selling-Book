@@ -7,7 +7,7 @@ const Book = require('../models/book');
 const { equal } = require('assert');
 const { exists } = require('../models/user');
 const user = require('../models/user');
-
+const cloudinary = require('cloudinary');
 const verifyToken = (token) => {
   const decode = jwt.verify(token, process.env.JWT_KEY);
   return { decode };
@@ -58,7 +58,7 @@ module.exports = {
       req.user = null;
       res.redirect('/dashboard/customers');
     });
-    
+
   },
   // TEST SECRET 
   secret: (req, res, next) => {
@@ -82,13 +82,16 @@ module.exports = {
       validationErrors.push({ message: 'Mật khẩu không chính xác' });
     }
     if (validationErrors.length) {
-     // req.flash('errors', validationErrors);
+      // req.flash('errors', validationErrors);
       //  return res.redirect('/dashboard/customers/login');
       return res.status(500).json({ message: validationErrors });
     }
     req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
 
+
+
     const user = new User({
+
       email: req.body.email,
       phone: req.body.phone,
       password: req.body.password,
@@ -102,6 +105,7 @@ module.exports = {
     User.findOne({ email: req.body.email }, (err, existUser) => {
       if (err) {
         return next(err);
+
       }
       if (existUser) {
         return res.status(500).json({
@@ -127,6 +131,10 @@ module.exports = {
         res.send('error');
       }
     });
+
+
+
+
   },
 
 
@@ -199,73 +207,49 @@ module.exports = {
     // }
   },
 
-  // Đăng ký tài khoản 
-  registerUser: (req, res, next) => {
 
-    const order = new Order({
-      email: req.body.email,
-      totalPrice: req.body.totalPrice,
-      phone: req.body.phone,
-      address: req.body.address,
-      name: req.body.name,
-    });
-    const books = req.body.books;
-    let userId;
-    let arrayBook = [];
-    order.save(function (err, result) {
+
+  // Cập nhật Porfile của Customer
+  postUpdateUserCustomer: (req, res, next) => {
+    const userId = req.params.userId;
+    User.findById(userId, async (err, userdata) => {
       if (err) {
-        res.status(500).json({
+        return res.status(500).json({
           error: err
         });
       } else {
-        //   req.session.cart = null;
-        res.status(200).json({
-          // totalPrice: totalPrice,
-          // totalQty: totalQty,
-          message: 'Successfully bought book!'
-        });
+        if (req.file) {
+          try {
+            if (userdata.imageUrl != null && userdata.imageId != null) {
+              await cloudinary.v2.uploader.destroy(userdata.imageId);
+            }
+            const result = await cloudinary.v2.uploader.upload(req.file.path);
+            userdata.imageId = result.public_id;
+            userdata.imageUrl = result.secure_url;
+          } catch (err) {
+            return res.status(500).json({
+              error: err
+            });
+          }
+          userdata.phone = req.body.phone;
+          userdata.name = req.body.name;
+          userdata.gender = req.body.gender;
+          userdata.birthday = req.body.birthday;
+          userdata.address = req.body.address;
+
+          userdata.save();
+          return res.status(200).json(userdata);
+        } else {
+          userdata.phone = req.body.phone;
+          userdata.name = req.body.name;
+          userdata.gender = req.body.gender;
+          userdata.birthday = req.body.birthday;
+          userdata.address = req.body.address;
+
+          userdata.save();
+          return res.status(200).json(userdata);
+        }
       }
-    });
-
-
-    // Luu order._id vao bang orderDetail va san pham da dc order
-    let orderId;
-    if (order) {
-      orderId = order._id;
-    } else {
-      return res.json({ msg: "Error when create order!" });
-    }
-
-    // Create OrderDetail
-    const newOrderDetail = {
-      orderId: orderId,
-      books: books,
-    };
-
-    // const createdOrderDetail = 
-    OrderDetail.create(newOrderDetail);
-
-    // if(createdOrderDetail) {
-    //     books.map(async (book) => {
-    //         const id = parseInt(book._id)
-    //     });
-    // }
-
-  },
-
-  // Đăng nhập tài khoản
-  loginUser: (req, res, next) => {
-
-    const orderId = req.params.orderId;
-    const orderOfUserData = [];
-    OrderDetail.findOne({ orderId: orderId }, function (err, result) {
-      if (!result) {
-        return res.status(404).json({
-          message: "Order not found"
-        });
-      }
-      res.status(200).json(result);
-
     });
 
   },
