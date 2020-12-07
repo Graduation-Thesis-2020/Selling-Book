@@ -134,11 +134,9 @@ module.exports = {
           name: checkEmail.name,
           address: checkEmail.address,
           phone: checkEmail.phone,
+          role: checkEmail.role
         }
-        return res.status(200).json({
-          message: "Đăng nhập thành công!!!",
-          user: data,
-        })
+        return res.status(200).json(data)
       }
       return res.status(404).json({
         message: 'Mật khẩu không đúng, vui lòng thử lại!!!!'

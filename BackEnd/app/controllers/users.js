@@ -17,7 +17,7 @@ const encodedToken = (email) => {
     iss: 'Lu Phuong',
     sub: email,
     iat: new Date().getTime(),
-    exp: new Date().setDate(new Date().getDate() + 3)
+    exp: new Date().setDate(new Date().getDate() + 1)
   }, process.env.JWT_KEY);
 }
 module.exports = {
@@ -52,17 +52,9 @@ module.exports = {
   },
 
   logout: (req, res, next) => {
-    //req.logout();
-    //req.session.destroy((err) => {
-  //    if (err) console.log('Error : Failed to destroy the session during logout.', err);
-      if( req.user != null ) {
-        req.user = null ;
-        // return res.status(200).json({
-        //   message: " Đăng xuất thành công !!!"
-        // });
-      }
+    res.setHeader('Authorization', '' , { maxAge: 1 } );
       return res.status(200).json(req.user);
-    //});
+     
 
   },
   // TEST SECRET 
@@ -172,13 +164,11 @@ module.exports = {
       name: data.name,
       email: data.email,
       address: data.address,
-      phone: data.phone
+      phone: data.phone,
+      role: data.role
     };
     res.setHeader('Authorization', token);
-    return res.status(200).json({
-      message: "Đăng nhập thành công!!!",
-      user
-    })
+    return res.status(200).json(data);
 
     // const { email, password } = req.body;
     // const checkEmail = await User.findOne({ email });

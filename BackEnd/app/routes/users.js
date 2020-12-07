@@ -40,7 +40,7 @@ router.post('/register', User.postRegisterUserCustomer)
   .put('/:userId', passport.authenticate('jwt', { session: false }), upload.single('image'), User.postUpdateUserCustomer)
 
 // LOGOUT ACCOUNT
-router.delete('/logout', passport.authenticate('jwt', { session: false }), User.logout);
+router.get('/logout', passport.authenticate('jwt', { session: false }), User.logout);
 
 // LOGIN WITH GOOGLE
 router.post('/auth/google', passport.authenticate('google-plus-token', { session: false }), User.authGoogle);
