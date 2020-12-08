@@ -42,6 +42,7 @@ router.post('/register', User.postRegisterUserCustomer)
   .get('/profile', passport.authenticate('jwt', { session: false }),User.getProfileCustomer)
   // Quản lý đơn hàng 
   .post('/createorder', passport.authenticate('jwt', { session: false }),User.createAOrder)
+  .get('/getallorder', passport.authenticate('jwt', { session: false }),User.getAllOrder)
 
 
 

@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Order = require('../models/order');
+const OrderDetail = require('../models/orderDetail');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
@@ -222,7 +223,7 @@ module.exports = {
 
 
   // Cập nhật Porfile của Customer
-  postUpdateUserCustomer: (req, res, next) => {
+  postUpdateUserCustomer: async (req, res, next) => {
     const userId = req.user._id;
     User.findById(userId, async (err, userdata) => {
       if (err) {
@@ -271,10 +272,10 @@ module.exports = {
     try {
       const userId = req.user._id;
       const userdata = await User.findById(userId);
-      if(userdata) {
+      if (userdata) {
         return res.status(200).json(userdata);
       }
-      return res.status(404).json({message: " Không tìm thấy!!!"});
+      return res.status(404).json({ message: " Không tìm thấy!!!" });
     } catch (error) {
       return res.status(500).json(error);
     }
@@ -282,16 +283,67 @@ module.exports = {
   },
 
   // Create A order of Customer 
-  createAOrder: (req, res, next ) =>{
-    const userInfo = req.user; 
+  createAOrder: async (req, res, next) => {
+    const userInfo = req.user;
     const order = new Order({
-      email: req.body.email,
+      userId: userInfo._id,
+      email: userInfo.email,
       totalPrice: req.body.totalPrice,
-      phone: req.body.phone,
-      address: req.body.address,
-      name: req.body.name,
-  });
+      phone: userInfo.phone,
+      address: userInfo.address,
+      name: userInfo.name,
+    });
+
+    order.save(function (err, result) {
+      if (err) {
+        res.status(500).json({
+          error: err
+        });
+      } else {
+        res.status(201).json({
+          message: 'Successfully bought book!',
+          result
+        });
+      }
+    });
+
+    // Create OrderDetail
+    try {
+      // Luu order._id vao bang orderDetail va san pham da dc order
+      const books = req.body.books;
+      let orderId;
+      if (order) {
+        orderId = order._id;
+      } else {
+        return res.json({ message: "Error when create order!" });
+      }
+      const newOrderDetail = {
+        orderId: orderId,
+        books: books,
+      };
+      OrderDetail.create(newOrderDetail);
+    } catch {
+      res.status(500).json({
+        message: ' Error when create order Detail!'
+      })
+    }
+
   },
+  // Get All Order 
+  getAllOrder: async (req, res, next) => {
+    try {
+      const orderdata = await OrderDetail.find().populate('orderId');
+      if(orderdata) {
+        return res.status(200).json(orderdata);
+      } 
+      return res.status(404).json({message : "Không tìm thấy!!!"})
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+
+  },
+
+
   // Xem all Detail Oder 
   getOrderDetails: (req, res, next) => {
     OrderDetail.find()
