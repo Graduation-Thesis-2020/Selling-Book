@@ -36,8 +36,14 @@ const upload = multer({
 router.post('/register', User.postRegisterUserCustomer)
   .post('/login', passport.authenticate('local', { session: false }), User.postLoginUserCustomer)
   // Update Profile Customer
-  .patch('/:userId', passport.authenticate('jwt', { session: false }), upload.single('image'), User.postUpdateUserCustomer)
-  .put('/:userId', passport.authenticate('jwt', { session: false }), upload.single('image'), User.postUpdateUserCustomer)
+  .patch('/updateprofile', passport.authenticate('jwt', { session: false }), upload.single('image'), User.postUpdateUserCustomer)
+  .put('/updateprofile', passport.authenticate('jwt', { session: false }), upload.single('image'), User.postUpdateUserCustomer)
+  // See profile Customer 
+  .get('/profile', passport.authenticate('jwt', { session: false }),User.getProfileCustomer)
+  // Quản lý đơn hàng 
+  .post('/createorder', passport.authenticate('jwt', { session: false }),User.createAOrder)
+
+
 
 // LOGOUT ACCOUNT
 router.get('/logout', passport.authenticate('jwt', { session: false }), User.logout);
@@ -50,6 +56,8 @@ router.post('/auth/facebook', passport.authenticate('facebook-token', { session:
 
 router.get('/secret', passport.authenticate('jwt', { session: false }), User.secret)
   .get('/getAllCustomer', User.getAllUserCustomer);
+
+// 
 
 
 

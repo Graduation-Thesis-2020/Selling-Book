@@ -28,6 +28,16 @@ module.exports = {
       message: " That's great!!!"
     })
   },
+
+  // ĐĂNG XUẤT TÀI KHOẢN 
+  logout: (req, res, next) => {
+    res.setHeader('Authorization', '', { maxAge: 1 });
+    req.user = null;
+    return res.status(200).json({ message: " Đăng xuất thành công!!!" });
+    // return res.redirect('/users/login');
+  },
+
+
   // ĐĂNG KÝ TÀI KHOẢN Employee
   postRegisterEmployee: (req, res, next) => {
     const validationErrors = [];

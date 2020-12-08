@@ -12,9 +12,11 @@ router.post('/login', Admin.postLogin)
 // Management Customer 
 router.route('/:customerId')
   .delete(passport.authenticate('jwt', { session: false }), Admin.deleteCustomer)
-// // LOGOUT ACCOUNT
-// router.get('/logout', User.logout);
 
+// LOGOUT ACCOUNT
+router.get('/logout', passport.authenticate('jwt', { session: false }), Admin.logout);
+
+// TEST PRIVATE
 router.get('/secret', passport.authenticate('jwt', { session: false }), Admin.secret);
 
 

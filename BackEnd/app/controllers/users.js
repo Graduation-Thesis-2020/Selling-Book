@@ -1,11 +1,11 @@
 const User = require('../models/user');
-const bcrypt = require('bcrypt');
+const Order = require('../models/order');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 const Book = require('../models/book');
 const { equal } = require('assert');
-const { exists } = require('../models/user');
+const { exists, findOne, findById } = require('../models/user');
 const user = require('../models/user');
 const cloudinary = require('cloudinary');
 const verifyToken = (token) => {
@@ -24,38 +24,54 @@ module.exports = {
 
 
   authFacebook: (req, res, next) => {
-    const token = encodedToken(req.user.email);
-    const data = req.user;
-    const user = {
-      name: data.displayName,
-      email: data.emails[0].value
-    };
-    res.setHeader('Authorization', token);
-    return res.status(200).json({
-      message: " Đăng nhập thành công!!!",
-      user
-    })
+    try {
+      const checkUser = req.user;
+      if (checkUser != null && checkUser != '') {
+        const token = encodedToken(req.user.email);
+        const data = req.user;
+        const user = {
+          name: data.displayName,
+          email: data.emails[0].value
+        };
+        res.setHeader('Authorization', token);
+        return res.status(200).json({
+          message: " Đăng nhập thành công!!!",
+          user
+        })
+      }
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+
   },
 
   authGoogle: (req, res, next) => {
-    const token = encodedToken(req.user.email);
-    const data = req.user;
-    const user = {
-      name: data.displayName,
-      email: data.emails[0].value
-    };
-    res.setHeader('Authorization', token);
-    return res.status(200).json({
-      message: " Đăng nhập thành công!!!",
-      user
-    })
+    try {
+      const checkUser = req.user;
+      if (checkUser != null && checkUser != '') {
+        const token = encodedToken(req.user.email);
+        const data = req.user;
+        const user = {
+          name: data.displayName,
+          email: data.emails[0].value
+        };
+        res.setHeader('Authorization', token);
+        return res.status(200).json({
+          message: " Đăng nhập thành công!!!",
+          user
+        })
+      }
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+
   },
 
   logout: (req, res, next) => {
-    res.setHeader('Authorization', '' , { maxAge: 1 } );
-      return res.status(200).json(req.user);
-     
-
+    res.setHeader('Authorization', '', { maxAge: 1 });
+    req.user = null;
+    return res.status(200).json({ message: " Đăng xuất thành công!!!" });
+    // return res.redirect('/users/login');
   },
   // TEST SECRET 
   secret: (req, res, next) => {
@@ -168,6 +184,7 @@ module.exports = {
       role: data.role
     };
     res.setHeader('Authorization', token);
+    //  res.cookie('Authorization', token);
     return res.status(200).json(data);
 
     // const { email, password } = req.body;
@@ -206,7 +223,7 @@ module.exports = {
 
   // Cập nhật Porfile của Customer
   postUpdateUserCustomer: (req, res, next) => {
-    const userId = req.params.userId;
+    const userId = req.user._id;
     User.findById(userId, async (err, userdata) => {
       if (err) {
         return res.status(500).json({
@@ -249,6 +266,32 @@ module.exports = {
 
   },
 
+  // See Profile Customer 
+  getProfileCustomer: async (req, res, next) => {
+    try {
+      const userId = req.user._id;
+      const userdata = await User.findById(userId);
+      if(userdata) {
+        return res.status(200).json(userdata);
+      }
+      return res.status(404).json({message: " Không tìm thấy!!!"});
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+
+  },
+
+  // Create A order of Customer 
+  createAOrder: (req, res, next ) =>{
+    const userInfo = req.user; 
+    const order = new Order({
+      email: req.body.email,
+      totalPrice: req.body.totalPrice,
+      phone: req.body.phone,
+      address: req.body.address,
+      name: req.body.name,
+  });
+  },
   // Xem all Detail Oder 
   getOrderDetails: (req, res, next) => {
     OrderDetail.find()
