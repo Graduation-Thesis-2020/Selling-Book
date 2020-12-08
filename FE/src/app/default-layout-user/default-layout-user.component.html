@@ -8,16 +8,16 @@
         <ul class="navbar-nav mr-auto">
         </ul>
         <ul class="c">
-          <li>
+          <li *ngIf="role == null">
             <a [routerLink]="['/login']">Đăng Nhập</a>/
             <a [routerLink]="['/register']">Đăng Ký</a>
           </li>
-          <li>
-            <!-- <a [routerLink]="['/cart']"
-                ><i class="fa fa-shopping-cart" aria-hidden="true"></i>Giỏ hàng</a
-              > -->
+          <li *ngIf="role == 0" >
+            <a [routerLink]="['/setting']" class="img-reponsive">
+              <img src="https://i.pinimg.com/originals/d4/bc/c4/d4bcc46e371e194b20854acd1ba3a86b.jpg" alt="" id="showimg">
+            </a>
+            <a [routerLink]="['/setting']" style="color: rgb(231, 179, 119); font-weight: 600;">{{username}}</a>
           </li>
-          <!-- <li><a [routerLink]="['/register']"><i class="fa fa-arrow-right" aria-hidden="true"></i>Đăng Ký</a></li> -->
         </ul>
       </div>
     </nav>

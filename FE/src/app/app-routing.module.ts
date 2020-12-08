@@ -32,6 +32,9 @@ import { AdminOrderComponent } from './admin-order/admin-order.component';
 import { AdminUserComponent } from './admin-user/admin-user.component';
 import { BookSaleComponent } from './book-sale/book-sale.component';
 import { BookAllComponent } from './book-all/book-all.component';
+import { UserSettingComponent } from './user-setting/user-setting.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserOrderComponent } from './user-order/user-order.component';
 
 
 const routes: Routes = [
@@ -55,6 +58,12 @@ const routes: Routes = [
     {path: 'carts/:id', component: CartComponent},
     {path: 'cart', component: CartComponent},
     {path: 'details/:id', component: ProductDetailsComponent},
+    {path: 'setting', component: UserSettingComponent,
+    children:[
+      {path: '', component: UserProfileComponent},
+      {path: 'profile', component: UserProfileComponent},
+      {path: 'order', component: UserOrderComponent}
+    ]},
   ]},
   {path: 'register', component: RegisterComponent},
   {path: 'admin',

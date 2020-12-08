@@ -8,9 +8,10 @@ export interface User {
   password: string;
   confirmPassword: string;
   name: string;
-  birthday: string;
+  birthday: Date;
   gender: string;
   address: string;
+  image: File;
 }
 
 export interface Login {
@@ -31,4 +32,20 @@ export interface Customer {
   authFacebookID: string;
   authType: string;
   role: number;
+}
+export interface LoginReturn {
+  email: string;
+  phone: number;
+  password: string;
+  confirmPassword: string;
+  name: string;
+  birthday: Date;
+  gender: string;
+  address: string;
+  authGoogleID: string;
+  authFacebookID: string;
+  authType: string;
+  role: number;
+  imageUrl: string;
+  imageId: string;
 }

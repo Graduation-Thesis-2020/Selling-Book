@@ -48,7 +48,7 @@
   font-family: monospace;
 }
 .body-all {
-  min-height: 100vh;
+  min-height: 80vh;
   background-color: #e4f0ec;
 }
 
@@ -59,7 +59,7 @@
   font-size: 18px;
 }
 
-span {
+.col-form-label span  {
   color: red;
 }
 .form-control {
@@ -92,4 +92,143 @@ span {
 .sub-title {
   font-size: 18px;
   color: #ebb667df;
+}
+/* menu */
+.logo h1{
+  margin-top: 1rem;
+   font-family: 'Montserrat', sans-serif;
+    font-size: 3em;
+    color: white;
+	display: inline-block;
+	position:relative;
+}
+.logo h1 a{
+    text-decoration:none;
+    color: white;
+}
+.logo h1 span {
+    font-size: 12px;
+    display: block;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-family: 'Noto Sans', sans-serif;
+    padding-top: 4px;
+}
+.logo h1  b {
+  font-size: 8px;
+  background: #ED0612;
+  font-weight: normal;
+  padding: 4px;
+  display: inline-block;
+  position: absolute;
+  top: 11px;
+  left: -12px;
+  color: #fff;
+  line-height: 8px;
+}
+.header {
+  text-align: center;
+}
+.c li {
+  display:inline-block;
+}
+
+.c li a{
+	color: #999;
+  font-size: 0.9em;
+	margin:0 0.5em;
+}
+.c li a i{
+	margin-right:5px;
+	color: #FAB005;
+}
+.social-top li{
+	display:inline-block;
+}
+.icon {
+	border-radius: 100px;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 0.9em;
+	height: 35px;
+	line-height: 37px;
+	margin: 0 2px;
+	position: relative;
+	text-align: center;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
+	width: 35px;
+}
+.icon span {
+	border-radius: 0;
+	display: block;
+	height: 0;
+	left: 50%;
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	-webkit-transition: all 0.3s;
+	   -moz-transition: all 0.3s;
+	     -o-transition: all 0.3s;
+	        transition: all 0.3s;
+	width: 0;
+}
+.icon:hover span {
+	width: 35px;
+	height: 35px;
+	border-radius: 100px;
+	margin: -18px;
+}
+.icon i {
+	background: none;
+	color: #000;
+	height: 35px;
+	left: 0;
+	line-height: 35px;
+	position: absolute;
+	top: 0;
+	-webkit-transition: all 0.3s;
+	   -moz-transition: all 0.3s;
+	     -o-transition: all 0.3s;
+	        transition: all 0.3s;
+	width: 35px;
+	z-index: 10;
+}
+.icon .fa-twitter {
+	color: #4099ff;
+}
+.icon .fa-facebook {
+	color: #3B5998;
+}
+.icon .fa-pinterest-p {
+	color: #CB2028;
+}
+.icon .fa-dribbble {
+	color: #E04D84;
+}
+.icon:hover .fa-facebook,
+.icon:hover .fa-twitter,
+.icon:hover .fa-pinterest-p,
+.icon:hover .fa-dribbble {
+	color: white;
+}
+.twitter span {
+	background-color: #4099ff;
+}
+.facebook span {
+	background-color: #3B5998;
+}
+.intro {
+  background-color: white;
+  height: 30rem;
+}
+.back{
+  text-align: center;
+  color: rgb(114, 113, 113);
+}
+.back a{
+  color: rgb(243, 157, 18);
+  font-weight: 600;
 }

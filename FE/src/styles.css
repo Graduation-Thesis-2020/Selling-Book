@@ -2,3 +2,17 @@
 .ngx-pagination {
   margin-bottom: 0 !important;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-tab-label {
+  background-color: white;
+  color: rgb(153, 45, 135);
+  font-size: 18px;
+
+}
+.mat-tab-body-content{
+  background-color: whitesmoke;
+
+}

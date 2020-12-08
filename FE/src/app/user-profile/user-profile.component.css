@@ -1,0 +1,33 @@
+.card-header {
+  font-size: 26px;
+  font-weight: bold;
+
+}
+.card {
+  border-top: 5px solid #ebab23df;
+}
+.form-border{
+  border-right: 1px solid rgb(238, 231, 224);
+}
+.img-reponsive{
+  text-align: center;
+  padding-bottom: 20px;
+  padding-top: 50px;
+}
+.img-reponsive img{
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+}
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  border: 1px solid rgb(224, 216, 147);
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.cus-file{
+  text-align: center;
+}

@@ -1,0 +1,21 @@
+.cus-container{
+  background-color: whitesmoke;
+  width: 964px;
+  height: 700px;
+}
+.img-responsive img{
+  width: 100px;
+  height: 100px;
+}
+.price{
+  color: rgb(176, 179, 179);
+}
+.bt-detail{
+  border-top: 1px solid rgb(228, 224, 220);
+  padding: 0.5em 1em 0.5em;
+
+}
+.item{
+  background-color: white;
+  margin-top: 10px;
+}

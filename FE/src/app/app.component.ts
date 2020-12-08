@@ -17,6 +17,8 @@ export class AppComponent {
   cates: Cate[];
   pubs: Publisher[];
   auts: Author[];
+  username: string;
+  isLogin: boolean;
   constructor(private BooksService: BooksService,private PubService: PublisherService,
               private CateService: CateService,private AuthorService: AuthorService,
               private location: Location, ) { }
@@ -37,4 +39,5 @@ export class AppComponent {
   refresh(): void {
     window.location.reload();
   }
+
 }

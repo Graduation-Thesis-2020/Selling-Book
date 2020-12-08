@@ -9,6 +9,7 @@ import { PublisherService } from '../service/publisher.service';
 import { Location } from '@angular/common';
 import { Item } from '../models/cart';
 import { Books } from '../models/book';
+import { LoginReturn } from './../models/user';
 
 @Component({
   selector: 'app-default-layout-user',
@@ -24,16 +25,21 @@ export class DefaultLayoutUserComponent implements OnInit {
   countItem: number;
   books: Books[];
   dataSearch: string[];
+  username: string;
+  isLogin: boolean;
+  role: number = null;
   constructor(private BooksService: BooksService,private PubService: PublisherService,
     private CateService: CateService,private AuthorService: AuthorService,
-    private location: Location, ) { }
+    private location: Location, ) {
+      this.setName(this.username, this.role);
+     }
 
 
     ngOnInit() {
         this.getAllCate();
         this.getAllPub();
         this.getAllAuthor();
-        this.loadCart();
+        this.loadUser();
 
       }
 
@@ -49,24 +55,21 @@ export class DefaultLayoutUserComponent implements OnInit {
     refresh(): void {
       window.location.reload();
     }
-    loadCart() {
-      this.total = 0;
-      this.items = [];
-      let cart: any = JSON.parse(localStorage.getItem("cart"));
-      for (var i = 0; i < cart.length; i++) {
-        let item: Item = JSON.parse(cart[i]);
-        this.items.push({
-          product: item.product,
-          total: item.total,
-        });
-        this.total += item.product.price * item.total;
-      }
-      this.countItem = this.items.length;
-    }
+
 
     search(id: string){
       console.log(id);
       this.BooksService.searchBook(id).subscribe(book => this.books = book);
+    }
+    setName(name: string, role: number) {
+      this.username = name;
+      this.role = role;
+      this.isLogin = true;
+    }
+    loadUser() {
+      let user: LoginReturn = JSON.parse(localStorage.getItem("currentUser"));
+      this.username = user.name;
+      this.role = user.role
     }
 
   }

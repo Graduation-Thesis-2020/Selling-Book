@@ -40,7 +40,23 @@ import { StorePageComponent } from './store-page/store-page.component';
 import { BookSaleComponent } from './book-sale/book-sale.component';
 import { BookAllComponent } from './book-all/book-all.component';
 import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap' ;
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserSettingComponent } from './user-setting/user-setting.component';
+import { UserOrderComponent } from './user-order/user-order.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations' ;
+import { MatSliderModule } from '@angular/material/slider';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {
+  MatButtonModule,
+  MatMenuModule,
+  MatToolbarModule,
+  MatIconModule,
+  MatCardModule
+} from '@angular/material';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatTabsModule} from '@angular/material/tabs';
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,6 +92,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap' ;
     StorePageComponent,
     BookSaleComponent,
     BookAllComponent,
+    UserProfileComponent,
+    UserSettingComponent,
+    UserOrderComponent,
 
   ],
   imports: [
@@ -88,9 +107,20 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap' ;
     NgxPaginationModule,
     NgbPaginationModule,
     NgbAlertModule,
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule,
+    MatSliderModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatTabsModule
   ],
-  providers: [],
+  providers: [DefaultLayoutUserComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
     email: string,
     password: string,
     confirmPassword: string,
-    birthday: string,
+    birthday: Date,
     address: string
   ) {
     const gender = this.sex;

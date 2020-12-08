@@ -169,171 +169,50 @@
     </div>
 
 </section>
-<ng-template #t let-fill="fill">
-  <span class="star" [class.full]="fill === 100">
-    <span class="half" [style.width.%]="fill">&hearts;</span>&hearts;
-  </span>
-</ng-template>
-<div class="content-top">
-  <div class="container">
-    <div class="col-m">
-      <div class="row">
-        <div class="col-5">
-          <a class="offer-img">
-            <img src="{{ books.imageUrl }}" class="img-responsive" alt="" />
-          </a>
+
+<div class="container-custom">
+  <div class="abc" >
+    <div class="row">
+      <div class="user col-2">
+        <div class="user-name">
+          {{user.name}}
+          <p>{{user.phone}}</p>
         </div>
-
-        <div class="col-7">
-          <div class="single-right">
-            <h3>{{ books.title }}</h3>
-            <div class="row" style="margin-left: 0px;" *ngIf="rating.message == null">
-              <ngb-rating rate="{{rating.average}}" [starTemplate]="t"  [readonly]="true" [max]="5" ></ngb-rating>
-              <div class="number-rate" >
-                ({{rating.total}} đánh giá)
-              </div>
-            </div>
-            <div class="row" style="margin-left: 0px;" *ngIf="rating.total == null">
-              <ngb-rating rate="0" [starTemplate]="t" [readonly]="true" [max]="5"></ngb-rating>
-              <div class="number-rate" *ngIf="mess == null">
-                (0 đánh giá)
-              </div>
-            </div>
-
-            <div class="author">
-              <div class="row" style="margin-left: 0px;">
-                <span style="margin-right: 3px; font-size: 18px;">Tác giả: </span>
-                <div class="more" >
-                  <a routerLink="/books/{{ books.author._id }}/authors/{{books.author.name}}  "> {{ author.name }}</a>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="mid-2">
-              <p class="price1" *ngIf="books.discount === '0'">{{ books.price }} đ</p>
-              <p class="price" *ngIf="books.discount !== '0'">
-                <label>{{ books.price }} đ</label
-                ><em class="item_price">{{ books.discount }} đ</em>
-              </p>
-
-            </div>
-
-            <div class="add-cart">
-              <button
-                class="btn btn-danger my-cart-btn my-cart-b"
-                (click)="add(books._id)"
-              >
-                Thêm Giỏ Hàng
-              </button>
-            </div>
-
-
-
-
-
-
-          </div>
+        <div class="menu-user" style="padding-top: 10px;">
+          <i class="fas fa-users-cog pr-2"> </i><a style="color: rgb(96, 60, 224); " routerLink="/setting/profile">Hồ sơ</a>
+        </div>
+        <div class="menu-user">
+          <i class="far fa-newspaper pr-2"> </i><a style="color: rgb(116, 42, 165);" routerLink="/setting/order">Đơn hàng</a>
+        </div>
+        <div class="menu-user">
+          <i class="fas fa-sign-out-alt pr-2"> </i><a style="color: rgb(233, 39, 39);" data-toggle="modal" data-target="#exampleModal" routerLink="">Đăng xuất</a>
         </div>
       </div>
 
-
-
-    </div>
-
-    <div class="descript">
-      <p class="title">Thông tin chi tiết</p>
-      <div class="table-detail">
-        <div class="row" style="font-size: 18px;">
-          <div class="col-3" >
-              Nhà xuất bản
-          </div>
-          <div class="col-9">
-            {{books.publisher.name}}
-          </div>
-          <div class="col-3" >
-            Ngày xuất bản
-          </div>
-          <div class="col-9">
-            {{books.publishDate | date:"dd/MM/yyyy"}}
-          </div>
-          <div class="col-3" >
-            Số trang
-          </div>
-          <div class="col-9">
-            {{books.pageCount}}
-          </div>
-          <div class="col-3" >
-            Thể loại
-          </div>
-          <div class="col-9 row" style="margin-left: 0px;">
-            <p class="catArray" *ngFor="let cat of cates">"{{cat.name}}"</p>
-          </div>
-        </div>
+      <div class="col-10">
+        <router-outlet></router-outlet>
       </div>
-    </div>
-
-    <div class="descript">
-      <p class="title">Mô tả sản phẩm</p>
-      <p class="in-pa">{{ books.description }}</p>
-    </div>
-
-    <div class="descript">
-      <p class="title">Nhận xét
-        </p>
-        <div class="col-e">
-          <div class="rate">
-            <h5 style="font-weight: normal;">
-              Bình chọn: <span class="heart"><ngb-rating [(rate)]="currentRate" [starTemplate]="t" [max]="5"></ngb-rating></span>
-            </h5>
-
-
-          </div>
-
-
-
-          <textarea
-            #comment
-            class="form-control"
-            placeholder="nhập bình luận.."
-          ></textarea>
-
-        </div>
-        <div class="submitRating">
-          <button
-            class="btn btn-outline-danger" style="float: right;"
-            (click)="save(comment.value)"
-            tyle="button"
-          >
-            Gửi nhận xét
-          </button>
-        </div>
-
-        <div class="showReview">
-          <p class="title">Khách hàng đã nhận xét
-            <span class="in-pa" *ngIf="rating.message == null">(hiện có {{rating.total}} lượt đánh giá)</span>
-        <span class="in-pa" *ngIf="rating.total == null">(hiện có 0 lượt đánh giá)</span>
-          </p>
-        </div>
-        <div *ngFor="let each of reviews; let i = index">
-          <p class="reduced1">
-            <i class="fas fa-user" style="margin-right: 5px"></i>Người Ẩn
-            Danh({{ i }})
-          </p>
-          <p class="reduced3">
-            {{ each.review }}
-            &hearts;
-          </p>
-          <div class="col-n">
-            <p class="reduced2">Bình Luận: {{ each.comment }}</p>
-          </div>
-        </div>
-    </div>
-    <div>
-
-
-
     </div>
   </div>
 </div>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 700; color: crimson; font-size: 24px;">Thông báo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn muốn đăng xuất tài khoản?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="logout()" data-dismiss="modal">Có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
