@@ -80,15 +80,21 @@ export class UserSettingComponent implements OnInit {
     this.total = 0;
     this.items = [];
     let cart: any = JSON.parse(localStorage.getItem("cart"));
-    for (var i = 0; i < cart.length; i++) {
-      let item: Item = JSON.parse(cart[i]);
-      this.items.push({
-        product: item.product,
-        total: item.total,
-      });
-      this.total += item.product.price * item.total;
+    if(cart){
+      for (var i = 0; i < cart.length; i++) {
+        let item: Item = JSON.parse(cart[i]);
+        this.items.push({
+          product: item.product,
+          total: item.total,
+        });
+        this.total += item.product.price * item.total;
+      }
+      this.countItem = this.items.length;
     }
-    this.countItem = this.items.length;
+    else{
+      this.countItem = 0;
+    }
+
   }
   logout() {
     localStorage.removeItem('currentUser');

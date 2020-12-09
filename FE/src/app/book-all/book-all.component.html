@@ -256,7 +256,7 @@
                       <a  [routerLink]="['/details']"><div class="hidetext">{{ bk.title }}</div></a>
                     </h6>
                   </div>
-                  <div class="mid-2">
+                  <div class="mid-2" *ngIf="bk.price !== 0">
                     <p class="price1" *ngIf="bk.discount === '0'">{{ bk.price }} đ</p>
                     <p class="price" *ngIf="bk.discount !== '0'">
                       <label>{{ bk.price }} đ</label
@@ -267,13 +267,17 @@
                     </div>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="add">
+
+                  <div class="add"  *ngIf="bk.price !== 0">
                     <button
                       class="btn btn-danger my-cart-btn my-cart-b"
                       (click)="AddtoCart(bk._id)"
                     >
-                      <a [routerLink]="[{ id: bk._id }]"></a>Thêm Giỏ Hàng
+                      Thêm Giỏ Hàng
                     </button>
+                  </div>
+                  <div class="coming-img" style="text-align: center; padding-top: 23px;" *ngIf="bk.price == 0">
+                    <img src="https://media.istockphoto.com/vectors/red-rubber-stamp-icon-on-transparent-background-vector-id919297480?b=1&k=6&m=919297480&s=612x612&w=0&h=gkCjvO2o195wYTLNiVKD-7VkajMzgj-_AOmLTmmrL8g=" alt="" width="" height="">
                   </div>
                 </div>
               </div>

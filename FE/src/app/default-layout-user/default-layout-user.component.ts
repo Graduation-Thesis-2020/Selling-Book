@@ -56,7 +56,6 @@ export class DefaultLayoutUserComponent implements OnInit {
       window.location.reload();
     }
 
-
     search(id: string){
       console.log(id);
       this.BooksService.searchBook(id).subscribe(book => this.books = book);

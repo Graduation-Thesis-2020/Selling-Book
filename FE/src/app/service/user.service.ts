@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { Review } from '../models/review';
 import { Customer, User } from '../models/user';
 import { Login, LoginReturn } from './../models/user';
-
-
+import { map } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json'
   })
+};
+const httpOptions1 = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json'
+  }),
+  observe: 'response' as 'response'
 };
 
 @Injectable({
@@ -30,6 +35,10 @@ export class UserService {
   Login(Login: Login): Observable<LoginReturn> {
     return this.http.post<LoginReturn>(this.LoginURL, Login);
   }
+  login(Login: Login) {
+    return this.http.post<any>(this.LoginURL, Login).pipe(map(res => console.log("header: " + res.headers.get("Authorization") )));
+  }
+
   Signup(User: User): Observable<User> {
     return this.http.post<User>(this.SignupURL, User);
   }
@@ -49,23 +58,10 @@ export class UserService {
     return this.http.patch(this.UpdateProFileURL, formData).pipe();
 
   }
-  // getReview(): Observable<Review[]> {
-  //   return this.http.get<Review[]>(this.URL).pipe();
-  // }
+  getToken(){
+    return localStorage.getItem('token')
+  }
 
-  // getReviewFromID(id: string): Observable<Review> {
-  //   const url = `${this.URL}/${id}`;
-  //   return this.http.get<Review>(url).pipe();
-  // }
-  // getReviewFromIDBook(id: string): Observable<Review[]> {
-  //   const url = `${this.BookURL}/${id}/reviews`;
-  //   return this.http.get<Review[]>(url).pipe();
-  // }
-  // addReview(Review: Review): Observable<Review> {
-  //   return this.http.post<Review>(this.URL, Review);
-  // }
-  // delete(id: string): Observable<Review> {
-  //   return this.http.delete<Review>(`${this.URL}/${id}`);
-  // }
+
 }
 
