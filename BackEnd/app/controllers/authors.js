@@ -25,7 +25,12 @@ module.exports = {
       });
   },
 
-  createAuthor: (req, res, next) => {
+  createAuthor: async (req, res, next) => {
+    const checkAuthor = await Author.findOne({ name: req.body.name });
+    if (checkAuthor) {
+      console.log( " Tên tác giả đã tồn tại !");
+      return res.status(400).json({ message: " Tên tác giả đã tồn tại !" });
+    }
     const author = new Author();
     author.name = req.body.name;
     author.firstname = req.body.firstname;
@@ -119,5 +124,5 @@ module.exports = {
     }
   }
 
-  
+
 }

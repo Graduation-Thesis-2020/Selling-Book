@@ -185,8 +185,9 @@ module.exports = {
       role: data.role
     };
     res.setHeader('Authorization', token);
-    //  res.cookie('Authorization', token);
-    return res.status(200).json(data);
+   // console.log(token);
+      res.cookie('Authorization', token);
+     res.status(200).json(data);
 
     // const { email, password } = req.body;
     // const checkEmail = await User.findOne({ email });
