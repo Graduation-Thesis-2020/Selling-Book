@@ -58,6 +58,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
 import { TokenInterceptorService } from './service/token-intercepter.service';
+import { LoginAdminComponent } from './login-admin/login-admin.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -96,6 +97,7 @@ import { TokenInterceptorService } from './service/token-intercepter.service';
     UserProfileComponent,
     UserSettingComponent,
     UserOrderComponent,
+    LoginAdminComponent,
 
   ],
   imports: [

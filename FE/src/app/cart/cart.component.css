@@ -1,3 +1,58 @@
+.pay{
+  padding-bottom: 60px;
+  padding-top: 30px;
+}
+.item1{
+  background-color: white;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 10px;
+
+}
+.numUpDown{
+  margin-top: 10px  ;
+  font-size: 20px;
+}
+.btn-group{
+  border-color: violet;
+}
+.inputNum{
+  font-size: 16px;
+  max-width: 40px;
+}
+.btnupdown{
+  font-size: 10px;
+}
+.cus-container{
+  margin-top: 0px;
+  background-color: whitesmoke;
+  width: 964px;
+  height: 700px;
+}
+.cus-container-main{
+  background-color: whitesmoke;
+  min-height: 700px;
+
+}
+.img-responsive img{
+  width: 100px;
+  height: 100px;
+}
+.price{
+  color: rgb(176, 179, 179);
+  margin-top: 1em;
+}
+.bt-detail{
+  border-top: 1px solid rgb(228, 224, 220);
+  padding: 0.5em 1em 0.5em;
+
+}
+.item{
+  background-color: white;
+  padding-top: 10px;
+
+}
+
 .num {
   text-align: right;
   color: rgb(170, 169, 168);
@@ -687,8 +742,8 @@ span.fa.fa-shopping-cart.my-cart-icon {
 /*-- //to-top --*/
 .spec {
   text-align: center;
-  margin-bottom: 3em;
-  margin-top: 20px;
+  margin-bottom: 1em;
+  padding-top: 20px;
 
 }
 .spec h3 {
@@ -718,7 +773,7 @@ span.fa.fa-shopping-cart.my-cart-icon {
   width: 40px;
   height: 40px;
   display: block;
-  background: #fff;
+  background: whitesmoke;
   position: absolute;
   top: -7px;
   left: 42%;
@@ -3125,10 +3180,7 @@ span.last {
   .offer {
     right: -8px;
   }
-  .container {
-    padding-right: 5px;
-    padding-left: 5px;
-  }
+
   .product {
     padding: 3em 0 0em;
   }

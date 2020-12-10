@@ -170,172 +170,185 @@
 
 </section>
 
-
-
-<div class="container">
-  <div class="spec">
-    <h3>Giỏ Hàng</h3>
-    <div class="ser-t">
-      <b></b>
-      <span><i></i></span>
-      <b class="line"></b>
-    </div>
-
-    <div class="num">
-      <small>Hiện có</small> [ {{ countItem }} ]
-      <small>sản phẩm trong giỏ của bạn</small>
-    </div>
-    <!--table-->
-    <table class="table">
-      <tr>
-        <th class="t-head head-it">Sản phẩm</th>
-        <th class="t-head">Tên</th>
-        <th class="t-head">Giá</th>
-        <th class="t-head">Số lượng</th>
-        <th class="t-head">Thành tiền</th>
-      </tr>
-      <tr class="cross" *ngFor="let item of items; let i = index">
-        <td class="img-reposive"><img src="{{ item.product.imageUrl }}" width="150px" height="150px" /></td>
-        <td class="t-data">
-          <div class="sed">
-            <h5>{{ item.product.title }}</h5>
-          </div>
-        </td>
-        <td class="t-data">{{ item.product.price }}</td>
-        <td class="t-data">
-          <div class="quantity">
-            <button
-              type="button"
-              class="btn btn-outline-success"
-              (click)="update(i, 'minus')"
-              style="margin-right: 3px"
-            >
-              <i class="fa fa-minus"></i>
-            </button>
-            <input
-              class="span-1"
-              value="{{ item.total }}"
-              id="Input_{{ i }}"
-              style="max-width: 35px; height: 35px; margin-right: 3px"
-            />
-
-            <button
-              type="button"
-              class="btn btn-outline-success"
-              (click)="update(i, 'plus')"
-              style="margin-right: 5px"
-            >
-              <i class="fa fa-plus"></i>
-            </button>
-            <button
-              type="button"
-              class="btn btn-danger"
-              (click)="remove(item.product._id)"
-            >
-              <i class="fa fa-remove"></i>
-            </button>
-          </div>
-        </td>
-        <td class="t-data">{{ item.product.price * item.total }}</td>
-      </tr>
-      <tr>
-        <td class="t-data" colspan="4" style="text-align: right">
-          <strong>Total</strong>
-        </td>
-        <td class="t-data" style="background-color: rgb(241, 215, 191)">
-          {{ total }} VND
-        </td>
-      </tr>
-    </table>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="back1">
-        <a [routerLink]="['/home']"
-          ><i class="fa fa-arrow-left"></i> Quay lại
-        </a>
+<div class="cus-container-main">
+  <div class="container">
+    <div class="spec">
+      <h3>Giỏ Hàng</h3>
+      <div class="ser-t">
+        <b></b>
+        <span><i></i></span>
+        <b class="line"></b>
       </div>
-    </div>
-    <div class="col-auto">
-      <div class="back1">
-        <a [routerLink]="['/infocarts']"
-          >Thanh toán <i class="fa fa-arrow-right"></i>
-        </a>
-      </div>
-    </div>
-  </div>
-  <!-- <button
-      type="button"
-      class="btn btn-primary pull-right"
-      data-toggle="modal"
-      data-target="#exampleModal"
-    >
-      Thanh toán
-    </button> -->
 
-  <!-- <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
+      <div class="num">
+        <small>Hiện có</small> [ {{ countItem }} ]
+        <small>sản phẩm trong giỏ của bạn</small>
+      </div>
+
+    </div>
+
+    <div class="container pl-0 pr-0">
+      <div class="item" *ngFor="let item of items; let i = index">
+        <div class="row mr-0 ml-0 pb-2" >
+          <div class="col-auto">
+            <div class="img-responsive">
+              <img src="{{ item.product.imageUrl }}"  alt="" />
+            </div>
           </div>
-          <div class="modal-body">
-            <h2>Vui lòng điền thông tin:</h2>
-            <form style="margin-top: 20px">
-              <div class="input-group mb-3 input-group-md">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" style="border-color: #3f3d3c"
-                    >Địa chỉ</span
-                  >
+          <div class="col-4 pl-0 pt-1" >
+            <div class="sed">
+              <h5>{{ item.product.title }}</h5>
+            </div>
+          </div>
+          <div class="col-2 pl-0 pt-1" >
+            <div class="price">
+              <p>{{ item.product.price }}<p>
+            </div>
+          </div>
+          <div class="col-3 pl-0 mr-auto pt-1" >
+            <div class="row">
+              <div class="numUpDown col pl-0 pr-0">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary btnupdown" (click)="update(i, 'minus')" type="button"> <i class="fa fa-minus"></i></button>
+                  </div>
+                  <input type="text" class="form-control inputNum" sytle="width: 20px" value="{{ item.total }}" id="Input_{{ i }}">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary btnupdown" (click)="update(i, 'plus')" type="button"><i class="fa fa-plus"></i></button>
+                  </div>
                 </div>
-                <input
-                  type="text"
-                  class="form-control"
-                  #code
-                  style="border-color: #3f3d3c"
-                />
+
               </div>
-              <div
-                class="input-group mb-3 input-group-md"
-                style="margin-top: 20px"
+              <div class="col" style="margin-top: 10px;">
+                <button
+                type="button"
+                class="btn btn-danger"
+                (click)="remove(item.product._id)"
               >
-                <div class="input-group-prepend">
-                  <span class="input-group-text" style="border-color: #3f3d3c"
-                    >Số ĐT</span
-                  >
-                </div>
-                <input
-                  type="text"
-                  class="form-control"
-                  #code
-                  style="border-color: #3f3d3c"
-                />
+                <i class="fa fa-remove"></i>
+              </button>
               </div>
-            </form>
+            </div>
+
+
+
+
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-dismiss="modal">
-              Close
-            </button>
-            <button type="button" class="btn btn-success" data-dismiss="modal">
-              Thanh Toán
-            </button>
+          <div class="col-auto pl-0  pt-1" >
+            <div class="price">
+              <p style="color: rgb(223, 112, 112); font-weight: 500;">{{ item.product.price * item.total }} đ<p>
+            </div>
+          </div>
+        </div>
+     </div>
+     <div class="item1 pl-2 pr-3">
+      <div class="row" style="text-align: right">
+        <div class="col-8"></div>
+        <div class="col ml-auto" style="  border-top: 1px solid rgb(228, 224, 220); padding-top: 10px;">
+          <span style="font-size: 20px;"> Tổng tiền</span>
+        </div>
+        <div class="col-2" style="  border-top: 1px solid rgb(228, 224, 220);padding-top: 10px;">
+          <span style="font-size: 20px; color: red; font-weight: 500;">{{ total }} đ</span>
+        </div>
+       </div>
+     </div>
+
+    </div>
+
+    <div class="pay">
+      <div class="row">
+        <div class="col">
+          <div class="back1">
+            <a [routerLink]="['/home']"
+              ><i class="fa fa-arrow-left"></i> Quay lại
+            </a>
+          </div>
+        </div>
+        <div class="col-auto">
+          <div class="back1">
+            <a [routerLink]="['/infocarts']"
+              >Thanh toán <i class="fa fa-arrow-right"></i>
+            </a>
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
+
+    <!-- <button
+        type="button"
+        class="btn btn-primary pull-right"
+        data-toggle="modal"
+        data-target="#exampleModal"
+      >
+        Thanh toán
+      </button> -->
+
+    <!-- <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h2>Vui lòng điền thông tin:</h2>
+              <form style="margin-top: 20px">
+                <div class="input-group mb-3 input-group-md">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" style="border-color: #3f3d3c"
+                      >Địa chỉ</span
+                    >
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    #code
+                    style="border-color: #3f3d3c"
+                  />
+                </div>
+                <div
+                  class="input-group mb-3 input-group-md"
+                  style="margin-top: 20px"
+                >
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" style="border-color: #3f3d3c"
+                      >Số ĐT</span
+                    >
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    #code
+                    style="border-color: #3f3d3c"
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" data-dismiss="modal">
+                Close
+              </button>
+              <button type="button" class="btn btn-success" data-dismiss="modal">
+                Thanh Toán
+              </button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+  </div>
 </div>
+
+

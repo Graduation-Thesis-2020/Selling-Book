@@ -16,10 +16,16 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarText">
-        <span class="navbar-text ml-auto">Welcome to Admin Page</span>
-        <a [routerLink]="['/login']">
-          <i class="fas fa-sign-out-alt ml-3 text-secondary"></i>{{ " " }}
+      <div class="collapse navbar-collapse" id="navbarText" *ngIf="role == 1">
+        <span  class="navbar-text ml-auto"><span style="font-size: 18px; color: rgb(4, 2, 119);"> {{username}}</span> (Admin)</span>
+        <a routerLink="" data-toggle="modal" data-target="#ModalLogout">
+          <i class="fas fa-sign-out-alt ml-3 text-dark"></i>{{ " " }}
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarText" *ngIf="role == 2">
+        <span  class="navbar-text ml-auto"><span style="font-size: 18px; color: rgb(4, 2, 119);"> {{username}}</span> (Nhân viên)</span>
+        <a routerLink="" data-toggle="modal" data-target="#ModalLogout">
+          <i class="fas fa-sign-out-alt ml-3 text-dark"  ></i>{{ " " }}
         </a>
       </div>
     </div>
@@ -32,27 +38,27 @@
     id="sidebar"
   >
     <ul class="nav flex-column flex-nowrap overflow-hidden ml-2">
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="role == 1 || role == 2" >
         <a class="nav-link text-secondary" [routerLink]="['/admin/listbook']">
           <i class="fa fa-book col-2"></i>{{ " " }}
           <span class="d-none d-sm-inline text-light col-10"> Sách </span>
         </a>
       </li>
 
-      <li class="nav-item">
+      <li class="nav-item"  *ngIf="role == 1 || role == 2">
         <a class="nav-link text-danger" [routerLink]="['/admin/listauthor']">
           <i class="fa fa-user-o col-2"></i>{{ " " }}
           <span class="d-none d-sm-inline text-light col-10"> Tác Giả </span>
         </a>
       </li>
 
-      <li class="nav-item">
+      <li class="nav-item"  *ngIf="role == 1 || role == 2">
         <a class="nav-link text-warning" [routerLink]="['/admin/listcate']">
           <i class="fa fa-magic col-2"></i>{{ " " }}
           <span class="d-none d-sm-inline text-light col-10"> Thể Loại </span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item"  *ngIf="role == 1 || role == 2">
         <a class="nav-link text-primary" [routerLink]="['/admin/listpub']">
           <i class="fa fa-cubes col-2"></i>{{ " " }}
           <span class="d-none d-sm-inline text-light col-10">
@@ -60,25 +66,25 @@
           </span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item"  *ngIf="role == 1 || role == 2">
         <a class="nav-link text-success" [routerLink]="['/admin/listreview']">
           <i class="fa fa-comment-o col-2"></i>{{ " " }}
           <span class="d-none d-sm-inline text-light col-10"> Đánh Giá </span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item"  *ngIf="role == 1 || role == 2">
         <a class="nav-link text-warning" [routerLink]="['/admin/order']">
           <i class="fa fa-credit-card col-2"></i>{{ " " }}
           <span class="d-none d-sm-inline text-light col-10"> Hóa Đơn </span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item"  *ngIf="role == 1 || role == 2">
         <a class="nav-link text-secondary" [routerLink]="['/admin/customer']">
           <i class="fa fa-users col-2"></i>{{ " " }}
           <span class="d-none d-sm-inline text-light col-10"> Khách Hàng </span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item"  *ngIf="role == 1">
         <a class="nav-link text-white" [routerLink]="['/admin/listreview']">
           <i class="fa fa-line-chart col-2"></i>{{ " " }}
           <span class="d-none d-sm-inline text-light col-10"> Thống Kê </span>
@@ -89,5 +95,27 @@
 
   <div class="col-10">
     <router-outlet></router-outlet>
+  </div>
+</div>
+
+<!-- Modal Logout -->
+<div class="modal fade" id="ModalLogout" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 700; color: crimson; font-size: 24px;">Thông báo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn muốn đăng xuất tài khoản?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="logout()" data-dismiss="modal">Có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
   </div>
 </div>

@@ -24,19 +24,27 @@ export class ListCateComponent implements OnInit {
   this.config.currentPage = event;
   }
 
-  ngOnInit() {
-    this.getAllCates();
+   ngOnInit() {
+     this.getAllCates();
   }
 
-  getAllCates() {
-    this.CateService.getCates().subscribe(res => this.cates = res);
+   getAllCates() {
+     this.CateService.getCates().subscribe(cates => {this.cates = cates, this.cate = this.cates[0]});
   }
-  delete(title, id) {
-    const ans = confirm('Xóa thông tin thể loại: ' + title );
-    if (ans) {
-      this.CateService.delete(id).subscribe(() => {
-        this.getAllCates();
-      }, error => console.error(error));
-    }
+  delete(id) {
+    this.CateService.delete(id).subscribe(() => this.getAllCates());
+  }
+
+  save(name: string) {
+    //const newCate: Cate = { name } as Cate;
+    //console.log(newCate);
+    this.CateService.addCate( { name } as Cate).subscribe(() => this.getAllCates());
+  }
+  Edit() {
+    //const newCate: Cate = {_id, name } as Cate;
+    this.CateService.editCate(this.cate).subscribe(() => this.getAllCates());
+  }
+  getCat(_id){
+    this.CateService.getCateFromCateID(_id).subscribe(res => this.cate = res);
   }
 }

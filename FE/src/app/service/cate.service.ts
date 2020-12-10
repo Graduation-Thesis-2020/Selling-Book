@@ -48,7 +48,7 @@ export class CateService {
   }
   // tslint:disable-next-line: no-shadowed-variable
   addCate(Cate: Cate): Observable<Cate> {
-    return this.ApiService.post<Cate>(this.cateURL, Cate);
+    return this.http.post<Cate>(this.cateURL, Cate, httpOptions).pipe();
   }
   editCate(CAte: Cate): Observable<any> {
     return this.http.put(`${this.cateURL}/${CAte._id}`, CAte, httpOptions).pipe();

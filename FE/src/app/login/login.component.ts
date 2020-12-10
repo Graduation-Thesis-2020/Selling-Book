@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
-  async login_user1(email: string, password: string) {
+  async login_user(email: string, password: string) {
     const Login: Login = { email, password } as Login;
     await this.serService.Login(Login).toPromise().then(res => this.loginRes = res, error => this.mess = error);
     if (this.mess == null) {
@@ -38,9 +38,7 @@ export class LoginComponent implements OnInit {
       alert('Đăng nhập thành công!');
       localStorage.setItem('currentUser', JSON.stringify(this.loginRes));
       this.appUser.setName(this.loginRes.name, this.loginRes.role);
-      if(this.loginRes.role == 1 || this.loginRes.role == 2 ){
-        this.router.navigate(['/admin']);
-      }
+
       if( this.loginRes.role == 0 ) {
         this.router.navigate(['/home']);
       }
@@ -48,11 +46,12 @@ export class LoginComponent implements OnInit {
     }
     else {
       //alert(this.mess.error.message);
+      alert('Đăng nhập thất bại!');
     }
     this.mess=null;
   }
 
-  login_user(email: string, password: string) {
+  login_user1(email: string, password: string) {
     const Login: Login = { email, password } as Login;
     let url = 'http://localhost:8080/users/login';
     let tokenResp = {};

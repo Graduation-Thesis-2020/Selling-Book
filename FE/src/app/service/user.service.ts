@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { Review } from '../models/review';
-import { Customer, User } from '../models/user';
+import { Customer, LoginAdmin, User } from '../models/user';
 import { Login, LoginReturn } from './../models/user';
 import { map } from 'rxjs/operators';
 
@@ -30,10 +30,14 @@ export class UserService {
   ) { }
   SignupURL = 'http://localhost:8080/users/register';
   LoginURL = 'http://localhost:8080/users/login';
+  LoginAdminURL = 'http://localhost:8080/admins/login';
   UserURL = 'http://localhost:8080/users/customers';
   UpdateProFileURL ='http://localhost:8080/users/updateprofile';
   Login(Login: Login): Observable<LoginReturn> {
     return this.http.post<LoginReturn>(this.LoginURL, Login);
+  }
+  LoginAdmin(Login: Login): Observable<LoginAdmin> {
+    return this.http.post<LoginAdmin>(this.LoginAdminURL, Login);
   }
   login(Login: Login) {
     return this.http.post<any>(this.LoginURL, Login).pipe(map(res => console.log("header: " + res.headers.get("Authorization") )));

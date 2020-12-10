@@ -49,3 +49,11 @@ export interface LoginReturn {
   imageUrl: string;
   imageId: string;
 }
+export interface LoginAdmin {
+  email: string;
+  phone: number;
+  name: string;
+  birthday: Date;
+  address: string;
+  role: number;
+}

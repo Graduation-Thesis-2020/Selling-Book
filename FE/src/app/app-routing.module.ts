@@ -35,7 +35,7 @@ import { BookAllComponent } from './book-all/book-all.component';
 import { UserSettingComponent } from './user-setting/user-setting.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserOrderComponent } from './user-order/user-order.component';
-
+import { LoginAdminComponent } from './login-admin/login-admin.component';
 
 const routes: Routes = [
 
@@ -66,9 +66,11 @@ const routes: Routes = [
     ]},
   ]},
   {path: 'register', component: RegisterComponent},
+  {path: 'login/admin', component: LoginAdminComponent},
   {path: 'admin',
   component: DefaultLayoutAdminComponent,
   children: [
+    {path: '', component: AdminOrderComponent},
     {path: 'listreview', component: AdminReviewComponent},
     {path: 'adminbooks', component: AdminBooksComponent},
     {path: 'listbook', component: ListBookComponent},
@@ -93,6 +95,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
+
 
 
 exports: [RouterModule]

@@ -5,14 +5,10 @@
     <span><i></i></span>
     <b class="line"></b>
   </div>
-  <div style="margin-bottom: 50px">
-    <button
-      class="btn btn-success btn-circle pull-left"
-      routerLink="/admin/addcate"
-      title="Add CLass"
-      type="submit"
-    >
-      Thêm<i class="fas fa-plus"></i>
+  <div style="margin-bottom: 50px; padding-bottom: 5px;">
+    <button class="btn btn-success btn-circle pull-right mr-1 pl-0 pr-0" style="width: 120px; font-size: 18px;"
+      title="Add CLass" type="submit" data-toggle="modal" data-target="#ModalAddCat">
+      Tạo mới <i class="fas fa-plus"></i>
     </button>
   </div>
   <div style="margin-top: 10px" class="table-responsive">
@@ -21,32 +17,109 @@
         <tr>
           <th>No.</th>
           <th>Tên Thể Loại</th>
-          <th>Action</th>
+          <th>Thao tác</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let cate of cates | paginate: config; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ cate.name }}</td>
-          <td style="width: 90px">
-            <i
-              class="fas fa-edit"
-              style="margin-right: 10px"
-              title="Edit"
-              routerLink="/admin/editcate/{{ cate._id }}"
-            ></i>
-            <i
-              class="fas fa-trash"
-              (click)="delete(cate.name, cate._id)"
-              title="Delete"
-            ></i>
+          <td style="width: 120px">
+            <i class="fas fa-edit" style="margin-right: 10px" title="Edit" (click)="getCat(cate._id)"
+              data-toggle="modal" data-target="#ModalEdit"></i>
+            <i class="fas fa-trash" data-toggle="modal" data-target="#ModalDelCat" title="Delete" (click)="getCat(cate._id)"></i>
           </td>
         </tr>
       </tbody>
     </table>
-    <pagination-controls
-      style="text-align: center"
-      (pageChange)="pageChanged($event)"
-    ></pagination-controls>
+    <pagination-controls style="text-align: center" (pageChange)="pageChanged($event)"></pagination-controls>
+  </div>
+</div>
+
+<!-- Modal AddCat -->
+<div class="modal fade" id="ModalAddCat" tabindex="-1" aria-labelledby="ModalAddCatLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalAddCatLabel" style="font-weight: 700; font-size: 24px;">Thêm thể loại</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <p>Nhập tên thể loại sách mới</p>
+          <input #name1 type="text" class="form-control" placeholder="Tình cảm" />
+        </div>
+        <div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="save(name1.value)" data-dismiss="modal">Thêm</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal EditCat -->
+<div class="modal fade" id="ModalEdit" tabindex="-1" aria-labelledby="ModalEditCatLabel" aria-hidden="true" #id>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalEditCatLabel" style="font-weight: 700; font-size: 24px;">Chỉnh sửa thể loại
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <p>Nhập tên thể loại thay đổi</p>
+          <input #name type="text" class="form-control" [(ngModel)]="cate.name" />
+        </div>
+        <div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="Edit()" data-dismiss="modal">Lưu</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal DelCat -->
+<div class="modal fade" id="ModalDelCat" tabindex="-1" aria-labelledby="ModalDelCatLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalDelCatLabel" style="font-weight: 700; font-size: 24px;">Xóa thể loại
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <p>Bạn có chắc muốn xóa thể loại <span style="font-size: 18px; color: crimson;">{{cate.name}}</span> ?</p>
+
+        </div>
+        <div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="delete(cate._id)" data-dismiss="modal">Có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
   </div>
 </div>
