@@ -9,6 +9,8 @@ const { equal } = require('assert');
 const { exists, findOne, findById } = require('../models/user');
 const user = require('../models/user');
 const cloudinary = require('cloudinary');
+const order = require('../models/order');
+const orderDetail = require('../models/orderDetail');
 const verifyToken = (token) => {
   const decode = jwt.verify(token, process.env.JWT_KEY);
   return { decode };
@@ -185,9 +187,9 @@ module.exports = {
       role: data.role
     };
     res.setHeader('Authorization', token);
-   // console.log(token);
-      res.cookie('Authorization', token);
-     res.status(200).json(data);
+    // console.log(token);
+    //res.cookie('Authorization', token);
+    res.status(200).json(data);
 
     // const { email, password } = req.body;
     // const checkEmail = await User.findOne({ email });
@@ -295,21 +297,24 @@ module.exports = {
       name: userInfo.name,
     });
 
-    order.save(function (err, result) {
-      if (err) {
-        res.status(500).json({
-          error: err
-        });
-      } else {
-        res.status(201).json({
-          message: 'Successfully bought book!',
-          result
-        });
-      }
-    });
 
-    // Create OrderDetail
+    // order.save(function (err, result) {
+    //   if (err) {
+    //     return res.status(500).json({
+    //       error: err
+    //     });
+    //   } else {
+    //     return res.status(201).json({
+    //       message: 'Successfully bought book!',
+    //       result
+    //     });
+    //   }
+    // });
+
+    // Create Order
     try {
+      order.save();
+
       // Luu order._id vao bang orderDetail va san pham da dc order
       const books = req.body.books;
       let orderId;
@@ -318,32 +323,54 @@ module.exports = {
       } else {
         return res.json({ message: "Error when create order!" });
       }
-      const newOrderDetail = {
+      const newOrderDetail = new orderDetail({
         orderId: orderId,
         books: books,
-      };
-      OrderDetail.create(newOrderDetail);
+      });
+      // OrderDetail.create(newOrderDetail);
+      newOrderDetail.save();
+
+      order.orderDetailId = newOrderDetail._id;
+
+      return res.status(201).json({
+        message: 'Successfully bought book!',
+        order
+      });
+
     } catch {
       res.status(500).json({
-        message: ' Error when create order Detail!'
+        message: ' Error when create order !'
       })
     }
 
   },
   // Get All Order 
   getAllOrder: async (req, res, next) => {
+    const userId = req.user._id;
     try {
-      const orderdata = await OrderDetail.find().populate('orderId');
-      if(orderdata) {
+      const orderdata = await Order.find({ userId: userId }).populate('orderDetailId');
+      if (orderdata != null && orderdata != '') {
         return res.status(200).json(orderdata);
-      } 
-      return res.status(404).json({message : "Không tìm thấy!!!"})
+      }
+      return res.status(404).json({ message: "Không tìm thấy!!!" })
     } catch (error) {
       return res.status(500).json(error);
     }
 
   },
-
+  // Get Only Order 
+  getAOrder: async (req, res, next) => {
+    const orderId = req.params.orderId;
+    try {
+      const orderdata = await Order.findOne({ _id: orderId }).populate('orderDetailId');
+      if (orderdata != null && orderdata != '') {
+        return res.status(200).json(orderdata);
+      }
+      return res.status(404).json({ message: "Không tìm thấy!!!" })
+    } catch (error) {
+      return res.status(500).json({ message: " Thao tác thất bại!!! " });
+    }
+  },
 
   // Xem all Detail Oder 
   getOrderDetails: (req, res, next) => {
@@ -365,19 +392,25 @@ module.exports = {
       });
   },
   // Delete Order
-  deleteOrderDetail: (req, res, next) => {
-    OrderDetail.remove({ orderId: req.params.orderId })
-      .exec()
-      .then(result => {
-        res.status(200).json({
-          message: "Order deleted"
-        });
-      })
-      .catch(err => {
-        res.status(500).json({
-          error: err
-        });
-      });
+  deleteOrder: async (req, res, next) => {
+    const userId = req.user;
+    const orderId = req.params.orderId;
+    try {
+
+      const orderdata = await Order.findById(orderId);
+      const orderdetaildata = await OrderDetail.findOne({ orderId: orderId });
+
+      if (orderdata != null && orderdetaildata != null) {
+        await orderdata.remove();
+        await orderdata.save();
+        await orderdetaildata.remove();
+        await orderdetaildata.save();
+        return res.status(200).json({ message: "Xóa thành công!!!" })
+      }
+    } catch (error) {
+      return res.status(500).json({ message: "Thao tác thất bại!!!" });
+    }
+
   },
 
 }

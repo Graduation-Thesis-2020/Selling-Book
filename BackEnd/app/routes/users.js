@@ -39,10 +39,13 @@ router.post('/register', User.postRegisterUserCustomer)
   .patch('/updateprofile', passport.authenticate('jwt', { session: false }), upload.single('image'), User.postUpdateUserCustomer)
   .put('/updateprofile', passport.authenticate('jwt', { session: false }), upload.single('image'), User.postUpdateUserCustomer)
   // See profile Customer 
-  .get('/profile', passport.authenticate('jwt', { session: false }),User.getProfileCustomer)
+  .get('/profile', passport.authenticate('jwt', { session: false }), User.getProfileCustomer)
   // Quản lý đơn hàng 
-  .post('/createorder', passport.authenticate('jwt', { session: false }),User.createAOrder)
-  .get('/getallorder', passport.authenticate('jwt', { session: false }),User.getAllOrder)
+  .post('/createorder', passport.authenticate('jwt', { session: false }), User.createAOrder)
+  .get('/getallorder', passport.authenticate('jwt', { session: false }), User.getAllOrder)
+  // Get A Order
+  .get('/:orderId/getaorder', passport.authenticate('jwt', { session: false }), User.getAOrder)
+  .delete('/:orderId/deleteorder', passport.authenticate('jwt', { session: false }), User.deleteOrder)
 
 
 
