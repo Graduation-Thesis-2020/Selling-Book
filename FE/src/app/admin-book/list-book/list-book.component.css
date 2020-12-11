@@ -36,3 +36,57 @@ h1{
 	width: 80%;
 	margin:0 auto;
 }
+
+.modal-xl {
+    max-width: 1040px;
+}
+h3 {
+  font-size: 20px;
+  margin-bottom: 0px;
+}
+.attr{
+  margin-bottom: 20px;
+}
+.attr input{
+  width: 90%;
+}
+.attr textarea{
+  width: 90%;
+  height: 290px;
+}
+.custom-select{
+  width: 90%;
+}
+.cus-container{
+  padding-top: 1rem;  ;
+  padding-left: 2.5rem;
+}
+.modal-title{
+  font-size: 26px;
+  color: rgb(201, 167, 15);
+  font-weight: 500;
+}
+.modal-header{
+  background-color: whitesmoke;
+}
+.anh {
+  margin-top: 20px;
+}
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  border: 1px solid rgb(224, 216, 147);
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.cus-file{
+  padding-top: 125px;
+
+}
+.backgrEdit{
+  width: 100%;
+  height: 170px;
+  width: 180px;
+}

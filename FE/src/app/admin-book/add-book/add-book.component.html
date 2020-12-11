@@ -13,52 +13,25 @@
     <div class="container" style="width: 50%">
       <div>
         <h3>Tựa sách</h3>
-        <input
-          #title
-          type="text"
-          [alt]="form.value.title"
-          class="form-control"
-          placeholder="tên sách"
-        />
+        <input #title type="text" [alt]="form.value.title" class="form-control" placeholder="tên sách" />
       </div>
       <div>
         <h3>Mô tả</h3>
-        <input
-          #description
-          type="text"
-          [alt]="form.value.description"
-          class="form-control"
-          placeholder="nội dung sách"
-        />
+        <input #description type="text" [alt]="form.value.description" class="form-control"
+          placeholder="nội dung sách" />
       </div>
       <div>
         <h3>Ngày Xuất Bản</h3>
-        <input
-          #publishDate
-          type="date"
-          class="form-control"
-          placeholder="ngày xuất bản"
-        />
+        <input #publishDate type="date" class="form-control" placeholder="ngày xuất bản" />
       </div>
       <div>
         <h3>Số Trang</h3>
-        <input
-          #pageCount
-          type="number"
-          [alt]="form.value.pageCount"
-          class="form-control"
-          placeholder="số lượng trang"
-        />
+        <input #pageCount type="number" [alt]="form.value.pageCount" class="form-control"
+          placeholder="số lượng trang" />
       </div>
       <div>
         <h3>Giá</h3>
-        <input
-          #price
-          type="number"
-          [alt]="form.value.price"
-          class="form-control"
-          placeholder="giá"
-        />
+        <input #price type="number" [alt]="form.value.price" class="form-control" placeholder="giá" />
       </div>
       <div>
         <h3>Tên Tác Giả</h3>
@@ -79,23 +52,12 @@
       </div>
       <div>
         <h3>Số lượng có sẵn</h3>
-        <input
-          #availableQuantity
-          type="number"
-          [alt]="form.value.availableQuantity"
-          class="form-control"
-          placeholder="có sẵn"
-        />
+        <input #availableQuantity type="number" [alt]="form.value.availableQuantity" class="form-control"
+          placeholder="có sẵn" />
       </div>
       <div>
         <h3>Giảm Giá</h3>
-        <input
-          #discount
-          type="number"
-          [alt]="form.value.discount"
-          class="form-control"
-          placeholder="giảm giá"
-        />
+        <input #discount type="number" [alt]="form.value.discount" class="form-control" placeholder="giảm giá" />
       </div>
       <div>
         <h3>Thể Loại</h3>
@@ -105,41 +67,27 @@
           </option>
         </select> -->
 
-        <div class="form-check form-check-inline"  *ngFor="let cate of cate">
-          <input type="checkbox" id="{{cate.name}}" value="{{cate._id}}" class="form-check-input" (change)="onChange($event.target.value, $event.target.checked)"/>
-            <label class="form-check-label" for="{{cate.name}}">{{ cate.name }}</label>
+        <div class="form-check form-check-inline" *ngFor="let cate of cate">
+          <input type="checkbox" id="{{cate.name}}" value="{{cate._id}}" class="form-check-input"
+            (change)="onChange($event.target.value, $event.target.checked)" />
+          <label class="form-check-label" for="{{cate.name}}">{{ cate.name }}</label>
         </div>
       </div>
 
       <div>
         <h3>Image</h3>
         <div class="form-group">
-          <input
-            #image
-            name="image"
-            type="file"
-            accept="images/*"
-            (change)="handleFileInput($event.target.files)"
-            class="form-control"
-          />
+          <input #image name="image" type="file" accept="images/*" (change)="handleFileInput($event.target.files)"
+            class="form-control" />
         </div>
       </div>
       <div>
         <label></label>
-        <button
-          class="btn btn-secondary btn-circle pull-right"
-          style="margin-top: 15px; margin-left: 10px"
-          title="Add"
-          type="submit"
-          routerLink="/admin/listbook"
-        >
+        <button class="btn btn-secondary btn-circle pull-right" style="margin-top: 15px; margin-left: 10px" title="Add"
+          type="submit" routerLink="/admin/listbook">
           Back <i class="fas fa-undo"></i>
         </button>
-        <button
-          class="btn btn-success btn-circle pull-right"
-          style="margin-top: 15px"
-          title="Add"
-          type="submit"
+        <button class="btn btn-success btn-circle pull-right" style="margin-top: 15px" title="Add" type="submit"
           (click)="
             save(
               title.value,
@@ -153,8 +101,7 @@
               discount.value,
               FileUpload
             )
-          "
-        >
+          ">
           Save<i class="fa fa-check-square-o"></i>
         </button>
       </div>

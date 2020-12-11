@@ -30,6 +30,9 @@ export class BooksService {
   getBooks(): Observable<Books[]> {
     return this.ApiService.get<Books[]>(this.bookURL).pipe();
   }
+  getBooksAdmin(): Observable<BookEdit[]> {
+    return this.ApiService.get<BookEdit[]>(this.bookURL).pipe();
+  }
   addBook(Books2: Books1): Observable<Books1> {
     return this.http.post<Books1>(this.bookURL, Books2 );
   }

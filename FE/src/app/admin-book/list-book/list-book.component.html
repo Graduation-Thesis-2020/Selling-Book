@@ -6,12 +6,7 @@
     <b class="line"></b>
   </div>
   <div style="margin-bottom: 50px">
-    <button
-      class="btn btn-success btn-circle pull-left"
-      routerLink="/admin/addbook"
-      title="Add CLass"
-      type="submit"
-    >
+    <button class="btn btn-success btn-circle pull-left" routerLink="/admin/addbook" title="Add CLass" type="submit">
       Thêm<i class="fas fa-plus"></i>
     </button>
   </div>
@@ -41,24 +36,165 @@
           <td>{{ each.availableQuantity }}</td>
           <td><img src="{{ each.imageUrl }}" class="backgr" /></td>
           <td style="width: 90px">
-            <i
-              class="fas fa-edit"
-              style="margin-right: 10px"
-              title="Edit"
-              routerLink="/admin/editbook/{{ each._id }}"
-            ></i>
-            <i
-              class="fas fa-trash"
-              (click)="delete(each.title, each._id)"
-              title="Delete"
-            ></i>
+            <i class="fas fa-edit" style="margin-right: 10px" title="Edit"
+              routerLink="/admin/editbook/{{ each._id }}"></i>
+            <i class="fas fa-trash" (click)="delete(each.title, each._id)" title="Delete"></i>
+            <i class="fas fa-user"  title="Delete" data-toggle="modal" data-target="#exampleModal" (click)="getBook(each._id)"></i>
           </td>
         </tr>
       </tbody>
     </table>
-    <pagination-controls
-      style="text-align: center"
-      (pageChange)="pageChanged($event)"
-    ></pagination-controls>
+    <pagination-controls style="text-align: center" (pageChange)="pageChanged($event)"></pagination-controls>
+  </div>
+</div>
+
+<!-- Modal Edit-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="ModalEditLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalEditLabel">Chỉnh sửa thông tin sách</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Body here -->
+        <div class="cus-container">
+          <form>
+            <div class="form-row ">
+              <div class="col-sm-6">
+                <div class="attr">
+                  <h3>Tựa sách</h3>
+                  <input #title type="text" class="form-control" [(ngModel)]="book.title" placeholder="Devil K" name="title"/>
+                </div>
+                <div class="attr">
+                  <h3>Tên Tác Giả</h3>
+                  <select class="custom-select" #author1>
+                    <option *ngFor="let aut of author" [value]="aut._id" [selected]="aut._id === book.author._id">
+                      {{ aut.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="attr">
+                  <h3>Nhà Xuất Bản</h3>
+                  <select class="custom-select" #publisher1  >
+                    <option *ngFor="let pub of pub" [value]="pub._id" [selected]="pub._id === book.publisher._id">
+                      {{ pub.name }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="attr">
+                  <h3>Ngày Xuất Bản</h3>
+                  <input #publishDate type="date" class="form-control" [ngModel]="book.publishDate | date:'yyyy-MM-dd'" name="publishDate"
+                    placeholder="ngày xuất bản" />
+                </div>
+
+                <div class="attr">
+                  <h3>Mô tả</h3>
+                  <textarea #description type="text" class="form-control" [(ngModel)]="book.description" placeholder="Trần" name="description"></textarea>
+                </div>
+
+              </div>
+              <div class="col-sm-6" >
+
+
+
+                <div class="attr">
+                  <h3>Số Trang</h3>
+                  <input #pageCount type="number" class="form-control" [(ngModel)]="book.pageCount" placeholder="Trần" name="pageCount"/>
+                </div>
+                <div class="attr">
+                  <h3>Giá</h3>
+                  <input #price type="number" class="form-control" [(ngModel)]="book.price" placeholder="Trần" name="price"/>
+                </div>
+                <div class="attr">
+                  <h3>Giảm Giá</h3>
+                  <input #discount type="number" class="form-control" [(ngModel)]="book.discount" placeholder="Trần" name="discount"/>
+                </div>
+                <div class="attr">
+                  <h3>Số lượng có sẵn</h3>
+                  <input #availableQuantity type="number" class="form-control" [(ngModel)]="book.availableQuantity" name="availableQuantity"
+                    placeholder="Trần" />
+                </div>
+
+                <div >
+                  <h3>Thể Loại</h3>
+
+                  <div class="form-check form-check-inline" *ngFor="let item of book.categories">
+                    <input type="checkbox" class="form-check-input" checked
+                      (change)="onChange($event.target.value, $event.target.checked)" #cat />
+                    <label class="form-check-label">{{ item.name }}</label>
+                  </div>
+
+                  <div *ngIf="MoreCat">
+                    <div class="form-check form-check-inline" *ngFor="let cate of cate;">
+                      <input type="checkbox" id="{{cate.name}}" value="{{cate._id}}" class="form-check-input"
+                        (change)="onChange($event.target.value, $event.target.checked)" />
+                      <label class="form-check-label" for="{{cate.name}}">{{ cate.name }}</label>
+                    </div>
+                  </div>
+                  <div>
+                    <a class="text-info" *ngIf="!MoreCat" (click)="pushCat()" style="font-size: 16px; font-weight: 500; color: white;" >
+                    Xem thêm..</a></div>
+
+                </div>
+                <div class="anh">
+                  <h3>Ảnh</h3>
+                  <div class="row">
+                    <div class="col-auto pr-0">
+                      <!-- <input #image name="image" type="file" accept="images/*" [(ngModel)]="book.image"
+                      (change)="handleFileInput($event.target.files)" class="form-control" /> -->
+                      <img src="{{ book.imageUrl }}" class="backgrEdit" id="showimg" />
+                    </div>
+                    <div class="col pl-0">
+                      <div class="cus-file">
+                        <label for="file-upload" class="custom-file-upload">
+                          <i class="fa fa-cloud-upload"></i> Chọn ảnh
+                         </label>
+                        <input id="file-upload" type="file"  onchange="document.getElementById('showimg').src = window.URL.createObjectURL(this.files[0])" #image
+                        [(ngModel)]="book.image" name="image" #image (change)="handleFileInput($event.target.files)"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div>
+                                <div class="form-group">
+                                <input #image name="image" type="file"  accept="images/*" (change)="handleFileInput($event.target.files)" class="form-control"  >
+                          </div> -->
+
+                <!-- <div>
+
+                  <button class="btn btn-secondary btn-circle pull-right" style="margin-top: 15px; margin-left: 10px" title="Add"
+                    [routerLink]="['/admin/listbook']">
+                    Back <i class="fas fa-undo"></i>
+                  </button>
+                  <button class="btn btn-success btn-circle pull-right" style="margin-top: 15px;" title="Add" type="submit"
+                    (click)="save1(title.value, description.value,publishDate.value, pageCount.value,
+                              price.value, availableQuantity.value, publisher1.value, author1.value, discount.value, FileUpload)">
+                    Save<i class="fa fa-check-square-o"></i></button>
+
+                </div> -->
+              </div>
+            </div>
+
+          </form>
+
+
+
+        </div>
+
+        <!-- Body here -->
+      </div>
+      <div class="modal-footer">
+
+        <button class="btn btn-success btn-circle pull-right" title="Add" type="submit"
+                    (click)="save1(title.value, description.value,publishDate.value, pageCount.value,
+                              price.value, availableQuantity.value, publisher1.value, author1.value, discount.value, FileUpload)">
+                    Save<i class="fa fa-check-square-o"></i></button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
 </div>
