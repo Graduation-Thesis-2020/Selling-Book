@@ -47,7 +47,7 @@ router.post('/register', User.postRegisterUserCustomer)
   .get('/:orderId/getaorder', passport.authenticate('jwt', { session: false }), User.getAOrder)
   .delete('/:orderId/deleteorder', passport.authenticate('jwt', { session: false }), User.deleteOrder)
   // Hủy 1 đơn hàng
-  .patch('/:orderId', passport.authenticate('jwt', { session: false }), User.updateOrder,)
+  .patch('/:orderId', passport.authenticate('jwt', { session: false }), User.updateOrder)
   .put('/:orderId', passport.authenticate('jwt', { session: false }), User.updateOrder)
 
   // Coment A Book OF Customer
