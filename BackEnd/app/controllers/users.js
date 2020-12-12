@@ -299,19 +299,6 @@ module.exports = {
     });
 
 
-    // order.save(function (err, result) {
-    //   if (err) {
-    //     return res.status(500).json({
-    //       error: err
-    //     });
-    //   } else {
-    //     return res.status(201).json({
-    //       message: 'Successfully bought book!',
-    //       result
-    //     });
-    //   }
-    // });
-
     // Create Order
     try {
       order.save();
@@ -349,7 +336,7 @@ module.exports = {
   getAllOrder: async (req, res, next) => {
     const userId = req.user._id;
     try {
-      const orderdata = await Order.find({ userId: userId }).populate('orderDetailId');
+      const orderdata = await Order.find({ userId: userId });
       if (orderdata != null && orderdata != '') {
         return res.status(200).json(orderdata);
       }
@@ -363,7 +350,7 @@ module.exports = {
   getAOrder: async (req, res, next) => {
     const orderId = req.params.orderId;
     try {
-      const orderdata = await Order.findOne({ _id: orderId }).populate('orderDetailId');
+      const orderdata = await Order.findOne({ _id: orderId });
       if (orderdata != null && orderdata != '') {
         return res.status(200).json(orderdata);
       }
@@ -448,6 +435,39 @@ module.exports = {
       return res.status(500).json(error);
     }
 
-  }
+  },
+  // Get ALL ORDER DETAIL
+  getAllOrderDetails: async (req, res, next) => {
+    const userId = req.user._id;
+    try {
+      const orderdata = await Order.find({ userId: userId });
 
+      if (orderdata != null && orderdata != '') {
+        let orderlength = orderdata.length;
+        let orderdetailArray = [];
+        let i;
+        for (i = 0; i < orderlength; i++) {
+          let orderdetail = await OrderDetail.findOne({ orderId: orderdata[i]._id });
+          orderdetailArray.push(orderdetail);
+        }
+        return res.status(200).json(orderdetailArray);
+      }
+      return res.status(404).json({ message: "Không tìm thấy!!!" })
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  },
+  // Get A ORDER DETAIL
+  getAOrderDetails: async (req, res, next) => {
+    const orderId = req.params.orderId;
+    try {
+      const orderdata = await OrderDetail.findOne({ orderId: orderId });
+      if (orderdata != null && orderdata != '') {
+        return res.status(200).json(orderdata);
+      }
+      return res.status(404).json({ message: "Không tìm thấy!!!" })
+    } catch (error) {
+      return res.status(500).json({ message: " Thao tác thất bại!!! " });
+    }
+  }
 }

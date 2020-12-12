@@ -21,11 +21,11 @@ module.exports = {
 
   // TEST SECRET 
   secret: (req, res, next) => {
-    
+
     return res.status(200).json({
       message: " Vô được rồi!!!"
     })
-    
+
   },
 
   // ĐĂNG XUẤT TÀI KHOẢN 
@@ -227,10 +227,30 @@ module.exports = {
       if (users != null && users != '') {
         return res.status(200).json(users);
       }
-      return res.status(404).json({message: " Không tìm thấy!!"});
+      return res.status(404).json({ message: " Không tìm thấy!!" });
     } catch (error) {
       return res.status(500).json(error);
     }
+  },
+
+  deleteEmployee: async (req, res, next) => {
+
+  },
+
+  getAllCustomer: async (req, res, next) => {
+
+  },
+
+  getACustomer: async (req, res, next) => {
+
+  },
+
+  getAllEmployee: async (req, res, next) => {
+
+  },
+
+  getAEmployee: async (req, res, next) => {
+
   }
 
 }

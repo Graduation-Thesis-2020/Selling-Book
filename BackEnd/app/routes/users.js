@@ -42,13 +42,18 @@ router.post('/register', User.postRegisterUserCustomer)
   .get('/profile', passport.authenticate('jwt', { session: false }), User.getProfileCustomer)
   // Quản lý đơn hàng 
   .post('/createorder', passport.authenticate('jwt', { session: false }), User.createAOrder)
+  // GET ALL ORDER AND ORDER DETAIL
   .get('/getallorder', passport.authenticate('jwt', { session: false }), User.getAllOrder)
-  // Get A Order
+  .get('/getallorderdetail', passport.authenticate('jwt', { session: false }), User.getAllOrderDetails)
+
+  // Get A Order AND A ORDER DETAIL
   .get('/:orderId/getaorder', passport.authenticate('jwt', { session: false }), User.getAOrder)
+  .get('/:orderId/getaorderdetail', passport.authenticate('jwt', { session: false }), User.getAOrderDetails)
   .delete('/:orderId/deleteorder', passport.authenticate('jwt', { session: false }), User.deleteOrder)
+
   // Hủy 1 đơn hàng
-  .patch('/:orderId', passport.authenticate('jwt', { session: false }), User.updateOrder)
-  .put('/:orderId', passport.authenticate('jwt', { session: false }), User.updateOrder)
+  .patch('/:orderId/removeorder', passport.authenticate('jwt', { session: false }), User.updateOrder)
+  .put('/:orderId/removeorder', passport.authenticate('jwt', { session: false }), User.updateOrder)
 
   // Coment A Book OF Customer
   .post('/:bookId/comment', passport.authenticate('jwt', { session: false }), User.postCreateAComment)

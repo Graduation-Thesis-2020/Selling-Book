@@ -10,7 +10,7 @@ router.use((req, res, next) => {
     next();
 });
 
-// FOR ADMIN ACTOR
+// Order FOR ADMIN
 router.get('/', orderController.getOrder);
 router.get('/orderDetails/', orderController.getOrderDetails)
 
