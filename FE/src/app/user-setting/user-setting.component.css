@@ -294,91 +294,14 @@ img.img-head {
 .social-top li{
 	display:inline-block;
 }
-.icon {
-	border-radius: 100px;
-	cursor: pointer;
-	display: inline-block;
-	font-size: 0.9em;
-	height: 35px;
-	line-height: 37px;
-	margin: 0 2px;
-	position: relative;
-	text-align: center;
-	-webkit-user-select: none;
-	   -moz-user-select: none;
-	    -ms-user-select: none;
-	        user-select: none;
-	width: 35px;
-}
+
 
 /* Circle */
-.icon span {
-	border-radius: 0;
-	display: block;
-	height: 0;
-	left: 50%;
-	margin: 0;
-	position: absolute;
-	top: 50%;
-	-webkit-transition: all 0.3s;
-	   -moz-transition: all 0.3s;
-	     -o-transition: all 0.3s;
-	        transition: all 0.3s;
-	width: 0;
-}
-.icon:hover span {
-	width: 35px;
-	height: 35px;
-	border-radius: 100px;
-	margin: -18px;
-}
-.twitter span {
-	background-color: #4099ff;
-}
-.facebook span {
-	background-color: #3B5998;
-}
-.pinterest span {
-	background-color: #CB2028;
-}
-.dribbble span {
-	background-color:#E04D84;
-}
+
+
 
 /* Icons */
-.icon i {
-	background: none;
-	color: #000;
-	height: 35px;
-	left: 0;
-	line-height: 35px;
-	position: absolute;
-	top: 0;
-	-webkit-transition: all 0.3s;
-	   -moz-transition: all 0.3s;
-	     -o-transition: all 0.3s;
-	        transition: all 0.3s;
-	width: 35px;
-	z-index: 10;
-}
-.icon .fa-twitter {
-	color: #4099ff;
-}
-.icon .fa-facebook {
-	color: #3B5998;
-}
-.icon .fa-pinterest-p {
-	color: #CB2028;
-}
-.icon .fa-dribbble {
-	color: #E04D84;
-}
-.icon:hover .fa-facebook,
-.icon:hover .fa-twitter,
-.icon:hover .fa-pinterest-p,
-.icon:hover .fa-dribbble {
-	color: white;
-}
+
 /*--social--*/
 /*--nav--*/
 .navbar-nav {

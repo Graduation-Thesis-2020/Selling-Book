@@ -59,6 +59,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
 import { TokenInterceptorService } from './service/token-intercepter.service';
 import { LoginAdminComponent } from './login-admin/login-admin.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -98,6 +99,7 @@ import { LoginAdminComponent } from './login-admin/login-admin.component';
     UserSettingComponent,
     UserOrderComponent,
     LoginAdminComponent,
+    CheckoutComponent,
 
   ],
   imports: [

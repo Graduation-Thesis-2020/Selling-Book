@@ -1,4 +1,4 @@
-import { Books, Books1, BooksInCart } from "./book";
+import { BookInCartCheckout, Books, Books1, BooksInCart } from "./book";
 
 export interface Cart {
   item: Books;
@@ -46,4 +46,8 @@ export interface CartModelPublic {
       incart: number;
     }
   ];
+}
+export interface ItemCheckout {
+  books: BookInCartCheckout[];
+  totalPrice: number;
 }

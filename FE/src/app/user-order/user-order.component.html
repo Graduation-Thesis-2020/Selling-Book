@@ -1,66 +1,345 @@
 
 <div class="cus-container">
   <mat-tab-group >
-    <mat-tab label="Tất cả">
-       <div class="item" >
+      <mat-tab label="Tất cả({{all}})" >
+        <div class="item" *ngFor="let od of order ">
+           <div class="row mr-0 ml-0" >
+             <div class="col-auto">
+               <div class="img-responsive">
+                 <img src="https://www.vexels.com/media/users/3/217997/isolated/thumb/d439a251f09dee321022fbed116d0cfc-gift-box-illustration-design-by-vexels.png"  alt="" />
+               </div>
+             </div>
+             <div class="col-7 pl-0 mr-auto pt-5">
+               <div class="title">Mã: {{od._id}}
+               </div>
+               <div class="price">Ngày tạo: {{od.created | date:'yyyy-MM-dd'}}
+               </div>
+             </div>
+             <div class="col-auto pt-1">
+               <div class="status text-secondary" style="text-align: right;"  *ngIf="od.status=='Chờ xác nhận'">
+                 {{od.status}}
+               </div>
+               <div class="status text-primary" style="text-align: right;"  *ngIf="od.status=='Đang lấy hàng'">
+                {{od.status}}
+              </div>
+              <div class="status text-warning" style="text-align: right;"  *ngIf="od.status=='Đang giao'">
+                {{od.status}}
+              </div>
+              <div class="status text-success " style="text-align: right;"  *ngIf="od.status=='Đã giao'">
+                {{od.status}}
+              </div>
+              <div class="status text-danger" style="text-align: right;" *ngIf="od.status=='Hủy'">
+                {{od.status}}
+              </div>
+               <div style="padding-top: 50px; text-align: right; color: tomato; font-weight: 500; font-size: 18px;">
+                 {{od.totalPrice}} đ
+               </div>
+             </div>
+           </div>
+           <div class="bt-detail text-right">
+            <button class="btn btn-outline-danger mr-2" (click)=DelOrder(od._id)
+              data-toggle="modal" data-target="#ModalDel" *ngIf="od.status=='Chờ xác nhận'">Hủy đơn</button>
+             <button class="btn btn-outline-warning" data-toggle="modal" data-target="#ModalDetail" (click)="getDetail(od._id, od.totalPrice)">Xem chi tiết</button>
+           </div>
+        </div>
+
+
+
+        <div class="item" *ngIf="all==0">
+          <div class="nothing">
+            <img src="https://www.vexels.com/media/users/3/218179/isolated/thumb/f3aa1da2feec7a973c3e244760548bc3-shopping-fox-cute-illustration-by-vexels.png" alt="">
+            <div>
+              <span>Chưa có đơn hàng nào</span>
+            </div>
+          </div>
+          </div>
+     </mat-tab>
+
+
+
+    <mat-tab label="Chờ xác nhận({{waiting}})">
+      <div class="item" *ngFor="let od of order ">
+        <div *ngIf="od.status=='Chờ xác nhận'">
           <div class="row mr-0 ml-0" >
             <div class="col-auto">
               <div class="img-responsive">
                 <img src="https://www.vexels.com/media/users/3/217997/isolated/thumb/d439a251f09dee321022fbed116d0cfc-gift-box-illustration-design-by-vexels.png"  alt="" />
               </div>
             </div>
-            <div class="col-7 pl-0 mr-auto pt-1">
-              <div class="title">Mã: HD01111
+            <div class="col-7 pl-0 mr-auto pt-5">
+              <div class="title">Mã: {{od._id}}
               </div>
-              <div class="price pt-2">Ngày tạo: 1
+              <div class="price">Ngày tạo: {{od.created | date:'yyyy-MM-dd'}}
               </div>
             </div>
             <div class="col-auto pt-1">
-              <div>
-                Đang giao
+              <div class="status text-secondary" style="text-align: right;" >
+                {{od.status}}
               </div>
-              <div style="padding-top: 30px; text-align: right;">
-                Tien
+              <div style="padding-top: 50px; text-align: right; color: tomato; font-weight: 500; font-size: 18px;">
+                {{od.totalPrice}} đ
               </div>
             </div>
           </div>
           <div class="bt-detail text-right">
-            <button class="btn btn-outline-danger">Xem chi tiết</button>
+            <button class="btn btn-outline-danger mr-2" (click)=DelOrder(od._id)
+              data-toggle="modal" data-target="#ModalDel" *ngIf="od.status=='Chờ xác nhận'">Hủy đơn</button>
+            <button class="btn btn-outline-warning" data-toggle="modal" data-target="#ModalDetail" (click)="getDetail(od._id, od.totalPrice)">Xem chi tiết</button>
           </div>
-       </div>
+        </div>
 
-       <div class="item" >
-        <div class="row mr-0 ml-0" >
-          <div class="col-auto">
-            <div class="img-responsive">
-              <img src="https://www.vexels.com/media/users/3/217997/isolated/thumb/d439a251f09dee321022fbed116d0cfc-gift-box-illustration-design-by-vexels.png"  alt="" />
-            </div>
-          </div>
-          <div class="col-7 pl-0 mr-auto pt-1">
-            <div class="title">Mã: HD01111
-            </div>
-            <div class="price pt-2">Ngày tạo: 1
-            </div>
-          </div>
-          <div class="col-auto pt-1">
-            <div>
-              Đang giao
-            </div>
-            <div style="padding-top: 30px; text-align: right;">
-              Tien
-            </div>
-          </div>
-        </div>
-        <div class="bt-detail text-right">
-          <button class="btn btn-outline-danger">Xem chi tiết</button>
-        </div>
      </div>
-    </mat-tab>
 
-    <mat-tab label="Chờ xác nhận"> Content 1 </mat-tab>
-    <mat-tab label="Đang lấy hàng"> Content 2 </mat-tab>
-    <mat-tab label="Đang giao"> Content 3 </mat-tab>
-    <mat-tab label="Đã giao"> Content 4 </mat-tab>
-    <mat-tab label="Đã hủy"> Content 4 </mat-tab>
+     <div class="item" *ngIf="waiting==0">
+      <div class="nothing">
+        <img src="https://www.vexels.com/media/users/3/218179/isolated/thumb/f3aa1da2feec7a973c3e244760548bc3-shopping-fox-cute-illustration-by-vexels.png" alt="">
+        <div>
+          <span>Chưa có đơn hàng cho mục này</span>
+        </div>
+      </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Đang lấy hàng({{taking}})">
+      <div class="item" *ngFor="let od of order">
+        <div *ngIf="od.status=='Đang lấy hàng'">
+          <div class="row mr-0 ml-0" >
+            <div class="col-auto">
+              <div class="img-responsive">
+                <img src="https://www.vexels.com/media/users/3/217997/isolated/thumb/d439a251f09dee321022fbed116d0cfc-gift-box-illustration-design-by-vexels.png"  alt="" />
+              </div>
+            </div>
+            <div class="col-7 pl-0 mr-auto pt-5">
+              <div class="title">Mã: {{od._id}}
+              </div>
+              <div class="price">Ngày tạo: {{od.created | date:'yyyy-MM-dd'}}
+              </div>
+            </div>
+            <div class="col-auto pt-1">
+              <div class="status text-primary" style="text-align: right;" >
+                {{od.status}}
+              </div>
+              <div style="padding-top: 50px; text-align: right; color: tomato; font-weight: 500; font-size: 18px;">
+                {{od.totalPrice}} đ
+              </div>
+            </div>
+          </div>
+          <div class="bt-detail text-right">
+            <button class="btn btn-outline-warning" data-toggle="modal" data-target="#ModalDetail" (click)="getDetail(od._id, od.totalPrice)">Xem chi tiết</button>
+          </div>
+        </div>
+
+     </div>
+     <div class="item" *ngIf="taking==0">
+      <div class="nothing">
+        <img src="https://www.vexels.com/media/users/3/218179/isolated/thumb/f3aa1da2feec7a973c3e244760548bc3-shopping-fox-cute-illustration-by-vexels.png" alt="">
+        <div>
+          <span>Chưa có đơn hàng cho mục này</span>
+        </div>
+      </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Đang giao({{shipping}})">
+      <div class="item" *ngFor="let od of order">
+        <div *ngIf="od.status=='Đang giao'">
+          <div class="row mr-0 ml-0" >
+            <div class="col-auto">
+              <div class="img-responsive">
+                <img src="https://www.vexels.com/media/users/3/217997/isolated/thumb/d439a251f09dee321022fbed116d0cfc-gift-box-illustration-design-by-vexels.png"  alt="" />
+              </div>
+            </div>
+            <div class="col-7 pl-0 mr-auto pt-5">
+              <div class="title">Mã: {{od._id}}
+              </div>
+              <div class="price">Ngày tạo: {{od.created | date:'yyyy-MM-dd'}}
+              </div>
+            </div>
+            <div class="col-auto pt-1">
+              <div class="status text-warning" style="text-align: right;" >
+                {{od.status}}
+              </div>
+              <div style="padding-top: 50px; text-align: right; color: tomato; font-weight: 500; font-size: 18px;">
+                {{od.totalPrice}} đ
+              </div>
+            </div>
+          </div>
+          <div class="bt-detail text-right">
+            <button class="btn btn-outline-warning" data-toggle="modal" data-target="#ModalDetail" (click)="getDetail(od._id, od.totalPrice)">Xem chi tiết</button>
+          </div>
+        </div>
+
+     </div>
+     <div class="item" *ngIf="shipping==0">
+      <div class="nothing">
+        <img src="https://www.vexels.com/media/users/3/218179/isolated/thumb/f3aa1da2feec7a973c3e244760548bc3-shopping-fox-cute-illustration-by-vexels.png" alt="">
+        <div>
+          <span>Chưa có đơn hàng cho mục này</span>
+        </div>
+      </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Đã giao({{isShipped}})">
+      <div class="item" *ngFor="let od of order">
+        <div *ngIf="od.status=='Đã giao'">
+          <div class="row mr-0 ml-0" >
+            <div class="col-auto">
+              <div class="img-responsive">
+                <img src="https://www.vexels.com/media/users/3/217997/isolated/thumb/d439a251f09dee321022fbed116d0cfc-gift-box-illustration-design-by-vexels.png"  alt="" />
+              </div>
+            </div>
+            <div class="col-7 pl-0 mr-auto pt-5">
+              <div class="title">Mã: {{od._id}}
+              </div>
+              <div class="price">Ngày tạo: {{od.created | date:'yyyy-MM-dd'}}
+              </div>
+            </div>
+            <div class="col-auto pt-1">
+              <div class="status text-success" style="text-align: right;" >
+                {{od.status}}
+              </div>
+              <div style="padding-top: 50px; text-align: right; color: tomato; font-weight: 500; font-size: 18px;">
+                {{od.totalPrice}} đ
+              </div>
+            </div>
+          </div>
+          <div class="bt-detail text-right">
+            <button class="btn btn-outline-warning" data-toggle="modal" data-target="#ModalDetail" (click)="getDetail(od._id, od.totalPrice)">Xem chi tiết</button>
+          </div>
+        </div>
+
+     </div>
+     <div class="item" *ngIf="isShipped==0">
+      <div class="nothing">
+        <img src="https://www.vexels.com/media/users/3/218179/isolated/thumb/f3aa1da2feec7a973c3e244760548bc3-shopping-fox-cute-illustration-by-vexels.png" alt="">
+        <div>
+          <span>Chưa có đơn hàng cho mục này</span>
+        </div>
+      </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Hủy({{del}})">
+      <div class="item" *ngFor="let od of order">
+        <div *ngIf="od.status=='Hủy'">
+          <div class="row mr-0 ml-0" >
+            <div class="col-auto">
+              <div class="img-responsive">
+                <img src="https://www.vexels.com/media/users/3/217997/isolated/thumb/d439a251f09dee321022fbed116d0cfc-gift-box-illustration-design-by-vexels.png"  alt="" />
+              </div>
+            </div>
+            <div class="col-7 pl-0 mr-auto pt-5">
+              <div class="title">Mã: {{od._id}}
+              </div>
+              <div class="price">Ngày tạo: {{od.created | date:'yyyy-MM-dd'}}
+              </div>
+            </div>
+            <div class="col-auto pt-1">
+              <div class="status text-danger" style="text-align: right;" >
+                {{od.status}}
+              </div>
+              <div style="padding-top: 50px; text-align: right; color: tomato; font-weight: 500; font-size: 18px;">
+                {{od.totalPrice}} đ
+              </div>
+            </div>
+          </div>
+          <div class="bt-detail text-right">
+            <button class="btn btn-outline-warning" data-toggle="modal" data-target="#ModalDetail" (click)="getDetail(od._id, od.totalPrice)">Xem chi tiết</button>
+          </div>
+        </div>
+
+     </div>
+     <div class="item" *ngIf="del==0">
+      <div class="nothing">
+        <img src="https://www.vexels.com/media/users/3/218179/isolated/thumb/f3aa1da2feec7a973c3e244760548bc3-shopping-fox-cute-illustration-by-vexels.png" alt="">
+        <div>
+          <span>Chưa có đơn hàng cho mục này</span>
+        </div>
+      </div>
+      </div>
+    </mat-tab>
   </mat-tab-group>
+</div>
+
+<div class="modal fade" id="ModalDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 700; color: rgb(33, 20, 220); font-size: 24px;">Chi tiết đơn hàng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container pl-0 pr-0">
+          <div class="item" *ngFor="let item of books; let i = index">
+            <div class="row mr-0 ml-0 pb-2" >
+              <div class="col-auto">
+                <div class="img-responsive1">
+                  <img src="{{ item.imageUrl }}"  alt="" />
+                </div>
+              </div>
+              <div class="col-4 pl-0 pt-1" >
+                <div class="sed">
+                  <h5>{{ item.title }}</h5>
+                </div>
+              </div>
+              <div class="col-2 pl-0 pt-1" >
+                <div class="price">
+                  <p>{{ item.price }}<p>
+                </div>
+              </div>
+              <div class="col-3 pl-0 mr-auto pt-1" >
+                <div class="price">
+                   <p>Số lượng: {{ item.qty }}<p>
+                </div>
+
+
+
+
+              </div>
+              <div class="col-auto pl-0  pt-1" >
+                <div class="price">
+                  <p style="color: rgb(223, 112, 112); font-weight: 500;">{{ item.price * item.qty }} đ<p>
+                </div>
+              </div>
+            </div>
+         </div>
+         <div class="item1 pl-2 pr-3">
+          <div class="row" style="text-align: right">
+            <div class="col-8"></div>
+            <div class="col ml-auto" style="  border-top: 1px solid rgb(228, 224, 220); padding-top: 10px;">
+              <span style="font-size: 18px;"> Tổng tiền</span>
+            </div>
+            <div class="col-2" style="  border-top: 1px solid rgb(228, 224, 220);padding-top: 10px;">
+              <span style="font-size: 18px; color: red; font-weight: 500;">{{ total }} đ</span>
+            </div>
+           </div>
+         </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ModalDel" tabindex="-1" aria-labelledby="ModalDelLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalDelLabel" style="font-weight: 700; color: crimson; font-size: 24px;">Xác nhận</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn muốn hủy đơn hàng này?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="Del()"data-dismiss="modal">Có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
 </div>

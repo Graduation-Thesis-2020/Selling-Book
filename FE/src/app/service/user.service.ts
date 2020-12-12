@@ -6,6 +6,7 @@ import { Review } from '../models/review';
 import { Customer, LoginAdmin, User } from '../models/user';
 import { Login, LoginReturn, Profile } from './../models/user';
 import { map } from 'rxjs/operators';
+import { AllOrder, ChangeStatus } from '../models/order';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -28,12 +29,15 @@ export class UserService {
   constructor(
     private http: HttpClient
   ) { }
+  URL='http://localhost:8080/users';
   SignupURL = 'http://localhost:8080/users/register';
   LoginURL = 'http://localhost:8080/users/login';
   LoginAdminURL = 'http://localhost:8080/admins/login';
   UserURL = 'http://localhost:8080/users/customers';
   UpdateProFileURL ='http://localhost:8080/users/updateprofile';
   GetProFileURL ='http://localhost:8080/users/profile';
+  CreateOrderURL ='http://localhost:8080/users/createorder';
+  GetAllOrderURL ='http://localhost:8080/users/getallorder';
   Login(Login: Login): Observable<LoginReturn> {
     return this.http.post<LoginReturn>(this.LoginURL, Login);
   }
@@ -86,7 +90,43 @@ export class UserService {
   getToken(){
     return localStorage.getItem('token')
   }
+  FilloutProfile( Profile: Profile ,token:string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    return this.http.patch(this.UpdateProFileURL, Profile, httpOptions).pipe();
 
+  }
+  CreateOrder(CartCheckout: any ,token:string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    return this.http.post(this.CreateOrderURL, CartCheckout, httpOptions).pipe();
 
+  }
+  GetAllOrder(token:string): Observable<AllOrder[]> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    return this.http.get<AllOrder[]>(this.GetAllOrderURL, httpOptions).pipe();
+
+  }
+  // DeleteOrder(id:string,token:string): Observable<any> {
+  //   const httpOptions = {
+  //     headers: new HttpHeaders({
+  //       'Authorization': `Bearer ${token}`
+  //     })
+  //   };
+  //   return this.http.delete(`${this.URL}/${id}/deleteorder`, httpOptions);
+  // }
+  UpdateStatus(id,status: ChangeStatus){
+    return this.http.patch(`${this.URL}/${id}`, status).pipe();
+  }
 }
 

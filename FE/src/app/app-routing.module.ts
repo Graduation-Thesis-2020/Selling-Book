@@ -36,6 +36,7 @@ import { UserSettingComponent } from './user-setting/user-setting.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserOrderComponent } from './user-order/user-order.component';
 import { LoginAdminComponent } from './login-admin/login-admin.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 const routes: Routes = [
 
@@ -58,6 +59,7 @@ const routes: Routes = [
     {path: 'carts/:id', component: CartComponent},
     {path: 'cart', component: CartComponent},
     {path: 'details/:id', component: ProductDetailsComponent},
+    {path: 'checkout', component: CheckoutComponent},
     {path: 'setting', component: UserSettingComponent,
     children:[
       {path: '', component: UserProfileComponent},
@@ -95,8 +97,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-
-
 
 exports: [RouterModule]
 })

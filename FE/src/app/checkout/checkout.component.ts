@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../service/cart.service';
 import { Cart, Item, ItemCheckout, Mess } from '../models/cart';
 import { BooksService } from 'src/app/service/book.service';
@@ -9,18 +9,18 @@ import { CateService } from './../service/cate.service';
 import { Publisher } from '../models/publisher';
 import { Author } from '../models/author';
 import { Cate } from '../models/cate';
-import { BookInCartCheckout } from '../models/book';
-import { Books } from 'src/app/models/book';
-
+import { UserService } from '../service/user.service';
+import { Profile } from './../models/user';
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-cart',
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css'],
+  selector: 'app-checkout',
+  templateUrl: './checkout.component.html',
+  styleUrls: ['./checkout.component.css']
 })
-export class CartComponent implements OnInit {
+export class CheckoutComponent implements OnInit {
+
   items: Item[] = [];
-  itemCheckout: ItemCheckout[]=[];
   total: number;
   countItem: number;
   carts: Cart;
@@ -28,16 +28,24 @@ export class CartComponent implements OnInit {
   pubs: Publisher[];
   auts: Author[];
   cates1: Cate[];
+  profile: Profile;
+  order: any;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   constructor(
     private route: ActivatedRoute,
     private BooksService: BooksService,
     private cartService: CartService,
     private AuthorsService: AuthorService,
     private CateService: CateService,
-    private publisherService: PublisherService
+    private publisherService: PublisherService,
+    private UserService: UserService,
+    private _snackBar: MatSnackBar,
+    private router1: Router
   ) {}
 
   async ngOnInit() {
+    this.loadProfile();
     this.getAllAuthor();
     this.getAllCate();
     this.getAllPub();
@@ -167,24 +175,30 @@ export class CartComponent implements OnInit {
   getAllCate() {
     this.CateService.getCates().subscribe(res => this.cates1 = res);
   }
-  itemcheckout(){
-    const totalPrice = this.total;
-    console.log(totalPrice);
-    let cart: any = JSON.parse(localStorage.getItem("cart"));
-    let books: BookInCartCheckout[]=[];
-    for (var i = 0; i < cart.length; i++) {
-      let item: Item = JSON.parse(cart[i]);
-      books.push({
-        bookId: item.product._id,
-        title: item.product.title,
-        imageId: item.product.imageId,
-        imageUrl: item.product.imageUrl,
-        qty: item.total,
-        price: item.product.price,
-      });
-    }
-    console.log(books);
-    const itemCheckout: ItemCheckout = { totalPrice, books  } as ItemCheckout;
-    localStorage.setItem("cartCheckout", JSON.stringify(itemCheckout));
+  loadProfile(){
+    const token = localStorage.getItem("token");
+    this.UserService.getProfile(token).subscribe(user => {this.profile = user, console.log(this.profile)});
   }
+  checkout(){
+    const token = localStorage.getItem("token");
+    let cartCheckout: ItemCheckout = JSON.parse(localStorage.getItem("cartCheckout"));
+    console.log(token)
+    console.log(cartCheckout)
+    console.log(this.profile)
+    this.UserService.CreateOrder(cartCheckout,token).subscribe(
+      order => {
+        this.order = order;
+        console.log(this.order);
+        localStorage.removeItem('cart');
+        localStorage.removeItem('cartCheckout');
+        this._snackBar.open("Đặt hàng thành công","Đóng", {
+          panelClass: "snackbarConfig",
+          duration: 3000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+        this.router1.navigate(['/setting/order']);
+      });
+
+  };
 }

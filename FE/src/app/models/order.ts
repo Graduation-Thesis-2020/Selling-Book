@@ -21,8 +21,27 @@ export interface itemInOrder {
     title: string;
     price: number;
     qty: number;
+    bookId: string;
+    imageUrl: string;
+    imageId: string;
 }
 export interface OrderDetail {
   orderId: string;
   books: itemInOrder[];
+}
+export interface AllOrder {
+  email: string;
+  phone: string;
+  address: string;
+  name: string;
+  status: string;
+  isPaid: boolean;
+  _id: string;
+  userId: string;
+  totalPrice: number;
+  created: Date;
+  orderDetailId: OrderDetail;
+}
+export interface ChangeStatus {
+  status: string;
 }

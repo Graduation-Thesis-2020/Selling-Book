@@ -99,3 +99,11 @@ export interface BookNew {
   discount: string;
   image: File;
 }
+export interface BookInCartCheckout {
+  title: string;
+  price: number;
+  qty: number;
+  imageUrl: string;
+  imageId: string;
+  bookId: string;
+}
