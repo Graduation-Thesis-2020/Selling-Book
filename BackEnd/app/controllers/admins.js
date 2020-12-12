@@ -2,6 +2,7 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
+
 const verifyToken = (token) => {
   const decode = jwt.verify(token, process.env.JWT_KEY);
   return { decode };
@@ -14,19 +15,17 @@ const encodedToken = (email) => {
     exp: new Date().setDate(new Date().getDate() + 3)
   }, process.env.JWT_KEY);
 }
+
 module.exports = {
 
 
   // TEST SECRET 
   secret: (req, res, next) => {
-    if (req.user.role == 0) {
-      return res.status(401).json({
-        message: "Bạn không đủ quyền truy cập!!!"
-      })
-    }
+    
     return res.status(200).json({
-      message: " That's great!!!"
+      message: " Vô được rồi!!!"
     })
+    
   },
 
   // ĐĂNG XUẤT TÀI KHOẢN 
@@ -182,25 +181,25 @@ module.exports = {
       });
   },
 
-  // Xem all Detail Oder 
-  getOrderDetails: (req, res, next) => {
-    OrderDetail.find()
-      .exec()
-      .then(docs => {
-        if (docs.length >= 0) {
-          res.status(200).json(docs);
-        } else {
-          res.status(404).json({
-            message: "No Entries Found"
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).json({
-          error: err
-        });
-      });
-  },
+  // // Xem all Detail Oder 
+  // getOrderDetails: (req, res, next) => {
+  //   OrderDetail.find()
+  //     .exec()
+  //     .then(docs => {
+  //       if (docs.length >= 0) {
+  //         res.status(200).json(docs);
+  //       } else {
+  //         res.status(404).json({
+  //           message: "No Entries Found"
+  //         });
+  //       }
+  //     })
+  //     .catch(err => {
+  //       res.status(500).json({
+  //         error: err
+  //       });
+  //     });
+  // },
   // Delete Order
   deleteOrderDetail: (req, res, next) => {
     OrderDetail.remove({ orderId: req.params.orderId })
@@ -216,5 +215,22 @@ module.exports = {
         });
       });
   },
+
+  getSearchCustomer: async (req, res, next) => {
+    let searchOptions = {}
+    if (req.query.name != null && req.query.name !== '') {
+      searchOptions.name = new RegExp(req.query.name, 'i')
+    }
+
+    try {
+      const users = await User.find(searchOptions);
+      if (users != null && users != '') {
+        return res.status(200).json(users);
+      }
+      return res.status(404).json({message: " Không tìm thấy!!"});
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  }
 
 }

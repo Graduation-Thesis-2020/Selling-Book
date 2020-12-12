@@ -51,8 +51,8 @@ module.exports = {
       return res.status(404).json({
         message: "Không có sản phẩm nào !!!"
       });
-    } catch {
-      return res.redirect('/')
+    } catch (error) {
+      return res.status(500).json(error);
     }
   },
 
@@ -60,7 +60,7 @@ module.exports = {
     cloudinary.v2.uploader.upload(req.file.path, async (err, result) => {
       if (err) {
         //req.flash('error', err.message);
-        return res.redirect('back');
+        return res.status(500).json(err);
       }
       const book = new Book();
       // add url for image object book 
@@ -273,14 +273,6 @@ module.exports = {
     res.status(200).json(book.categories);
   },
 
-  // Get Category by ID book
-  getCategoryBybookId: async (req, res, next) => {
-    const bookId = req.params.bookId;
-    const book = await Book.findById(bookId).populate('categories');
-    console.log('book', book);
-    res.status(200).json(book.categories);
-  },
-
 
   // Get book by ID Category
   getBookByCategoryId: async (req, res, next) => {
@@ -313,8 +305,9 @@ module.exports = {
     // xóa review trong model review
     const review = await Comment.findOne({ _id: reviewId });
     await review.remove();
+    //   await review.save();
 
-    res.status(200).json({
+    return res.status(200).json({
       message: 'Ok được rồi!!!'
     });
   },
@@ -328,30 +321,33 @@ module.exports = {
       }
       try {
         await cloudinary.v2.uploader.destroy(book.imageId);
+
         let cateIdArray = [];
         cateIdArray = book.categories;
-        let catelength = cateIdArray.length;
-        let i;
-        let catedata;
-        if (catelength != 0) {
-          for (i = 0; i < catelength; i++) {
-            catedata = await Category.findOne(cateIdArray[i]);
-            catedata.books.remove(book._id);
-            await catedata.save();
+        if (cateIdArray != null && cateIdArray != '') {
+          let catelength = cateIdArray.length;
+          let i;
+          let catedata;
+          if (catelength != 0) {
+            for (i = 0; i < catelength; i++) {
+              catedata = await Category.findOne(cateIdArray[i]);
+              catedata.books.remove(book._id);
+              await catedata.save();
+            }
           }
         }
         //return res.status(200).json(catedata);
 
         // Xóa ID sách đó trong Model Publisher
         let pubdata = await Publisher.findOne({ _id: book.publisher });
-        if (pubdata) {
+        if (pubdata != null && pubdata != '') {
           await pubdata.books.remove(book._id);
           await pubdata.save();
         }
 
         // Xóa ID book đó trong Model Author
         let authdata = await Author.findOne({ _id: book.author });
-        if (authdata) {
+        if (authdata != null && authdata != '') {
           await authdata.books.remove(book._id);
           await authdata.save();
         }
@@ -359,14 +355,17 @@ module.exports = {
         // Xóa tất cả Comment của Book đó
         let comArray = [];
         comArray = book.reviews;
-        let comLength = comArray.length;
-        let comdata;
-        if (comLength != 0) {
-          for (i = 0; i < comLength; i++) {
-            comdata = await Comment.findOne(comArray[i]);
-            await comdata.remove();
+        if (comArray != null && comArray != '') {
+          let comLength = comArray.length;
+          let comdata;
+          if (comLength != 0) {
+            for (i = 0; i < comLength; i++) {
+              comdata = await Comment.findOne(comArray[i]);
+              await comdata.remove();
+            }
           }
         }
+
         book.remove();
 
         return res.status(201).json({
@@ -527,8 +526,8 @@ module.exports = {
       }]);
       return res.status(200).json(books);
 
-    } catch {
-      res.redirect('/')
+    } catch (error) {
+      return res.status(500).json(error);
     }
   },
 
@@ -607,8 +606,8 @@ module.exports = {
       return res.status(404).json({
         message: "Không có sản phẩm nào !!!"
       });
-    } catch {
-      throw Error
+    } catch (error) {
+      return res.status(500).json(error);
     }
   },
   // search book by name book + Author
@@ -641,8 +640,8 @@ module.exports = {
       return res.status(404).json({
         message: "Không có sản phẩm nào !!!"
       });
-    } catch {
-      return res.redirect('/')
+    } catch (error) {
+      return res.status(500).json(error);
     }
   },
 
@@ -676,8 +675,8 @@ module.exports = {
       return res.status(404).json({
         message: "Không có sản phẩm nào !!!"
       });
-    } catch {
-      return res.redirect('/')
+    } catch (error) {
+      return res.status(500).json(error);
     }
   },
 

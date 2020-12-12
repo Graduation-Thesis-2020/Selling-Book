@@ -28,7 +28,7 @@ module.exports = {
   createAuthor: async (req, res, next) => {
     const checkAuthor = await Author.findOne({ name: req.body.name });
     if (checkAuthor) {
-      console.log( " Tên tác giả đã tồn tại !");
+      console.log(" Tên tác giả đã tồn tại !");
       return res.status(400).json({ message: " Tên tác giả đã tồn tại !" });
     }
     const author = new Author();
@@ -118,9 +118,9 @@ module.exports = {
       const authors = await Author.find(searchOptions).populate([{
         path: 'books', select: 'title', model: book
       }]);
-      res.status(200).json(authors);
-    } catch {
-      res.redirect('/')
+      return res.status(200).json(authors);
+    } catch (error) {
+      return res.status(500).json(error);
     }
   }
 

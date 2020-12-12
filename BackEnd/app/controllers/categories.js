@@ -121,8 +121,8 @@ module.exports = {
         path: 'books', select: 'title', model: Book
       }]);
       res.status(200).json(cates);
-    } catch {
-      res.redirect('/')
+    } catch  (error) {
+      return res.status(500).json(error);
     }
   }
 

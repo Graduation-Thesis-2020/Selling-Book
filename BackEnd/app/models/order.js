@@ -24,7 +24,7 @@ const schema = new Schema({
   },
   status: {
     type: String,
-    default: 'chưa giao',
+    default: 'Chờ xác nhận',
   },
   address: {
     type: String,

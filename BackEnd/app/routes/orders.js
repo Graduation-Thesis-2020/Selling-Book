@@ -10,11 +10,15 @@ router.use((req, res, next) => {
     next();
 });
 
+// FOR ADMIN ACTOR
 router.get('/', orderController.getOrder);
-router.get('/orderDetails/', orderController.getOrderDetails);
+router.get('/orderDetails/', orderController.getOrderDetails)
 
 router.get('/:orderId', orderController.getOrderID);
-router.get('/:orderId/orderDetails', orderController.getOrderDetailByOrderID);
+
+router.get('/:orderId/orderDetails', orderController.getOrderDetailByOrderID)
+  .patch('/:orderId',orderController.updateOrder)
+  .put('/:orderId',orderController.updateOrder)
 
 router.delete('/:orderId', orderController.deleteOrder);
 router.delete('/:orderId/orderDetails', orderController.deleteOrderDetail);

@@ -6,18 +6,21 @@ const passportConfig = require('../middleware/passport');
 const { authenUser } = require('../middleware/auth');
 
 router.post('/login', Admin.postLogin)
-  .get('/getAllUser',passport.authenticate('jwt', { session: false }), Admin.getAllUser)
+  .get('/getAllUser', passport.authenticate('jwt', { session: false }), authenUser, Admin.getAllUser)
   .post('/employees/register', Admin.postRegisterEmployee)
 
+
 // Management Customer 
-router.route('/:customerId')
-  .delete(passport.authenticate('jwt', { session: false }), Admin.deleteCustomer)
+router.delete('/customer/:customerId', passport.authenticate('jwt', { session: false }), authenUser, Admin.deleteCustomer)
+  .get('/customer/search', passport.authenticate('jwt', { session: false }), authenUser, Admin.getSearchCustomer)
+
+
 
 // LOGOUT ACCOUNT
 router.get('/logout', passport.authenticate('jwt', { session: false }), Admin.logout);
 
 // TEST PRIVATE
-router.get('/secret', passport.authenticate('jwt', { session: false }), Admin.secret);
+router.get('/secret', passport.authenticate('jwt', { session: false }), authenUser, Admin.secret);
 
 
 

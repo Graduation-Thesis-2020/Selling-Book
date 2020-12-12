@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Order = require('../models/order');
 const OrderDetail = require('../models/orderDetail');
+const Review = require('../models/review');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
@@ -412,5 +413,41 @@ module.exports = {
     }
 
   },
+
+  postCreateAComment: async (req, res, next) => {
+    const bookId = req.params.bookId;
+
+    try {
+      const bookdata = await Book.findById(bookId);
+      const review = new Review({
+        userId: req.user._id,
+        review: req.body.review,
+        comment: req.body.comment,
+        bookId: bookId,
+      });
+      review.save();
+      bookdata.reviews.push(review);
+      bookdata.save();
+
+      return res.status(201).json(review);
+
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+
+  },
+
+  updateOrder: async (req, res, next) => {
+    const orderId = req.params.orderId;
+    try {
+      const orderdata = await Order.findById(orderId);
+      orderdata.status = req.body.status;
+      orderdata.save();
+      return res.status(200).json(orderdata);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+
+  }
 
 }
