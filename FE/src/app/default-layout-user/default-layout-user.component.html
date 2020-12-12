@@ -13,8 +13,11 @@
             <a [routerLink]="['/register']">Đăng Ký</a>
           </li>
           <li *ngIf="role == 0" >
-            <a [routerLink]="['/setting']" class="img-reponsive">
-              <img src="https://i.pinimg.com/originals/d4/bc/c4/d4bcc46e371e194b20854acd1ba3a86b.jpg" alt="" id="showimg">
+            <a [routerLink]="['/setting']" class="img-reponsive" *ngIf="!image">
+              <img src="https://i.pinimg.com/originals/d4/bc/c4/d4bcc46e371e194b20854acd1ba3a86b.jpg" alt="" id="avrtar1">
+            </a>
+            <a [routerLink]="['/setting']" class="img-reponsive" *ngIf="image">
+              <img src="{{image}}" alt="" id="avrtar1">
             </a>
             <a [routerLink]="['/setting']" style="color: rgb(231, 179, 119); font-weight: 600;">{{username}}</a>
           </li>

@@ -31,3 +31,6 @@ input[type="file"] {
 .cus-file{
   text-align: center;
 }
+.snackbarConfig {
+  background-color: rgb(218, 129, 129);
+}

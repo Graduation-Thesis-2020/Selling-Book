@@ -5,112 +5,74 @@
       <div class="col-sm-7 form-border">
         <form>
           <div class="form-group row">
-            <label class="col-sm-4 col-form-label"
-              >Tên tài khoản</label
-            >
+            <label class="col-sm-4 col-form-label">Tên tài khoản</label>
             <div class="col-sm-8 ">
-              <label class="form-label" #email style="padding-top: 5px;" >{{userRes.email}}</label>
+              <label class="form-label" #email style="padding-top: 5px;">{{profile.email}}</label>
             </div>
           </div>
           <div class="form-group row">
-            <label for="input1" class="col-sm-4 col-form-label"
-              >Họ và tên</label
-            >
+            <label for="input1" class="col-sm-4 col-form-label">Họ và tên</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" id="name" #name [(ngModel)]="userRes.name" name="name"/>
+              <input type="text" class="form-control" id="name" #name [(ngModel)]="profile.name" name="name" />
             </div>
           </div>
 
           <div class="form-group row">
-            <label for="input2" class="col-sm-4 col-form-label"
-              >Số điện thoại</label
-            >
+            <label for="input2" class="col-sm-4 col-form-label">Số điện thoại</label>
             <div class="col-sm-8">
-              <input type="number" class="form-control" id="phone" #phone  [(ngModel)]="userRes.phone" name="phone" />
+              <input type="number" class="form-control" id="phone" #phone [(ngModel)]="profile.phone" name="phone" />
             </div>
           </div>
 
           <div class="form-group row">
-            <label for="input3" class="col-sm-4 col-form-label"
-              >Ngày sinh</label
-            >
+            <label for="input3" class="col-sm-4 col-form-label">Ngày sinh</label>
             <div class="col-sm-8">
-              <input
-                type="date"
-                class="form-control"
-                #birthday  [ngModel]="userRes.birthday | date:'yyyy-MM-dd'" name="birthday"
-              />
+              <input type="date" class="form-control" #birthday [ngModel]="profile.birthday | date:'yyyy-MM-dd'"
+                name="birthday" />
             </div>
           </div>
 
           <div class="form-group row">
-            <label for="input4" class="col-sm-4 col-form-label"
-              >Giới tính</label
-            >
+            <label for="input4" class="col-sm-4 col-form-label">Giới tính</label>
 
             <div class="col-sm-5">
-              <div
-                class="custom-control custom-radio custom-control-inline"
-              >
-                <input
-                  type="radio"
-                  id="customRadioInline1"
-                  name="gender"
-                  class="custom-control-input"
-                  value="Nam"
-                  [(ngModel)]="userRes.gender"
-                  (change)="onItemChange($event.target.value)"
-                />
-                <label class="custom-control-label" for="customRadioInline1"
-                  >Nam</label
-                >
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline1" name="gender" class="custom-control-input" value="Nam"
+                  [(ngModel)]="profile.gender" (change)="onItemChange($event.target.value)" />
+                <label class="custom-control-label" for="customRadioInline1">Nam</label>
               </div>
-              <div
-                class="custom-control custom-radio custom-control-inline"
-              >
-                <input
-                  type="radio"
-                  id="customRadioInline2"
-                  name="custom"
-                  class="custom-control-input"
-                  value="Nữ"
-                  [(ngModel)]="userRes.gender"
-                  (change)="onItemChange($event.target.value)"
-                />
-                <label class="custom-control-label" for="customRadioInline2"
-                  >Nữ</label
-                >
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline2" name="custom" class="custom-control-input" value="Nữ"
+                  [(ngModel)]="profile.gender" (change)="onItemChange($event.target.value)" />
+                <label class="custom-control-label" for="customRadioInline2">Nữ</label>
               </div>
             </div>
           </div>
 
           <div class="form-group row">
-            <label for="input5" class="col-sm-4 col-form-label"
-              >Địa chỉ</label
-            >
+            <label for="input5" class="col-sm-4 col-form-label">Địa chỉ</label>
             <div class="col-sm-8">
-              <input
-                type="text"
-                class="form-control"
-                id="inputEmail"
-                #address [(ngModel)]="userRes.address" name="address"
-              />
+              <input type="text" class="form-control" id="inputEmail" #address [(ngModel)]="profile.address"
+                name="address" />
             </div>
           </div>
         </form>
       </div>
       <!-- image -->
       <div class="col-sm-5">
-        <div class="img-reponsive">
+        <div class="img-reponsive" *ngIf="!profile.imageUrl">
           <img src="https://i.pinimg.com/originals/d4/bc/c4/d4bcc46e371e194b20854acd1ba3a86b.jpg" alt="" id="showimg">
         </div>
-
+        <div class="img-reponsive" *ngIf="profile.imageUrl">
+          <img src="{{profile.imageUrl}}" alt="" id="showimg">
+        </div>
         <div class="cus-file">
           <label for="file-upload" class="custom-file-upload">
             <i class="fa fa-cloud-upload"></i> Chọn ảnh
-           </label>
-          <input id="file-upload" type="file" onchange="document.getElementById('showimg').src = window.URL.createObjectURL(this.files[0])" #image
-          (change)="handleFileInput($event.target.files)"/>
+          </label>
+          <input id="file-upload" type="file"
+            onchange="document.getElementById('showimg').src = window.URL.createObjectURL(this.files[0])" #image
+            (change)="handleFileInput($event.target.files)" />
         </div>
 
 
@@ -120,16 +82,11 @@
     <div class="row">
       <div class="col-sm-5"></div>
       <div class="col-sm-2" style="text-align: right;">
-        <button
-        type="submit"
-        class="btn btn-danger my-3 btn-block"
-        (click)="save(name.value,phone.value,birthday.value,address.value, FileUpload)">Xác nhận</button>
+        <button type="submit" class="btn btn-danger my-3 btn-block"
+          (click)="save(name.value,phone.value,birthday.value,address.value, FileUpload)">Xác nhận</button>
       </div>
     </div>
 
   </div>
 
 </div>
-
-
-

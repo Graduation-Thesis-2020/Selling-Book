@@ -16,3 +16,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: whitesmoke;
 
 }
+
+.snackbarConfig {
+  background-color: rgb(127, 218, 127);
+  height: 50px;
+  font-size: 18px;
+  color:black;
+}
+.snackbarErrorConfig{
+  background-color: rgb(231, 141, 88);
+  height: 50px;
+
+  color:black;
+}

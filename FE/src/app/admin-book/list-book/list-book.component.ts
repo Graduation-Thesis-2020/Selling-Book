@@ -23,6 +23,7 @@ export class ListBookComponent implements OnInit {
   pub: Publisher[];
   cate: Cate[];
   MoreCat: boolean;
+  FileUpload1 : File = null;
   FileUpload : File = null;
   selectFile = null;
   showMessage: string;
@@ -67,6 +68,7 @@ export class ListBookComponent implements OnInit {
   }
    getAllAuthor() {
      this.AuthorService.getAuthors().subscribe(res =>this.author = res);
+     this.AuthorService.getAuthors().subscribe(res =>{this.author = res; console.log(this.author)});
     //console.log(this.author[0].firstname);
   }
    getAllPub() {
@@ -75,6 +77,15 @@ export class ListBookComponent implements OnInit {
    getAllCate() {
      this.CateService.getCates().subscribe(res =>this.cate = res);
 
+  }
+  handleFileInput1(file: FileList) {
+    this.FileUpload1 = file.item(0);
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imageURL = event.target.result;
+    }
+    reader.readAsDataURL(this.FileUpload1);
+    console.log(this.FileUpload1);
   }
   handleFileInput(file: FileList) {
     this.FileUpload = file.item(0);

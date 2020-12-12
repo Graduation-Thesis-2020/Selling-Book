@@ -7,7 +7,9 @@ import {MatSnackBar, MatSnackBarHorizontalPosition,MatSnackBarVerticalPosition,}
 import { AppComponent } from '../app.component';
 import { DefaultLayoutUserComponent } from '../default-layout-user/default-layout-user.component';
 import { first } from 'rxjs/operators';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { stat } from 'fs';
+import { error } from 'protractor';
 
 
 
@@ -30,7 +32,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
-  async login_user(email: string, password: string) {
+  async login_user1(email: string, password: string) {
     const Login: Login = { email, password } as Login;
     await this.serService.Login(Login).toPromise().then(res => this.loginRes = res, error => this.mess = error);
     if (this.mess == null) {
@@ -51,10 +53,10 @@ export class LoginComponent implements OnInit {
     this.mess=null;
   }
 
-  login_user1(email: string, password: string) {
+  login_user(email: string, password: string) {
     const Login: Login = { email, password } as Login;
     let url = 'http://localhost:8080/users/login';
-    let tokenResp = {};
+
 
     this.http.post(url, Login, { observe: 'response' })
       .subscribe((response: HttpResponse<any>) => {
@@ -62,12 +64,22 @@ export class LoginComponent implements OnInit {
         console.log(" ---- begin response ----");
         console.log( response );
         console.log(" ---- end response ----");
-
+        let currentUser = response.body;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));;
         let token = response.headers.get("Authorization");
+        localStorage.setItem('token', token);
+        let status = response.status;
+        if (status == 200) {
+          if( response.body.role == 0 ) {
+            this.router.navigate(['/home']);
+          }
+        }
 
-        console.log(" ---- begin token ----");
-        console.log ( token );
-        console.log(" ---- end token ----");
+      }, (error: HttpErrorResponse) => {
+        console.log(error);
+        if(error){
+          alert('Đăng nhập thất bại!');
+        }
       }
       )};
 

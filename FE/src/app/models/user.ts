@@ -4,7 +4,7 @@ export interface Mess {
 }
 export interface User {
   email: string;
-  phone: number;
+  phone: string;
   password: string;
   confirmPassword: string;
   name: string;
@@ -56,4 +56,20 @@ export interface LoginAdmin {
   birthday: Date;
   address: string;
   role: number;
+}
+export interface Profile {
+  email: string;
+  phone: number;
+  password: string;
+  confirmPassword: string;
+  name: string;
+  birthday: Date;
+  gender: string;
+  address: string;
+  authGoogleID: string;
+  authFacebookID: string;
+  authType: string;
+  role: number;
+  imageUrl: string;
+  imageId: string;
 }

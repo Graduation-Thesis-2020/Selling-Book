@@ -10,6 +10,12 @@
       Thêm<i class="fas fa-plus"></i>
     </button>
   </div>
+  <div style="margin-bottom: 50px; padding-bottom: 5px;">
+    <button class="btn btn-success btn-circle pull-right mr-1 pl-0 pr-0" style="width: 120px; font-size: 18px;"
+      title="Thêm sách" type="submit" data-toggle="modal" data-target="#ModalAddBook">
+      Tạo mới <i class="fas fa-plus"></i>
+    </button>
+  </div>
   <div style="margin-top: 10px" class="table-responsive">
     <table class="table table-bordered">
       <thead>
@@ -36,10 +42,12 @@
           <td>{{ each.availableQuantity }}</td>
           <td><img src="{{ each.imageUrl }}" class="backgr" /></td>
           <td style="width: 90px">
-            <i class="fas fa-edit" style="margin-right: 10px" title="Edit"
-              routerLink="/admin/editbook/{{ each._id }}"></i>
+            <!-- <i class="fas fa-edit" style="margin-right: 10px" title="Edit"
+              routerLink="/admin/editbook/{{ each._id }}"></i> -->
+            <i class="fas fa-edit"  title="Delete" data-toggle="modal" style="margin-right: 10px" title="Edit"
+             data-target="#exampleModal" (click)="getBook(each._id)"></i>
             <i class="fas fa-trash" (click)="delete(each.title, each._id)" title="Delete"></i>
-            <i class="fas fa-user"  title="Delete" data-toggle="modal" data-target="#exampleModal" (click)="getBook(each._id)"></i>
+
           </td>
         </tr>
       </tbody>
@@ -66,7 +74,7 @@
               <div class="col-sm-6">
                 <div class="attr">
                   <h3>Tựa sách</h3>
-                  <input #title type="text" class="form-control" [(ngModel)]="book.title" placeholder="Devil K" name="title"/>
+                  <input #title1 type="text" class="form-control" [(ngModel)]="book.title" placeholder="Devil K" name="title"/>
                 </div>
                 <div class="attr">
                   <h3>Tên Tác Giả</h3>
@@ -87,13 +95,13 @@
 
                 <div class="attr">
                   <h3>Ngày Xuất Bản</h3>
-                  <input #publishDate type="date" class="form-control" [ngModel]="book.publishDate | date:'yyyy-MM-dd'" name="publishDate"
+                  <input #publishDate1 type="date" class="form-control" [ngModel]="book.publishDate | date:'yyyy-MM-dd'" name="publishDate"
                     placeholder="ngày xuất bản" />
                 </div>
 
                 <div class="attr">
                   <h3>Mô tả</h3>
-                  <textarea #description type="text" class="form-control" [(ngModel)]="book.description" placeholder="Trần" name="description"></textarea>
+                  <textarea #description1 type="text" class="form-control" [(ngModel)]="book.description" placeholder="Trần" name="description"></textarea>
                 </div>
 
               </div>
@@ -103,19 +111,19 @@
 
                 <div class="attr">
                   <h3>Số Trang</h3>
-                  <input #pageCount type="number" class="form-control" [(ngModel)]="book.pageCount" placeholder="Trần" name="pageCount"/>
+                  <input #pageCount1 type="number" class="form-control" [(ngModel)]="book.pageCount" placeholder="Trần" name="pageCount"/>
                 </div>
                 <div class="attr">
                   <h3>Giá</h3>
-                  <input #price type="number" class="form-control" [(ngModel)]="book.price" placeholder="Trần" name="price"/>
+                  <input #price1 type="number" class="form-control" [(ngModel)]="book.price" placeholder="Trần" name="price"/>
                 </div>
                 <div class="attr">
                   <h3>Giảm Giá</h3>
-                  <input #discount type="number" class="form-control" [(ngModel)]="book.discount" placeholder="Trần" name="discount"/>
+                  <input #discount1 type="number" class="form-control" [(ngModel)]="book.discount" placeholder="Trần" name="discount"/>
                 </div>
                 <div class="attr">
                   <h3>Số lượng có sẵn</h3>
-                  <input #availableQuantity type="number" class="form-control" [(ngModel)]="book.availableQuantity" name="availableQuantity"
+                  <input #availableQuantity1 type="number" class="form-control" [(ngModel)]="book.availableQuantity" name="availableQuantity"
                     placeholder="Trần" />
                 </div>
 
@@ -146,15 +154,15 @@
                     <div class="col-auto pr-0">
                       <!-- <input #image name="image" type="file" accept="images/*" [(ngModel)]="book.image"
                       (change)="handleFileInput($event.target.files)" class="form-control" /> -->
-                      <img src="{{ book.imageUrl }}" class="backgrEdit" id="showimg" />
+                      <img src="{{ book.imageUrl }}" class="backgrEdit" id="imgEditBook" />
                     </div>
                     <div class="col pl-0">
                       <div class="cus-file">
                         <label for="file-upload" class="custom-file-upload">
                           <i class="fa fa-cloud-upload"></i> Chọn ảnh
                          </label>
-                        <input id="file-upload" type="file"  onchange="document.getElementById('showimg').src = window.URL.createObjectURL(this.files[0])" #image
-                        [(ngModel)]="book.image" name="image" #image (change)="handleFileInput($event.target.files)"/>
+                        <input id="file-upload" type="file"  onchange="document.getElementById('imgEditBook').src = window.URL.createObjectURL(this.files[0])" #image
+                        [(ngModel)]="book.image" name="image1" #image1 (change)="handleFileInput1($event.target.files)"/>
                       </div>
                     </div>
                   </div>
@@ -190,11 +198,12 @@
       <div class="modal-footer">
 
         <button class="btn btn-success btn-circle pull-right" title="Add" type="submit"
-                    (click)="save1(title.value, description.value,publishDate.value, pageCount.value,
-                              price.value, availableQuantity.value, publisher1.value, author1.value, discount.value, FileUpload)">
+                    (click)="save1(title1.value, description1.value,publishDate1.value, pageCount1.value,
+                              price1.value, availableQuantity1.value, publisher1.value, author1.value, discount1.value, FileUpload1)">
                     Save<i class="fa fa-check-square-o"></i></button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
+

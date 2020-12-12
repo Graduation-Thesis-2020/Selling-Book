@@ -28,6 +28,8 @@ export class DefaultLayoutUserComponent implements OnInit {
   username: string;
   isLogin: boolean;
   role: number = null;
+  user: LoginReturn;
+  image: string;
   constructor(private BooksService: BooksService,private PubService: PublisherService,
     private CateService: CateService,private AuthorService: AuthorService,
     private location: Location, ) {
@@ -69,6 +71,7 @@ export class DefaultLayoutUserComponent implements OnInit {
       let user: LoginReturn = JSON.parse(localStorage.getItem("currentUser"));
       this.username = user.name;
       this.role = user.role
+      this.image = user.imageUrl;
     }
 
   }

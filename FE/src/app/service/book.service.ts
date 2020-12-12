@@ -166,6 +166,9 @@ export class BooksService {
     }
     formData.append('discount', discount);
     formData.append('image', image);
+  //   for (var value of formData.values()) {
+  //     console.log(value);
+  //  }
 
     return this.http.patch(`${this.bookURL}/${_id}`, formData).pipe();
 

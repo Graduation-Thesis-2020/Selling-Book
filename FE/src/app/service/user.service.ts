@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { Review } from '../models/review';
 import { Customer, LoginAdmin, User } from '../models/user';
-import { Login, LoginReturn } from './../models/user';
+import { Login, LoginReturn, Profile } from './../models/user';
 import { map } from 'rxjs/operators';
 
 const httpOptions = {
@@ -16,7 +16,7 @@ const httpOptions1 = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json'
   }),
-  observe: 'response' as 'response'
+
 };
 
 @Injectable({
@@ -33,6 +33,7 @@ export class UserService {
   LoginAdminURL = 'http://localhost:8080/admins/login';
   UserURL = 'http://localhost:8080/users/customers';
   UpdateProFileURL ='http://localhost:8080/users/updateprofile';
+  GetProFileURL ='http://localhost:8080/users/profile';
   Login(Login: Login): Observable<LoginReturn> {
     return this.http.post<LoginReturn>(this.LoginURL, Login);
   }
@@ -49,18 +50,38 @@ export class UserService {
   getCustomer(): Observable<Customer[]>{
     return this.http.get<Customer[]>(this.UserURL).pipe();
   }
-  EditProfile( email: string, phone: string, name: string,gender: string,birthday:Date,address:string,image: File): Observable<any> {
-    var formData: any = new FormData();
-    formData.append('email', email);
-    formData.append('phone', phone);
-    formData.append('name', name);
-    formData.append('gender',gender);
-    formData.append('birthday', birthday);
-    formData.append('address', address);
-    formData.append('image', image);
+  EditProfile( email: string, phone: string, name: string,gender: string,birthday:Date,address:string,image: File, token:string): Observable<any> {
+    var formData1: any = new FormData();
+    formData1.append('email', email);
+    formData1.append('phone', phone);
+    formData1.append('name', name);
+    formData1.append('gender',gender);
+    formData1.append('birthday', birthday);
+    formData1.append('address', address);
+    formData1.append('image', image);
+  //   for (var value of formData1.values()) {
+  //     console.log(value);
+  //  }
+    const httpOptions = {
+      headers: new HttpHeaders({
+        // 'Content-Type':  'multipart/form-data; boundary=<calculated when request is sent>',
+        // // 'Content-Type':  'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    // let headers = new HttpHeaders().set( 'Content-Type',  'application/x-www-form-urlencoded');
+    // headers = headers.append('Content-Type',  'multipart/form-data; boundary=<calculated when request is sent>');
+    // headers = headers.append('Authorization', `Bearer ${token}`)
+    return this.http.patch(this.UpdateProFileURL, formData1, httpOptions).pipe();
 
-    return this.http.patch(this.UpdateProFileURL, formData).pipe();
-
+  }
+  getProfile(token:string): Observable<Profile>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    return this.http.get<Profile>(this.GetProFileURL, httpOptions).pipe();
   }
   getToken(){
     return localStorage.getItem('token')

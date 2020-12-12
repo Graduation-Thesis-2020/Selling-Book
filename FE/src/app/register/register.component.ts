@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
   }
   async signup(
     name: string,
-    phone: number,
+    phone: string,
     email: string,
     password: string,
     confirmPassword: string,

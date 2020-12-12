@@ -98,6 +98,7 @@ export class UserSettingComponent implements OnInit {
   }
   logout() {
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/login']); // navigate to same route
   });
