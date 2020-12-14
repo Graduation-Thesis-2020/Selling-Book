@@ -251,6 +251,10 @@ module.exports = {
 
   getAEmployee: async (req, res, next) => {
 
-  }
+  },
+
+  getSearchEmployee: async (req, res, next) => {
+
+  },
 
 }

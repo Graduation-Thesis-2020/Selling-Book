@@ -52,8 +52,8 @@ router.post('/register', User.postRegisterUserCustomer)
   .delete('/:orderId/deleteorder', passport.authenticate('jwt', { session: false }), User.deleteOrder)
 
   // Hủy 1 đơn hàng
-  .patch('/:orderId/removeorder', passport.authenticate('jwt', { session: false }), User.updateOrder)
-  .put('/:orderId/removeorder', passport.authenticate('jwt', { session: false }), User.updateOrder)
+  .patch('/:orderId', passport.authenticate('jwt', { session: false }), User.updateOrder)
+  .put('/:orderId', passport.authenticate('jwt', { session: false }), User.updateOrder)
 
   // Coment A Book OF Customer
   .post('/:bookId/comment', passport.authenticate('jwt', { session: false }), User.postCreateAComment)
