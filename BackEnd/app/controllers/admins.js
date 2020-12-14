@@ -38,7 +38,7 @@ module.exports = {
 
 
   // ĐĂNG KÝ TÀI KHOẢN Employee
-  postRegisterEmployee: (req, res, next) => {
+  postRegisterEmployee: async (req, res, next) => {
     const validationErrors = [];
     if (!validator.isEmail(req.body.email)) {
       validationErrors.push({ message: 'Nhập lại email' });
@@ -67,8 +67,8 @@ module.exports = {
       address: req.body.address,
       role: 2,
     });
-
-    User.findOne({ email: req.body.email }, (err, existUser) => {
+    // KIỂM TRA EMAIL ĐÃ TỒN TẠI HAY CHƯA
+    User.findOne({ email: req.body.email }, async (err, existUser) => {
       if (err) {
         return next(err);
       }
@@ -76,8 +76,14 @@ module.exports = {
         return res.status(500).json({
           message: `Email ${existUser.email} đã tồn tại.`
         })
-        //  return res.redirect('/dashboard/customers/register');
-        //   return res.status(400).json( {message  : "Bị lỗi rồi"});
+
+      }
+      // KIỂM TRA PHONE CÓ TỒN TẠI HAY CHƯA
+      const checkPhone = await User.findOne({ phone: req.body.phone });
+      if (checkPhone) {
+        return res.status(500).json({
+          message: `Phone ${checkPhone.phone} đã tồn tại.`
+        })
       }
 
       const createUser = User.create(user);
@@ -166,12 +172,12 @@ module.exports = {
         message: "Bạn không đủ quyền! "
       })
     }
-    const customerId = req.params.customerId;
-    User.remove({ _id: customerId })
+    const userId = req.params.userId;
+    User.remove({ _id: userId })
       .exec()
       .then(result => {
         res.status(200).json({
-          message: "Customer deleted"
+          message: "Account deleted"
         });
       })
       .catch(err => {
@@ -242,10 +248,6 @@ module.exports = {
     } catch (error) {
       return res.status(500).json(error);
     }
-  },
-
-  deleteEmployee: async (req, res, next) => {
-
   },
 
   getAllCustomer: async (req, res, next) => {
@@ -321,9 +323,35 @@ module.exports = {
       return res.status(500).json(error);
     }
   },
-  postCreateAdminRole1: async (req, res, next) => {
-
+  patchCreateAdminRole1: async (req, res, next) => {
+    const userId = req.params.userId;
+    try {
+      const admin = await User.findById(userId);
+      admin.role = req.body.role;
+      admin.save();
+      return res.status(201).json(admin);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   },
+
+  patchUpdateUser: async (req, res, next) => {
+    const userId = req.params.userId;
+    try {
+      const userData = await User.findById(userId);
+      userData.phone = req.body.phone;
+      userData.name = req.body.name;
+      userData.gender = req.body.gender;
+      userData.birthday = req.body.birthday;
+      userData.address = req.body.address;
+
+      userData.save();
+      return res.status(200).json(userData);
+      
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  }
 
 
 }

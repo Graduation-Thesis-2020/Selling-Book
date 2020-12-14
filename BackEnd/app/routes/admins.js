@@ -8,11 +8,12 @@ const { authenUser, checkAdmin } = require('../middleware/auth');
 router.post('/login', Admin.postLogin)
   // XEM TẤT CẢ TÀI KHOẢN TRONG DATABASE
   .get('/getAllUser', passport.authenticate('jwt', { session: false }), authenUser, Admin.getAllUser)
-
+  // Update for EMPLOYEE AND ADMIN
+  .patch('/:userId/', passport.authenticate('jwt', { session: false }), authenUser, Admin.patchUpdateUser)
 
 
 // Management Customer 
-router.delete('/customers/:customerId', passport.authenticate('jwt', { session: false }), authenUser, Admin.deleteCustomer)
+router.delete('/customers/:userId', passport.authenticate('jwt', { session: false }), authenUser, Admin.deleteCustomer)
   // Get All Customer
   .get('/customers', passport.authenticate('jwt', { session: false }), authenUser, Admin.getAllCustomer)
   .get('/customers/search/', passport.authenticate('jwt', { session: false }), authenUser, Admin.getSearchCustomer) // XONG
@@ -23,7 +24,7 @@ router.delete('/customers/:customerId', passport.authenticate('jwt', { session: 
 
 
 // Management Employee
-router.delete('/employees/:employId', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.deleteEmployee)  // CHƯA
+router.delete('/employees/:userId', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.deleteCustomer)  // XONG
   // GET ALL EMPLOYEE
   .get('/employees', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.getAllEmployee) // XONG
   // Tìm kiếm tên nhân viên
@@ -34,7 +35,7 @@ router.delete('/employees/:employId', passport.authenticate('jwt', { session: fa
   // Tạo một tài khoản nhân viên
   .post('/employees/register', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.postRegisterEmployee)  // KT
   // Tạo một tài khoản Admin role = 1
-  .patch('/roleadmin/:userId', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.postCreateAdminRole1)  //CHƯA
+  .patch('/employees/roleadmin/:userId/', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.patchCreateAdminRole1)  //XONG
 
 
 // LOGOUT ACCOUNT
