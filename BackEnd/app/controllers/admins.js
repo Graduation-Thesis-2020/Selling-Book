@@ -224,8 +224,19 @@ module.exports = {
 
     try {
       const users = await User.find(searchOptions);
+      let customerArray = [];
       if (users != null && users != '') {
-        return res.status(200).json(users);
+        const userlength = users.length;
+        let i;
+        for (i = 0; i < userlength; i++) {
+          if (users[i].role == 0) {
+            customerArray.push(users[i]);
+          }
+        }
+      }
+
+      if (customerArray != null && customerArray != '') {
+        return res.status(200).json(customerArray);
       }
       return res.status(404).json({ message: " Không tìm thấy!!" });
     } catch (error) {
@@ -238,23 +249,81 @@ module.exports = {
   },
 
   getAllCustomer: async (req, res, next) => {
-
+    try {
+      const customerData = await User.find({ role: 0 });
+      if (customerData != null && customerData != '') {
+        return res.status(200).json(customerData);
+      }
+      return res.status(400).json({ message: "Không tìm thấy!!!" });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   },
 
   getACustomer: async (req, res, next) => {
+    const userId = req.params.userId;
+    try {
+      const userData = await User.findById(userId);
+      return res.status(200).json(userData);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
 
   },
 
   getAllEmployee: async (req, res, next) => {
+    try {
+      const employList = await User.find({ role: 2 });
+      if (employList != null && employList != '') {
+        return res.status(200).json(employList);
+      }
+      return res.status(404).json({ message: "Không có dữ liệu!!!" });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
 
   },
 
   getAEmployee: async (req, res, next) => {
-
+    const userId = req.params.userId;
+    try {
+      const userData = await User.findById(userId);
+      return res.status(200).json(userData);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   },
 
   getSearchEmployee: async (req, res, next) => {
+    let searchOptions = {}
+    if (req.query.name != null && req.query.name !== '') {
+      searchOptions.name = new RegExp(req.query.name, 'i')
+    }
+
+    try {
+      const users = await User.find(searchOptions);
+      let customerArray = [];
+      if (users != null && users != '') {
+        const userlength = users.length;
+        let i;
+        for (i = 0; i < userlength; i++) {
+          if (users[i].role == 2) {
+            customerArray.push(users[i]);
+          }
+        }
+      }
+
+      if (customerArray != null && customerArray != '') {
+        return res.status(200).json(customerArray);
+      }
+      return res.status(404).json({ message: " Không tìm thấy!!" });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  },
+  postCreateAdminRole1: async (req, res, next) => {
 
   },
+
 
 }

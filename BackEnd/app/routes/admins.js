@@ -6,6 +6,7 @@ const passportConfig = require('../middleware/passport');
 const { authenUser, checkAdmin } = require('../middleware/auth');
 
 router.post('/login', Admin.postLogin)
+  // XEM TẤT CẢ TÀI KHOẢN TRONG DATABASE
   .get('/getAllUser', passport.authenticate('jwt', { session: false }), authenUser, Admin.getAllUser)
 
 
@@ -13,23 +14,27 @@ router.post('/login', Admin.postLogin)
 // Management Customer 
 router.delete('/customers/:customerId', passport.authenticate('jwt', { session: false }), authenUser, Admin.deleteCustomer)
   // Get All Customer
-  .get('/customers', passport.authenticate('jwt', { session: false }), authenUser, Admin.getAllCustomer) // Chưa
+  .get('/customers', passport.authenticate('jwt', { session: false }), authenUser, Admin.getAllCustomer)
+  .get('/customers/search/', passport.authenticate('jwt', { session: false }), authenUser, Admin.getSearchCustomer) // XONG
   // GET A CUSTOMER
-  .get('/customers/:userId', passport.authenticate('jwt', { session: false }), authenUser, Admin.getACustomer) // CHƯA
-  .get('/customers/search', passport.authenticate('jwt', { session: false }), authenUser, Admin.getSearchCustomer)
+  .get('/customers/:userId', passport.authenticate('jwt', { session: false }), authenUser, Admin.getACustomer) // XONG
+
 //.patch()
 
 
 // Management Employee
-router.delete('/employees/:employId', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.deleteEmployee)
-  .get('/employees', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.getAllEmployee)
-  .get('/employees/:userId', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.getAEmployee)
+router.delete('/employees/:employId', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.deleteEmployee)  // CHƯA
+  // GET ALL EMPLOYEE
+  .get('/employees', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.getAllEmployee) // XONG
   // Tìm kiếm tên nhân viên
-  .get('/employees/search', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.getSearchEmployee)
+  .get('/employees/search', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.getSearchEmployee)  // XONG
+  // GET A EMPLOYEE
+  .get('/employees/:userId', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.getAEmployee)  // XONG
+
   // Tạo một tài khoản nhân viên
-  .post('/employees/register', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.postRegisterEmployee)
+  .post('/employees/register', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.postRegisterEmployee)  // KT
   // Tạo một tài khoản Admin role = 1
-  .patch('/roleadmin/:userId', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.postRegisterEmployee)
+  .patch('/roleadmin/:userId', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.postCreateAdminRole1)  //CHƯA
 
 
 // LOGOUT ACCOUNT
