@@ -10,6 +10,7 @@ import { AuthorService } from '../service/author.service';
 import { CateService } from '../service/cate.service';
 import { PublisherService } from '../service/publisher.service';
 import { Item } from '../models/cart';
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-book-author',
   templateUrl: './book-author.component.html',
@@ -29,13 +30,17 @@ export class BookAuthorComponent implements OnInit {
   config: any;
   bookSearch: Books[];
   mess: string;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
   constructor(private BooksService: BooksService,
               private route: ActivatedRoute,
               private location: Location,
               private router: Router,
               private AuthorsService: AuthorService,
               private CateService: CateService,
-              private publisherService: PublisherService) {
+              private publisherService: PublisherService,private _snackBar: MatSnackBar,
+              ) {
                 this.router.routeReuseStrategy.shouldReuseRoute = function () {
                   return false;
                 };
@@ -113,7 +118,12 @@ export class BookAuthorComponent implements OnInit {
                 localStorage.setItem("cart", JSON.stringify(cart));
               }
             }
-            alert('Thêm Thành Công');
+            this._snackBar.open("Thêm thành công","Đóng", {
+              panelClass: "snackbarConfig1",
+              duration: 3000,
+              horizontalPosition: this.horizontalPosition,
+              verticalPosition: this.verticalPosition,
+            });
             this.loadCart();
           },
           (error) => {

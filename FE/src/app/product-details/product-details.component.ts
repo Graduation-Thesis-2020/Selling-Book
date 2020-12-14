@@ -14,6 +14,7 @@ import { PublisherService } from '../service/publisher.service';
 import { Publisher } from '../models/publisher';
 import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 import { BookNew } from './../models/book';
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
@@ -41,7 +42,9 @@ export class ProductDetailsComponent implements OnInit {
   countItem: number;
   rating: Rating;
   err: string;
-
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  current = localStorage.getItem("currentUser");
   constructor(
     private route: ActivatedRoute,
     private BooksService: BooksService,
@@ -49,7 +52,7 @@ export class ProductDetailsComponent implements OnInit {
     private AuthorsService: AuthorService,
     private CateService: CateService,
     private cartService: CartService,
-    private publisherService: PublisherService
+    private publisherService: PublisherService,private _snackBar: MatSnackBar,
   ) { }
 
    ngOnInit() {
@@ -193,7 +196,12 @@ export class ProductDetailsComponent implements OnInit {
                 localStorage.setItem("cart", JSON.stringify(cart));
               }
             }
-            alert('Thêm Thành Công');
+            this._snackBar.open("Thêm thành công","Đóng", {
+              panelClass: "snackbarConfig1",
+              duration: 3000,
+              horizontalPosition: this.horizontalPosition,
+              verticalPosition: this.verticalPosition,
+            });
             this.loadCart();
           },
           (error) => {
@@ -209,14 +217,20 @@ export class ProductDetailsComponent implements OnInit {
     this.total = 0;
     this.items = [];
     let cart: any = JSON.parse(localStorage.getItem("cart"));
-    for (var i = 0; i < cart.length; i++) {
-      let item: Item = JSON.parse(cart[i]);
-      this.items.push({
-        product: item.product,
-        total: item.total,
-      });
-      this.total += item.product.price * item.total;
+    if(cart){
+      for (var i = 0; i < cart.length; i++) {
+        let item: Item = JSON.parse(cart[i]);
+        this.items.push({
+          product: item.product,
+          total: item.total,
+        });
+        this.total += item.product.price * item.total;
+      }
+      this.countItem = this.items.length;
     }
-    this.countItem = this.items.length;
+    else{
+      this.countItem = 0;
+    }
+
   }
 }

@@ -11,6 +11,7 @@ import { Publisher } from '../models/publisher';
 import { Author } from '../models/author';
 import { PublisherService } from '../service/publisher.service';
 import { AuthorService } from '../service/author.service';
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
@@ -33,11 +34,14 @@ export class HomeComponent implements OnInit {
   comingsoon: Books[] = [];
   sale: Books[]= [];
   isSearch = false;
-  booksearch: Books[]
+  booksearch: Books[];
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   constructor(private BooksService: BooksService,
               private CateService: CateService, private route: ActivatedRoute, private cartService: CartService,
               private PubService: PublisherService,
-              private AuthorService: AuthorService,) { }
+              private AuthorService: AuthorService,
+              private _snackBar: MatSnackBar,) { }
 
   ngOnInit() {
     this.getAllBook();
@@ -108,7 +112,12 @@ export class HomeComponent implements OnInit {
                 localStorage.setItem("cart", JSON.stringify(cart));
               }
             }
-            alert('Thêm Thành Công');
+            this._snackBar.open("Thêm thành công","Đóng", {
+              panelClass: "snackbarConfig1",
+              duration: 3000,
+              horizontalPosition: this.horizontalPosition,
+              verticalPosition: this.verticalPosition,
+            });
             this.loadCart();
           },
           (error) => {

@@ -89,8 +89,8 @@ export class UserOrderComponent implements OnInit {
     const Status: ChangeStatus = { status } as ChangeStatus;
     this.UserService.UpdateStatus(this.id,Status).subscribe(del => {
       this.od = del;
-      this._snackBar.open("Đơn hàng đã được hủy!","Đóng", {
-        panelClass: "snackbarConfig",
+      this._snackBar.open("Huỷ thành công!","Đóng", {
+        panelClass: "snackbarConfig1",
         duration: 3000,
         horizontalPosition: this.horizontalPosition,
         verticalPosition: this.verticalPosition,

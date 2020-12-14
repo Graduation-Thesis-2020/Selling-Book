@@ -1,4 +1,12 @@
-
+.nologin_noreview{
+  padding: 2rem 0 2rem 0;
+  text-align: center;
+}
+.coming-img img{
+  width: 120px;
+  height: 120px;
+  margin-top: 70px;
+}
 .rate span{
   font-size: 24px;
 }

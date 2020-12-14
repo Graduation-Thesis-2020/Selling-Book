@@ -41,12 +41,12 @@ export class UserProfileComponent implements OnInit {
             this.profile = res; console.log(this.profile);
             localStorage.setItem("currentUser", JSON.stringify(this.profile));
             this._snackBar.open("Lưu thành công","Đóng", {
-              panelClass: "snackbarConfig",
+              panelClass: "snackbarConfig1",
               duration: 3000,
               horizontalPosition: this.horizontalPosition,
               verticalPosition: this.verticalPosition,
             });
-            setTimeout(function(){ window.location.reload(); }, 1000);
+            setTimeout(function(){ window.location.reload(); }, 0);
           },
 
             error => {this.showMessage = error;

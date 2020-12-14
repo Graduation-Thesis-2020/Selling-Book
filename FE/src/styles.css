@@ -21,11 +21,39 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: rgb(127, 218, 127);
   height: 50px;
   font-size: 18px;
-  color:black;
+  color:rgb(83, 32, 165);
 }
 .snackbarErrorConfig{
-  background-color: rgb(231, 141, 88);
+  background-color: rgb(229, 233, 216);
   height: 50px;
-
-  color:black;
+  color:rgb(190, 10, 10);
+}
+.snackbarErrorConfig span{
+  font-size: 16px;
+}
+.snackbarConfig1 {
+  background-color: rgb(47, 194, 54);
+  height: 50px;
+  font-size: 20px;
+  font-weight: 500;
+  color:white
+}
+.snackbarConfig span{
+  font-size: 16px;
+}
+.snackbarConfig1 span{
+  font-size: 16px;
+}
+.snackbarErrorConfig.mat-snack-bar-container{
+  background: rgb(238, 50, 50);
+  color: aliceblue;
+}
+/* .mat-button{
+  background-color: aliceblue;
+} */
+.snackbarErrorConfig.mat-snack-bar-container .mat-button{
+  background-color: rgb(231, 214, 201);
+}
+.snackbarConfig1.mat-snack-bar-container .mat-button{
+  background-color: rgb(231, 214, 201);
 }

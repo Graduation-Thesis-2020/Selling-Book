@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   public login;
   public mess: [];
   loginRes: LoginReturn;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   constructor(private serService: UserService, private router: Router, private _snackBar: MatSnackBar,
               private appUser: DefaultLayoutUserComponent, private appcom: AppComponent,
@@ -61,9 +61,6 @@ export class LoginComponent implements OnInit {
     this.http.post(url, Login, { observe: 'response' })
       .subscribe((response: HttpResponse<any>) => {
 
-        console.log(" ---- begin response ----");
-        console.log( response );
-        console.log(" ---- end response ----");
         let currentUser = response.body;
         localStorage.setItem('currentUser', JSON.stringify(currentUser));;
         let token = response.headers.get("Authorization");
@@ -72,13 +69,24 @@ export class LoginComponent implements OnInit {
         if (status == 200) {
           if( response.body.role == 0 ) {
             this.router.navigate(['/home']);
+            this._snackBar.open("Đăng nhập thành công","Đóng", {
+              panelClass: "snackbarConfig1",
+              duration: 3000,
+              horizontalPosition: this.horizontalPosition,
+              verticalPosition: this.verticalPosition,
+            });
           }
         }
 
       }, (error: HttpErrorResponse) => {
         console.log(error);
         if(error){
-          alert('Đăng nhập thất bại!');
+          this._snackBar.open("Sai mật khẩu hoặc tài khoản","Đóng", {
+            panelClass: "snackbarErrorConfig",
+            duration: 3000,
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+          });
         }
       }
       )};

@@ -1,7 +1,7 @@
 .cus-container{
   background-color: whitesmoke;
   width: 1010px;
-  height: 700px;
+  min-height: 700px;
 }
 .img-responsive img{
   width: 100px;

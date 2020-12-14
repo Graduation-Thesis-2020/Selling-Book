@@ -45,7 +45,7 @@ export class CheckoutComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.loadProfile();
+    await this.loadProfile();
     this.getAllAuthor();
     this.getAllCate();
     this.getAllPub();
@@ -154,18 +154,6 @@ export class CheckoutComponent implements OnInit {
 
     this.loadCart();
   }
-  async AddtoCarts() {
-    const id = this.route.snapshot.paramMap.get("id");
-    await this.cartService.AddtoCart(id).subscribe((res) => (this.mess = res));
-    console.log(this.mess.message);
-  }
-  async GetCart() {
-    await this.cartService
-      .getShoppingCart()
-      .toPromise()
-      .then((res) => (this.carts = res));
-    await console.log(this.carts);
-  }
   getAllPub() {
     this.publisherService.getPublishers().subscribe(res => this.pubs = res);
   }
@@ -175,9 +163,9 @@ export class CheckoutComponent implements OnInit {
   getAllCate() {
     this.CateService.getCates().subscribe(res => this.cates1 = res);
   }
-  loadProfile(){
+  async loadProfile(){
     const token = localStorage.getItem("token");
-    this.UserService.getProfile(token).subscribe(user => {this.profile = user, console.log(this.profile)});
+    await this.UserService.getProfile(token).subscribe(user => {this.profile = user, console.log(this.profile)});
   }
   checkout(){
     const token = localStorage.getItem("token");
@@ -197,7 +185,8 @@ export class CheckoutComponent implements OnInit {
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
         });
-        this.router1.navigate(['/setting/order']);
+        this.router1.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router1.navigate(['/setting/order']);  });
       });
 
   };

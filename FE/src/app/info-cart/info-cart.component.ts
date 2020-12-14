@@ -82,8 +82,8 @@ export class InfoCartComponent implements OnInit {
   confirm(){
     console.log(this.profile);
     const token = (localStorage.getItem("token"));
-    this.UserService.FilloutProfile(this.profile,token).subscribe();
-    this.route.navigate(['/checkout']);
+    this.UserService.FilloutProfile(this.profile,token).subscribe(res => {this.profile = res;this.route.navigate(['/checkout']); });
+
   }
   loadCart() {
     this.total = 0;
