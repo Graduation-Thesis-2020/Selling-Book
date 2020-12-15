@@ -7,12 +7,14 @@
   </div>
   <div style="margin-bottom: 50px"></div>
   <div style="margin-top: 10px" class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
+    <table class="table table-bordered table-striped table-hover table-responsive-lg">
+      <thead style="background-color: rgb(138, 219, 155);">
         <tr>
           <th>No.</th>
-          <th>Tên Sách</th>
-          <th>Bình Luận</th>
+          <th style="width: 300px">Tên Sách</th>
+          <th>Tài khoản</th>
+          <th style="width: 200px">Tên khách</th>
+          <th style="width: 500px">Bình Luận</th>
           <th>Đánh Giá</th>
           <th>Ngày</th>
           <th>Thao tác</th>
@@ -21,20 +23,23 @@
       <tbody>
         <tr *ngFor="let rv of reviews | paginate: config; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ rv.bookId.title }}</td>
+          <td class="text-info font-weight-bold">{{ rv.bookId.title }}</td>
+          <td>{{ rv.userId.email }}</td>
+          <td>{{ rv.userId.name }}</td>
           <td>{{ rv.comment }}</td>
-          <td>
+          <td class="text-danger">
             <b>{{ rv.review }}</b
-            ><i class="fas fa-star" style="margin-left: 10px"></i>
+            ><i class="fas fa-heart" style="margin-left: 10px"></i>
           </td>
           <td>{{ rv.date | date: 'dd/MM/yyyy' }}</td>
-          <td style="width: 90px">
+          <td style="width: 40px" style="text-align: center;">
             <i
-              class="fas fa-trash"
-              (click)="delete(rv.comment, rv._id)"
-              title="Delete"
+              class="fas fa-trash text-warning"
+              data-toggle="modal" data-target="#ModalDelReview" (click)=shareId(rv._id)
+              title="Xóa"
             ></i>
           </td>
+
         </tr>
       </tbody>
     </table>
@@ -42,5 +47,31 @@
       style="text-align: center"
       (pageChange)="pageChanged($event)"
     ></pagination-controls>
+  </div>
+</div>
+
+<div class="modal fade" id="ModalDelReview" tabindex="-1" aria-labelledby="ModalDelReviewLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalDelReviewLabel" style="font-weight: 700; font-size: 24px; color: crimson;">Xóa nhận xét
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <p style="font-size: 18px;">Bạn có chắc muốn xóa nhận xét này?</p>
+        </div>
+        <div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="del()"data-dismiss="modal">Có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
   </div>
 </div>

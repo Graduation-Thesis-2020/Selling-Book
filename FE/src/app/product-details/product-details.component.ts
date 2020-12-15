@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BooksService } from '../service/book.service';
 import { Books, Books1 } from '../models/book';
 import { ReviewsService } from '../service/review.service';
-import { Rating, Review } from '../models/review';
+import { Rating, Review, ReviewBook, ReviewDetail } from '../models/review';
 import { AuthorService } from '../service/author.service';
 import { Author } from '../models/author';
 import { CateService } from '../service/cate.service';
@@ -15,6 +15,7 @@ import { Publisher } from '../models/publisher';
 import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 import { BookNew } from './../models/book';
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
+import { FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
@@ -28,6 +29,8 @@ export class ProductDetailsComponent implements OnInit {
   review: Review;
   idrv: string;
   reviews: Review[];
+  reviewsDetail: ReviewBook;
+  detail: ReviewDetail[];
   addreivew: Review;
   author: Author;
   cates: Cate[];
@@ -45,6 +48,8 @@ export class ProductDetailsComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   current = localStorage.getItem("currentUser");
+  ctrl = new FormControl(null, Validators.required);
+  config: any;
   constructor(
     private route: ActivatedRoute,
     private BooksService: BooksService,
@@ -53,11 +58,15 @@ export class ProductDetailsComponent implements OnInit {
     private CateService: CateService,
     private cartService: CartService,
     private publisherService: PublisherService,private _snackBar: MatSnackBar,
-  ) { }
+  ) {  this.config = {
+        itemsPerPage: 5,
+        currentPage: 1
+        };}
 
    ngOnInit() {
      this.getBookfromRoute();
      this.getReviewfromIDBook();
+     this.getReviewDetailfromIDBook();
      this.getAuthorfromIDBook();
      this.getCatefromIDBook();
      this.getAllPublisher();
@@ -86,6 +95,9 @@ export class ProductDetailsComponent implements OnInit {
     this.BooksService.getBookDetailFromID(id).subscribe(res => this.books = res);
 
   }
+  pageChanged(event) {
+    this.config.currentPage = event;
+    }
    getRating() {
     const id = this.route.snapshot.paramMap.get('id');
     this.ReviewService.getRatingBook(id).subscribe(res => this.rating = res, error => this.err = error);
@@ -95,12 +107,23 @@ export class ProductDetailsComponent implements OnInit {
     this.ReviewService.getReviewFromIDBook(id).subscribe(res => this.reviews = res);
 
   }
+  getReviewDetailfromIDBook() {
+    const id = this.route.snapshot.paramMap.get('id');
+    this.ReviewService.getReviewdetailFromID(id).subscribe(res => {
+      this.reviewsDetail = res;
+      this.detail = this.reviewsDetail.reviews;
+      this.detail.reverse();
+    });
+
+  }
 
   save( comment: string) {
+    this.ctrl.setValue(null)
     const bookId = this.route.snapshot.paramMap.get('id');
+    const token = localStorage.getItem('token');
     const review = this.currentRate;
-    const newReview: Review = { review, comment, bookId } as Review;
-    this.ReviewService.addReview(newReview).subscribe(res => this.addreivew = res);
+    const newReview: Review = { review, comment } as Review;
+    this.ReviewService.addReview(newReview, bookId, token).subscribe(res => {this.addreivew = res; this.getReviewDetailfromIDBook();});
     this.getReviewfromIDBook();
   }
    getAuthorfromIDBook() {
@@ -233,4 +256,7 @@ export class ProductDetailsComponent implements OnInit {
     }
 
   }
+
+
+
 }

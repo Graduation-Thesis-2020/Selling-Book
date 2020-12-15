@@ -12,7 +12,7 @@ export class AdminReviewComponent implements OnInit {
   reviews: ReviewDetail[];
   review: Review;
   config: any;
-
+  id: string;
   constructor(private ReviewsService: ReviewsService) {
     this.config = {
     itemsPerPage: 15,
@@ -38,5 +38,13 @@ export class AdminReviewComponent implements OnInit {
         this.getAllReviews();
       }, error => console.error(error));
     }
+  }
+  del() {
+  this.ReviewsService.delete(this.id).subscribe(() => {
+        this.getAllReviews();
+      }, error => console.error(error));
+    }
+  shareId(id){
+    this.id= id;
   }
 }

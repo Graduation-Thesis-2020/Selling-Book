@@ -5,7 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Books, Books1 } from '../models/book';
 import { RootObj, RootObj2 } from '../models/root-obj';
 import { ApiService } from './api.service';
-import { Rating, Review, ReviewDetail } from '../models/review';
+import { Rating, Review, ReviewBook, ReviewDetail } from '../models/review';
 
 
 
@@ -25,6 +25,7 @@ export class ReviewsService {
   ) { }
   URL = 'http://localhost:8080/reviews';
   BookURL = 'http://localhost:8080/books';
+  UserURL = 'http://localhost:8080/users';
 
   getReview(): Observable<Review[]> {
     return this.http.get<Review[]>(this.URL).pipe();
@@ -38,12 +39,22 @@ export class ReviewsService {
     const url = `${this.URL}/${id}`;
     return this.http.get<Review>(url).pipe();
   }
+  getReviewdetailFromID(id: string): Observable<ReviewBook> {
+    const url = `${this.BookURL}/${id}`;
+    return this.http.get<ReviewBook>(url).pipe();
+  }
   getReviewFromIDBook(id: string): Observable<Review[]> {
     const url = `${this.BookURL}/${id}/reviews`;
     return this.http.get<Review[]>(url).pipe();
   }
-  addReview(Review: Review): Observable<Review> {
-    return this.http.post<Review>(this.URL, Review);
+  addReview(Review: Review, id: string, token: string): Observable<Review> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    const url = `${this.UserURL}/${id}/comment`;
+    return this.http.post<Review>(url, Review, httpOptions).pipe();
   }
   delete(id: string): Observable<Review> {
     return this.http.delete<Review>(`${this.URL}/${id}`);

@@ -4,6 +4,8 @@ export interface Review {
   bookId: string;
 }
 export interface ReviewDetail {
+  _id: string
+  userId: GetUserForReview;
   review: number;
   comment: string;
   bookId: ReviewFromBook;
@@ -17,4 +19,14 @@ export interface Rating {
   total: number;
   average: number;
   message: string;
+}
+export interface GetUserForReview {
+  name: string;
+  imageUrl: string;
+  imageId: string;
+  _id: string;
+  email: string;
+}
+export interface ReviewBook {
+  reviews: ReviewDetail[];
 }

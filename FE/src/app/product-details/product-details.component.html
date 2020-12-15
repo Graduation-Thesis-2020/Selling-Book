@@ -154,7 +154,7 @@
           <div class="single-right">
             <h3>{{ books.title }}</h3>
             <div class="row" style="margin-left: 0px;" *ngIf="rating.message == null">
-              <ngb-rating rate="{{rating.average}}" [starTemplate]="t" [readonly]="true" [max]="5"></ngb-rating>
+              <ngb-rating  rate="{{rating.average}}" [starTemplate]="t" [readonly]="true" [max]="5"></ngb-rating>
               <div class="number-rate">
                 ({{rating.total}} đánh giá)
               </div>
@@ -251,18 +251,21 @@
         <p class="title">Nhận xét
         </p>
         <div class="col-e">
-          <div class="rate">
-            <h5 style="font-weight: normal;">
+          <div class="rate form-group">
+            <h5 style="font-weight: normal; margin-bottom: 0px;">
               Bình chọn: <span class="heart">
-                <ngb-rating [(rate)]="currentRate" [starTemplate]="t" [max]="5"></ngb-rating>
+                <ngb-rating [formControl]="ctrl" [(rate)]="currentRate" [starTemplate]="t" [max]="5"></ngb-rating>
               </span>
             </h5>
+            <div class="form-text small" >
+              <div *ngIf="ctrl.valid && ctrl.value !== 0" class="text-success">Xin cảm ơn!</div>
+              <div *ngIf="ctrl.invalid || ctrl.value==0" class="text-danger">Hãy chọn mức độ hài lòng của bạn!</div>
+            </div>
           </div>
-          <textarea #comment class="form-control" placeholder="nhập bình luận.."></textarea>
-
+          <textarea  #comment class="form-control" placeholder="nhập bình luận.."></textarea>
         </div>
         <div class="submitRating">
-          <button class="btn btn-outline-danger" style="float: right;" (click)="save(comment.value)" tyle="button">
+          <button class="btn btn-danger" style="float: right;" (click)="save(comment.value)" tyle="button" [disabled]="ctrl.invalid || ctrl.value==0" >
             Gửi nhận xét
           </button>
         </div>
@@ -279,19 +282,30 @@
           <span class="in-pa" *ngIf="rating.total == null">(hiện có 0 lượt đánh giá)</span>
         </p>
       </div>
-      <div *ngFor="let each of reviews; let i = index">
-        <p class="reduced1">
-          <i class="fas fa-user" style="margin-right: 5px"></i>Người Ẩn
-          Danh({{ i }})
-        </p>
-        <p class="reduced3">
-          {{ each.review }}
-          &hearts;
-        </p>
-        <div class="col-n">
-          <p class="reduced2">Bình Luận: {{ each.comment }}</p>
+      <div *ngFor="let each of detail | paginate: config; let i = index">
+        <div class="row pr-3 pl-2 " style="margin-top: 10px; padding-bottom: 20px;">
+          <div class="col-auto">
+            <div class="img-reponsive" *ngIf="!each.userId.imageUrl">
+              <img src="https://lh3.googleusercontent.com/proxy/3zrGCcbn1TTP-FksR3iXnE_w9cKJgrBgel19A-RWn0MCRyy5QqPBcZAN8cRwixbJ8M33ATZDiKBZi6ItfW0Iu-IG9nuHDYrU2XZqLZ9H-VjpF2KzJT_aV-u7T5DSFn0jqBPyCtZBHTDyrnq_ " alt="">
+            </div>
+            <div class="img-reponsive" *ngIf="each.userId.imageUrl">
+              <img src="{{each.userId.imageUrl}}" alt="">
+            </div>
+          </div>
+          <div class="col pl-0">
+            <div class="bg-review p-2">
+              <p style="font-weight: 600; padding-bottom: 10px;"> {{each.userId.name}}
+                <span style="color: red; font-size: 12px; padding-left: 10px;">{{each.review}} <i class="fas fa-heart"></i></span>
+              </p>
+              <p>{{each.comment}}</p>
+            </div>
+            <div class="pl-2" style="font-size: 14px; color: darkgray;">Ngày đăng: {{each.date | date: 'dd/MM/yyyy'}}</div>
+          </div>
+
         </div>
       </div>
+      <pagination-controls *ngIf="reviewsDetail.reviews.length>5" style="text-align: center; margin-top: 2rem;"(pageChange)="pageChanged($event)"
+    ></pagination-controls>
     </div>
     <div>
 
