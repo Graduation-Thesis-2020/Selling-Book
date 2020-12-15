@@ -12,6 +12,9 @@ const user = require('../models/user');
 const cloudinary = require('cloudinary');
 const order = require('../models/order');
 const orderDetail = require('../models/orderDetail');
+//const nodemailer = require('nodemailer');
+const { verifyEmail } = require('../middleware/midemail');
+
 const verifyToken = (token) => {
   const decode = jwt.verify(token, process.env.JWT_KEY);
   return { decode };
@@ -84,7 +87,7 @@ module.exports = {
     })
   },
   // ĐĂNG KÝ TÀI KHOẢN CUSTOMER
-  postRegisterUserCustomer: (req, res, next) => {
+  postRegisterUserCustomer: async (req, res, next) => {
     const validationErrors = [];
     if (!validator.isEmail(req.body.email)) {
       validationErrors.push({ message: 'Nhập lại email' });
@@ -119,7 +122,7 @@ module.exports = {
       role: 0,
     });
 
-    User.findOne({ email: req.body.email }, (err, existUser) => {
+    User.findOne({ email: req.body.email }, async (err, existUser) => {
       if (err) {
         return next(err);
 
@@ -132,6 +135,14 @@ module.exports = {
         //   return res.status(400).json( {message  : "Bị lỗi rồi"});
       }
 
+      // KIỂM TRA PHONE CÓ TỒN TẠI HAY CHƯA
+      const checkPhone = await User.findOne({ phone: req.body.phone });
+      if (checkPhone) {
+        return res.status(500).json({
+          message: `Phone ${checkPhone.phone} đã tồn tại.`
+        })
+      }
+
       const createUser = User.create(user);
       // generate the Token 
       const token = encodedToken(user.email);
@@ -141,6 +152,7 @@ module.exports = {
         //  return res.status(400).json( { message: `Khách hàng ${createUser.profile.name} đã được tạo thành công!`});
         // res.redirect('/customer/login');
         //  return res.status(201).json( { message: "Khách hàng đã được tạo thành công!" });
+        verifyEmail(user.email)
         return res.status(200).json({
           message: `Khách hàng ${user.name}  đã được tạo thành công. `
         })
@@ -469,5 +481,42 @@ module.exports = {
     } catch (error) {
       return res.status(500).json({ message: " Thao tác thất bại!!! " });
     }
-  }
+  },
+
+  // verifyEmail: async (req, res, next) => {
+  //   const email = req.body.email;
+  //   const transporter = nodemailer.createTransport({
+  //     service: "gmail",
+  //     auth: {
+  //       user: process.env.EMAIL,
+  //       pass: process.env.PASSWORDEMAIL
+  //     }
+  //   });
+
+  //   let mailOptions = {
+  //     from: 'luhuonglan1998@gmail.com', 
+  //     to: `${email}`, 
+  //     subject: "Thông tin đăng ký tài khoản tại The Book Store ✔", 
+  //     html: "<p style='font-size:25px'><b style='color:black'>Chào mừng đến với The Book Store</b></p>"
+  //     +"</br>"
+  //     + "<p style='color:black' >Cảm ơn Anh/chị đã đăng ký tài khoản tại cửa hàng của chúng tôi.</p>"
+  //   //  +"<p style='color:black'>Địa chỉ email đã dùng để đăng ký tài khoản: email </p>" 
+  //     +"<p style='color:black'>Anh/chị vui lòng truy cập vào tài khoản theo địa chỉ http://localhost:4200/setting để thực hiện đặt hàng và quản lý giao dịch nhanh chóng thuận tiện hơn.</p>"
+  //     +"<p style='color:black'>Truy cập vào cửa hàng để tiếp tục mua sắm với chúng tôi</p>"
+  //     +"<div><span style='padding:14px 35px;background:#357ebd'><a href='http://localhost:4200/home' style='font-size:16px' style='text-decoration:none' style='color:#fff' target='_blank' data-saferedirecturl='http://localhost:4200/home'> <b style='color:#fff'>Đến cửa hàng của chúng tôi</b> </a></span></div>"
+  //     + "<p style='color:black'><p style='text-align: right'>Nếu Anh/chị có bất kỳ câu hỏi nào, xin liên hệ với chúng tôi tại luhuonglan1998@gmail.com</p></p>"
+  //     +"<p style='color:black'><p style='text-align: right'><i>Trân trọng,</i></p></p>"
+  //     +"<p style='color:black'><p style='text-align: right'><b>Ban quản trị cửa hàng The Book Store</b></p></p>",
+      
+  //   };
+  //   transporter.sendMail(mailOptions, (error, info) => {
+  //   if (error) {
+  //      // console.log(error);
+  //       return res.status(500).json(error);
+  //     } else {
+  //     //  console.log("Email sent: ", info.response);
+  //       return res.status(200).json({ Email_sent: info.response});
+  //     }
+  //   })
+  // }
 }

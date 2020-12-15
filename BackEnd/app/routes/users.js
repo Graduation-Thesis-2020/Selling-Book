@@ -71,7 +71,8 @@ router.post('/auth/google', passport.authenticate('google-plus-token', { session
 router.post('/auth/facebook', passport.authenticate('facebook-token', { session: false }), User.authFacebook);
 
 router.get('/secret', passport.authenticate('jwt', { session: false }), User.secret)
-  .get('/getAllCustomer', User.getAllUserCustomer);
+  .get('/getAllCustomer', User.getAllUserCustomer)
+ // .post('/verifyEmail', User.verifyEmail)
 
 // 
 

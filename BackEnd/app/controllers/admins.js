@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
-
+const { verifyEmailAdmin } = require('../middleware/midemail');
 
 const verifyToken = (token) => {
   const decode = jwt.verify(token, process.env.JWT_KEY);
@@ -95,6 +95,7 @@ module.exports = {
         //  return res.status(400).json( { message: `Khách hàng ${createUser.profile.name} đã được tạo thành công!`});
         // res.redirect('/customer/login');
         //  return res.status(201).json( { message: "Khách hàng đã được tạo thành công!" });
+        verifyEmailAdmin(user.email)
         return res.status(200).json({
           message: `Tài khoản ${user.name}  đã được tạo thành công. `
         })
@@ -276,6 +277,18 @@ module.exports = {
   getAllEmployee: async (req, res, next) => {
     try {
       const employList = await User.find({ role: 2 });
+      if (employList != null && employList != '') {
+        return res.status(200).json(employList);
+      }
+      return res.status(404).json({ message: "Không có dữ liệu!!!" });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+
+  },
+  getAllAdmin: async (req, res, next) => {
+    try {
+      const employList = await User.find({ role: 1 });
       if (employList != null && employList != '') {
         return res.status(200).json(employList);
       }

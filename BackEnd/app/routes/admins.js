@@ -10,15 +10,15 @@ router.post('/login', Admin.postLogin)
   .get('/getAllUser', passport.authenticate('jwt', { session: false }), authenUser, Admin.getAllUser)
   // Update for EMPLOYEE AND ADMIN
   .patch('/:userId/', passport.authenticate('jwt', { session: false }), authenUser, Admin.patchUpdateUser)
-
+ 
 
 // Management Customer 
 router.delete('/customers/:userId', passport.authenticate('jwt', { session: false }), authenUser, Admin.deleteCustomer)
   // Get All Customer
   .get('/customers', passport.authenticate('jwt', { session: false }), authenUser, Admin.getAllCustomer)
   .get('/customers/search/', passport.authenticate('jwt', { session: false }), authenUser, Admin.getSearchCustomer) // XONG
-  // GET A CUSTOMER
-  .get('/customers/:userId', passport.authenticate('jwt', { session: false }), authenUser, Admin.getACustomer) // XONG
+// GET A CUSTOMER
+//.get('/customers/:userId', passport.authenticate('jwt', { session: false }), authenUser, Admin.getACustomer) // XONG
 
 //.patch()
 
@@ -30,13 +30,16 @@ router.delete('/employees/:userId', passport.authenticate('jwt', { session: fals
   // Tìm kiếm tên nhân viên
   .get('/employees/search', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.getSearchEmployee)  // XONG
   // GET A EMPLOYEE
-  .get('/employees/:userId', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.getAEmployee)  // XONG
+  //.get('/employees/:userId', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.getAEmployee)  // XONG
 
   // Tạo một tài khoản nhân viên
   .post('/employees/register', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.postRegisterEmployee)  // KT
   // Tạo một tài khoản Admin role = 1
   .patch('/employees/roleadmin/:userId/', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.patchCreateAdminRole1)  //XONG
-
+  // GET ALL ADMIN ACCOUNT
+  .get('/', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.getAllAdmin) // XONG
+ // GET A USER
+ .get('/:userId', passport.authenticate('jwt', { session: false }), authenUser, Admin.getAEmployee)  // XONG
 
 // LOGOUT ACCOUNT
 router.get('/logout', passport.authenticate('jwt', { session: false }), Admin.logout);
