@@ -1,5 +1,4 @@
-<section
-  style="
+<section style="
     background: linear-gradient(
       90deg,
       rgba(31, 126, 126, 1) 0%,
@@ -11,39 +10,30 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
     height: 200px;
-  "
->
+  ">
   <div class="header" style="padding-top: 20px">
     <div class="container">
       <div class="logo">
         <h1>
-          <a [routerLink]="['/home']"
-            ><b>T<br />H<br />E</b>Book Store<span
-              >The Best Store Online</span
-            ></a
-          >
+          <a [routerLink]="['/home']"><b>T<br />H<br />E</b>Book Store<span>The Best Store Online</span></a>
         </h1>
       </div>
 
       <ul class="c" style="padding-left: 0px; margin-bottom: 0px">
         <li>
-          <a [routerLink]="['/home']"
-            ><i class="fa fa-home" aria-hidden="true"></i>Trang chủ</a
-          >
+          <a [routerLink]="['/home']"><i class="fa fa-home" aria-hidden="true"></i>Trang chủ</a>
         </li>
       </ul>
 
       <div class="header-ri">
         <ul class="social-top" style="padding-left: 0px">
           <li>
-            <a href="https://www.facebook.com/koolsssssss" class="icon facebook"
-              ><i class="fa fa-facebook" aria-hidden="true"></i><span></span
-            ></a>
+            <a href="https://www.facebook.com/koolsssssss" class="icon facebook"><i class="fa fa-facebook"
+                aria-hidden="true"></i><span></span></a>
           </li>
           <li>
-            <a href="https://www.facebook.com/hung.lu1998" class="icon twitter"
-              ><i class="fa fa-twitter" aria-hidden="true"></i><span></span
-            ></a>
+            <a href="https://www.facebook.com/hung.lu1998" class="icon twitter"><i class="fa fa-twitter"
+                aria-hidden="true"></i><span></span></a>
           </li>
         </ul>
       </div>
@@ -66,9 +56,7 @@
             </p>
             <img
               src="https://png.pngtree.com/png-vector/20190810/ourlarge/pngtree-shop-store-market-building-shopping-flat-color-icon-vector-png-image_1653492.jpg"
-              width="300"
-              height="300"
-            />
+              width="300" height="300" />
           </div>
         </div>
       </div>
@@ -76,152 +64,178 @@
       <div class="col-8">
         <div class="card">
           <div class="card-header bg-white">Đăng kí thông tin</div>
-          <div class="card-body mx-3">
-            <form>
-              <div class="form-group row">
-                <label for="input1" class="col-sm-4 col-form-label"
-                  >Họ và tên<span>*</span></label
-                >
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="name" #name />
-                </div>
-              </div>
+          <div class="card-body px-0 pb-0">
+            <form #registerForm="ngForm" appIdentityRevealed>
+              <div class="px-4">
+                <div class="cross-validation"
+                  [class.cross-validation-error]="registerForm.errors?.identityRevealed && (registerForm.touched || registerForm.dirty)">
+                  <div class="form-group row">
+                    <label for="input1" class="col-sm-4 col-form-label">Họ và tên<span>*</span></label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" id="name" name="name" [(ngModel)]="hero.name"
+                        #name="ngModel" required />
+                      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger pl-2 pt1"
+                        style="font-size: 14px;">
 
-              <div class="form-group row">
-                <label for="input2" class="col-sm-4 col-form-label"
-                  >Số điện thoại</label
-                >
-                <div class="col-sm-8">
-                  <input type="number" class="form-control" id="phone" #phone />
-                </div>
-              </div>
+                        <div *ngIf="name.errors.required">
+                          Tên không được để trống.
+                        </div>
 
-              <div class="form-group row">
-                <label for="input5" class="col-sm-4 col-form-label"
-                  >Email (Tên tài khoản)<span>*</span></label
-                >
-                <div class="col-sm-8">
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="inputEmail"
-                    #email
-                  />
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label for="input7" class="col-sm-4 col-form-label"
-                  >Mật khẩu<span>*</span></label
-                >
-                <div class="col-sm-8">
-                  <input type="password" class="form-control" #password />
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label for="input7" class="col-sm-4 col-form-label"
-                  >Xác nhận mật khẩu<span>*</span></label
-                >
-                <div class="col-sm-8">
-                  <input
-                    type="password"
-                    class="form-control"
-                    #confirmPassword
-                  />
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label for="input3" class="col-sm-4 col-form-label"
-                  >Ngày sinh</label
-                >
-                <div class="col-sm-8">
-                  <input
-                    type="date"
-                    class="form-control"
-                    #birthday
-                  />
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label for="input4" class="col-sm-4 col-form-label"
-                  >Giới tính</label
-                >
-
-                <div class="col-sm-5">
-                  <div
-                    class="custom-control custom-radio custom-control-inline"
-                  >
-                    <input
-                      type="radio"
-                      id="customRadioInline1"
-                      name="custom"
-                      class="custom-control-input"
-                      value="Nam"
-                      (change)="onItemChange($event.target.value)"
-                    />
-                    <label class="custom-control-label" for="customRadioInline1"
-                      >Nam</label
-                    >
-                  </div>
-                  <div
-                    class="custom-control custom-radio custom-control-inline"
-                  >
-                    <input
-                      type="radio"
-                      id="customRadioInline2"
-                      name="custom"
-                      class="custom-control-input"
-                      value="Nữ"
-                      (change)="onItemChange($event.target.value)"
-                    />
-                    <label class="custom-control-label" for="customRadioInline2"
-                      >Nữ</label
-                    >
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+                <div class="cross-validation"
+                  [class.cross-validation-error]="registerForm.errors?.identityRevealed && (registerForm.touched || registerForm.dirty)">
+                  <div class="form-group row">
+                    <label for="input2" class="col-sm-4 col-form-label">Số điện thoại<span>*</span></label>
+                    <div class="col-sm-8">
+                      <input type="string" class="form-control" id="phone" name="phone" [(ngModel)]="hero.phone"
+                        #phone="ngModel" required minlength="10" pattern="[0-9]*" maxlength="11" />
+                      <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="text-danger pl-2 pt-1"
+                        style="font-size: 14px;">
 
-              <div class="form-group row">
-                <label for="input5" class="col-sm-4 col-form-label"
-                  >Địa chỉ</label
-                >
-                <div class="col-sm-8">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="inputEmail"
-                    #address
-                  />
+                        <div *ngIf="phone.errors.required">
+                          Số điện thoại không được để trống.
+                        </div>
+                        <div *ngIf="phone.hasError('minlength')">
+                          Số điện thoại ít nhất 10 số
+                        </div>
+                        <div *ngIf="phone.errors.pattern">
+                          Vui lòng nhập số
+                        </div>
+                        <div *ngIf="phone.errors.maxlength">
+                          Số điện thoại không phù hợp
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="cross-validation"
+                  [class.cross-validation-error]="registerForm.errors?.identityRevealed && (registerForm.touched || registerForm.dirty)">
+                  <div class="form-group row">
+                    <label for="input5" class="col-sm-4 col-form-label">Email (Tên tài khoản)<span>*</span></label>
+                    <div class="col-sm-8">
+                      <input type="email" class="form-control" id="inputEmail" name="email" [(ngModel)]="hero.email"
+                        #email="ngModel" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
+                      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger pl-2 pt1"
+                        style="font-size: 14px;">
+
+                        <div *ngIf="email.errors.required">
+                          Email không được để trống.
+                        </div>
+                        <div *ngIf="email.errors.pattern">
+                          Nhập đúng định dạng email. vd: @gmail.com
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="cross-validation"
+                  [class.cross-validation-error]="registerForm.errors?.identityRevealed && (registerForm.touched || registerForm.dirty)">
+                  <div class="form-group row">
+                    <label for="input7" class="col-sm-4 col-form-label">Mật khẩu<span>*</span></label>
+                    <div class="col-sm-8">
+                      <input type="password" class="form-control"  name="password" [(ngModel)]="hero.password"
+                      #password="ngModel" required minlength="8" maxlength="16"  />
+                      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger pl-2 pt1"
+                        style="font-size: 14px;">
+                        <div *ngIf="password.errors.required">
+                          Mật khẩu không được để trống.
+                        </div>
+                        <div *ngIf="password.errors.maxlength">
+                          Mật khẩu từ 8 đến 16 kí tự
+                        </div>
+                        <div *ngIf="password.errors.minlength">
+                          Mật khẩu từ 8 đến 16 kí tự
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cross-validation"
+                  [class.cross-validation-error]="registerForm.errors?.identityRevealed && (registerForm.touched || registerForm.dirty)">
+
+                  <div class="form-group row">
+                    <label for="input7" class="col-sm-4 col-form-label">Xác nhận mật khẩu<span>*</span></label>
+                    <div class="col-sm-8">
+                      <input type="password" class="form-control" name="confirmPassword" [(ngModel)]="hero.confirmPassword"
+                      #confirmPassword="ngModel" required  />
+                      <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)" class="text-danger pl-2 pt1"
+                      style="font-size: 14px;">
+                      <div *ngIf="confirmPassword.errors.required">
+                        Bạn cần xác nhận mật khẩu.
+                      </div>
+                    </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="input3" class="col-sm-4 col-form-label">Ngày sinh</label>
+                  <div class="col-sm-8">
+                    <input type="date" class="form-control" #birthday />
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="input4" class="col-sm-4 col-form-label">Giới tính</label>
+
+                  <div class="col-sm-5">
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" id="customRadioInline1" name="custom" class="custom-control-input" value="Nam"
+                        (change)="onItemChange($event.target.value)" />
+                      <label class="custom-control-label" for="customRadioInline1">Nam</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" id="customRadioInline2" name="custom" class="custom-control-input" value="Nữ"
+                        (change)="onItemChange($event.target.value)" />
+                      <label class="custom-control-label" for="customRadioInline2">Nữ</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="input5" class="col-sm-4 col-form-label">Địa chỉ</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="inputEmail" #address />
+                  </div>
                 </div>
               </div>
+
+
+              <div class="card-footer bg-white text-center">
+                <!-- <button type="submit" class="btn btn-danger my-3 btn-block" (click)="
+                    signup(
+                      name.value,
+                      phone.value,
+                      email.value,
+                      password.value,
+                      confirmPassword.value,
+                      birthday.value,
+                      address.value
+                    )
+                  ">
+                  ĐĂNG KÍ
+                </button> -->
+                <button type="submit" class="btn btn-danger my-3 btn-block"  [disabled]="registerForm.invalid"
+                (click)=confirm(birthday.value,address.value)>
+                  ĐĂNG KÍ
+                </button>
+
+                <div class="back">
+                  Đã có tài khoản? <a routerLink="/login"> Đăng nhập</a>
+                </div>
+              </div>
+
             </form>
           </div>
-          <div class="card-footer bg-white text-center">
-            <button
-              type="submit"
-              class="btn btn-danger my-3 btn-block"
-              (click)="
-                signup(
-                  name.value,
-                  phone.value,
-                  email.value,
-                  password.value,
-                  confirmPassword.value,
-                  birthday.value,
-                  address.value
-                )
-              "
-            >
-              ĐĂNG KÍ
-            </button>
 
-            <div class="back">
-              Đã có tài khoản? <a routerLink="/login"> Đăng nhập</a>
-            </div>
-          </div>
         </div>
       </div>
     </div>
