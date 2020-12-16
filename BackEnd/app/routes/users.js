@@ -50,7 +50,10 @@ router.post('/register', User.postRegisterUserCustomer)
   .get('/:orderId/getaorder', passport.authenticate('jwt', { session: false }), User.getAOrder)
   .get('/:orderId/getaorderdetail', passport.authenticate('jwt', { session: false }), User.getAOrderDetails)
   .delete('/:orderId/deleteorder', passport.authenticate('jwt', { session: false }), User.deleteOrder)
-
+  // Đăng ký nhận thông báo của website
+  .patch('/notification', passport.authenticate('jwt', { session: false }), User.patchNotification)
+  .patch('/notification', passport.authenticate('jwt', { session: false }), User.patchNotification)
+  
   // Hủy 1 đơn hàng
   .patch('/:orderId', passport.authenticate('jwt', { session: false }), User.updateOrder)
   .put('/:orderId', passport.authenticate('jwt', { session: false }), User.updateOrder)
@@ -58,7 +61,9 @@ router.post('/register', User.postRegisterUserCustomer)
   // Coment A Book OF Customer
   .post('/:bookId/comment', passport.authenticate('jwt', { session: false }), User.postCreateAComment)
 
-
+  // Forget PassWord
+  .post('/forgetpassword', User.postForgetPassWord)
+  .get('/changepassword', User.patchForgetPassWord)
 
 
 // LOGOUT ACCOUNT
@@ -70,9 +75,11 @@ router.post('/auth/google', passport.authenticate('google-plus-token', { session
 // LOGIN WITH FACEBOOK
 router.post('/auth/facebook', passport.authenticate('facebook-token', { session: false }), User.authFacebook);
 
+
+
 router.get('/secret', passport.authenticate('jwt', { session: false }), User.secret)
   .get('/getAllCustomer', User.getAllUserCustomer)
- // .post('/verifyEmail', User.verifyEmail)
+// .post('/verifyEmail', User.verifyEmail)
 
 // 
 

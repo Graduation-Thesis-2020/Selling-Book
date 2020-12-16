@@ -70,6 +70,10 @@ const userSchema = mongoose.Schema({
   role: {
     type: Number,
     default: 0 //  admin:1 , NhanVien: 2, user: 0
+  },
+  notification: {
+    type: Boolean,
+    default: false
   }
   // _id: mongoose.Schema.Types.ObjectId
   // username: {

@@ -53,7 +53,7 @@ module.exports = {
       validationErrors.push({ message: 'Mật khẩu không chính xác' });
     }
     if (validationErrors.length) {
-      return res.status(500).json({ message: validationErrors });
+      return res.status(400).json(validationErrors[0]);
     }
     req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
 
@@ -73,7 +73,7 @@ module.exports = {
         return next(err);
       }
       if (existUser) {
-        return res.status(500).json({
+        return res.status(400).json({
           message: `Email ${existUser.email} đã tồn tại.`
         })
 
@@ -81,7 +81,7 @@ module.exports = {
       // KIỂM TRA PHONE CÓ TỒN TẠI HAY CHƯA
       const checkPhone = await User.findOne({ phone: req.body.phone });
       if (checkPhone) {
-        return res.status(500).json({
+        return res.status(400).json({
           message: `Phone ${checkPhone.phone} đã tồn tại.`
         })
       }

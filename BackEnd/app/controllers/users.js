@@ -13,7 +13,10 @@ const cloudinary = require('cloudinary');
 const order = require('../models/order');
 const orderDetail = require('../models/orderDetail');
 //const nodemailer = require('nodemailer');
-const { verifyEmail } = require('../middleware/midemail');
+const { verifyEmail, mailVefiryNotification, generalRandomCode, forgetPassWord } = require('../middleware/midemail');
+
+// Code Xác Thực Đỗi Mật Khẩu
+var codeVerify ;
 
 const verifyToken = (token) => {
   const decode = jwt.verify(token, process.env.JWT_KEY);
@@ -102,9 +105,7 @@ module.exports = {
       validationErrors.push({ message: 'Mật khẩu không chính xác' });
     }
     if (validationErrors.length) {
-      // req.flash('errors', validationErrors);
-      //  return res.redirect('/dashboard/customers/login');
-      return res.status(500).json({ message: validationErrors });
+      return res.status(400).json(validationErrors[0]);
     }
     req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
 
@@ -128,7 +129,7 @@ module.exports = {
 
       }
       if (existUser) {
-        return res.status(500).json({
+        return res.status(400).json({
           message: `Email ${existUser.email} đã tồn tại.`
         })
         //  return res.redirect('/dashboard/customers/register');
@@ -138,7 +139,7 @@ module.exports = {
       // KIỂM TRA PHONE CÓ TỒN TẠI HAY CHƯA
       const checkPhone = await User.findOne({ phone: req.body.phone });
       if (checkPhone) {
-        return res.status(500).json({
+        return res.status(400).json({
           message: `Phone ${checkPhone.phone} đã tồn tại.`
         })
       }
@@ -483,6 +484,49 @@ module.exports = {
     }
   },
 
+  patchNotification: async (req, res, next) => {
+    let userId = req.user._id;
+    try {
+      let userData = await User.findById(userId);
+      if (userData.notification == true) {
+        return res.status(200).json({ message: "Đã đăng ký rồi!!!" });
+      }
+      userData.notification = true;
+      userData.save();
+      mailVefiryNotification(req.user.email);
+      return res.status(200).json(userData);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+
+  },
+
+  postForgetPassWord: async (req, res, next) => {
+    let email = req.body.email;
+    try {
+      let checkEmail = await User.findOne({ email: email });
+      if (checkEmail != null && checkEmail != '') {
+         codeVerify = generalRandomCode(8);
+        forgetPassWord(email, checkEmail.name ,codeVerify );
+        return res.status(200).json(codeVerify);
+      }
+      return res.status(404).json({ message: "Email chưa được đăng ký, vui lòng đăng ký tài khoản!!!" });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  },
+
+  patchForgetPassWord: async (req, res, next) => {
+    let code = req.body.codeverify ;
+    let password = req.body.password;
+    let confirmpassword = req.body.confirmPassword ;
+    if(code == codeVerify){
+      return res.status(200).json({message: "OK ĐÚNG RỒI ĐÓ"})
+    }else{
+      return res.status(400).json({message: "Mã sai rồi !!!"})
+    }
+  }
+
   // verifyEmail: async (req, res, next) => {
   //   const email = req.body.email;
   //   const transporter = nodemailer.createTransport({
@@ -507,7 +551,7 @@ module.exports = {
   //     + "<p style='color:black'><p style='text-align: right'>Nếu Anh/chị có bất kỳ câu hỏi nào, xin liên hệ với chúng tôi tại luhuonglan1998@gmail.com</p></p>"
   //     +"<p style='color:black'><p style='text-align: right'><i>Trân trọng,</i></p></p>"
   //     +"<p style='color:black'><p style='text-align: right'><b>Ban quản trị cửa hàng The Book Store</b></p></p>",
-      
+
   //   };
   //   transporter.sendMail(mailOptions, (error, info) => {
   //   if (error) {
