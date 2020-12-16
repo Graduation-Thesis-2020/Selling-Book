@@ -48,6 +48,7 @@ export interface LoginReturn {
   role: number;
   imageUrl: string;
   imageId: string;
+  notification: boolean;
 }
 export interface LoginAdmin {
   email: string;

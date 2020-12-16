@@ -14,7 +14,7 @@
           </li>
           <li *ngIf="role == 0" >
             <a [routerLink]="['/setting']" class="img-reponsive" *ngIf="!image">
-              <img src="https://img.pngio.com/user-logo-png-user-computer-icons-clipart-download-800-800-user-logo-png-900_800.png" alt="" id="avrtar1">
+              <img src="https://www.freeiconspng.com/uploads/customers-icon-3.png" alt="" id="avrtar1">
             </a>
             <a [routerLink]="['/setting']" class="img-reponsive" *ngIf="image">
               <img src="{{image}}" alt="" id="avrtar1">
@@ -30,7 +30,8 @@
 <router-outlet ></router-outlet>
 
 <!--footer-->
-<div class="footer" style="padding-top: 100px">
+
+<div class="footer" style="padding-top: 70px">
   <div class="container">
     <div class="row justify-content-start">
       <div class="col-md-3 footer-grid">
@@ -121,6 +122,46 @@
           <div class="clearfix"></div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+<div style="background-color: rgb(42, 41, 41); padding-top: 10px; padding-bottom: 30px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-auto pr-0">
+        <div class="img-mail">
+          <img src="https://www.vexels.com/media/users/3/199912/isolated/thumb/6de2034e01af0553e61d2104a1d3d0f5-email-icon-flat-by-vexels.png" alt="">
+        </div>
+      </div>
+
+      <div class="col-sm-auto">
+        <div class="text-mail">
+          <span>Đăng kí nhận bản tin từ Book Store</span>
+          <p>Book Store luôn đồng hành cùng bạn</p>
+        </div>
+      </div>
+
+      <div class="col-sm" style="padding-top: 50px; padding-left: 100px;">
+        <div class="form-group row">
+          <div class="col-sm-8" *ngIf="role !== null">
+            <input type="text" class="form-control"  [(ngModel)]="email" name="email" readonly />
+          </div>
+          <div class="col-sm-8" *ngIf="role == null">
+
+          </div>
+          <div class="col-sm-4" *ngIf="notification==false && role !== null">
+            <button class="btn btn-outline-info" (click)="noti()">Đăng ký</button>
+          </div>
+          <div class="col-sm-4" *ngIf="notification==true">
+            <button class="btn btn-outline-info" disabled>Đã đăng ký</button>
+          </div>
+          <div class="col-sm-4" *ngIf="role == null">
+            <button class="btn btn-outline-info" routerLink="/login">Đăng nhập</button>
+          </div>
+        </div>
+      </div>
+
+
     </div>
   </div>
 </div>

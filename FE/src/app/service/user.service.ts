@@ -128,5 +128,13 @@ export class UserService {
   UpdateStatus(id,status: ChangeStatus){
     return this.http.patch(`${this.URL}/${id}`, status).pipe();
   }
+  Notification(token:string): Observable<LoginReturn>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    return this.http.patch<LoginReturn>(`${this.URL}/notification`, httpOptions).pipe();
+  }
 }
 

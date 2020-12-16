@@ -10,6 +10,8 @@ import { Location } from '@angular/common';
 import { Item } from '../models/cart';
 import { Books } from '../models/book';
 import { LoginReturn } from './../models/user';
+import { UserService } from './../service/user.service';
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-default-layout-user',
@@ -30,9 +32,14 @@ export class DefaultLayoutUserComponent implements OnInit {
   role: number = null;
   user: LoginReturn;
   image: string;
+  email: string;
+  notification: boolean = false;
+  userFromNot: LoginReturn;
+  horizontalPosition: MatSnackBarHorizontalPosition = "right";
+  verticalPosition: MatSnackBarVerticalPosition = "bottom";
   constructor(private BooksService: BooksService,private PubService: PublisherService,
-    private CateService: CateService,private AuthorService: AuthorService,
-    private location: Location, ) {
+    private CateService: CateService,private AuthorService: AuthorService, private userService: UserService,
+    private location: Location ,private _snackBar: MatSnackBar) {
       this.setName(this.username, this.role);
      }
 
@@ -72,8 +79,22 @@ export class DefaultLayoutUserComponent implements OnInit {
       this.username = user.name;
       this.role = user.role
       this.image = user.imageUrl;
+      this.email=user.email;
+      this.notification = user.notification;
     }
-
+    noti(){
+      const token = (localStorage.getItem("token"));
+      this.userService.Notification(token).subscribe(res => {
+        this.userFromNot = res;
+        this.notification = this.userFromNot.notification;
+        this._snackBar.open("Đăng kí thành công","Đóng", {
+          panelClass: "snackbarConfig1",
+          duration: 3000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+      });
+    }
   }
 
 

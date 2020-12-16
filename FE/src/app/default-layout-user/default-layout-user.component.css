@@ -1,3 +1,20 @@
+.text-mail span{
+  font-weight: 600;
+  font-size: 18px;
+  color: white;
+}
+.text-mail p{
+  font-weight: 500;
+  font-size: 14px;
+  color: white;
+}
+.text-mail{
+  padding-top: 50px;
+}
+.img-mail img{
+  width: 120px;
+  height: 120px;
+}
 .img-reponsive img{
   border-radius: 50%;
   width: 30px;
