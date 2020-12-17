@@ -74,3 +74,11 @@ export interface Profile {
   imageUrl: string;
   imageId: string;
 }
+export interface SendCode {
+  email: string;
+}
+export interface FormChangePassword {
+  codeResetPassword: string;
+  password: string;
+  confirmPassword: string;
+}

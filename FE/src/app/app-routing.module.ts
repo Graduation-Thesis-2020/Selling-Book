@@ -37,11 +37,12 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserOrderComponent } from './user-order/user-order.component';
 import { LoginAdminComponent } from './login-admin/login-admin.component';
 import { CheckoutComponent } from './checkout/checkout.component';
-
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 const routes: Routes = [
 
   //{path: 'home', component: HomeComponent, canActivate:[]},
   {path: 'login', component: LoginComponent},
+  {path: 'forgotpassword', component: ForgotPasswordComponent},
   {path: '',
   component: DefaultLayoutUserComponent,
   children:[
@@ -97,6 +98,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
+
 
 exports: [RouterModule]
 })

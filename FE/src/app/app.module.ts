@@ -60,6 +60,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { TokenInterceptorService } from './service/token-intercepter.service';
 import { LoginAdminComponent } from './login-admin/login-admin.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -100,6 +101,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
     UserOrderComponent,
     LoginAdminComponent,
     CheckoutComponent,
+    ForgotPasswordComponent,
 
   ],
   imports: [

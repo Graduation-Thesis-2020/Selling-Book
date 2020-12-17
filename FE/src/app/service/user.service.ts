@@ -3,8 +3,8 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { Review } from '../models/review';
-import { Customer, LoginAdmin, User } from '../models/user';
-import { Login, LoginReturn, Profile } from './../models/user';
+import { Customer, LoginAdmin, SendCode, User } from '../models/user';
+import { Login, LoginReturn, Profile, FormChangePassword } from './../models/user';
 import { map } from 'rxjs/operators';
 import { AllOrder, ChangeStatus } from '../models/order';
 
@@ -135,6 +135,12 @@ export class UserService {
       })
     };
     return this.http.patch<LoginReturn>(`${this.URL}/notification`, httpOptions).pipe();
+  }
+  SendCode(code: SendCode):  Observable<any>{
+    return this.http.post(`${this.URL}/forgetpassword`,code).pipe();
+  }
+  ChangePassword(form: FormChangePassword):  Observable<any>{
+    return this.http.patch(`${this.URL}/changepassword/private`,form).pipe();
   }
 }
 
