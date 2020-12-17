@@ -53,7 +53,7 @@ router.post('/register', User.postRegisterUserCustomer)
   // Đăng ký nhận thông báo của website
   .patch('/notification', passport.authenticate('jwt', { session: false }), User.patchNotification)
   .patch('/notification', passport.authenticate('jwt', { session: false }), User.patchNotification)
-  
+
   // Hủy 1 đơn hàng
   .patch('/:orderId', passport.authenticate('jwt', { session: false }), User.updateOrder)
   .put('/:orderId', passport.authenticate('jwt', { session: false }), User.updateOrder)
@@ -63,7 +63,7 @@ router.post('/register', User.postRegisterUserCustomer)
 
   // Forget PassWord
   .post('/forgetpassword', User.postForgetPassWord)
-  .get('/changepassword', User.patchForgetPassWord)
+  .patch('/changepassword/private', User.patchForgetPassWord)
 
 
 // LOGOUT ACCOUNT

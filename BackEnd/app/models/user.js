@@ -74,7 +74,11 @@ const userSchema = mongoose.Schema({
   notification: {
     type: Boolean,
     default: false
-  }
+  },
+  codeResetPassword: {
+    type: String,
+    default: null
+  },
   // _id: mongoose.Schema.Types.ObjectId
   // username: {
   //     type: String,

@@ -1,6 +1,6 @@
 
+const { nextTick } = require('async');
 const nodemailer = require('nodemailer');
-
 
 generalRandomCode = (length) => {
   let result = '';
@@ -149,8 +149,8 @@ forgetPassWord = (email, name, code) => {
   };
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-       console.log(error);
-     // return res.status(500).json(error);
+      console.log(error);
+      // return res.status(500).json(error);
     } else {
       //  console.log("Email sent: ", info.response);
       return res.status(200).json({ Email_sent: info.response });

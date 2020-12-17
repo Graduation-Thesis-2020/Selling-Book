@@ -15,8 +15,7 @@ const orderDetail = require('../models/orderDetail');
 //const nodemailer = require('nodemailer');
 const { verifyEmail, mailVefiryNotification, generalRandomCode, forgetPassWord } = require('../middleware/midemail');
 
-// Code Xác Thực Đỗi Mật Khẩu
-var codeVerify ;
+
 
 const verifyToken = (token) => {
   const decode = jwt.verify(token, process.env.JWT_KEY);
@@ -506,9 +505,11 @@ module.exports = {
     try {
       let checkEmail = await User.findOne({ email: email });
       if (checkEmail != null && checkEmail != '') {
-         codeVerify = generalRandomCode(8);
-        forgetPassWord(email, checkEmail.name ,codeVerify );
-        return res.status(200).json(codeVerify);
+        let codeVerify = generalRandomCode(8);
+        forgetPassWord(email, checkEmail.name, codeVerify);
+        checkEmail.codeResetPassword = codeVerify;
+        checkEmail.save();
+        return res.status(200).json({message: "Vui lòng kiểm tra Email"});
       }
       return res.status(404).json({ message: "Email chưa được đăng ký, vui lòng đăng ký tài khoản!!!" });
     } catch (error) {
@@ -517,13 +518,21 @@ module.exports = {
   },
 
   patchForgetPassWord: async (req, res, next) => {
-    let code = req.body.codeverify ;
+    let code = req.body.codeResetPassword;
     let password = req.body.password;
-    let confirmpassword = req.body.confirmPassword ;
-    if(code == codeVerify){
-      return res.status(200).json({message: "OK ĐÚNG RỒI ĐÓ"})
-    }else{
-      return res.status(400).json({message: "Mã sai rồi !!!"})
+    let confirmPassword = req.body.confirmPassword;
+    let checkEmail = await User.findOne({ codeResetPassword: code });
+    if (checkEmail != null && checkEmail != '') {
+      if (password === confirmPassword) {
+        checkEmail.password = password;
+        checkEmail.codeResetPassword = null;
+        checkEmail.save();
+      } else {
+        return res.status(400).json({ message: "Sai mật khẩu!!!" })
+      }
+      return res.status(200).json({ message: "Đổi mật khẩu thành công!!!" });
+    } else {
+      return res.status(400).json({ message: "Mã sai rồi !!!" });
     }
   }
 
