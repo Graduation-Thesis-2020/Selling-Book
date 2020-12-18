@@ -28,6 +28,7 @@ export class CartComponent implements OnInit {
   pubs: Publisher[];
   auts: Author[];
   cates1: Cate[];
+  token = localStorage.getItem("token");
   constructor(
     private route: ActivatedRoute,
     private BooksService: BooksService,

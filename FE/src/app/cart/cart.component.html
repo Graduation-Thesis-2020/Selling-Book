@@ -264,10 +264,17 @@
             </a>
           </div>
         </div>
-        <div class="col-auto">
+        <div class="col-auto" *ngIf="token">
           <div class="back1">
             <a [routerLink]="['/infocarts']" (click)="itemcheckout()"
-              >Thanh toán <i class="fa fa-arrow-right"></i>
+              >Tiếp tục <i class="fa fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-auto" *ngIf="!token">
+          <div class="back1">
+            <a [routerLink]="['/infocarts']"   data-toggle="modal" data-target="#ModalLog"
+              >Tiếp tục <i class="fa fa-arrow-right"></i>
             </a>
           </div>
         </div>
@@ -352,3 +359,23 @@
 </div>
 
 
+<div class="modal fade" id="ModalLog" tabindex="-1" aria-labelledby="ModalLogLabel" aria-hidden="true">
+  <div class="modal-dialog  ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLogLabel" style="font-weight: 700; color: crimson; font-size: 24px;">Thông báo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding-bottom: 10px;">
+        Bạn cần <span style="font-weight: 600;"> đăng nhập </span>để có thể tiếp tục đặt hàng.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" routerLink="/login" data-dismiss="modal">Đăng nhập</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
