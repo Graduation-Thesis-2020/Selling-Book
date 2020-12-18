@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
+import { LoginAdmin } from '../models/user';
 
 
 const httpOptions = {
@@ -20,6 +21,10 @@ export class AuthService {
   ) { }
   getToken(){
     return localStorage.getItem('token');
+  }
+  getCurrentAdmin(){
+    let user: LoginAdmin = JSON.parse(localStorage.getItem("currentAdmin"));
+    return user;
   }
 }
 

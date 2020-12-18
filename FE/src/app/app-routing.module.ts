@@ -38,6 +38,7 @@ import { UserOrderComponent } from './user-order/user-order.component';
 import { LoginAdminComponent } from './login-admin/login-admin.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { AuthGuard, AuthAdminGuard, ChildGuard, AuthAdminFunctionGuard } from './service/auth-guard';
 const routes: Routes = [
 
   //{path: 'home', component: HomeComponent, canActivate:[]},
@@ -47,7 +48,7 @@ const routes: Routes = [
   component: DefaultLayoutUserComponent,
   children:[
     {
-      path: 'home', component: HomeComponent, canActivate:[],
+      path: 'home', component: HomeComponent,
     },
     {path: 'book1', component: Book1Component},
     {path: 'books', component: BookAllComponent},
@@ -56,12 +57,12 @@ const routes: Routes = [
     {path: 'books/:id/categories/:id1', component: Book1Component},
     {path: 'books/:id/authors/:id1', component: BookAuthorComponent},
     {path: 'books/:id/publishers/:id1', component: BookPubComponent},
-    {path: 'infocarts', component: InfoCartComponent},
+    {path: 'infocarts', component: InfoCartComponent , canActivate: [AuthGuard]},
     {path: 'carts/:id', component: CartComponent},
     {path: 'cart', component: CartComponent},
     {path: 'details/:id', component: ProductDetailsComponent},
-    {path: 'checkout', component: CheckoutComponent},
-    {path: 'setting', component: UserSettingComponent,
+    {path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard],},
+    {path: 'setting', component: UserSettingComponent, canActivate: [AuthGuard],
     children:[
       {path: '', component: UserProfileComponent},
       {path: 'profile', component: UserProfileComponent},
@@ -71,7 +72,7 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'login/admin', component: LoginAdminComponent},
   {path: 'admin',
-  component: DefaultLayoutAdminComponent,
+  component: DefaultLayoutAdminComponent, canActivate: [AuthAdminGuard],
   children: [
     {path: '', component: AdminOrderComponent},
     {path: 'listreview', component: AdminReviewComponent},
@@ -91,15 +92,14 @@ const routes: Routes = [
     {path: 'editpub/:id', component: EditPubComponent},
     {path: 'editbook/:id', component: EditBookComponent},
     {path: 'order', component: AdminOrderComponent},
-    {path: 'customer', component: AdminUserComponent},
+    {path: 'customer', component: AdminUserComponent, canActivate: [AuthAdminFunctionGuard]},
   ]},
 
 ]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-
-
-exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard, AuthAdminGuard, ChildGuard, AuthAdminFunctionGuard]
 })
 export class AppRoutingModule { }
