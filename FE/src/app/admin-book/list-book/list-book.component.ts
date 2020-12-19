@@ -8,7 +8,7 @@ import { Author } from 'src/app/models/author';
 import { Publisher } from 'src/app/models/publisher';
 import { Cate } from 'src/app/models/cate';
 import { AuthorFromBook } from './../../models/book';
-
+import {MatSnackBar, MatSnackBarHorizontalPosition,MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-list-book',
   templateUrl: './list-book.component.html',
@@ -29,11 +29,19 @@ export class ListBookComponent implements OnInit {
   showMessage: string;
   imageURL = '/assets/image/00128.jpg';
   tempArr: any = { "category": [] };
+  tempArrAdd: any = { "categoryAdd": [] };
   catData: any = { "category": [] };
   ischeked: boolean;
   categories: any[];
   book2: Books2;
-  constructor(private BooksService: BooksService,private AuthorService: AuthorService, private PubService: PublisherService, private CateService: CateService) {
+  bookAdd: Books2;
+  idDel: string;
+  nameDel: string;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
+  constructor(private BooksService: BooksService,private AuthorService: AuthorService, private _snackBar: MatSnackBar,
+     private PubService: PublisherService, private CateService: CateService) {
     this.config = {
     itemsPerPage: 10,
     currentPage: 1
@@ -53,13 +61,28 @@ export class ListBookComponent implements OnInit {
   getAllBook() {
     this.BooksService.getBooksAdmin().subscribe(res => {this.books = res, this.book= this.books[0]});
   }
-  delete(title, id) {
-    const ans = confirm('Xóa thông tin sách: ' + title );
-    if (ans) {
-      this.BooksService.delete(id).subscribe(() => {
+  delete() {
+
+    this.BooksService.delete(this.idDel).subscribe(() => {
         this.getAllBook();
-      }, error => console.error(error));
-    }
+        this._snackBar.open("Xóa thành công","Đóng", {
+          panelClass: "snackbarConfig1",
+          duration: 3000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+    }, error =>{
+        this._snackBar.open("Xóa thất bại","Đóng", {
+          panelClass: "snackbarErrorConfig",
+          duration: 3000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+    });
+  }
+  getDel(title, id) {
+    this.nameDel = title;
+    this.idDel = id;
   }
   getBook(_id) {
     this.BooksService.getBooksFromID1(_id).subscribe(res => this.book = res);
@@ -109,6 +132,15 @@ export class ListBookComponent implements OnInit {
     }
     console.log(this.tempArr);
   }
+  onChangeAdd(value, isChecked: boolean) {
+    if(isChecked) {
+      this.tempArrAdd.categoryAdd.push(value);
+    } else {
+      let index = this.tempArrAdd.categoryAdd.indexOf(value);
+      this.tempArrAdd.categoryAdd.splice(index,1);
+    }
+    console.log(this.tempArrAdd);
+  }
   pushCat(){
     this.MoreCat = true;
     const cat: any[] = this.book.categories;
@@ -126,14 +158,69 @@ export class ListBookComponent implements OnInit {
     }
 
   }
-  save1( title: string, description: string,publishDate: Date, pageCount: number,
+  saveEdit( title: string, description: string,publishDate: Date, pageCount: number,
     price: number , availableQuantity: number , publisher: string , author: string, discount: number, image: File ) {
     const _id: string = this.book._id;
     let categories: any[] = [];
     categories = this.tempArr.category;
     this.BooksService.EditBookss1(_id, title, description, publishDate, pageCount, price, availableQuantity,
-      publisher, author, categories, discount, image ).subscribe(res => this.book2 = res,
-                                      error => this.showMessage = error);
+      publisher, author, categories, discount, image ).subscribe(
+        res => {
+          this.book2 = res;
+          console.log(this.book2);
+          this.getAllBook();
+          this._snackBar.open("Lưu thành công","Đóng", {
+            panelClass: "snackbarConfig1",
+            duration: 3000,
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+          });
+      },
+        error => {
+          this.showMessage = error;
+          this._snackBar.open("Lưu thất bại","Đóng", {
+            panelClass: "snackbarErrorConfig",
+            duration: 3000,
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+          });
+        });
+  }
+  saveAdd( title: string, description: string,publishDate: Date, pageCount: number,
+    price: number , availableQuantity: number , publisher: string , author: string, discount: number, image: File ) {
+    let categories: any[] = [];
+    categories = this.tempArrAdd.categoryAdd;
+    // const newBook : Books2 = { title, description, publishDate, pageCount, price, availableQuantity,
+    //   publisher, author, categories, discount, image} as Books2;
+    // console.log("new: "+newBook);
+    this.BooksService.addBookss1(title, description, publishDate, pageCount, price, availableQuantity,
+      publisher, author, categories, discount, image ).subscribe(
+        res => {
+          this.bookAdd = res;
+          console.log(this.bookAdd);
+          this.getAllBook();
+          this._snackBar.open("Thêm mới thành công","Đóng", {
+            panelClass: "snackbarConfig1",
+            duration: 3000,
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+          });
+      },
+          error => {
+            this.showMessage = error;
+            this._snackBar.open("Thêm mới thất bại","Đóng", {
+              panelClass: "snackbarErrorConfig",
+              duration: 3000,
+              horizontalPosition: this.horizontalPosition,
+              verticalPosition: this.verticalPosition,
+            });
+          });
 
+  }
+  search(title: string){
+    this.BooksService.searchBookAdmin(title).subscribe(res => this.books = res);
+  }
+  reload(){
+    this.getAllBook();
   }
 }

@@ -5,36 +5,51 @@
     <span><i></i></span>
     <b class="line"></b>
   </div>
-  <div style="margin-bottom: 50px">
+  <!-- <div style="margin-bottom: 50px">
     <button class="btn btn-success btn-circle pull-left" routerLink="/admin/addbook" title="Add CLass" type="submit">
       Thêm<i class="fas fa-plus"></i>
     </button>
-  </div>
-  <div style="margin-bottom: 50px; padding-bottom: 5px;">
-    <button class="btn btn-success btn-circle pull-right mr-1 pl-0 pr-0" style="width: 120px; font-size: 18px;"
-      title="Thêm sách" type="submit" data-toggle="modal" data-target="#ModalAddBook">
-      Tạo mới <i class="fas fa-plus"></i>
-    </button>
+  </div> -->
+  <div style="margin-top: 40px;">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="input-group" style="width: 450px">
+          <input #t type="text" class="form-control" placeholder="Tìm kiếm tên sách" aria-label="Tìm kiếm tên sách" >
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button"  (click)="search(t.value)"><i class="fas fa-search"></i></button>
+            <button class="btn btn-outline-primary" type="button" (click)="reload()"><i class="fas fa-redo"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 ">
+        <button class="btn btn-success btn-circle pull-right mr-1 pl-0 pr-0" style="width: 120px; font-size: 18px;"
+        title="Thêm sách" type="submit" data-toggle="modal" data-target="#exampleModal">
+        Tạo mới <i class="fas fa-plus"></i>
+      </button>
+      </div>
+    </div>
+
+
   </div>
   <div style="margin-top: 10px" class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
+    <table class="table table-bordered table-striped table-hover table-responsive-lg">
+      <thead style="background-color: rgb(241, 234, 163);">
         <tr>
           <th>No.</th>
-          <th>Tiêu Đề</th>
-          <th>Tác Giả</th>
-          <th>Nhà xuất bản</th>
+          <th style="width: 300px">Tên sách</th>
+          <th style="width: 200px">Tác Giả</th>
+          <th style="width: 300px">Nhà xuất bản</th>
           <th>Ngày xuất bản</th>
           <th>Giá</th>
           <th>Có sẵn</th>
           <th>Ảnh</th>
-          <th>Action</th>
+          <th>Thao tác</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let each of books | paginate: config; let i = index">
           <td>{{ i+1 }}</td>
-          <td>{{ each.title }}</td>
+          <td class="text-info font-weight-bold">{{ each.title }}</td>
           <td>{{ each.author.name }}</td>
           <td>{{ each.publisher.name }}</td>
           <td>{{ each.publishDate | date: "dd/MM/yyyy" }}</td>
@@ -44,9 +59,9 @@
           <td style="width: 90px">
             <!-- <i class="fas fa-edit" style="margin-right: 10px" title="Edit"
               routerLink="/admin/editbook/{{ each._id }}"></i> -->
-            <i class="fas fa-edit"  title="Delete" data-toggle="modal" style="margin-right: 10px" title="Edit"
-             data-target="#exampleModal" (click)="getBook(each._id)"></i>
-            <i class="fas fa-trash" (click)="delete(each.title, each._id)" title="Delete"></i>
+            <i class="fas fa-edit text-warning"  title="Delete" data-toggle="modal" style="margin-right: 15px" title="Chỉnh sửa"
+             data-target="#ModalEditbook" (click)="getBook(each._id)"></i>
+            <i class="fas fa-trash text-danger" (click)="getDel(each.title, each._id)" title="Xóa" data-toggle="modal" data-target="#ModalDelBook"></i>
 
           </td>
         </tr>
@@ -57,7 +72,7 @@
 </div>
 
 <!-- Modal Edit-->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="ModalEditLabel" aria-hidden="true">
+<div class="modal fade" id="ModalEditbook" tabindex="-1" aria-labelledby="ModalEditLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -197,13 +212,157 @@
       </div>
       <div class="modal-footer">
 
-        <button class="btn btn-success btn-circle pull-right" title="Add" type="submit"
-                    (click)="save1(title1.value, description1.value,publishDate1.value, pageCount1.value,
+        <button class="btn btn-success btn-circle pull-right" title="Edit" type="submit" data-dismiss="modal"
+                    (click)="saveEdit(title1.value, description1.value,publishDate1.value, pageCount1.value,
                               price1.value, availableQuantity1.value, publisher1.value, author1.value, discount1.value, FileUpload1)">
-                    Save<i class="fa fa-check-square-o"></i></button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    Lưu<i class="fa fa-check-square-o"></i></button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
       </div>
     </div>
   </div>
 </div>
 
+<!-- Modal Add-->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thêm sách mới</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Body here -->
+        <div class="cus-container">
+          <form>
+            <div class="form-row ">
+              <div class="col-sm-6">
+                <div class="attr">
+                  <h3>Tựa sách</h3>
+                  <input #titleA type="text" class="form-control" placeholder="Devil K" />
+                </div>
+                <div class="attr">
+                  <h3>Tên Tác Giả</h3>
+                  <select class="custom-select" #authorA>
+                    <option *ngFor="let aut of author" [value]="aut._id">
+                      {{ aut.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="attr">
+                  <h3>Nhà Xuất Bản</h3>
+                  <select class="custom-select" #publisherA>
+                    <option *ngFor="let pub of pub" [value]="pub._id">
+                      {{ pub.name }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="attr">
+                  <h3>Ngày Xuất Bản</h3>
+                  <input #publishDateA type="date" class="form-control"
+                    placeholder="ngày xuất bản" />
+                </div>
+
+                <div class="attr">
+                  <h3>Mô tả</h3>
+                  <textarea #descriptionA type="text" class="form-control" placeholder="Nhập nội dung mô tả" ></textarea>
+                </div>
+
+              </div>
+              <div class="col-sm-6" >
+
+
+
+                <div class="attr">
+                  <h3>Số Trang</h3>
+                  <input #pageCountA type="number" class="form-control" />
+                </div>
+                <div class="attr">
+                  <h3>Giá</h3>
+                  <input #priceA type="number" class="form-control" />
+                </div>
+                <div class="attr">
+                  <h3>Giảm Giá</h3>
+                  <input #discountA type="number" class="form-control" />
+                </div>
+                <div class="attr">
+                  <h3>Số lượng có sẵn</h3>
+                  <input #availableQuantityA type="number" class="form-control" />
+                </div>
+
+                <div >
+                  <h3>Thể Loại</h3>
+                  <div class="form-check form-check-inline" *ngFor="let cate of cate">
+                    <input type="checkbox" id="{{cate.name}}" value="{{cate._id}}" class="form-check-input"
+                      (change)="onChangeAdd($event.target.value, $event.target.checked)" />
+                    <label class="form-check-label" for="{{cate.name}}">{{ cate.name }}</label>
+                  </div>
+
+                </div>
+                <div class="anh">
+                  <h3>Ảnh</h3>
+                  <div class="row">
+                    <div class="col-auto pr-0">
+
+                      <img src="https://freepngimg.com/thumb/logo/62837-instagram-icons-photography-computer-logo-icon.png" class="backgrEdit" id="imgAddBook" />
+                    </div>
+                    <div class="col pl-0">
+                      <div class="cus-file">
+                        <label for="file-upload1" class="custom-file-upload">
+                          <i class="fa fa-cloud-upload"></i> Chọn ảnh
+                         </label>
+                        <input id="file-upload1" type="file"  onchange="document.getElementById('imgAddBook').src = window.URL.createObjectURL(this.files[0])" #image
+                          #imageA (change)="handleFileInput($event.target.files)"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Body here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success btn-circle pull-right" title="Add" type="submit" data-dismiss="modal"
+                    (click)="saveAdd(titleA.value, descriptionA.value,publishDateA.value, pageCountA.value,
+                              priceA.value, availableQuantityA.value, publisherA.value, authorA.value, discountA.value, FileUpload)">
+                    Tạo<i class="fa fa-check-square-o"></i></button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="ModalDelBook" tabindex="-1" aria-labelledby="ModalDelBookLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalDelBookLabel" style="font-weight: 700; font-size: 24px; color: crimson;">Xóa sách
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <p style="font-size: 18px;">Bạn có chắc muốn xóa sách <span style="font-weight: 600; color: coral;">{{nameDel}}</span> ?</p>
+        </div>
+        <div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="delete()"data-dismiss="modal">Có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>

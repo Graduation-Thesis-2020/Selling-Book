@@ -74,6 +74,10 @@ export class BooksService {
     const url = `${this.bookURL}/search?title=${id}`;
     return this.http.get<Books[]>(url).pipe();
   }
+  searchBookAdmin(id: string): Observable<BookEdit[]> {
+    const url = `${this.bookURL}/search?title=${id}`;
+    return this.http.get<BookEdit[]>(url).pipe();
+  }
   searchBookWithCat(id: string, name: string): Observable<Books[]> {
     const url = `${this.bookURL}/${id}/category/search?title=${name}`;
     return this.http.get<Books[]>(url).pipe();
