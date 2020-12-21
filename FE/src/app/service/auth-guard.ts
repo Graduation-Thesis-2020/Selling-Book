@@ -56,3 +56,15 @@ export class AuthAdminFunctionGuard implements CanActivate {
         return false;
     }
 }
+export class AuthLoginFunctionGuard implements CanActivate {
+  constructor(private authService: AuthService, private router: Router) { }
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+      const token = localStorage.getItem('token')
+         // tslint:disable-next-line: align
+         if (!token) {
+          return true;
+         }
+        this.router.navigate(['/home'], { queryParams: { returnUrl: state.url }});
+        return false;
+    }
+}

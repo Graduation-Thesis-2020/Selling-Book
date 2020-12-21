@@ -38,11 +38,11 @@ import { UserOrderComponent } from './user-order/user-order.component';
 import { LoginAdminComponent } from './login-admin/login-admin.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { AuthGuard, AuthAdminGuard, ChildGuard, AuthAdminFunctionGuard } from './service/auth-guard';
+import { AuthGuard, AuthAdminGuard, ChildGuard, AuthAdminFunctionGuard, AuthLoginFunctionGuard } from './service/auth-guard';
 const routes: Routes = [
 
   //{path: 'home', component: HomeComponent, canActivate:[]},
-  {path: 'login', component: LoginComponent},
+  {path: 'login', component: LoginComponent, canActivate:[AuthLoginFunctionGuard]},
   {path: 'forgotpassword', component: ForgotPasswordComponent},
   {path: '',
   component: DefaultLayoutUserComponent,
@@ -100,6 +100,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AuthGuard, AuthAdminGuard, ChildGuard, AuthAdminFunctionGuard]
+  providers: [AuthGuard, AuthAdminGuard, ChildGuard, AuthAdminFunctionGuard,AuthLoginFunctionGuard]
 })
 export class AppRoutingModule { }
