@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Author } from 'src/app/models/author';
 import { AuthorService } from 'src/app/service/author.service';
-
+import {MatSnackBar, MatSnackBarHorizontalPosition,MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-list-author',
   templateUrl: './list-author.component.html',
@@ -11,8 +11,11 @@ export class ListAuthorComponent implements OnInit {
   authors: Author[];
   title = 'A';
   config: any;
+  author: Author;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  constructor(private AuthorService: AuthorService) {
+  constructor(private AuthorService: AuthorService,  private _snackBar: MatSnackBar,) {
     this.config = {
     itemsPerPage: 10,
     currentPage: 1
@@ -28,14 +31,73 @@ export class ListAuthorComponent implements OnInit {
   }
 
   getAllAuthor() {
-    this.AuthorService.getAuthors().subscribe(res =>this.authors = res);
+    this.AuthorService.getAuthors().subscribe(res =>{this.authors = res; this.author=this.authors[0]});
   }
-  delete(title, id) {
-    const ans = confirm('Xóa thông tin tác giả: ' + title );
-    if (ans) {
-      this.AuthorService.delete(id).subscribe(() => {
+
+  delete(id) {
+    this.AuthorService.delete(id).subscribe(() => {
+      this.getAllAuthor();
+      this._snackBar.open("Xóa thành công","Đóng", {
+        panelClass: "snackbarConfig1",
+        duration: 3000,
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      });
+      }, error =>{
+        this._snackBar.open("Xóa thất bại","Đóng", {
+          panelClass: "snackbarErrorConfig",
+          duration: 3000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+      });
+  }
+  save(name: string, firstname: string, lastname: string ) {
+    const newAuthor: Author = { name, firstname, lastname } as Author;
+    this.AuthorService.addAuthor(newAuthor).subscribe(
+      res => {
+        this.author = res;
         this.getAllAuthor();
-      }, error => console.error(error));
-    }
+        this._snackBar.open("Thêm thành công","Đóng", {
+          panelClass: "snackbarConfig1",
+          duration: 3000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+    }, error =>{
+      this._snackBar.open("Thêm thất bại","Đóng", {
+        panelClass: "snackbarErrorConfig",
+        duration: 3000,
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      });
+    });
+
+  }
+  Edit() {
+    this.AuthorService.editAuthor(this.author).subscribe(() => {this.getAllAuthor();
+      this._snackBar.open("Chỉnh sửa thành công","Đóng", {
+        panelClass: "snackbarConfig1",
+        duration: 3000,
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      });
+      },  error =>{
+        this._snackBar.open("Chỉnh sửa thất bại","Đóng", {
+          panelClass: "snackbarErrorConfig",
+          duration: 3000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+      });
+  }
+  getAuthor(_id){
+    this.AuthorService.getAuthorFromAuthorID(_id).subscribe(res => this.author = res);
+  }
+  search(title: string){
+    this.AuthorService.searchAuthorAdmin(title).subscribe(res => this.authors = res);
+  }
+  reload(){
+    this.getAllAuthor();
   }
 }

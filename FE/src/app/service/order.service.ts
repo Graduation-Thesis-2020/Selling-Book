@@ -2,6 +2,7 @@ import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Order, Order1, OrderDetail } from '../models/order';
+import { AllOrder } from './../models/order';
 
 
 const httpOptions = {
@@ -18,8 +19,8 @@ export class OrderService {
     private http: HttpClient
   ) { }
   orderURL = 'http://localhost:8080/orders';
-  getOrders(): Observable<Order1[]> {
-    return this.http.get<Order1[]>(this.orderURL).pipe();
+  getOrders(): Observable<AllOrder[]> {
+    return this.http.get<AllOrder[]>(this.orderURL).pipe();
   }
   delete(id: string): Observable<Order> {
     return this.http.delete<Order>(`${this.orderURL}/${id}`);

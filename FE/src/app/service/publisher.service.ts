@@ -43,4 +43,8 @@ export class PublisherService {
     const url = `${this.publisherURL}/${id}/search?title=${name}`;
     return this.http.get<Books[]>(url).pipe();
   }
+  searchPublisherAdmin(id: string): Observable<Publisher[]> {
+    const url = `${this.publisherURL}/search?name=${id}`;
+    return this.http.get<Publisher[]>(url).pipe();
+  }
 }

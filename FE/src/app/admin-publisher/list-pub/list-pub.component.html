@@ -5,40 +5,48 @@
     <span><i></i></span>
     <b class="line"></b>
   </div>
-  <div style="margin-bottom: 50px">
-    <button
-      class="btn btn-success btn-circle pull-left"
-      routerLink="/admin/addpub"
-      title="Add CLass"
-      type="submit"
-    >
-      Thêm<i class="fas fa-plus"></i>
-    </button>
+  <div style="margin-top: 40px;">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="input-group" style="width: 450px">
+          <input #t type="text" class="form-control" placeholder="Tìm kiếm tên nhà xuất bản" aria-label="Tìm kiếm tên nhà xuất bản" >
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button"  (click)="search(t.value)"><i class="fas fa-search"></i></button>
+            <button class="btn btn-outline-primary" type="button" (click)="reload()"><i class="fas fa-redo"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 ">
+        <button class="btn btn-success btn-circle pull-right mr-1 pl-0 pr-0" style="width: 120px; font-size: 18px;"
+        title="Thêm nhà xuất bản" type="submit" data-toggle="modal" data-target="#modalAddPublisher">
+        Tạo mới <i class="fas fa-plus"></i>
+      </button>
+      </div>
+    </div>
   </div>
   <div style="margin-top: 10px" class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
+    <table class="table table-bordered table-striped table-hover table-responsive-lg">
+      <thead style="background-color: rgb(241, 163, 189);">
         <tr>
-          <th>No.</th>
+          <th style="width: 50px">No.</th>
           <th>Tên Nhà Xuất Bản</th>
-          <th>Action</th>
+          <th style="width: 120px">Thao tác</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let pub of pubs | paginate: config; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ pub.name }}</td>
+          <td class="text-info font-weight-bold">{{ pub.name }}</td>
           <td style="width: 90px">
             <i
-              class="fas fa-edit"
+              class="fas fa-edit text-warning"
               style="margin-right: 10px"
-              title="Edit"
-              routerLink="/admin/editpub/{{ pub._id }}"
+              title="Chỉnh sửa" (click)="getPublisher(pub._id)"
+              data-toggle="modal" data-target="#ModalEditPublisher"
             ></i>
             <i
-              class="fas fa-trash"
-              (click)="delete(pub.name, pub._id)"
-              title="Delete"
+              class="fas fa-trash text-danger"
+              data-toggle="modal" data-target="#ModalDelPublisher" title="Xóa" (click)="getPublisher(pub._id)"
             ></i>
           </td>
         </tr>
@@ -48,5 +56,93 @@
       style="text-align: center"
       (pageChange)="pageChanged($event)"
     ></pagination-controls>
+  </div>
+</div>
+
+<!-- Modal AddPublisher -->
+<div class="modal fade" id="modalAddPublisher" tabindex="-1" aria-labelledby="ModalAddPubLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalAddPubLabel" style="font-weight: 700; font-size: 24px;">Thêm nhà xuất bản</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <p>Nhập tên nhà xuất bản mới</p>
+          <input #name1 type="text" class="form-control"  />
+        </div>
+        <div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="save(name1.value)" data-dismiss="modal">Thêm</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal EditCat -->
+<div class="modal fade" id="ModalEditPublisher" tabindex="-1" aria-labelledby="ModalEditPubLabel" aria-hidden="true" #id>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalEditPubLabel" style="font-weight: 700; font-size: 24px;">Chỉnh sửa nhà xuất bản
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <p>Nhập tên nhà xuất bản muốn thay đổi</p>
+          <input #name type="text" class="form-control" [(ngModel)]="pub.name" />
+        </div>
+        <div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="Edit()" data-dismiss="modal">Lưu</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal DelCat -->
+<div class="modal fade" id="ModalDelPublisher" tabindex="-1" aria-labelledby="ModalDelPubLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalDelPubLabel" style="font-weight: 700; font-size: 24px;">Xóa nhà xuất bản
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <p>Bạn có chắc muốn xóa <span style="font-size: 18px; color: crimson;">{{pub.name}}</span> ?</p>
+
+        </div>
+        <div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="delete(pub._id)" data-dismiss="modal">Có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
   </div>
 </div>

@@ -5,29 +5,43 @@
     <span><i></i></span>
     <b class="line"></b>
   </div>
-  <div style="margin-bottom: 50px; padding-bottom: 5px;">
-    <button class="btn btn-success btn-circle pull-right mr-1 pl-0 pr-0" style="width: 120px; font-size: 18px;"
-      title="Add CLass" type="submit" data-toggle="modal" data-target="#ModalAddCat">
+
+  <div style="margin-top: 40px;">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="input-group" style="width: 450px">
+          <input #t type="text" class="form-control" placeholder="Tìm kiếm tên thể loại" aria-label="Tìm kiếm tên thể loại" >
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button"  (click)="search(t.value)"><i class="fas fa-search"></i></button>
+            <button class="btn btn-outline-primary" type="button" (click)="reload()"><i class="fas fa-redo"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 ">
+        <button class="btn btn-success btn-circle pull-right mr-1 pl-0 pr-0" style="width: 120px; font-size: 18px;"
+      title="Thêm thể loại" type="submit" data-toggle="modal" data-target="#ModalAddCat">
       Tạo mới <i class="fas fa-plus"></i>
     </button>
+      </div>
+    </div>
   </div>
   <div style="margin-top: 10px" class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
+    <table class="table table-bordered table-striped table-hover table-responsive-lg">
+      <thead style="background-color: rgb(241, 188, 163);">
         <tr>
-          <th>No.</th>
-          <th>Tên Thể Loại</th>
+          <th style="width: 50px">No.</th>
+          <th >Tên Thể Loại</th>
           <th>Thao tác</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let cate of cates | paginate: config; let i = index">
           <td>{{ i + 1 }}</td>
-          <td>{{ cate.name }}</td>
+          <td class="text-info font-weight-bold">{{ cate.name }}</td>
           <td style="width: 120px">
-            <i class="fas fa-edit" style="margin-right: 10px" title="Edit" (click)="getCat(cate._id)"
+            <i class="fas fa-edit text-warning" style="margin-right: 10px" title="Chỉnh sửa" (click)="getCat(cate._id)"
               data-toggle="modal" data-target="#ModalEdit"></i>
-            <i class="fas fa-trash" data-toggle="modal" data-target="#ModalDelCat" title="Delete" (click)="getCat(cate._id)"></i>
+            <i class="fas fa-trash text-danger" data-toggle="modal" data-target="#ModalDelCat" title="Xóa" (click)="getCat(cate._id)"></i>
           </td>
         </tr>
       </tbody>

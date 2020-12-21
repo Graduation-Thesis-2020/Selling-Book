@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Order1, OrderDetail } from '../models/order';
+import { AllOrder, ChangeStatus, Order1, OrderDetail } from '../models/order';
 import { OrderService } from './../service/order.service';
 import { itemInOrder } from './../models/order';
-
+import { UserService } from './../service/user.service';
+import {MatSnackBar, MatSnackBarHorizontalPosition,MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-admin-order',
   templateUrl: './admin-order.component.html',
@@ -10,7 +11,7 @@ import { itemInOrder } from './../models/order';
 })
 export class AdminOrderComponent implements OnInit {
 
-  orders: Order1[];
+  orders: AllOrder[];
   order: Order1;
   config: any;
   orderDetail: OrderDetail;
@@ -18,8 +19,12 @@ export class AdminOrderComponent implements OnInit {
   total: number;
   name: string;
   status: string;
-
-  constructor(private orderService: OrderService) {
+  currentStatus: string;
+  id: string;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  filterStatus: string ='Tất cả';
+  constructor(private orderService: OrderService,private UserService: UserService, private _snackBar: MatSnackBar,) {
     this.config = {
     itemsPerPage: 15,
     currentPage: 1
@@ -35,29 +40,59 @@ export class AdminOrderComponent implements OnInit {
   }
 
   getAllOrders() {
-    this.orderService.getOrders().subscribe(res => this.orders = res);
+    this.orderService.getOrders().subscribe(res => {
+      this.orders = res;
+      this.currentStatus = this.orders[0].status;
+      this.orders.reverse();
+    });
   }
-  delete(title, id) {
-    const ans = confirm('Xóa bình luận: ' + title );
-    if (ans) {
-      this.orderService.delete(id).subscribe(() => {
-        this.getAllOrders();
-      }, error => console.error(error));
-    }
-  }
-  detail(id,totalPrice,name){
+
+  detail(id,totalPrice,name,status1){
    this.orderService.getOrdersDetail(id).subscribe(res =>{
+    this.id = id
     this.orderDetail = res;
     this.books = this.orderDetail.books;
     this.total= totalPrice;
     this.name = name;
+    this.currentStatus = status1;
+    console.log(this.currentStatus);
+
    });
   }
   onItemChange(value) {
     this.status = value;
+    console.log(this.status);
+  }
+  onStatusChange(value){
+    this.filterStatus = value;
+    console.log(this.filterStatus);
   }
   changeStatus(){
-    const isChanged = this.status;
-    console.log(isChanged);
+    const status = this.status;
+    const Status: ChangeStatus = { status } as ChangeStatus;
+    this.UserService.UpdateStatus(this.id,Status).subscribe(() => {
+      this.getAllOrders();
+      this._snackBar.open("Thay đổi thành công!","Đóng", {
+        panelClass: "snackbarConfig1",
+        duration: 3000,
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      });
+    })
+  }
+  getOd(id: string, name: string){
+    this.id = id;
+    this.name = name;
+  }
+  delete(){
+    this.orderService.delete(this.id).subscribe(() => {
+      this.getAllOrders();
+      this._snackBar.open("Xóa thành công!","Đóng", {
+        panelClass: "snackbarConfig1",
+        duration: 3000,
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      });
+    }, error => console.error(error));
   }
 }

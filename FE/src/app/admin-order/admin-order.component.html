@@ -8,43 +8,135 @@
   <div style="margin-bottom: 50px"></div>
   <div style="margin-top: 10px">
     <table
-      class="table table-bordered table-striped table-hover table-responsive-lg"
-    >
+      class="table table-bordered table-striped table-hover table-responsive-lg">
+      <thead class="bg-light">
+        <td colspan="10">
+          <div class="row justify-content-lg-center font-weight-bold">
+            <div class="custom-control custom-radio custom-control-inline mr-5 text-info">
+              <input
+                type="radio"id="customRadioInline1" name="customRadioInline1"class="custom-control-input" [(ngModel)]="filterStatus"
+                value="Tất cả" (click)="onStatusChange($event.target.value)">
+              <label class="custom-control-label" for="customRadioInline1" >
+                Tất cả
+              </label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline mr-5 text-secondary">
+              <input
+                type="radio"
+                id="customRadioInline2"
+                name="customRadioInline1"
+                class="custom-control-input" value="Chờ xác nhận" (click)="onStatusChange($event.target.value)"
+              >
+              <label
+                class="custom-control-label"
+                for="customRadioInline2"
+              >
+                Chờ xác nhận
+              </label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline mr-5 text-primary">
+              <input
+                type="radio"
+                id="customRadioInline3"
+                name="customRadioInline1"
+                class="custom-control-input" value="Đang lấy hàng" (click)="onStatusChange($event.target.value)"
+              >
+              <label
+                class="custom-control-label"
+                for="customRadioInline3"
+              >
+                Đang lấy hàng
+              </label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline mr-5 text-warning">
+              <input
+                type="radio"
+                id="customRadioInline4"
+                name="customRadioInline1"
+                class="custom-control-input" value="Đang giao" (click)="onStatusChange($event.target.value)"
+              >
+              <label
+                class="custom-control-label"
+                for="customRadioInline4"
+              >
+                Đang giao
+              </label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline mr-5 text-success">
+              <input
+                type="radio"
+                id="customRadioInline5"
+                name="customRadioInline1"
+                class="custom-control-input" value="Đã giao" (click)="onStatusChange($event.target.value)"
+              >
+              <label
+                class="custom-control-label"
+                for="customRadioInline5"
+              >
+                Đã giao
+              </label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline text-danger">
+              <input
+                type="radio"
+                id="customRadioInline6"
+                name="customRadioInline1"
+                class="custom-control-input" value="Hủy" (click)="onStatusChange($event.target.value)"
+              >
+              <label
+                class="custom-control-label"
+                for="customRadioInline6"
+              >
+                Hủy
+              </label>
+            </div>
+          </div>
+        </td>
+      </thead>
       <thead style="background-color: rgb(198, 219, 148)">
         <tr>
           <th>No.</th>
           <th>Tên Khách</th>
+          <th>Ngày đặt</th>
           <th>Địa Chỉ</th>
-          <th>Số điện thoại</th>
+          <th>SĐT</th>
           <th>Email</th>
           <th>Tình trạng</th>
           <th>Chi tiết</th>
+          <th>Xóa</th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let od of orders | paginate: config; let i = index">
+      <tbody *ngFor="let od of orders | paginate: config; let i = index">
+        <tr *ngIf="od.status==filterStatus || filterStatus=='Tất cả'">
           <td>{{ i + 1 }}</td>
           <td class="text-info font-weight-bold">{{ od.name }}</td>
+          <td>{{ od.created | date:'dd/MM/yyyy' }}</td>
           <td>{{ od.address }}</td>
           <td>
             {{ od.phone }}
           </td>
           <td>{{ od.email }}</td>
-          <td [ngSwitch]="od.status" data-toggle="modal" data-target="#statusModal" (click)="detail(od._id, od.totalPrice, od.name)">
-            <span *ngSwitchCase="'chưa giao'" class="badge badge-secondary"
-              >Chưa giao</span
-            >
-            <span *ngSwitchCase="'true'" class="badge badge-success"
-              >Đã Giao</span
-            >
+          <td [ngSwitch]="od.status" data-toggle="modal" data-target="#statusModal" (click)="detail(od._id, od.totalPrice, od.name, od.status)"
+           style="font-size: 18px;">
+            <span *ngSwitchCase="'Chờ xác nhận'" class="badge badge-secondary">Chờ xác nhận</span>
+            <span *ngSwitchCase="'Đang lấy hàng'" class="badge badge-primary">Đang lấy hàng</span>
+            <span *ngSwitchCase="'Đang giao'" class="badge badge-warning">Đang giao</span>
+            <span *ngSwitchCase="'Đã giao'" class="badge badge-success">Đã giao</span>
+            <span *ngSwitchCase="'Hủy'" class="badge badge-danger">Hủy</span>
           </td>
-          <td style="width: 90px; color: yellowgreen">
+          <td style="width: 80px; color: yellowgreen">
             <i
               class="fas fa-list"
               title="Xem chi tiết"
               data-toggle="modal"
-              data-target="#exampleModal"
+              data-target="#ModalDetailAdmin"
               (click)="detail(od._id, od.totalPrice, od.name)"
+            ></i>
+          </td>
+          <td style="width: 70px">
+            <i
+              class="fas fa-trash text-danger"
+              data-toggle="modal" data-target="#ModalDelOrder" title="Xóa" (click)="getOd(od._id,od.name)"
             ></i>
           </td>
         </tr>
@@ -52,7 +144,7 @@
     </table>
     <pagination-controls
       style="text-align: center"
-      (pageChange)="pageChanged($event)"
+      (pageChange)="pageChanged($event)" *ngIf="orders.length > 15"
     ></pagination-controls>
   </div>
 </div>
@@ -132,7 +224,7 @@
   aria-hidden="true"
 >
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content"  style="width: 600px">
       <div class="modal-header" style="background-color: aquamarine">
         <h5 class="modal-title" id="exampleModalLabel">
           Đơn hàng: <span class="text-info">{{ name }}</span>
@@ -150,35 +242,142 @@
 
         <div class="form-group">
           <div>
-            <label for="input4" class="col-form-label"
+            <label for="input4" class="col-form-label" style="font-size: 18px; font-weight: 500;"
             >Thay đổi tình trạng</label>
           </div>
 
 
           <div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="customRadioInline1" name="custom" class="custom-control-input" value="Chưa giao" (change)="onItemChange($event.target.value)"/>
-                <label class="custom-control-label text-secondary font-weight-bold" for="customRadioInline1">Chưa Giao</label>
+              <input [(ngModel)]="currentStatus" type="radio" id="customRadioInlineModal1" name="custom" class="custom-control-input" value="Chờ xác nhận" (click)="onItemChange($event.target.value)"/>
+                <label class="custom-control-label text-secondary font-weight-bold" for="customRadioInlineModal1">Chờ xác nhận</label>
               </div>
             <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="customRadioInline2" name="custom" class="custom-control-input" value="Đang giao" (change)="onItemChange($event.target.value)"/>
-              <label class="custom-control-label text-primary font-weight-bold" for="customRadioInline2">Đang Giao</label>
+            <input  [(ngModel)]="currentStatus"  type="radio" id="customRadioInlineModal2" name="custom" class="custom-control-input" value="Đang lấy hàng" (click)="onItemChange($event.target.value)"/>
+              <label  class="custom-control-label text-primary font-weight-bold" for="customRadioInlineModal2">Đang lấy hàng</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <input type="radio" id="customRadioInline3" name="custom" class="custom-control-input" value="Đã giao" (change)="onItemChange($event.target.value)"/>
-                <label class="custom-control-label text-success font-weight-bold" for="customRadioInline3">Đã Giao</label>
+              <input  [(ngModel)]="currentStatus"  type="radio" id="customRadioInlineModal3" name="custom" class="custom-control-input" value="Đang giao" (click)="onItemChange($event.target.value)"/>
+                <label class="custom-control-label text-warning font-weight-bold" for="customRadioInlineModal3">Đang giao</label>
               </div>
             <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="customRadioInline4" name="custom" class="custom-control-input" value="Hủy" (change)="onItemChange($event.target.value)"/>
-              <label class="custom-control-label text-danger font-weight-bold" for="customRadioInline4">Hủy</label>
+              <input  [(ngModel)]="currentStatus"  type="radio" id="customRadioInlineModal4" name="custom" class="custom-control-input" value="Đã giao" (click)="onItemChange($event.target.value)"/>
+                <label class="custom-control-label text-success font-weight-bold" for="customRadioInlineModal4">Đã giao</label>
+              </div>
+            <div class="custom-control custom-radio custom-control-inline">
+            <input [(ngModel)]="currentStatus" type="radio" id="customRadioInlineModal5" name="custom" class="custom-control-input" value="Hủy" (click)="onItemChange($event.target.value)"/>
+              <label class="custom-control-label text-danger font-weight-bold" for="customRadioInlineModal5">Hủy</label>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="changeStatus()">
-          Close
+        <button type="button" class="btn btn-info" data-dismiss="modal" (click)="changeStatus()">
+          Xác nhận
         </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Đóng
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="ModalDetailAdmin" tabindex="-1" aria-labelledby="ModalDetailAdminLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalDetailAdminLabel" style="font-weight: 700; color:yellowgreen; font-size: 24px;">Chi tiết đơn hàng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container pl-0 pr-0">
+          <div class="infocus">
+            Khách hàng: <span >{{name}}</span>
+            Mã đơn hàng: <span> {{id}}</span>
+          </div>
+          <div class="item" *ngFor="let item of books; let i = index">
+            <div class="row mr-0 ml-0 pb-2" >
+              <div class="col-auto">
+                <div class="img-responsive1">
+                  <img src="{{ item.imageUrl }}"  alt="" />
+                </div>
+              </div>
+              <div class="col-4 pl-0 pt-1" >
+                <div class="sed">
+                  <h5>{{ item.title }}</h5>
+                </div>
+              </div>
+              <div class="col-2 pl-0 pt-1" >
+                <div class="price">
+                  <p>{{ item.price }}<p>
+                </div>
+              </div>
+              <div class="col-3 pl-0 mr-auto pt-1" >
+                <div class="price">
+                   <p>Số lượng: {{ item.qty }}<p>
+                </div>
+
+
+
+
+              </div>
+              <div class="col-auto pl-0  pt-1" >
+                <div class="price">
+                  <p style="color: rgb(223, 112, 112); font-weight: 500;">{{ item.price * item.qty }} đ<p>
+                </div>
+              </div>
+            </div>
+         </div>
+         <div class="item1 pl-2 pr-3">
+          <div class="row" style="text-align: right">
+            <div class="col-8"></div>
+            <div class="col ml-auto" style="  border-top: 1px solid rgb(228, 224, 220); padding-top: 10px;">
+              <span style="font-size: 18px;"> Tổng tiền</span>
+            </div>
+            <div class="col-2" style="  border-top: 1px solid rgb(228, 224, 220);padding-top: 10px;">
+              <span style="font-size: 18px; color: red; font-weight: 500;">{{ total }} đ</span>
+            </div>
+           </div>
+         </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal DelOrder -->
+<div class="modal fade" id="ModalDelOrder" tabindex="-1" aria-labelledby="ModalDelOrderLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalDelOrderLabel" style="font-weight: 700; font-size: 24px;">Xóa đơn hàng
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <p>Bạn có chắc muốn xóa đơn hàng của <span style="font-size: 18px; color: crimson; font-weight: 500;">{{name}}</span> ?</p>
+
+        </div>
+        <div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="delete(id)" data-dismiss="modal">Có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
       </div>
     </div>
   </div>

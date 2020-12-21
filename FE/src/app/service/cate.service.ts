@@ -56,6 +56,9 @@ export class CateService {
   delete(id: string): Observable<Cate> {
     return this.http.delete<Cate>(`${this.cateURL}/${id}`);
   }
-
+  searchCateAdmin(id: string): Observable<Cate[]> {
+    const url = `${this.cateURL}/search?name=${id}`;
+    return this.http.get<Cate[]>(url).pipe();
+  }
 }
 

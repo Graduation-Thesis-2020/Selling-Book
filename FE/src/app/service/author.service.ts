@@ -52,5 +52,9 @@ export class AuthorService {
     const url = `${this.authorURL}/${id}/search?title=${name}`;
     return this.http.get<Books[]>(url).pipe();
   }
+  searchAuthorAdmin(id: string): Observable<Author[]> {
+    const url = `${this.authorURL}/search?name=${id}`;
+    return this.http.get<Author[]>(url).pipe();
+  }
 }
 

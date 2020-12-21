@@ -31,3 +31,18 @@ h1{
 	width: 80%;
 	margin:0 auto;
 }
+.info-body{
+ padding: 10px 10px 0px 10px;
+}
+.info-body p{
+  padding-bottom: 5px;
+  margin-bottom: 0px;
+  color: rgb(84, 68, 155);
+  font-weight: 500;
+  font-size: 18px;
+}
+.info-body input{
+  margin-bottom: 20px;
+  border-color: rgb(84, 68, 155);
+  font-weight: 500;
+}
