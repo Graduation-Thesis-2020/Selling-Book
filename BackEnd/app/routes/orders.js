@@ -10,7 +10,7 @@ router.use((req, res, next) => {
     next();
 });
 
-router.get('/orderbyday', orderController.orderByDay) // FILTER ORDER BY DAY 
+
 // Order FOR ADMIN
 router.get('/', orderController.getOrder)
 
@@ -27,6 +27,6 @@ router.delete('/:orderId/orderDetails', orderController.deleteOrderDetail);
 
 router.post('/', orderController.createOrder)
   
-
+router.get('/orderbyday/:day', orderController.orderByDay) // FILTER ORDER BY DAY 
 
 module.exports = router;

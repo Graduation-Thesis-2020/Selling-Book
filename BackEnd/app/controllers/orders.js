@@ -225,7 +225,7 @@ module.exports = {
      let orderlength = orderdata.length;
     //return res.status(200).json(orderlength);
     let i = 0;
-    let filterday = req.body.day ;
+    let filterday = req.params.day ;
     //return res.status(200).json(req.body.day);
     for (i = 0; i < orderlength; i++) {
       let date = orderdata[i].created;
