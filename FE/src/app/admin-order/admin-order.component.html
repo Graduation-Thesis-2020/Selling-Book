@@ -5,7 +5,19 @@
     <span><i></i></span>
     <b class="line"></b>
   </div>
-  <div style="margin-bottom: 50px"></div>
+  <div style="margin-top: 40px;">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="input-group" style="width: 450px">
+          <input #t type="date" class="form-control" >
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button"  (click)="search(t.value)"><i class="fas fa-search"></i></button>
+            <button class="btn btn-outline-primary" type="button" (click)="reload()"><i class="fas fa-redo"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div style="margin-top: 10px">
     <table
       class="table table-bordered table-striped table-hover table-responsive-lg">

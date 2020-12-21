@@ -4,6 +4,7 @@ import { OrderService } from './../service/order.service';
 import { itemInOrder } from './../models/order';
 import { UserService } from './../service/user.service';
 import {MatSnackBar, MatSnackBarHorizontalPosition,MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
+import { formatDate } from '@angular/common';
 @Component({
   selector: 'app-admin-order',
   templateUrl: './admin-order.component.html',
@@ -94,5 +95,16 @@ export class AdminOrderComponent implements OnInit {
         verticalPosition: this.verticalPosition,
       });
     }, error => console.error(error));
+  }
+  search(value){
+    const format = 'dd-MM-yyyy';
+    const myDate = value;
+    const locale = 'en-US';
+    const formattedDate = formatDate(myDate, format, locale);
+    const day = value;
+    this.orderService.orderByDay(formattedDate).subscribe(res=> this.orders = res);
+  }
+  reload(){
+    this.getAllOrders();
   }
 }
