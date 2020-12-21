@@ -5,6 +5,8 @@ const passport = require('passport');
 const multer = require('multer');
 const passportConfig = require('../middleware/passport');
 
+
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads/');
@@ -81,8 +83,12 @@ router.get('/secret', passport.authenticate('jwt', { session: false }), User.sec
   .get('/getAllCustomer', User.getAllUserCustomer)
 // .post('/verifyEmail', User.verifyEmail)
 
-// 
 
+// PAYPAL 
+router.post('/orders/pay', User.postPaypal)
+  .get('/orders/pay', User.getPaypal)
+  .get('/orders/pay/success', User.getPaypalSuccess)
+  .get('/orders/pay/cancel', User.getPaypalCancel)
 
 
 module.exports = router;

@@ -1,3 +1,4 @@
+
 const User = require('../models/user');
 const Order = require('../models/order');
 const OrderDetail = require('../models/orderDetail');
@@ -16,6 +17,14 @@ const orderDetail = require('../models/orderDetail');
 const { verifyEmail, mailVefiryNotification, generalRandomCode, forgetPassWord } = require('../middleware/midemail');
 
 
+// TEST THANH TOÁN PAYPAL
+const paypal = require('paypal-rest-sdk');
+paypal.configure({
+  'mode': 'sandbox', //sandbox or live
+  'client_id': process.env.CLIENT_ID_PAYPAL,
+  'client_secret': process.env.CLIENT_SECRET_PAYPAL
+});
+
 
 const verifyToken = (token) => {
   const decode = jwt.verify(token, process.env.JWT_KEY);
@@ -30,6 +39,92 @@ const encodedToken = (email) => {
   }, process.env.JWT_KEY);
 }
 module.exports = {
+
+  getPaypal: (req, res, next) => {
+    res.render('index.handlebars');
+  },
+  postPaypal: (req, res, next) => {
+
+    const userInfo = req.user;
+    
+    const books = req.body.books;
+    
+    const create_payment_json = {
+      "intent": "sale",
+      "payer": {
+        "payment_method": "paypal"
+      },
+      "redirect_urls": {
+        "return_url": "http://localhost:8080/users/orders/pay/success",
+        "cancel_url": "http://localhost:8080/users/orders/pay/cancel"
+      },
+      "transactions": [{
+        "item_list": {
+          "items": [{
+            "name": "The God Father 2020",
+            "sku": "001",
+            "price": "1000",
+            "currency": "USD",
+            "quantity": 1
+          }, {
+            "name": "The Alchemist",
+            "sku": "002",
+            "price": "1000",
+            "currency": "USD",
+            "quantity": 1
+          }]
+        },
+        "amount": {
+          "currency": "USD",
+          "total": "2000"
+        },
+        "description": "Hat for the best team ever"
+      }]
+    };
+
+    paypal.payment.create(create_payment_json, function (error, payment) {
+      if (error) {
+        throw error;
+      } else {
+        for (let i = 0; i < payment.links.length; i++) {
+          if (payment.links[i].rel === 'approval_url') {
+            res.redirect(payment.links[i].href);
+          }
+        }
+      }
+    });
+
+  },
+
+  getPaypalSuccess: (req, res, next) => {
+    const payerId = req.query.PayerID;
+    const paymentId = req.query.paymentId;
+
+    const execute_payment_json = {
+      "payer_id": payerId,
+      "transactions": [{
+        "amount": {
+          "currency": "USD",
+          "total": "2000"
+        }
+      }]
+    };
+
+    paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+      if (error) {
+        console.log(error.response);
+        throw error;
+      } else {
+        //   console.log(JSON.stringify(payment));
+        res.render('success.handlebars');
+      }
+    });
+  },
+
+  getPaypalCancel: (req, res, next) => {
+    res.render('cancel.handlebars');
+  },
+
 
 
   authFacebook: (req, res, next) => {
@@ -509,7 +604,7 @@ module.exports = {
         forgetPassWord(email, checkEmail.name, codeVerify);
         checkEmail.codeResetPassword = codeVerify;
         checkEmail.save();
-        return res.status(200).json({message: "Vui lòng kiểm tra Email"});
+        return res.status(200).json({ message: "Vui lòng kiểm tra Email" });
       }
       return res.status(404).json({ message: "Email chưa được đăng ký, vui lòng đăng ký tài khoản!!!" });
     } catch (error) {

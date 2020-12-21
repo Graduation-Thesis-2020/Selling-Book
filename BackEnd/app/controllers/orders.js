@@ -204,6 +204,46 @@ module.exports = {
       return res.status(500).json(error);
     }
 
+  },
+
+  orderByDay: async (req, res, next) => {
+    // let searchOptions = {}
+    // if (req.query.created != null && req.query.created !== '') {
+    //   searchOptions.created = new RegExp(req.query.created, 'i')
+    // }
+    // try {
+    //   const orderdata = await Order.find(searchOptions);
+    //   if (orderdata != null && orderdata != '') {
+    //     return res.status(200).json(orderdata);
+    //   }
+    //   return res.status(400).json({ message: "Không tìm thấy !!!" });
+    // } catch (error) {
+    //   return res.status(500).json(error);
+    // }
+     let filteredData = [];
+     let orderdata = await Order.find();
+     let orderlength = orderdata.length;
+    //return res.status(200).json(orderlength);
+    let i = 0;
+    let filterday = req.body.day ;
+    //return res.status(200).json(req.body.day);
+    for (i = 0; i < orderlength; i++) {
+      let date = orderdata[i].created;
+      let orderFilter = orderdata[i] ;
+      let dated =  ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '-' +((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' +  date.getFullYear();
+
+      //Filter dates from 2011 and newer
+      if (dated == filterday){
+        filteredData.push(orderFilter);
+      }
+    }
+    
+    if (filteredData != null && filteredData != '') {
+      return res.status(200).json(filteredData);
+    }
+    return res.status(404).json({message:" Không tìm thấy!!!!"});
+
+
   }
 
 }

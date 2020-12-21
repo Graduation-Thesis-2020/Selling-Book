@@ -13,7 +13,10 @@
         "FACEBOOK_CLIENT_SECRET": "51942319efed80204e0e696246b774c5",
 
         "EMAIL": "luhuonglan1998@gmail.com",
-        "PASSWORDEMAIL": "LuPhuocHung1998"
+        "PASSWORDEMAIL": "LuPhuocHung1998",
+
+        "CLIENT_ID_PAYPAL": "Ac5tNqkY_66fbxgcmoQlGPfXBPmUE9E038lwdmLrqqGjnfNiR1UGsvmVdd90G7O6RNTlW26EX14d0XQB",
+        "CLIENT_SECRET_PAYPAL": "EM_X9__1FLx44843KiLOJLki1f2KRy-qb6_tGVcs5v-x_zB5WdPdcM9oUmqNsAuGg0-W2zR2TlVh5uhb"
             
         
     }

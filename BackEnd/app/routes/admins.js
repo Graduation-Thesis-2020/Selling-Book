@@ -10,7 +10,7 @@ router.post('/login', Admin.postLogin)
   .get('/getAllUser', passport.authenticate('jwt', { session: false }), authenUser, Admin.getAllUser)
   // Update for EMPLOYEE AND ADMIN
   .patch('/:userId/', passport.authenticate('jwt', { session: false }), authenUser, Admin.patchUpdateUser)
- 
+
 
 // Management Customer 
 router.delete('/customers/:userId', passport.authenticate('jwt', { session: false }), authenUser, Admin.deleteCustomer)
@@ -38,15 +38,15 @@ router.delete('/employees/:userId', passport.authenticate('jwt', { session: fals
   .patch('/employees/roleadmin/:userId/', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.patchCreateAdminRole1)  //XONG
   // GET ALL ADMIN ACCOUNT
   .get('/', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.getAllAdmin) // XONG
- // GET A USER
- .get('/:userId', passport.authenticate('jwt', { session: false }), authenUser, Admin.getAEmployee)  // XONG
+  // GET A USER
+  .get('/:userId', passport.authenticate('jwt', { session: false }), authenUser, Admin.getAEmployee)  // XONG
 
 // LOGOUT ACCOUNT
-router.get('/logout', passport.authenticate('jwt', { session: false }), Admin.logout);
-
+router.get('/logout', passport.authenticate('jwt', { session: false }), Admin.logout)
+  .post('/forgetpassword', Admin.postForgetPassWord)
+  .patch('/changepassword/private', Admin.patchForgetPassWord)
 // TEST PRIVATE
-router.get('/secret', passport.authenticate('jwt', { session: false }), authenUser, Admin.secret);
-
+router.get('/secret', passport.authenticate('jwt', { session: false }), authenUser, Admin.secret)
 
 
 // Management Employee

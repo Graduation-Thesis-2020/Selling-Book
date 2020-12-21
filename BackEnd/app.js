@@ -23,6 +23,105 @@ const adminRoutes = require('./app/routes/admins');
 const auth = require('./app/middleware/auth')
 
 
+// Test Palpay
+const exphdbs = require('express-handlebars');
+var path = require('path');
+// TEST THANH TOÁN PAYPAL
+// const paypal = require('paypal-rest-sdk');
+// paypal.configure({
+//   'mode': 'sandbox', //sandbox or live
+//   'client_id': process.env.CLIENT_ID_PAYPAL,
+//   'client_secret': process.env.CLIENT_SECRET_PAYPAL
+// });
+app.set('views', path.join(__dirname, "views"));
+app.engine('handlebars', exphdbs({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
+
+
+// app.get('/', function (req, res) {
+//   res.render('index');
+// });
+// app.post('/pay', (req, res) => {
+//   const create_payment_json = {
+//     "intent": "sale",
+//     "payer": {
+//       "payment_method": "paypal"
+//     },
+//     "redirect_urls": {
+//       "return_url": "http://localhost:8080/success",
+//       "cancel_url": "http://localhost:8080/cancel"
+//     },
+//     "transactions": [{
+//       "item_list": {
+//         "items": [{
+//           "name": "The God Father 2020",
+//           "sku": "001",
+//           "price": "10.00",
+//           "currency": "USD",
+//           "quantity": 1
+//         },{
+//           "name": "The Alchemist",
+//           "sku": "002",
+//           "price": "12.00",
+//           "currency": "USD",
+//           "quantity": 1
+//         }]
+//       },
+//       "amount": {
+//         "currency": "USD",
+//         "total": "22.00"
+//       },
+//       "description": "Hat for the best team ever"
+//     }]
+//   };
+
+//   paypal.payment.create(create_payment_json, function (error, payment) {
+//     if (error) {
+//       throw error;
+//     } else {
+//       for (let i = 0; i < payment.links.length; i++) {
+//         if (payment.links[i].rel === 'approval_url') {
+//           res.redirect(payment.links[i].href);
+//         }
+//       }
+//     }
+//   });
+
+// });
+
+// app.get('/success', (req, res) => {
+//   const payerId = req.query.PayerID;
+//   const paymentId = req.query.paymentId;
+
+//   const execute_payment_json = {
+//     "payer_id": payerId,
+//     "transactions": [{
+//       "amount": {
+//         "currency": "USD",
+//         "total": "22.00"
+//       }
+//     }]
+//   };
+
+//   paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+//     if (error) {
+//       console.log(error.response);
+//       throw error;
+//     } else {
+//    //   console.log(JSON.stringify(payment));
+//       res.render('success.handlebars');
+//     }
+//   });
+// });
+
+// app.get('/cancel', (req, res) => res.render('cancel.handlebars'));
+
+
+
+
+
+
+
 // connect to mongoose Atlase
 // change password ==> change nodemon.json
 mongoose.connect(//'mongodb+srv://admin:' + process.env.MONGO_ATLAS_PW + '@sellingbook-vj42r.mongodb.net/test?retryWrites=true&w=majority',
@@ -56,7 +155,7 @@ app.use(passport.session());
 // CORS
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Expose-Headers","Authorization");
+  res.header("Access-Control-Expose-Headers", "Authorization");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
