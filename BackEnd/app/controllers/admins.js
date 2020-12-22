@@ -340,9 +340,12 @@ module.exports = {
     const userId = req.params.userId;
     try {
       const admin = await User.findById(userId);
-      admin.role = req.body.role;
-      admin.save();
-      return res.status(201).json(admin);
+      if (admin != null && admin != '') {
+        admin.role = req.body.role;
+        admin.save();
+        return res.status(201).json(admin);
+      }
+      return res.status(400).json({ message: "Cập nhật bị lỗi!!!" });
     } catch (error) {
       return res.status(500).json(error);
     }
