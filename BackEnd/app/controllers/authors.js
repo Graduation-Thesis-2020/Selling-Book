@@ -118,7 +118,10 @@ module.exports = {
       const authors = await Author.find(searchOptions).populate([{
         path: 'books', select: 'title', model: book
       }]);
-      return res.status(200).json(authors);
+      if (authors != null && authors != '') {
+        return res.status(200).json(authors);
+      }
+      return res.status(404).json({ message: "Không tìm thấy!!!" });
     } catch (error) {
       return res.status(500).json(error);
     }

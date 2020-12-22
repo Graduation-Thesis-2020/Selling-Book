@@ -120,7 +120,10 @@ module.exports = {
       const cates = await Category.find(searchOptions).populate([{
         path: 'books', select: 'title', model: Book
       }]);
-      res.status(200).json(cates);
+      if(cates != null && cates != ''){
+        return res.status(200).json(cates);
+      }
+      return res.status(404).json({message:"Không tìm thấy!!!"});
     } catch  (error) {
       return res.status(500).json(error);
     }
