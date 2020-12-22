@@ -17,6 +17,7 @@ router.delete('/customers/:userId', passport.authenticate('jwt', { session: fals
   // Get All Customer
   .get('/customers', passport.authenticate('jwt', { session: false }), authenUser, Admin.getAllCustomer)
   .get('/customers/search/', passport.authenticate('jwt', { session: false }), authenUser, Admin.getSearchCustomer) // XONG
+  .patch('/customers/:userId/lockaccount', passport.authenticate('jwt', { session: false }), authenUser, Admin.patchLockAccount) // XONG
 // GET A CUSTOMER
 //.get('/customers/:userId', passport.authenticate('jwt', { session: false }), authenUser, Admin.getACustomer) // XONG
 

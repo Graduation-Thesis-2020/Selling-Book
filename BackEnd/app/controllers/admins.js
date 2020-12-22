@@ -360,7 +360,7 @@ module.exports = {
 
       userData.save();
       return res.status(200).json(userData);
-      
+
     } catch (error) {
       return res.status(500).json(error);
     }
@@ -399,6 +399,19 @@ module.exports = {
       return res.status(200).json({ message: "Đổi mật khẩu thành công!!!" });
     } else {
       return res.status(400).json({ message: "Mã sai rồi !!!" });
+    }
+  },
+
+  patchLockAccount: async (req, res, next) => {
+    let customerId = req.params.userId;
+
+    try {
+      let userData = await User.findById(customerId);
+      userData.status = req.body.status;
+      userData.save();
+      return res.status(200).json({ message: "Khóa thành công!!!" });
+    } catch (error) {
+      return res.status(500).json(error);
     }
   }
 

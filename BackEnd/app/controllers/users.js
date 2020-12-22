@@ -46,9 +46,9 @@ module.exports = {
   postPaypal: (req, res, next) => {
 
     const userInfo = req.user;
-    
+
     const books = req.body.books;
-    
+
     const create_payment_json = {
       "intent": "sale",
       "payer": {
@@ -285,19 +285,15 @@ module.exports = {
   // ĐĂNG NHÂP TÀI KHOẢN KHÁCH HÀNG
   postLoginUserCustomer: async (req, res, next) => {
 
-    const token = encodedToken(req.body.email);
-    const data = req.user;
-    const user = {
-      name: data.name,
-      email: data.email,
-      address: data.address,
-      phone: data.phone,
-      role: data.role
-    };
-    res.setHeader('Authorization', token);
-    // console.log(token);
-    //res.cookie('Authorization', token);
-    res.status(200).json(data);
+    if (req.user.status != "Khóa") {
+      const token = encodedToken(req.body.email);
+      const data = req.user;
+      res.setHeader('Authorization', token);
+      // console.log(token);
+      //res.cookie('Authorization', token);
+      return res.status(200).json(data);
+    }
+    return res.status(400).json({ message: "Tài khoản của bạn đã bị khóa!!!" });
 
     // const { email, password } = req.body;
     // const checkEmail = await User.findOne({ email });

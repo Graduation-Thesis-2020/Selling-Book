@@ -79,6 +79,10 @@ const userSchema = mongoose.Schema({
     type: String,
     default: null
   },
+  status: {
+    type: String,
+    default: null
+  }
   // _id: mongoose.Schema.Types.ObjectId
   // username: {
   //     type: String,
