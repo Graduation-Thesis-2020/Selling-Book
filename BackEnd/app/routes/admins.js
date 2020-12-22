@@ -10,6 +10,8 @@ router.post('/login', Admin.postLogin)
   .get('/getAllUser', passport.authenticate('jwt', { session: false }), authenUser, Admin.getAllUser)
   // Update for EMPLOYEE AND ADMIN
   .patch('/:userId/', passport.authenticate('jwt', { session: false }), authenUser, Admin.patchUpdateUser)
+  // DELETE ADMIN ACCOUNT 
+  .delete('/:userId/', passport.authenticate('jwt', { session: false }), checkAdmin, Admin.deleteCustomer)
 
 
 // Management Customer 
