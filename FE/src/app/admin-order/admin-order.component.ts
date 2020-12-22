@@ -73,7 +73,7 @@ export class AdminOrderComponent implements OnInit {
   changeStatus(){
     const status = this.status;
     const Status: ChangeStatus = { status } as ChangeStatus;
-    this.UserService.UpdateStatus(this.id,Status).subscribe(() => {
+    this.orderService.UpdateStatus(this.id,Status).subscribe(() => {
       this.getAllOrders();
       this._snackBar.open("Thay đổi thành công!","Đóng", {
         panelClass: "snackbarConfig1",

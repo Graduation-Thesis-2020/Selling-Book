@@ -1,7 +1,7 @@
 import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {  Order, Order1, OrderDetail } from '../models/order';
+import {  ChangeStatus, Order, Order1, OrderDetail } from '../models/order';
 import { AllOrder } from './../models/order';
 
 
@@ -33,5 +33,8 @@ export class OrderService {
   }
   orderByDay(date: string): Observable<AllOrder[]>{
     return this.http.get<AllOrder[]>(`${this.orderURL}/orderbyday/${date}`).pipe();
+  }
+  UpdateStatus(id,status: ChangeStatus){
+    return this.http.patch(`${this.orderURL}/${id}`, status).pipe();
   }
 }
