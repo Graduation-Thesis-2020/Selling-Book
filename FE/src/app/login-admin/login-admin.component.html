@@ -74,13 +74,16 @@
               #password
               type="password"
               class="form-control"
-              placeholder="Password"
-            />
+              placeholder="Password"/>
+          </div>
+          <div class="col-sm text-right"  style="margin-top: 5px">
+            <label  class="label-forget"><a style="color: coral;" routerLink="/forgotpassword">Quên mật khẩu
+            </a></label>
           </div>
           <input
             type="submit"
             value="Login"
-            (click)="login(email.value, password.value)"
+            (click)="login_admin(email.value, password.value)"
             style="margin-top: 50px"
           />
         </form>

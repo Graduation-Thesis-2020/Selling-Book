@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <div style="margin-top: 10px">
+  <div style="margin-top: 10px ; margin-bottom: 20px">
     <table
       class="table table-bordered table-striped table-hover table-responsive-lg">
       <thead class="bg-light">
@@ -119,7 +119,7 @@
         </tr>
       </thead>
       <tbody *ngFor="let od of orders | paginate: config; let i = index">
-        <tr *ngIf="od.status==filterStatus || filterStatus=='Tất cả'">
+        <tr *ngIf="(od.status==filterStatus || filterStatus=='Tất cả') && !messError">
           <td>{{ i + 1 }}</td>
           <td class="text-info font-weight-bold">{{ od.name }}</td>
           <td>{{ od.created | date:'dd/MM/yyyy' }}</td>
@@ -152,6 +152,11 @@
             ></i>
           </td>
         </tr>
+      </tbody>
+      <tbody *ngIf="messError">
+        <td colspan ="9" style="text-align: center;padding: 30px; font-size: 16px;" >
+          <span >Không có kết quả</span>
+        </td>
       </tbody>
     </table>
     <pagination-controls

@@ -39,6 +39,8 @@ import { LoginAdminComponent } from './login-admin/login-admin.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { AuthGuard, AuthAdminGuard, ChildGuard, AuthAdminFunctionGuard, AuthLoginFunctionGuard } from './service/auth-guard';
+import { AdminEmployeeAccountComponent } from './admin-employee-account/admin-employee-account.component';
+import { AdminAdminAccountComponent } from './admin-admin-account/admin-admin-account.component';
 const routes: Routes = [
 
   //{path: 'home', component: HomeComponent, canActivate:[]},
@@ -92,14 +94,18 @@ const routes: Routes = [
     {path: 'editpub/:id', component: EditPubComponent},
     {path: 'editbook/:id', component: EditBookComponent},
     {path: 'order', component: AdminOrderComponent},
-    {path: 'customer', component: AdminUserComponent, canActivate: [AuthAdminFunctionGuard]},
+    {path: 'customer', component: AdminUserComponent},
+    {path: 'employee', component: AdminEmployeeAccountComponent,canActivate: [AuthAdminFunctionGuard]},
+    {path: 'admin', component: AdminAdminAccountComponent,canActivate: [AuthAdminFunctionGuard]},
   ]},
 
 ]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+
+
+exports: [RouterModule],
   providers: [AuthGuard, AuthAdminGuard, ChildGuard, AuthAdminFunctionGuard,AuthLoginFunctionGuard]
 })
 export class AppRoutingModule { }

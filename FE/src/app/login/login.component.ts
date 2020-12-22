@@ -81,12 +81,22 @@ export class LoginComponent implements OnInit {
       }, (error: HttpErrorResponse) => {
         console.log(error);
         if(error){
-          this._snackBar.open("Sai mật khẩu hoặc tài khoản","Đóng", {
-            panelClass: "snackbarErrorConfig",
-            duration: 3000,
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-          });
+          if(error.error.message =="Tài khoản của bạn đã bị khóa!!!"){
+            this._snackBar.open("Tài khoản của bạn đã bị khóa","Đóng", {
+              panelClass: "snackbarErrorConfig",
+              duration: 3000,
+              horizontalPosition: this.horizontalPosition,
+              verticalPosition: this.verticalPosition,
+            });
+          } else {
+            this._snackBar.open("Sai mật khẩu hoặc tài khoản","Đóng", {
+              panelClass: "snackbarErrorConfig",
+              duration: 3000,
+              horizontalPosition: this.horizontalPosition,
+              verticalPosition: this.verticalPosition,
+            });
+          }
+
         }
       }
       )};

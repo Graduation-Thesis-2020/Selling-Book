@@ -22,6 +22,8 @@ export class AdminOrderComponent implements OnInit {
   status: string;
   currentStatus: string;
   id: string;
+  mess: any;
+  messError: string;
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   filterStatus: string ='Tất cả';
@@ -102,9 +104,16 @@ export class AdminOrderComponent implements OnInit {
     const locale = 'en-US';
     const formattedDate = formatDate(myDate, format, locale);
     const day = value;
-    this.orderService.orderByDay(formattedDate).subscribe(res=> this.orders = res);
+    this.orderService.orderByDay(formattedDate).subscribe(res=> this.orders = res,
+      error => {
+      this.mess = error;
+      this.messError = this.mess.error.message;
+      this.orders.length =0;
+      });
+      this.messError = null;
   }
   reload(){
+    this.messError = null;
     this.getAllOrders();
   }
 }

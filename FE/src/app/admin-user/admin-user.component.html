@@ -5,25 +5,38 @@
     <span><i></i></span>
     <b class="line"></b>
   </div>
-  <div style="margin-bottom: 50px"></div>
-  <div style="margin-top: 10px">
+  <div style="margin-top: 40px;">
+
+        <div class="input-group" style="width: 450px">
+          <input #t type="text" class="form-control" placeholder="Tìm kiếm tên khách hàng" aria-label="Tìm kiếm tên khách hàng" >
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button"  (click)="search(t.value)"><i class="fas fa-search"></i></button>
+            <button class="btn btn-outline-primary" type="button" (click)="reload()"><i class="fas fa-redo"></i></button>
+          </div>
+        </div>
+  </div>
+  <div style="margin-top: 10px; margin-bottom: 20px">
     <table
       class="table table-bordered table-striped table-hover table-responsive-lg"
     >
-      <thead style="background-color: rgb(198, 219, 148)">
+      <thead style="background-color: rgb(148, 202, 219)">
         <tr>
           <th>No.</th>
           <th>Tên Khách</th>
           <th>Địa Chỉ</th>
           <th>Số điện thoại</th>
           <th>Email</th>
+          <th>Sinh nhật</th>
           <th>Giới tính</th>
+          <th>Ngày tạo</th>
           <th>Cách đăng nhập</th>
+          <th>Thông báo</th>
           <th>Tình trạng</th>
+          <th>Xóa</th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let cus of cus | paginate: config; let i = index">
+      <tbody *ngIf="!messError">
+        <tr *ngFor="let cus of customers | paginate: config; let i = index">
           <td>{{ i + 1 }}</td>
           <td class="text-info font-weight-bold">{{ cus.name }}</td>
           <td>{{ cus.address }}</td>
@@ -31,24 +44,98 @@
             {{ cus.phone }}
           </td>
           <td>{{ cus.email }}</td>
+          <td>{{ cus.birthday | date: 'dd/MM/yyyy' }}</td>
           <td>{{ cus.gender }}</td>
+          <td>{{ cus.createdAt | date: 'dd/MM/yyyy' }}</td>
           <td>{{ cus.authType }}</td>
-          <td style="width: 90px; color: yellowgreen">
+          <td [ngSwitch]="cus.notification" style="font-size: 18px; text-align: center;"
+              data-toggle="modal" data-target="#ModalStatusUser" (click)="getOneCus(cus._id,cus.email, cus.status)">
+            <span *ngSwitchCase="true" class="text-info" ><i class="fas fa-check-circle"></i></span>
+          </td>
+          <td [ngSwitch]="cus.status" style="font-size: 18px;"
+              data-toggle="modal" data-target="#ModalStatusUser" (click)="getOneCus(cus._id,cus.email, cus.status)">
+            <span *ngSwitchCase="null" class="badge badge-success">Hoạt động</span>
+            <span *ngSwitchCase="'Khóa'" class="badge badge-danger">Khóa</span>
+          </td>
+          <td style="width: 70px">
             <i
-              class="fas fa-list"
-              title="Xem chi tiết"
-              data-toggle="modal"
-              data-target="#exampleModal"
+              class="fas fa-trash text-danger"
+              data-toggle="modal" data-target="#ModalDelCustomer" title="Xóa" (click)="getOneCus(cus._id,cus.email, cus.status)"
             ></i>
           </td>
         </tr>
       </tbody>
+      <tbody *ngIf="messError">
+        <td colspan ="11" style="text-align: center;padding: 30px; font-size: 16px;" >
+          <span >Không có kết quả</span>
+        </td>
+      </tbody>
     </table>
     <pagination-controls
       style="text-align: center"
-      (pageChange)="pageChanged($event)"
+      (pageChange)="pageChanged($event)" *ngIf="customers.length>15"
     ></pagination-controls>
   </div>
 </div>
 
-  
+
+<!-- Modal DelCustomer -->
+<div class="modal fade" id="ModalDelCustomer" tabindex="-1" aria-labelledby="ModalDelCusLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalDelCusLabel" style="font-weight: 700; font-size: 24px;">Xóa tài khoản khách hàng
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <p>Bạn có chắc muốn xóa tài khoản <span style="font-size: 18px; color: crimson; font-weight: 500;">{{email}}</span> ?</p>
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="delete()" data-dismiss="modal">Có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal DelOrder -->
+<div class="modal fade" id="ModalStatusUser" tabindex="-1" aria-labelledby="ModalStatusAdminLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalStatusAdminLabel" style="font-weight: 700; font-size: 24px;">Trạng thái tài khoản
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body" *ngIf="status">
+          <p>Bạn muốn <span style="font-size: 18px; color: green; font-weight: 600;">mở khóa</span>
+            tài khoản <span style="font-weight: 500;">{{email}} </span> ?</p>
+        </div>
+        <div class="info-body" *ngIf="!status">
+          <p>Bạn muốn <span style="font-size: 18px; color: crimson; font-weight: 600;">khóa</span>
+            tài khoản <span style="font-weight: 500;">{{email}} </span> ?</p>
+        </div>
+        <div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="lock()" data-dismiss="modal" *ngIf="!status">Khóa</button>
+        <button type="button" class="btn btn-success" (click)="unlock()" data-dismiss="modal" *ngIf="status">Mở khóa</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>

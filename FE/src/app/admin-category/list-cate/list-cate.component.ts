@@ -13,6 +13,8 @@ export class ListCateComponent implements OnInit {
   cates: Cate[];
   cate: Cate;
   config: any;
+  mess: any;
+  messError: string;
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   constructor(private CateService: CateService, private _snackBar: MatSnackBar,) {
@@ -77,9 +79,17 @@ export class ListCateComponent implements OnInit {
     this.CateService.getCateFromCateID(_id).subscribe(res => this.cate = res);
   }
   search(title: string){
-    this.CateService.searchCateAdmin(title).subscribe(res => this.cates = res);
+    this.CateService.searchCateAdmin(title).subscribe(res => this.cates = res,
+      error => {
+        this.mess = error;
+        console.log(this.mess);
+        this.messError = this.mess.error.message;
+        this.cates.length = 0;
+    });
+    this.messError = null;
   }
   reload(){
+    this.messError = null;
     this.getAllCates();
   }
 }

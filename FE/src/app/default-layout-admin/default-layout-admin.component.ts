@@ -23,6 +23,7 @@ export class DefaultLayoutAdminComponent implements OnInit {
   }
   logout() {
     localStorage.removeItem('currentAdmin');
+    localStorage.removeItem('tokenAdmin');
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['/login/admin']); // navigate to same route
   });

@@ -1,0 +1,327 @@
+<div style="margin-right: 50px; margin-left: 50px">
+  <h1 style="margin-top: 30px">Danh Sách Nhân Viên</h1>
+  <div class="ser-t">
+    <b></b>
+    <span><i></i></span>
+    <b class="line"></b>
+  </div>
+  <div style="margin-top: 40px;">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="input-group" style="width: 450px">
+          <input #t type="text" class="form-control" placeholder="Tìm kiếm tên nhân viên" aria-label="Tìm kiếm tên nhân viên" >
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button"  (click)="search(t.value)"><i class="fas fa-search"></i></button>
+            <button class="btn btn-outline-primary" type="button" (click)="reload()"><i class="fas fa-redo"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 ">
+        <button class="btn btn-success btn-circle pull-right mr-1 pl-0 pr-0" style="width: 120px; font-size: 18px;"
+      title="Thêm nhân viên" type="submit" data-toggle="modal" data-target="#ModalAddEmployeeAdmin">
+      Tạo mới <i class="fas fa-plus"></i>
+    </button>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top: 10px; margin-bottom: 20px">
+    <table
+      class="table table-bordered table-striped table-hover table-responsive-lg"
+    >
+      <thead style="background-color: rgb(221, 184, 162)">
+        <tr>
+          <th>No.</th>
+          <th>Tên nhân viên</th>
+          <th>Địa chỉ</th>
+          <th>Số điện thoại</th>
+          <th>Email</th>
+          <th>Sinh nhật</th>
+          <th>Giới tính</th>
+          <th>Ngày tạo</th>
+          <th>Admin</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!messError">
+        <tr *ngFor="let emp of employees | paginate: config; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td class="text-info font-weight-bold">{{ emp.name }}</td>
+          <td>{{ emp.address }}</td>
+          <td>
+            {{ emp.phone }}
+          </td>
+          <td>{{ emp.email }}</td>
+          <td>{{ emp.birthday | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ emp.gender }}</td>
+          <td>{{ emp.createdAt | date: 'dd/MM/yyyy' }}</td>
+          <td style="width: 70px">
+            <i class="fas fa-user-shield text-info" style="margin-right: 10px" title="Nâng cấp tài khoản" (click)="getOneEmp(emp._id,emp.email)"
+              data-toggle="modal" data-target="#ModalEditRoleEmployeeToAdmin"></i>
+          </td>
+          <td style="width: 120px">
+            <i class="fas fa-edit text-warning" style="margin-right: 10px" title="Chỉnh sửa" (click)="getEmployeeWithID(emp._id)"
+              data-toggle="modal" data-target="#ModalEditEmployeeAdmin"></i>
+            <i
+              class="fas fa-trash text-danger"
+              data-toggle="modal" data-target="#ModalDelEmployee" title="Xóa" (click)="getOneEmp(emp._id,emp.email)"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="messError">
+        <td colspan ="11" style="text-align: center;padding: 30px; font-size: 16px;" >
+          <span >Không có kết quả</span>
+        </td>
+      </tbody>
+    </table>
+    <pagination-controls
+      style="text-align: center"
+      (pageChange)="pageChanged($event)" *ngIf="employees.length>15"
+    ></pagination-controls>
+  </div>
+</div>
+
+
+<!-- Modal DelEmployee -->
+<div class="modal fade" id="ModalDelEmployee" tabindex="-1" aria-labelledby="ModalDelCusLabel1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalDelCusLabel1" style="font-weight: 700; font-size: 24px;">Xóa tài khoản khách hàng
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <p>Bạn có chắc muốn xóa tài khoản <span style="font-size: 18px; color: crimson; font-weight: 500;">{{gmail}}</span> ?</p>
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="delete()" data-dismiss="modal">Có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal AddEmployee -->
+<div class="modal fade" id="ModalAddEmployeeAdmin" tabindex="-1" aria-labelledby="ModalAddEmpLabel1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" >
+      <div class="modal-header" style=" background-color: rgb(236, 247, 178);">
+        <h5 class="modal-title" id="ModalAddEmpLabel1" style="font-weight: 700; font-size: 24px;">Thêm nhân viên
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <form >
+            <div class="px-4">
+
+                <div class="form-group row">
+                  <label for="input5" class="col-sm-4 col-form-label">Email (Tên tài khoản)</label>
+                  <div class="col-sm-8">
+                    <input type="email" class="form-control" #email/>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="input1" class="col-sm-4 col-form-label">Họ và tên</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control"  #name />
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="input2" class="col-sm-4 col-form-label">Số điện thoại</label>
+                  <div class="col-sm-8">
+                    <input type="string" class="form-control" #phone/>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="input7" class="col-sm-4 col-form-label">Mật khẩu</label>
+                  <div class="col-sm-8">
+                    <input type="password" class="form-control"   #password />
+
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="input7" class="col-sm-4 col-form-label">Xác nhận mật khẩu</label>
+                  <div class="col-sm-8">
+                    <input type="password" class="form-control" #confirmPassword />
+
+                  </div>
+                </div>
+
+
+              <div class="form-group row">
+                <label for="input3" class="col-sm-4 col-form-label">Ngày sinh</label>
+                <div class="col-sm-8">
+                  <input type="date" class="form-control" #birthday />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="input4" class="col-sm-4 col-form-label">Giới tính</label>
+
+                <div class="col-sm-5">
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline1" name="custom" class="custom-control-input" value="Nam"
+                      (change)="onItemChange($event.target.value)" />
+                    <label class="custom-control-label" for="customRadioInline1">Nam</label>
+                  </div>
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline2" name="custom" class="custom-control-input" value="Nữ"
+                      (change)="onItemChange($event.target.value)" />
+                    <label class="custom-control-label" for="customRadioInline2">Nữ</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="input5" class="col-sm-4 col-form-label">Địa chỉ</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="inputEmail" #address />
+                </div>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="add(name.value,phone.value,email.value,password.value, confirmPassword.value,
+        birthday.value,address.value)" data-dismiss="modal">Tạo</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal EditEmployee -->
+<div class="modal fade" id="ModalEditEmployeeAdmin" tabindex="-1" aria-labelledby="ModalEditEmpLabel1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" >
+      <div class="modal-header" style=" background-color: rgb(236, 247, 178);">
+        <h5 class="modal-title" id="ModalEditEmpLabel1" style="font-weight: 700; font-size: 24px;">Chỉnh sửa nhân viên
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <form >
+            <div class="px-4">
+
+                <div class="form-group row">
+                  <label for="input5" class="col-sm-4 col-form-label">Email (Tên tài khoản)</label>
+                  <div class="col-sm-8">
+                    <input type="email" class="form-control" #email1 [(ngModel)]="employee.email" name="email1" readonly/>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="input1" class="col-sm-4 col-form-label">Họ và tên</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control"  #name1 [(ngModel)]="employee.name" name="name1" />
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="input2" class="col-sm-4 col-form-label">Số điện thoại</label>
+                  <div class="col-sm-8">
+                    <input type="string" class="form-control" #phone1 [(ngModel)]="employee.phone" name="phone1"/>
+                  </div>
+                </div>
+
+
+
+              <div class="form-group row">
+                <label for="input3" class="col-sm-4 col-form-label">Ngày sinh</label>
+                <div class="col-sm-8">
+                  <input type="date" class="form-control" #birthday1 [ngModel]="employee.birthday |date:'yyyy-MM-dd'" name="birthday1"/>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="input4" class="col-sm-4 col-form-label">Giới tính</label>
+
+                <div class="col-sm-5">
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline11" name="gender1" class="custom-control-input" value="Nam"
+                      (change)="onItemChange1($event.target.value)" [(ngModel)]="employee.gender"/>
+                    <label class="custom-control-label" for="customRadioInline11">Nam</label>
+                  </div>
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline21" name="custom1" class="custom-control-input" value="Nữ"
+                      (change)="onItemChange1($event.target.value)" [(ngModel)]="employee.gender" />
+                    <label class="custom-control-label" for="customRadioInline21">Nữ</label>
+                  </div>
+                </div>
+
+
+              </div>
+
+              <div class="form-group row">
+                <label for="input5" class="col-sm-4 col-form-label">Địa chỉ</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="inputEmail" #address1 [(ngModel)]="employee.address" name="address1"/>
+                </div>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="edit(birthday1.value)" data-dismiss="modal">Tạo</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal EditRoleEmployee -->
+<div class="modal fade" id="ModalEditRoleEmployeeToAdmin" tabindex="-1" aria-labelledby="ModalEditRoleLabel1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalEditRoleLabel1" style="font-weight: 700; font-size: 24px;">Nâng cấp tài khoản
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <p>Bạn muốn chuyển tài khoản <span style="font-size: 18px; color: crimson; font-weight: 500;">{{gmail}}</span>
+            thành tài khoản quyền <span style="font-size: 18px; color: crimson; font-weight: 500;">Admin</span>  ?</p>
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="upRole()" data-dismiss="modal">Có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>

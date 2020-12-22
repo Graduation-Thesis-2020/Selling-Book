@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-info font-weight-bold">
     <div class="container-fluid">
       <a class="navbar-brand text-warning" [routerLink]="['/admin']">
-        HYPER BOOK</a
+        THE BOOK STORE</a
       >
 
       <button
@@ -78,10 +78,22 @@
           <span class="d-none d-sm-inline text-light col-10"> Hóa Đơn </span>
         </a>
       </li>
-      <li class="nav-item"  *ngIf="role == 1 ">
+      <li class="nav-item"  *ngIf="role == 1 || role == 2">
         <a class="nav-link text-secondary" [routerLink]="['/admin/customer']">
           <i class="fa fa-users col-2"></i>{{ " " }}
           <span class="d-none d-sm-inline text-light col-10"> Khách Hàng </span>
+        </a>
+      </li>
+      <li class="nav-item"  *ngIf="role == 1 ">
+        <a class="nav-link text-danger" [routerLink]="['/admin/employee']">
+          <i class="fas fa-user-cog col-2"></i>{{ " " }}
+          <span class="d-none d-sm-inline text-light col-10"> Nhân viên </span>
+        </a>
+      </li>
+      <li class="nav-item"  *ngIf="role == 1 ">
+        <a class="nav-link text-primary" [routerLink]="['/admin/admin']">
+          <i class="fas fa-user-shield col-2"></i>{{ " " }}
+          <span class="d-none d-sm-inline text-light col-10"> Admin </span>
         </a>
       </li>
       <li class="nav-item"  *ngIf="role == 1">

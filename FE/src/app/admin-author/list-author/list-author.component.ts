@@ -14,10 +14,11 @@ export class ListAuthorComponent implements OnInit {
   author: Author;
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-
+  mess: any;
+  messError: string;
   constructor(private AuthorService: AuthorService,  private _snackBar: MatSnackBar,) {
     this.config = {
-    itemsPerPage: 10,
+    itemsPerPage: 15,
     currentPage: 1
     };
   }
@@ -95,9 +96,17 @@ export class ListAuthorComponent implements OnInit {
     this.AuthorService.getAuthorFromAuthorID(_id).subscribe(res => this.author = res);
   }
   search(title: string){
-    this.AuthorService.searchAuthorAdmin(title).subscribe(res => this.authors = res);
+    this.AuthorService.searchAuthorAdmin(title).subscribe(res => this.authors = res,
+      error => {
+        this.mess = error;
+        this.messError = this.mess.error.message;
+        this.authors.length = 0;
+
+    });
+    this.messError = null;
   }
   reload(){
+    this.messError = null;
     this.getAllAuthor();
   }
 }

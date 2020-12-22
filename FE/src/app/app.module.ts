@@ -61,6 +61,8 @@ import { TokenInterceptorService } from './service/token-intercepter.service';
 import { LoginAdminComponent } from './login-admin/login-admin.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { AdminEmployeeAccountComponent } from './admin-employee-account/admin-employee-account.component';
+import { AdminAdminAccountComponent } from './admin-admin-account/admin-admin-account.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -102,6 +104,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     LoginAdminComponent,
     CheckoutComponent,
     ForgotPasswordComponent,
+    AdminEmployeeAccountComponent,
+    AdminAdminAccountComponent,
 
   ],
   imports: [
@@ -127,12 +131,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     MatSelectModule,
     MatTabsModule
   ],
-  providers: [DefaultLayoutUserComponent,
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptorService,
-    multi: true
-  }],
+  providers: [DefaultLayoutUserComponent,],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

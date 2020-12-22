@@ -12,6 +12,8 @@ export class ListPubComponent implements OnInit {
   pubs: Publisher[];
   pub: Publisher;
   config: any;
+  mess: any;
+  messError: string;
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
@@ -68,9 +70,16 @@ export class ListPubComponent implements OnInit {
     this.PublisherService.getPublisherFromPublisherID(_id).subscribe(res => this.pub = res);
   }
   search(title: string){
-    this.PublisherService.searchPublisherAdmin(title).subscribe(res => this.pubs = res);
+    this.PublisherService.searchPublisherAdmin(title).subscribe(res => this.pubs = res,
+      error => {
+        this.mess = error;
+        this.messError = this.mess.error.message;
+        this.pubs.length = 0;
+    });
+    this.messError = null;
   }
   reload(){
+    this.messError = null;
     this.getAllPublisher();
   }
   Edit() {

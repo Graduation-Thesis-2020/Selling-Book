@@ -13,7 +13,13 @@ export interface User {
   address: string;
   image: File;
 }
-
+export interface UpdateEmp {
+  name: string;
+  phone: number;
+  address: string;
+  gender: string;
+  birthday: Date;
+}
 export interface Login {
   email: string;
   password: string;
@@ -49,6 +55,8 @@ export interface LoginReturn {
   imageUrl: string;
   imageId: string;
   notification: boolean;
+  createdAt: Date;
+  _id: string;
 }
 export interface LoginAdmin {
   email: string;
