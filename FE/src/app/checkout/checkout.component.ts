@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../service/cart.service';
 import { Cart, Item, ItemCheckout, Mess } from '../models/cart';
@@ -12,14 +12,23 @@ import { Cate } from '../models/cate';
 import { UserService } from '../service/user.service';
 import { Profile } from './../models/user';
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
-
+declare var paypal;
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
+  @ViewChild('paypal', {static: true}) paypalElement: ElementRef;
 
+  product = {
+    description: 'abc, xyz1',
+    price: 100,
+    quantity: 2
+  }
+  paidFor = false;
+
+  //paypal
   items: Item[] = [];
   total: number;
   countItem: number;
@@ -32,6 +41,7 @@ export class CheckoutComponent implements OnInit {
   order: any;
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
   constructor(
     private route: ActivatedRoute,
     private BooksService: BooksService,
@@ -44,8 +54,47 @@ export class CheckoutComponent implements OnInit {
     private router1: Router
   ) {}
 
-  async ngOnInit() {
-    await this.loadProfile();
+  ngOnInit() {
+    paypal.Buttons({
+      createOrder: (data,actions) => {
+        return actions.order.create({
+          purchase_units: [
+            {
+              item_list: {
+                items: [{
+                  name: "The God Father 2020",
+                  sku: "001",
+                  price: "1000",
+                  currency: "USD",
+                  quantity: 1
+                }, {
+                  name: "The Alchemist",
+                  sku: "002",
+                  price: "1000",
+                  currency: "USD",
+                  quantity: 1
+                }]
+              },
+              amount: {
+                currency_code: 'USD',
+                value: this.product.price
+              },
+              description: this.product.description,
+            }
+          ]
+        });
+      },
+      onApprove: async (data,actions)=>{
+        const order = await actions.order.capture();
+        console.log(order);
+        this.paidFor = true;
+      },
+      onError: err => {
+        console.log(err);
+      }
+    })
+    .render(this.paypalElement.nativeElement);
+    this.loadProfile();
     this.getAllAuthor();
     this.getAllCate();
     this.getAllPub();
