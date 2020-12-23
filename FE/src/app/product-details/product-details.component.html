@@ -171,8 +171,8 @@
             </div>
 
             <div class="mid-2" *ngIf="books.price !== 0">
-              <p class="price1" *ngIf="books.discount === '0'">{{ books.price }} đ</p>
-              <p class="price" *ngIf="books.discount !== '0'">
+              <p class="price1" *ngIf="books.discount === 0">{{ books.price }} đ</p>
+              <p class="price" *ngIf="books.discount > 0">
                 <label>{{ books.price }} đ</label><em class="item_price">{{ books.discount }} đ</em>
               </p>
 

@@ -106,7 +106,11 @@ export class CheckoutComponent implements OnInit {
           product: item.product,
           total: item.total,
         });
-        this.total += item.product.price * item.total;
+        if(item.product.discount ==0){
+          this.total += item.product.price * item.total;
+        } else {
+          this.total += item.product.discount * item.total;
+        }
       }
       this.countItem = this.items.length;
     }

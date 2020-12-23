@@ -99,7 +99,12 @@ export class CartComponent implements OnInit {
           product: item.product,
           total: item.total,
         });
-        this.total += item.product.price * item.total;
+        if(item.product.discount ==0){
+          this.total += item.product.price * item.total;
+        } else {
+          this.total += item.product.discount * item.total;
+        }
+
       }
       this.countItem = this.items.length;
     }
@@ -170,18 +175,24 @@ export class CartComponent implements OnInit {
   }
   itemcheckout(){
     const totalPrice = this.total;
+    let price :number;
     console.log(totalPrice);
     let cart: any = JSON.parse(localStorage.getItem("cart"));
     let books: BookInCartCheckout[]=[];
     for (var i = 0; i < cart.length; i++) {
       let item: Item = JSON.parse(cart[i]);
+      if(item.product.discount == 0){
+        price = item.product.price;
+      } else {
+        price = item.product.discount;
+      }
       books.push({
         bookId: item.product._id,
         title: item.product.title,
         imageId: item.product.imageId,
         imageUrl: item.product.imageUrl,
         qty: item.total,
-        price: item.product.price,
+        price: price
       });
     }
     console.log(books);

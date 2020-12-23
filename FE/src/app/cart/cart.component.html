@@ -194,9 +194,13 @@
             </div>
           </div>
           <div class="col-2 pl-0 pt-1" >
-            <div class="price">
+            <div class="price" *ngIf="item.product.discount == 0">
               <p>{{ item.product.price }}<p>
             </div>
+            <div class="price" *ngIf="item.product.discount > 0">
+              <p >{{ item.product.discount }} <p><em style="text-decoration: line-through;">{{ item.product.price }}</em>
+            </div>
+
           </div>
           <div class="col-3 pl-0 mr-auto pt-1" >
             <div class="row">
@@ -228,8 +232,11 @@
 
           </div>
           <div class="col-auto pl-0  pt-1" >
-            <div class="price">
+            <div class="price" *ngIf="item.product.discount == 0">
               <p style="color: rgb(223, 112, 112); font-weight: 500;">{{ item.product.price * item.total }} đ<p>
+            </div>
+            <div class="price" *ngIf="item.product.discount > 0">
+              <p style="color: rgb(223, 112, 112); font-weight: 500;">{{ item.product.discount * item.total }} đ<p>
             </div>
           </div>
         </div>

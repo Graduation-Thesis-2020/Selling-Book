@@ -234,7 +234,7 @@
               <div class="col-m" >
                 <a routerLink="/details/{{ bk._id }}" class="offer-img">
                   <img src="{{ bk.imageUrl }}" class="img-responsive" alt="" />
-                  <div class="offer" *ngIf="bk.discount !== '0'">
+                  <div class="offer" *ngIf="bk.discount > 0">
                     <p><span>Sale Off</span></p>
                   </div>
                 </a>
@@ -245,8 +245,8 @@
                     </h6>
                   </div>
                   <div class="mid-2" *ngIf="bk.price !== 0">
-                    <p class="price1" *ngIf="bk.discount === '0'">{{ bk.price }} đ</p>
-                    <p class="price" *ngIf="bk.discount !== '0'">
+                    <p class="price1" *ngIf="bk.discount == 0">{{ bk.price }} đ</p>
+                    <p class="price" *ngIf="bk.discount !== 0">
                       <label>{{ bk.price }} đ</label
                       ><em class="item_price">{{ bk.discount }} đ</em>
                     </p>
@@ -294,7 +294,7 @@
         <div class="col-m">
           <a routerLink="/details/{{ book._id }}" class="offer-img">
             <img src="{{ book.imageUrl }}" class="img-responsive" alt="" />
-            <div class="offer" *ngIf="book.discount !== '0'">
+            <div class="offer" *ngIf="book.discount !== 0">
               <p><span>Sale</span></p>
             </div>
           </a>
@@ -305,8 +305,8 @@
               </h6>
             </div>
             <div class="mid-2" *ngIf="book.price !== 0">
-              <p class="price1" *ngIf="book.discount === '0'">{{ book.price }} đ</p>
-              <p class="price" *ngIf="book.discount !== '0'">
+              <p class="price1" *ngIf="book.discount === 0">{{ book.price }} đ</p>
+              <p class="price" *ngIf="book.discount > 0">
                 <label>{{ book.price }} đ</label
                 ><em class="item_price">{{ book.discount }} đ</em>
               </p>

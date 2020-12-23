@@ -12,7 +12,7 @@ export interface Books {
   categories: string[];
   reviews: string[];
   _id: string;
-  discount: string;
+  discount: number;
   image: File;
 }
 export interface Books1 {
@@ -79,7 +79,7 @@ export interface BookEdit {
   categories: CatFromBook[];
   reviews: string[];
   _id: string;
-  discount: string;
+  discount: number;
   image: File;
 }
 export interface BookNew {
@@ -96,7 +96,7 @@ export interface BookNew {
   categories: CatFromBook[];
   reviews: string[];
   _id: string;
-  discount: string;
+  discount: number;
   image: File;
 }
 export interface BookInCartCheckout {
