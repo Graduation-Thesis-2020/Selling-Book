@@ -50,8 +50,8 @@ const bookSchema = new Schema({
     ref: 'Review'
   }],
   discount: {
-    type: String,
-    default: '0'
+    type: Number,
+    default: 0
   }
 });
 
