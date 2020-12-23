@@ -3,7 +3,8 @@ const Book = require('./../models/book');
 const mongoose = require('mongoose');
 const book = require('./../models/book');
 const User = require('../models/user');
-
+const CommentChild = require('../models/commentChild');
+const commentChild = require('../models/commentChild');
 module.exports = {
 
   getListReview: async (req, res, next) => {
@@ -13,6 +14,9 @@ module.exports = {
         path: 'bookId', select: 'title', model: book
       }, {
         path: 'userId', select: 'name email imageUrl imageId', model: User
+      }, {
+        path: 'commentChilds', select: 'userId date comment likes', model: CommentChild,
+        populate: { path: 'userId', select: 'name imageUrl imageId', model: User }
       }]);
       return res.status(200).json(review);
     } catch (error) {
@@ -20,6 +24,24 @@ module.exports = {
     }
 
   },
+  getListCommentChild: async (req, res, next) => {
+
+    try {
+      let comment = await CommentChild.find().populate([{
+        path: 'bookId', select: 'title', model: book
+      }, {
+        path: 'userId', select: 'name email imageUrl imageId', model: User
+      }]);
+      if (comment != null && comment != '') {
+        return res.status(200).json(comment);
+      }
+      return res.status(404).json({ message: "Không có!!!" });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+
+  },
+
 
   createReview: (req, res, next) => {
     Book.findById(req.body.bookId, (err, book) => {
@@ -60,6 +82,24 @@ module.exports = {
     try {
       let datareview = await Review.findById(id).populate([{
         path: 'bookId', select: 'title', model: book
+      }, {
+        path: 'commentChilds', select: 'userId date comment likes', model: CommentChild,
+        populate: { path: 'userId', select: 'name imageUrl imageId', model: User }
+      }]);
+      return res.status(200).json(datareview);
+    } catch {
+      return res.status(404).json({
+        message: "No valid entry found for provided ID "
+      })
+    }
+  },
+  getCommentChildId: async (req, res, next) => {
+    let id = req.params.commentChildId;
+    try {
+      let datareview = await CommentChild.findById(id).populate([{
+        path: 'bookId', select: 'title', model: book
+      }, {
+        path: 'userId', select: 'name email imageUrl imageId', model: User
       }]);
       return res.status(200).json(datareview);
     } catch {
@@ -85,22 +125,32 @@ module.exports = {
     });
   },
 
-  deleteReview: (req, res, next) => {
+  deleteReview: async (req, res, next) => {
     const id = req.params.reviewId;
-    Review.remove({ _id: id })
-      .exec()
-      .then(result => {
-        res.status(200).json({
-          message: 'Review deleted',
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error: err
-        });
-      });
+    try {
+      const reviewdata = await Review.findById(id);
+      reviewdata.remove();
+      return res.status(200).json({ message: "Xóa thành công!!!" });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
 
-  }
+
+
+  },
+
+  deleteCommentChild: async (req, res, next) => {
+    const id = req.params.commentChildId;
+    try {
+      const reviewdata = await CommentChild.findById(id);
+      reviewdata.remove();
+      return res.status(200).json({ message: "Xóa thành công!!!" });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+
+
+
+}
 
 }

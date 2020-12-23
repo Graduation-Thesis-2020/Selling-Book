@@ -3,6 +3,7 @@ const User = require('../models/user');
 const Order = require('../models/order');
 const OrderDetail = require('../models/orderDetail');
 const Review = require('../models/review');
+const CommentChild = require('../models/commentChild');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
@@ -55,7 +56,7 @@ module.exports = {
         "payment_method": "paypal"
       },
       "redirect_urls": {
-        "return_url": "http://localhost:8080/users/orders/pay/success",
+        "return_url": "http://localhost:4200/setting/order",
         "cancel_url": "http://localhost:8080/users/orders/pay/cancel"
       },
       "transactions": [{
@@ -526,6 +527,29 @@ module.exports = {
     }
 
   },
+  postCreateCommentInComment: async (req, res, next) => {
+    let bookId = req.params.bookId;
+    let commentId = req.params.commentId;
+    try {
+      let commentdata = await Review.findById(commentId);
+      if (commentdata != null && commentdata != '') {
+        const commentChild = new CommentChild({
+          userId: req.user._id,
+          comment: req.body.comment,
+          bookId: bookId
+        });
+        commentChild.save();
+        commentdata.commentChilds.push(commentChild);
+        commentdata.save();
+
+        return res.status(201).json({ message: "Thành công!!!" });
+      }
+      return res.status(401).json({ message: "Lỗi rồi!!!" });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+
+  },
 
   updateOrder: async (req, res, next) => {
     const orderId = req.params.orderId;
@@ -625,6 +649,37 @@ module.exports = {
     } else {
       return res.status(400).json({ message: "Mã sai rồi !!!" });
     }
+  },
+
+  postLikeForComment: async (req, res, next) => {
+    let commentId = req.params.commentId;
+    let userId = req.user._id ;
+    try {
+      let commentData = await Review.findById(commentId);
+      let commentLike = commentData.likes;
+      let commentLikeLength, i;
+      if (commentLike != null && commentLike != '') {
+        commentLikeLength = commentLike.length;
+        for (i = 0; i < commentLikeLength; i++) {
+          if(userId === commentLike[i])
+          {
+            commentData.likes.remove(userId);
+          }else
+          {
+            commentData.likes.push(userId);
+          }
+        }
+        return res.status(200).json(commentLikeLength);
+      }
+
+      return res.status(401).json({ message: "Lỗi rồi!!!" });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+
+  },
+  postLikeForCommentChild: async (req, res, next) => {
+    let commentChildId = req.params.commentchildId;
   }
 
   // verifyEmail: async (req, res, next) => {

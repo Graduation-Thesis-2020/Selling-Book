@@ -1,13 +1,10 @@
 const mongoose = require('mongoose');
 
-// schema review
-const reviewSchema = mongoose.Schema({
+// schema comment Child
+const commentChildSchema = mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
-  },
-  review: {
-    type: Number, required: true
   },
   date: {
     type: Date, default: Date.now
@@ -19,14 +16,10 @@ const reviewSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Book'
   },
-  commentChilds: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'CommentChild'
-  }],
   likes: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }]
 });
 
-module.exports = mongoose.model('Review', reviewSchema);
+module.exports = mongoose.model('CommentChild', commentChildSchema);

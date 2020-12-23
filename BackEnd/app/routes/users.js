@@ -62,10 +62,17 @@ router.post('/register', User.postRegisterUserCustomer)
 
   // Coment A Book OF Customer
   .post('/:bookId/comment', passport.authenticate('jwt', { session: false }), User.postCreateAComment)
+  // Coment A Book OF Customer, Comment in Comment
+  .post('/:bookId/comment/:commentId', passport.authenticate('jwt', { session: false }), User.postCreateCommentInComment)
 
   // Forget PassWord
   .post('/forgetpassword', User.postForgetPassWord)
   .patch('/changepassword/private', User.patchForgetPassWord)
+
+  // Like for Comment
+  .post('/like/:commentId', passport.authenticate('jwt', { session: false }), User.postLikeForComment)
+  // Like for Comment Child
+  .post('/likecommentchild/:commentchildId', passport.authenticate('jwt', { session: false }), User.postLikeForCommentChild)
 
 
 // LOGOUT ACCOUNT
