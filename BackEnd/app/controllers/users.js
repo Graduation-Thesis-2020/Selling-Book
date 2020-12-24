@@ -400,6 +400,7 @@ module.exports = {
       phone: userInfo.phone,
       address: userInfo.address,
       name: userInfo.name,
+      isPaid: req.body.isPaid
     });
 
 
