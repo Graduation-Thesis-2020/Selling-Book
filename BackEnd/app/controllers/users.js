@@ -358,7 +358,7 @@ module.exports = {
           userdata.birthday = req.body.birthday;
           userdata.address = req.body.address;
 
-          userdata.save();
+          await userdata.save();
           return res.status(200).json(userdata);
         } else {
           userdata.phone = req.body.phone;
@@ -367,7 +367,7 @@ module.exports = {
           userdata.birthday = req.body.birthday;
           userdata.address = req.body.address;
 
-          userdata.save();
+          await userdata.save();
           return res.status(200).json(userdata);
         }
       }
@@ -406,7 +406,7 @@ module.exports = {
 
     // Create Order
     try {
-      order.save();
+      await order.save();
 
       // Luu order._id vao bang orderDetail va san pham da dc order
       const books = req.body.books;
@@ -421,7 +421,7 @@ module.exports = {
         books: books,
       });
       // OrderDetail.create(newOrderDetail);
-      newOrderDetail.save();
+      await newOrderDetail.save();
 
       order.orderDetailId = newOrderDetail._id;
 
@@ -517,9 +517,9 @@ module.exports = {
         comment: req.body.comment,
         bookId: bookId,
       });
-      review.save();
+      await review.save();
       bookdata.reviews.push(review);
-      bookdata.save();
+      await bookdata.save();
 
       return res.status(201).json(review);
 
@@ -539,9 +539,9 @@ module.exports = {
           comment: req.body.comment,
           bookId: bookId
         });
-        commentChild.save();
+        await commentChild.save();
         commentdata.commentChilds.push(commentChild);
-        commentdata.save();
+        await commentdata.save();
 
         return res.status(201).json({ message: "Thành công!!!" });
       }
@@ -557,7 +557,7 @@ module.exports = {
     try {
       const orderdata = await Order.findById(orderId);
       orderdata.status = req.body.status;
-      orderdata.save();
+      await orderdata.save();
       return res.status(200).json(orderdata);
     } catch (error) {
       return res.status(500).json(error);
@@ -607,7 +607,7 @@ module.exports = {
         return res.status(200).json({ message: "Đã đăng ký rồi!!!" });
       }
       userData.notification = true;
-      userData.save();
+      await userData.save();
       mailVefiryNotification(req.user.email);
       return res.status(200).json(userData);
     } catch (error) {
@@ -624,7 +624,7 @@ module.exports = {
         let codeVerify = generalRandomCode(8);
         forgetPassWord(email, checkEmail.name, codeVerify);
         checkEmail.codeResetPassword = codeVerify;
-        checkEmail.save();
+        await checkEmail.save();
         return res.status(200).json({ message: "Vui lòng kiểm tra Email" });
       }
       return res.status(404).json({ message: "Email chưa được đăng ký, vui lòng đăng ký tài khoản!!!" });
@@ -642,7 +642,7 @@ module.exports = {
       if (password === confirmPassword) {
         checkEmail.password = password;
         checkEmail.codeResetPassword = null;
-        checkEmail.save();
+        await checkEmail.save();
       } else {
         return res.status(400).json({ message: "Sai mật khẩu!!!" })
       }
@@ -654,26 +654,29 @@ module.exports = {
 
   postLikeForComment: async (req, res, next) => {
     let commentId = req.params.commentId;
-    let userId = req.user._id ;
+    let userId = req.user._id;
     try {
       let commentData = await Review.findById(commentId);
+      //return res.status(200).json(commentData.likes);
       let commentLike = commentData.likes;
-      let commentLikeLength, i;
+      let commentLikeLength = 0, i;
       if (commentLike != null && commentLike != '') {
         commentLikeLength = commentLike.length;
         for (i = 0; i < commentLikeLength; i++) {
-          if(userId === commentLike[i])
-          {
+          if (userId.toString() == commentLike[i]) {
             commentData.likes.remove(userId);
-          }else
-          {
+            await commentData.save();
+          } else {
             commentData.likes.push(userId);
+            await commentData.save();
           }
         }
-        return res.status(200).json(commentLikeLength);
+        return res.status(200).json(commentData.likes.length);
+      } else {
+        commentData.likes.push(userId);
+        await commentData.save();
+        return res.status(200).json(commentData.likes.length);
       }
-
-      return res.status(401).json({ message: "Lỗi rồi!!!" });
     } catch (error) {
       return res.status(500).json(error);
     }
@@ -681,6 +684,32 @@ module.exports = {
   },
   postLikeForCommentChild: async (req, res, next) => {
     let commentChildId = req.params.commentchildId;
+    let userId = req.user._id;
+    try {
+      let commentChildData = await CommentChild.findById(commentChildId);
+      let commentLike = commentChildData.likes;
+      let commentLikeLength = 0, i;
+      if (commentLike != null && commentLike != '') {
+        commentLikeLength = commentLike.length;
+        for (i = 0; i < commentLikeLength; i++) {
+          if (userId.toString() == commentLike[i]) {
+            commentChildData.likes.remove(userId);
+            await commentChildData.save();
+          } else {
+            commentChildData.likes.push(userId);
+            await commentChildData.save();
+          }
+        }
+        return res.status(200).json(commentChildData.likes.length);
+      } else {
+        commentChildData.likes.push(userId);
+        await commentChildData.save();
+        return res.status(200).json(commentChildData.likes.length);
+      }
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+
   }
 
   // verifyEmail: async (req, res, next) => {

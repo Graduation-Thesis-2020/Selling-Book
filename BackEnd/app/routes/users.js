@@ -70,9 +70,9 @@ router.post('/register', User.postRegisterUserCustomer)
   .patch('/changepassword/private', User.patchForgetPassWord)
 
   // Like for Comment
-  .post('/like/:commentId', passport.authenticate('jwt', { session: false }), User.postLikeForComment)
+  .get('/like/:commentId', passport.authenticate('jwt', { session: false }), User.postLikeForComment)
   // Like for Comment Child
-  .post('/likecommentchild/:commentchildId', passport.authenticate('jwt', { session: false }), User.postLikeForCommentChild)
+  .get('/likecommentchild/:commentchildId', passport.authenticate('jwt', { session: false }), User.postLikeForCommentChild)
 
 
 // LOGOUT ACCOUNT

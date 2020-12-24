@@ -232,10 +232,10 @@ module.exports = {
         path: 'categories', select: 'name', model: category
       }, {
         path: 'reviews', select: 'userId review date comment commentChilds likes ', model: review,
-        populate: { path: 'commentChilds', select: 'userId date comment likes', model: CommmentChild, populate: { path: 'userId', select: 'name imageUrl imageId', model: User }}
+        populate: { path: 'commentChilds', select: 'userId date comment likes', model: CommmentChild, populate: { path: 'userId', select: 'name imageUrl imageId', model: User } }
       }, {
         path: 'reviews', select: 'userId review date comment commentChilds likes ', model: review, populate: { path: 'userId', select: 'name imageUrl imageId', model: User }
-      },{
+      }, {
         path: 'author', select: 'name firstname lastname', model: author
       }, {
         path: 'publisher', select: 'name', model: publisher
@@ -310,7 +310,7 @@ module.exports = {
     // xóa review trong model review
     const review = await Comment.findOne({ _id: reviewId });
     await review.remove();
-    //   await review.save();
+    await review.save();
 
     return res.status(200).json({
       message: 'Ok được rồi!!!'
@@ -367,6 +367,7 @@ module.exports = {
             for (i = 0; i < comLength; i++) {
               comdata = await Comment.findOne(comArray[i]);
               await comdata.remove();
+              await comdata.save();
             }
           }
         }
