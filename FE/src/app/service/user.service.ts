@@ -125,8 +125,13 @@ export class UserService {
   //   };
   //   return this.http.delete(`${this.URL}/${id}/deleteorder`, httpOptions);
   // }
-  UpdateStatus(id,status: ChangeStatus){
-    return this.http.patch(`${this.URL}/${id}`, status).pipe();
+  UpdateStatus(token,id,status: ChangeStatus){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    return this.http.patch(`${this.URL}/${id}`, status, httpOptions).pipe();
   }
   Notification(token:string): Observable<LoginReturn>{
     const httpOptions = {

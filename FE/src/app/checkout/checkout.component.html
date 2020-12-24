@@ -257,9 +257,40 @@
       </div>
     </div>
 
-    <div class="checkout">
-      <button type="button" class="btn btn-success" style="font-size: 20px;" data-toggle="modal" data-target="#ModalCheckout">Đặt hàng</button>
+    <div class="descript">
+      <p class="title">Phương thức thanh toán</p>
+      <div class="table-detail">
+        <div class="form-group row">
+          <!-- <div class="col-sm-auto col-form-label">
+            <p  class="text-info" style="font-weight: 500;">Thanh toán khi nhận hàng</p>
+            <p  class=" text-warning" style="font-weight: 500;">Thanh toán Paypal</p>
+          </div> -->
+          <label for="input1" class="col-sm-3 col-form-label  text-info" style="font-weight: 500; font-size: 18px;">Thanh toán khi nhận hàng</label>
+          <div class="col-sm-8">
+            <div >
+              <button type="button" class="btn btn-info pt-1 pb-1" style="font-size: 16px;width:200px" data-toggle="modal" data-target="#ModalCheckout">Xác nhận</button>
+            </div>
+            <div >
+              <button type="button" class="btn btn-info pt-1 pb-1" style="font-size: 16px;width:200px" (click)="loadCartCheckout()">Xác nhận</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="input1" class="col-sm-3 col-form-label  text-warning" style="font-weight: 500; font-size: 18px">Thanh toán PayPal</label>
+          <div class="col-sm-8">
+            <div style="width:200px" #paypal >
+            </div>
+          </div>
+        </div>
+
+
+      </div>
     </div>
+
+    <!-- <div class="checkout">
+      <button type="button" class="btn btn-success" style="font-size: 20px;" data-toggle="modal" data-target="#ModalCheckout">Đặt hàng</button>
+    </div> -->
 
 
     <div class="pay">
@@ -301,6 +332,3 @@
 </div>
 
 
-
-<div #paypal>
-</div>

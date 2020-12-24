@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../service/cart.service';
-import { Cart, Item, ItemCheckout, Mess } from '../models/cart';
+import { Cart, Item, ItemCheckout, ItemCheckoutWithPay, Mess } from '../models/cart';
 import { BooksService } from 'src/app/service/book.service';
 import { AuthorService } from '../service/author.service';
 import { PublisherService } from '../service/publisher.service';
@@ -12,6 +12,8 @@ import { Cate } from '../models/cate';
 import { UserService } from '../service/user.service';
 import { Profile } from './../models/user';
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
+import { ItemPaypal } from './../models/cart';
+import { BookInCartCheckout } from '../models/book';
 declare var paypal;
 @Component({
   selector: 'app-checkout',
@@ -22,7 +24,7 @@ export class CheckoutComponent implements OnInit {
   @ViewChild('paypal', {static: true}) paypalElement: ElementRef;
 
   product = {
-    description: 'abc, xyz1',
+    description: 'The Book Store',
     price: 100,
     quantity: 2
   }
@@ -30,6 +32,8 @@ export class CheckoutComponent implements OnInit {
 
   //paypal
   items: Item[] = [];
+  itemsPaypal: ItemPaypal[]=[];
+  totalUSD: number;
   total: number;
   countItem: number;
   carts: Cart;
@@ -41,7 +45,8 @@ export class CheckoutComponent implements OnInit {
   order: any;
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-
+  cartCheckout: ItemCheckout = JSON.parse(localStorage.getItem("cartCheckout"));
+  isPaid = false;
   constructor(
     private route: ActivatedRoute,
     private BooksService: BooksService,
@@ -58,27 +63,21 @@ export class CheckoutComponent implements OnInit {
     paypal.Buttons({
       createOrder: (data,actions) => {
         return actions.order.create({
+          intent: 'CAPTURE',
           purchase_units: [
             {
-              item_list: {
-                items: [{
-                  name: "The God Father 2020",
-                  sku: "001",
-                  price: "1000",
-                  currency: "USD",
-                  quantity: 1
-                }, {
-                  name: "The Alchemist",
-                  sku: "002",
-                  price: "1000",
-                  currency: "USD",
-                  quantity: 1
-                }]
-              },
+
+              items: this.itemsPaypal,
               amount: {
                 currency_code: 'USD',
-                value: this.product.price
-              },
+                value: this.totalUSD,
+                breakdown: {
+                    item_total: {
+                        currency_code: 'USD',
+                        value: this.totalUSD
+                    }
+                }
+            },
               description: this.product.description,
             }
           ]
@@ -87,6 +86,7 @@ export class CheckoutComponent implements OnInit {
       onApprove: async (data,actions)=>{
         const order = await actions.order.capture();
         console.log(order);
+        this.checkoutPaypal();
         this.paidFor = true;
       },
       onError: err => {
@@ -94,6 +94,7 @@ export class CheckoutComponent implements OnInit {
       }
     })
     .render(this.paypalElement.nativeElement);
+    this.loadCartCheckout();
     this.loadProfile();
     this.getAllAuthor();
     this.getAllCate();
@@ -168,6 +169,34 @@ export class CheckoutComponent implements OnInit {
     }
 
   }
+  loadCartCheckout() {
+    let totalUSD: number = 0;
+    const cartCheckout: ItemCheckout = JSON.parse(localStorage.getItem("cartCheckout"));
+    const itemCartCheckout = cartCheckout.books;
+    if(cartCheckout){
+      for (var i = 0; i < cartCheckout.books.length; i++) {
+        let itemPaypal: BookInCartCheckout = itemCartCheckout[i];
+        this.itemsPaypal.push({
+          name: itemPaypal.title,
+          quantity: itemPaypal.qty,
+          unit_amount:{
+            currency_code: 'USD',
+            value: Math.round((itemPaypal.price/23000) * 100.0) / 100.0
+          }
+        });
+        totalUSD += (Math.round((itemPaypal.price/23000) * 100.0) / 100.0) * itemPaypal.qty;
+      }
+      console.log(Math.round((this.total/23000) * 100.0) / 100.0);
+
+      console.log(this.itemsPaypal);
+
+    }
+    else{
+      this.countItem = 0;
+    }
+    this.totalUSD = totalUSD
+
+  }
 
   remove(id: string) {
     let cart: any = JSON.parse(localStorage.getItem("cart"));
@@ -223,10 +252,13 @@ export class CheckoutComponent implements OnInit {
   checkout(){
     const token = localStorage.getItem("token");
     let cartCheckout: ItemCheckout = JSON.parse(localStorage.getItem("cartCheckout"));
-    console.log(token)
-    console.log(cartCheckout)
-    console.log(this.profile)
-    this.UserService.CreateOrder(cartCheckout,token).subscribe(
+    console.log(token);
+    console.log(cartCheckout);
+    const isPaid = false;
+    const books = cartCheckout.books;
+    const totalPrice = cartCheckout.totalPrice;
+    const cartCheckoutWithPay: ItemCheckoutWithPay = {books, totalPrice, isPaid} as ItemCheckoutWithPay;
+    this.UserService.CreateOrder(cartCheckoutWithPay,token).subscribe(
       order => {
         this.order = order;
         console.log(this.order);
@@ -243,4 +275,39 @@ export class CheckoutComponent implements OnInit {
       });
 
   };
+  checkoutPaypal(){
+    const token = localStorage.getItem("token");
+    let cartCheckout: ItemCheckout = JSON.parse(localStorage.getItem("cartCheckout"));
+    console.log(token);
+    console.log(cartCheckout);
+    const isPaid = true;
+    const books = cartCheckout.books;
+    const totalPrice = cartCheckout.totalPrice;
+    const cartCheckoutWithPay: ItemCheckoutWithPay = {books, totalPrice, isPaid} as ItemCheckoutWithPay;
+    this.UserService.CreateOrder(cartCheckoutWithPay,token).subscribe(
+      order => {
+        this.order = order;
+        console.log(this.order);
+        localStorage.removeItem('cart');
+        localStorage.removeItem('cartCheckout');
+        this._snackBar.open("Đặt hàng thành công","Đóng", {
+          panelClass: "snackbarConfig",
+          duration: 3000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+        this.router1.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router1.navigate(['/setting/order']);  });
+      });
+
+  };
+
+  test(){
+    let cartCheckout: ItemCheckout = JSON.parse(localStorage.getItem("cartCheckout"));
+    let isPaid = this.isPaid;
+    const books = cartCheckout.books;
+    const totalPrice = cartCheckout.totalPrice;
+    const cartCheckoutWithPay: ItemCheckoutWithPay = {books, totalPrice, isPaid} as ItemCheckoutWithPay;
+    console.log(cartCheckoutWithPay);
+  }
 }

@@ -86,8 +86,9 @@ export class UserOrderComponent implements OnInit {
   }
   Del(){
     const status : string = 'Hủy';
+    const token = localStorage.getItem("token");
     const Status: ChangeStatus = { status } as ChangeStatus;
-    this.UserService.UpdateStatus(this.id,Status).subscribe(del => {
+    this.UserService.UpdateStatus(token,this.id,Status).subscribe(del => {
       this.od = del;
       this._snackBar.open("Huỷ thành công!","Đóng", {
         panelClass: "snackbarConfig1",

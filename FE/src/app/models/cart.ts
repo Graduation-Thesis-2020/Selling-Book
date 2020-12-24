@@ -51,3 +51,17 @@ export interface ItemCheckout {
   books: BookInCartCheckout[];
   totalPrice: number;
 }
+export interface ItemPaypal {
+  name: string;
+  quantity: number;
+  unit_amount:{
+    currency_code: 'USD';
+    value: number
+  }
+}
+export interface ItemCheckoutWithPay {
+  books: BookInCartCheckout[];
+  totalPrice: number;
+  isPaid: boolean;
+}
+
