@@ -198,6 +198,7 @@ module.exports = {
     try {
       const orderdata = await Order.findById(orderId);
       orderdata.status = req.body.status;
+      orderdata.isPaid = req.body.isPaid ;
       orderdata.save();
       return res.status(200).json(orderdata);
     } catch (error) {

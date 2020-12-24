@@ -231,15 +231,16 @@ module.exports = {
       let book = await Book.findOne({ _id: id }).populate([{
         path: 'categories', select: 'name', model: category
       }, {
-        path: 'reviews', select: 'userId review date comment commentChilds likes ', model: review, 
-        populate: { path: 'userId', select: 'name imageUrl imageId', model: User },
-        populate: { path: 'commentChilds', select: 'userId date comment likes', model: CommmentChild ,  populate: { path: 'userId', select: 'name imageUrl imageId', model: User }}
+        path: 'reviews', select: 'userId review date comment commentChilds likes ', model: review,
+        populate: { path: 'commentChilds', select: 'userId date comment likes', model: CommmentChild, populate: { path: 'userId', select: 'name imageUrl imageId', model: User }}
       }, {
+        path: 'reviews', select: 'userId review date comment commentChilds likes ', model: review, populate: { path: 'userId', select: 'name imageUrl imageId', model: User }
+      },{
         path: 'author', select: 'name firstname lastname', model: author
       }, {
         path: 'publisher', select: 'name', model: publisher
       }]);
-     
+
       if (!book) {
         return res.status(404).json({
           message: " Không tìm thấy sách!!!"
