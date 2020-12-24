@@ -6,7 +6,7 @@ import { Review } from '../models/review';
 import { Customer, LoginAdmin, SendCode, User } from '../models/user';
 import { Login, LoginReturn, Profile, FormChangePassword } from './../models/user';
 import { map } from 'rxjs/operators';
-import { AllOrder, ChangeStatus } from '../models/order';
+import { AllOrder, ChangeStatus, NotificationEmail } from '../models/order';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -133,13 +133,13 @@ export class UserService {
     };
     return this.http.patch(`${this.URL}/${id}`, status, httpOptions).pipe();
   }
-  Notification(token:string): Observable<LoginReturn>{
+  Notification(notifi: NotificationEmail,token:string): Observable<LoginReturn>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${token}`
       })
     };
-    return this.http.patch<LoginReturn>(`${this.URL}/notification`, httpOptions).pipe();
+    return this.http.patch<LoginReturn>(`${this.URL}/notification`,notifi, httpOptions).pipe();
   }
   SendCode(code: SendCode):  Observable<any>{
     return this.http.post(`${this.URL}/forgetpassword`,code).pipe();

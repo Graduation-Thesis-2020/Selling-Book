@@ -10,6 +10,7 @@ export interface ReviewDetail {
   comment: string;
   bookId: ReviewFromBook;
   date: Date;
+  commentChilds: ReviewChildDetail[];
 }
 export interface ReviewFromBook {
   _id: string;
@@ -30,3 +31,17 @@ export interface GetUserForReview {
 export interface ReviewBook {
   reviews: ReviewDetail[];
 }
+export interface ReviewChildDetail {
+  _id: string
+  userId: GetUserForReview;
+  comment: string;
+  date: Date;
+  like: likeID ;
+}
+export interface likeID {
+  id: string;
+}
+export interface CommentChild {
+  comment: string;
+}
+

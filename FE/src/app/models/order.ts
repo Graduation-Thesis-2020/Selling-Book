@@ -45,3 +45,6 @@ export interface AllOrder {
 export interface ChangeStatus {
   status: string;
 }
+export interface NotificationEmail {
+  notification: boolean;
+}

@@ -16,6 +16,7 @@ import {NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 import { BookNew } from './../models/book';
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 import { FormControl, Validators } from '@angular/forms';
+import { ReviewChildDetail, CommentChild } from './../models/review';
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
@@ -30,7 +31,8 @@ export class ProductDetailsComponent implements OnInit {
   idrv: string;
   reviews: Review[];
   reviewsDetail: ReviewBook;
-  detail: ReviewDetail[];
+  detail: ReviewDetail[] =[];
+  detailChild: ReviewChildDetail[];
   addreivew: Review;
   author: Author;
   cates: Cate[];
@@ -50,6 +52,11 @@ export class ProductDetailsComponent implements OnInit {
   current = localStorage.getItem("currentUser");
   ctrl = new FormControl(null, Validators.required);
   config: any;
+  numLike = 10;
+  showChild = false;
+  idChild: string = null;
+  showAllChild = false;
+  idAllChild = null;
   constructor(
     private route: ActivatedRoute,
     private BooksService: BooksService,
@@ -113,6 +120,14 @@ export class ProductDetailsComponent implements OnInit {
       this.reviewsDetail = res;
       this.detail = this.reviewsDetail.reviews;
       this.detail.reverse();
+      console.log(this.detail);
+
+      // this.detailChild= this.detail.commentChilds;
+      // for(var i =0; i<this.detail.length; i++){
+      //   this.detailChild= this.detail[i].commentChilds;
+      // }
+      // this.detailChild.reverse();
+      // console.log("detail Child: ---------" +this.detailChild)
     });
 
   }
@@ -256,7 +271,21 @@ export class ProductDetailsComponent implements OnInit {
     }
 
   }
-
-
-
+  showCmtChild(id){
+    console.log(id)
+    this.idChild = id;
+    this.showChild = true;
+  }
+  showAllofParent(id){
+    this.showAllChild = true;
+    this.idAllChild = id;
+  }
+  cmtChild(comment){
+    const token = localStorage.getItem('token');
+    const commentChild: CommentChild = {comment} as CommentChild;
+    const id = this.route.snapshot.paramMap.get('id');
+    this.ReviewService.CommentChild(commentChild, id ,token, this.idChild).subscribe(()=> {
+      this.getReviewDetailfromIDBook();
+    });
+  }
 }

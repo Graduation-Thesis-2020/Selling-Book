@@ -12,6 +12,7 @@ import { Books } from '../models/book';
 import { LoginReturn } from './../models/user';
 import { UserService } from './../service/user.service';
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
+import { NotificationEmail } from '../models/order';
 
 @Component({
   selector: 'app-default-layout-user',
@@ -83,10 +84,12 @@ export class DefaultLayoutUserComponent implements OnInit {
       this.notification = user.notification;
     }
     noti(){
-      const token = (localStorage.getItem("token"));
-      this.userService.Notification(token).subscribe(res => {
+      const notification: boolean = true;
+      const notifi : NotificationEmail = {notification} as NotificationEmail;
+      const token = localStorage.getItem('token');
+      this.userService.Notification(notifi, token).subscribe(res => {
         this.userFromNot = res;
-        this.notification = this.userFromNot.notification;
+        this.notification = true;
         this._snackBar.open("Đăng kí thành công","Đóng", {
           panelClass: "snackbarConfig1",
           duration: 3000,

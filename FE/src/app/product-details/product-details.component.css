@@ -1,10 +1,26 @@
+.btnChild{
+  width: 50px;
+}
 .img-reponsive img{
   border-radius: 50%;
   width: 40px;
   height: 40px;
 }
+.img-reponsiveChild img{
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
 .bg-review{
   background-color: whitesmoke;
+  border-radius: 10px;
+  border: 1px solid rgb(209, 204, 204);
+}
+.bg-reviewChild{
+  background-color: whitesmoke;
+  border-radius: 10px;
+}
+.bg-reviewChild1{
   border-radius: 10px;
 }
 .nologin_noreview{

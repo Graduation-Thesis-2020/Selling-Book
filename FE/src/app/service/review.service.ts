@@ -5,7 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Books, Books1 } from '../models/book';
 import { RootObj, RootObj2 } from '../models/root-obj';
 import { ApiService } from './api.service';
-import { Rating, Review, ReviewBook, ReviewDetail } from '../models/review';
+import { CommentChild, Rating, Review, ReviewBook, ReviewDetail } from '../models/review';
 
 
 
@@ -62,6 +62,15 @@ export class ReviewsService {
   getRatingBook(id: string): Observable<Rating> {
     const url = `${this.BookURL}/${id}/averageReview`;
     return this.http.get<Rating>(url).pipe();
+  }
+  CommentChild(Cmt: CommentChild, id: string, token: string, idReview: string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    const url = `${this.UserURL}/${id}/comment/${idReview}`;
+    return this.http.post(url, Cmt, httpOptions).pipe();
   }
 }
 

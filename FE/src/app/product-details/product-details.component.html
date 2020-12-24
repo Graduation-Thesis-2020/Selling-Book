@@ -293,7 +293,122 @@
               </p>
               <p>{{each.comment}}</p>
             </div>
-            <div class="pl-2" style="font-size: 14px; color: darkgray;">Ngày đăng: {{each.date | date: 'dd/MM/yyyy'}}</div>
+            <div class="pl-2" style="font-size: 14px; color: darkgray;">
+              <span  style="font-weight: 500; color: cornflowerblue;" class="pr-2">
+                <a style="font-weight: 500; color: cornflowerblue;" routerLink="">  <i class="fas fa-thumbs-up"></i>Thích</a>
+              <span> {{numLike}}</span>
+              </span>
+              <a [routerLink]="" style="font-weight: 500; color: cornflowerblue;" class="pl-2 pr-2" (click)="showCmtChild(each._id)">
+              <i class="fas fa-comment-dots"></i>Trả lời
+              </a>
+              Ngày đăng: {{each.date | date: 'dd/MM/yyyy'}}
+            </div>
+
+            <!-- CmtChild -->
+
+
+              <div class="row pt-4 pr-3"  *ngFor="let child of each.commentChilds">
+
+                <div class="col-auto">
+                  <div class="img-reponsiveChild" *ngIf="!child.userId.imageUrl">
+                    <img src="https://www.freeiconspng.com/uploads/customers-icon-3.png" alt="">
+                  </div>
+                  <div class="img-reponsive" *ngIf="child.userId.imageUrl">
+                    <img src="{{child.userId.imageUrl}}" alt="">
+                  </div>
+                </div>
+                <div class="col pl-0">
+                  <div class="bg-reviewChild p-2">
+                    <p style="font-weight: 600; padding-bottom: 10px;"> {{child.userId.name}}
+
+                    </p>
+                    <p>{{child.comment}}</p>
+                  </div>
+                  <div  style="font-size: 14px; color: darkgray;">
+                    <span  style="font-weight: 500; color: cornflowerblue;" class="pr-2">
+                      <a style="font-weight: 500; color: cornflowerblue;" routerLink="">  <i class="fas fa-thumbs-up"></i>Thích</a>
+                    <span> {{numLike}}</span>
+                    </span>
+                    <a [routerLink]="" style="font-weight: 500; color: cornflowerblue;" class="pl-2 pr-2" (click)="showCmtChild(each._id)">
+                    <i class="fas fa-comment-dots"></i>Trả lời
+                    </a>
+                    Ngày đăng: {{child.date | date: 'dd/MM/yyyy'}}
+                  </div>
+                </div>
+
+
+
+
+            </div>
+
+
+            <!-- <div *ngIf="each.commentChilds.length==1">
+              <div class="row pt-4 pr-3"  *ngFor="let child of each.commentChilds">
+
+                <div class="col-auto">
+                  <div class="img-reponsiveChild" *ngIf="!child.userId.imageUrl">
+                    <img src="https://www.freeiconspng.com/uploads/customers-icon-3.png" alt="">
+                  </div>
+                  <div class="img-reponsive" *ngIf="child.userId.imageUrl">
+                    <img src="{{child.userId.imageUrl}}" alt="">
+                  </div>
+                </div>
+                <div class="col pl-0">
+                  <div class="bg-reviewChild p-2">
+                    <p style="font-weight: 600; padding-bottom: 10px;"> {{child.userId.name}}
+
+                    </p>
+                    <p>{{child.comment}}</p>
+                  </div>
+                  <div  style="font-size: 14px; color: darkgray;">
+                    <span  style="font-weight: 500; color: cornflowerblue;" class="pr-2">
+                      <a style="font-weight: 500; color: cornflowerblue;" routerLink="">  <i class="fas fa-thumbs-up"></i>Thích</a>
+                    <span> {{numLike}}</span>
+                    </span>
+                    <a [routerLink]="" style="font-weight: 500; color: cornflowerblue;" class="pl-2 pr-2" (click)="showCmtChild(each._id)">
+                    <i class="fas fa-comment-dots"></i>Trả lời
+                    </a>
+                    Ngày đăng: {{child.date | date: 'dd/MM/yyyy'}}
+                  </div>
+                </div>
+
+
+
+
+            </div>
+            </div> -->
+
+
+
+            <!-- RepCmtChil -->
+
+            <div class="row pt-2 pr-3" *ngIf="showChild && each._id==idChild">
+              <div class="col-auto">
+                <div class="img-reponsiveChild" *ngIf="!each.userId.imageUrl">
+                  <img src="https://www.freeiconspng.com/uploads/customers-icon-3.png" alt="">
+                </div>
+                <div class="img-reponsive" *ngIf="each.userId.imageUrl">
+                  <img src="{{each.userId.imageUrl}}" alt="">
+                </div>
+              </div>
+
+              <div class="col bg-reviewChild1 pl-0 pr-0" >
+                <div class="input-group" >
+                  <textarea class="form-control" aria-label="With textarea" #cmtchild></textarea>
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary btnChild" type="button" (click)="cmtChild(cmtchild.value)"><i class="fas fa-paper-plane"></i></button>
+                  </div>
+                </div>
+                <!-- <div class="input-group mb-3">
+                  <input  style="border-right: none;height: auto;" type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                  <div class="input-group-append">
+                    <span style="background-color: transparent; border-left: none;" class="input-group-text" id="basic-addon2"><i class="fas fa-paper-plane"></i></span>
+                  </div>
+                </div> -->
+              </div>
+
+            </div>
+
           </div>
 
         </div>
