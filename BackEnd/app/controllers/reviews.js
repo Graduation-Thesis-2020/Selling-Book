@@ -167,7 +167,11 @@ module.exports = {
       if (books != null && books != '') {
         for (i = 0; i < books.length; i++) {
           //  bookIdArray.push(books[i]._id);
-          let commentdata = await Review.find({ bookId: books[i]._id });
+          let commentdata = await Review.find({ bookId: books[i]._id }).populate([{
+            path: 'bookId', select: 'title', model: book
+          }, {
+            path: 'userId', select: 'name email imageUrl imageId', model: User
+          }]);
           commentArray.push(commentdata);
         }
       } else {
