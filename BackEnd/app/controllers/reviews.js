@@ -161,18 +161,20 @@ module.exports = {
     try {
 
       let books = await Book.find(searchOptions);
+   //   return res.status(200).json(books.length);
       let i;
-      //   let bookIdArray = [];
       let commentArray = [];
       if (books != null && books != '') {
         for (i = 0; i < books.length; i++) {
-          //  bookIdArray.push(books[i]._id);
-          let commentdata = await Review.find({ bookId: books[i]._id }).populate([{
+
+          let commentdata = await Review.findOne({ bookId: books[i]._id }).populate([{
             path: 'bookId', select: 'title', model: book
           }, {
             path: 'userId', select: 'name email imageUrl imageId', model: User
           }]);
-          commentArray.push(commentdata);
+          if (commentdata != null && commentdata != '') {
+            commentArray.push(commentdata);
+          }
         }
       } else {
         return res.status(404).json({ message: "Không tìm thấy!!!" })
