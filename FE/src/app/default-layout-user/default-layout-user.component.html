@@ -71,9 +71,10 @@
         </ul>
       </div>
       <div class="col-md-3 footer-grid">
-        <h3>My Account</h3>
+        <h3>Tài Khoản</h3>
         <ul>
-          <li><a routerLink="/login">Đăng nhập</a></li>
+          <li><a routerLink="/login" *ngIf="role!==0">Đăng nhập</a></li>
+          <li><a routerLink="/setting" *ngIf="role == 0">Trang cá nhân</a></li>
         </ul>
       </div>
       <div class="clearfix"></div>
@@ -103,19 +104,19 @@
       <div class="address">
         <div class="row justify-content-start">
           <div class="col-md-4 fo-grid1">
-            <p><i class="fa fa-home" aria-hidden="true"></i>Thủ Đức</p>
+            <p><i class="fa fa-home" aria-hidden="true"></i>Võ Văn Ngăn,Thủ Đức</p>
           </div>
           <div class="col-md-4 fo-grid1">
             <p>
-              <i class="fa fa-phone" aria-hidden="true"></i>+1234 758 839 ,
-              +1273 748 730
+              <i class="fa fa-phone" aria-hidden="true"></i>+033 767 9090,
+              +0399 677 744
             </p>
           </div>
           <div class="col-md-4 fo-grid1">
             <p>
               <a href="https://angular.io/"
                 ><i class="fa fa-envelope-o" aria-hidden="true"></i
-                >angular@gmail.com</a
+                >quangtan14011998@gmail.com</a
               >
             </p>
           </div>
