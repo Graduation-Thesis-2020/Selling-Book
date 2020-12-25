@@ -13,6 +13,8 @@ export class AdminReviewComponent implements OnInit {
   review: Review;
   config: any;
   id: string;
+  mess: any;
+  messError: string;
   constructor(private ReviewsService: ReviewsService) {
     this.config = {
     itemsPerPage: 15,
@@ -46,5 +48,20 @@ export class AdminReviewComponent implements OnInit {
     }
   shareId(id){
     this.id= id;
+  }
+  search(t: string){
+    this.ReviewsService.searchReviewAdmin(t).subscribe(res => {this.reviews = res; console.log(this.reviews);
+    },
+      error => {
+        this.mess = error;
+        console.log(this.mess);
+        this.messError = this.mess.error.message;
+        this.reviews.length = 0;
+    });
+    this.messError = null;
+  }
+  reload(){
+    this.messError = null;
+    this.getAllReviews();
   }
 }

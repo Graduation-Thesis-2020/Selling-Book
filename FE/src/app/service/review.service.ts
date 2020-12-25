@@ -81,5 +81,9 @@ export class ReviewsService {
     const url = `${this.UserURL}/like/${id}`;
     return this.http.get(url, httpOptions).pipe();
   }
+  searchReviewAdmin(id: string): Observable<ReviewDetail[]> {
+    const url = `${this.URL}/CommentByBook/search?title=${id}`;
+    return this.http.get<ReviewDetail[]>(url).pipe();
+  }
 }
 

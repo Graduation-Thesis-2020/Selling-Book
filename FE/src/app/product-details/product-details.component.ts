@@ -71,7 +71,7 @@ export class ProductDetailsComponent implements OnInit {
         };}
 
    ngOnInit() {
-     console.log("------------"+this.current._id);
+
 
      this.getBookfromRoute();
      this.getReviewfromIDBook();
