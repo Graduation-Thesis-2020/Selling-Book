@@ -11,6 +11,7 @@ export interface ReviewDetail {
   bookId: ReviewFromBook;
   date: Date;
   commentChilds: ReviewChildDetail[];
+  likes: likeID;
 }
 export interface ReviewFromBook {
   _id: string;
@@ -36,7 +37,7 @@ export interface ReviewChildDetail {
   userId: GetUserForReview;
   comment: string;
   date: Date;
-  like: likeID ;
+  likes: likeID ;
 }
 export interface likeID {
   id: string;

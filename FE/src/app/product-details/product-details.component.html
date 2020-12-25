@@ -295,8 +295,8 @@
             </div>
             <div class="pl-2" style="font-size: 14px; color: darkgray;">
               <span  style="font-weight: 500; color: cornflowerblue;" class="pr-2">
-                <a style="font-weight: 500; color: cornflowerblue;" routerLink="">  <i class="fas fa-thumbs-up"></i>Thích</a>
-              <span> {{numLike}}</span>
+                <a style="font-weight: 500; color: cornflowerblue;" [routerLink]=""  (click)="LikeCmtParent(each._id)">
+                  <i class="fas fa-thumbs-up"></i> Thích</a> <span> {{each.likes.length}}</span>
               </span>
               <a [routerLink]="" style="font-weight: 500; color: cornflowerblue;" class="pl-2 pr-2" (click)="showCmtChild(each._id)">
               <i class="fas fa-comment-dots"></i>Trả lời
@@ -326,7 +326,7 @@
                   </div>
                   <div  style="font-size: 14px; color: darkgray;">
                     <span  style="font-weight: 500; color: cornflowerblue;" class="pr-2">
-                      <a style="font-weight: 500; color: cornflowerblue;" routerLink="">  <i class="fas fa-thumbs-up"></i>Thích</a>
+                      <a style="font-weight: 500; color: cornflowerblue;" [routerLink]="" >  <i class="fas fa-thumbs-up"></i>Thích</a>
                     <span> {{numLike}}</span>
                     </span>
                     <a [routerLink]="" style="font-weight: 500; color: cornflowerblue;" class="pl-2 pr-2" (click)="showCmtChild(each._id)">
@@ -335,9 +335,6 @@
                     Ngày đăng: {{child.date | date: 'dd/MM/yyyy'}}
                   </div>
                 </div>
-
-
-
 
             </div>
 

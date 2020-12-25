@@ -72,5 +72,14 @@ export class ReviewsService {
     const url = `${this.UserURL}/${id}/comment/${idReview}`;
     return this.http.post(url, Cmt, httpOptions).pipe();
   }
+  LikeComment( id: string, token: string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    const url = `${this.UserURL}/like/${id}`;
+    return this.http.get(url, httpOptions).pipe();
+  }
 }
 

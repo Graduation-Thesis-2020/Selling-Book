@@ -49,10 +49,10 @@ export class ProductDetailsComponent implements OnInit {
   err: string;
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  current = localStorage.getItem("currentUser");
+  current = JSON.parse(localStorage.getItem("currentUser"));
   ctrl = new FormControl(null, Validators.required);
   config: any;
-  numLike = 10;
+  numLike :number = 0;
   showChild = false;
   idChild: string = null;
   showAllChild = false;
@@ -71,6 +71,8 @@ export class ProductDetailsComponent implements OnInit {
         };}
 
    ngOnInit() {
+     console.log("------------"+this.current._id);
+
      this.getBookfromRoute();
      this.getReviewfromIDBook();
      this.getReviewDetailfromIDBook();
@@ -287,5 +289,12 @@ export class ProductDetailsComponent implements OnInit {
     this.ReviewService.CommentChild(commentChild, id ,token, this.idChild).subscribe(()=> {
       this.getReviewDetailfromIDBook();
     });
+  }
+  LikeCmtParent(id){
+    const token = localStorage.getItem('token');
+    this.ReviewService.LikeComment(id, token).subscribe(res => {
+      this.numLike = res;
+      this.getReviewDetailfromIDBook();
+    }) ;
   }
 }

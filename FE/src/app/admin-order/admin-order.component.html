@@ -112,7 +112,7 @@
           <th>Ngày đặt</th>
           <th>Địa Chỉ</th>
           <th>SĐT</th>
-          <th>Email</th>
+          <!-- <th>Email</th> -->
           <th>Thanh toán</th>
           <th>Tình trạng</th>
           <th>Chi tiết</th>
@@ -128,7 +128,7 @@
           <td>
             {{ od.phone }}
           </td>
-          <td>{{ od.email }}</td>
+          <!-- <td>{{ od.email }}</td> -->
           <td [ngSwitch]="od.isPaid" style="font-size: 16px; font-weight: 600;">
             <span *ngSwitchCase="true" style="color: coral;">PayPal</span>
             <span *ngSwitchCase="false" style="color: rgb(63, 212, 44);">Trực tiếp</span>
