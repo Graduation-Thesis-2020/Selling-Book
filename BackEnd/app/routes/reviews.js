@@ -11,13 +11,13 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get('/searchCommentByBook', reviewController.getCommentByBook)
+
 router.get('/', reviewController.getListReview);
 router.post('/', reviewController.createReview);
 router.get('/commentchild', reviewController.getListCommentChild)
   .get('/commentchild/:commentChildId', reviewController.getCommentChildId)
   .delete('/commentchild/:commentChildId', reviewController.deleteCommentChild)
-
+  .get('/CommentByBook/search', reviewController.getCommentByBook)
 router.route('/:reviewId')
   .get(reviewController.getReviewId)
   //    .patch(reviewController.updateReview )

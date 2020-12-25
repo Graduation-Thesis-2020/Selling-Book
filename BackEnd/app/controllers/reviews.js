@@ -161,28 +161,37 @@ module.exports = {
     try {
 
       let books = await Book.find(searchOptions);
-   //   return res.status(200).json(books.length);
-      let i;
+      //  return res.status(200).json(books)
+      let i, j;
       let commentArray = [];
+      let commentArrayData = [];
       if (books != null && books != '') {
-        for (i = 0; i < books.length; i++) {
 
-          let commentdata = await Review.findOne({ bookId: books[i]._id }).populate([{
-            path: 'bookId', select: 'title', model: book
-          }, {
-            path: 'userId', select: 'name email imageUrl imageId', model: User
-          }]);
-          if (commentdata != null && commentdata != '') {
-            commentArray.push(commentdata);
+        for (i = 0; i < books.length; i++) {
+          for (j = 0; j < books[i].reviews.length ; j++) {
+            commentArray.push(books[i].reviews[j]);
           }
+         
         }
-      } else {
-        return res.status(404).json({ message: "Không tìm thấy!!!" })
+     //   return res.status(200).json(commentArray);
+        if (commentArray != null && commentArray != '') {
+          for (i = 0; i < commentArray.length; i++) {
+            let commentdata = await Review.findById(commentArray[i]).populate([{
+              path: 'bookId', select: 'title', model: book
+            }, {
+              path: 'userId', select: 'name email imageUrl imageId', model: User
+            }]);
+            if (commentdata != null && commentdata != '') {
+              commentArrayData.push(commentdata);
+            }
+          }
+          if (commentArrayData != null && commentArrayData != '') {
+            return res.status(200).json(commentArrayData);
+          }
+          return res.status(400).json({ message: "Không có!!!" });
+
+        }
       }
-      if (commentArray != null && commentArray != '') {
-        return res.status(200).json(commentArray);
-      }
-      return res.status(400).json({ message: "Không có" });
 
     } catch (error) {
       return res.status(500).json(error);
