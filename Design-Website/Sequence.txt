@@ -1,0 +1,35 @@
+Admin bảo trì website -------- Bỏ
+Admin thêm khách hàng   ------ BỎ
+Admin cập nhật khách hàng -----BỎ
+Admin xóa khách hàng --------BỎ
+
+Admin khóa khách hàng
+Admin xem chi tiết khách hàng
+Admin xóa khách hàng
+
+Admin thêm nhân viên
+Admin cập nhật nhân viên
+Admin xóa nhân viên
+
+Admin tìm sản phẩm
+Admin thêm sản phẩm
+Admin cập nhật sản phẩm
+Admin xóa sản phẩm
+
+Nhân viên thêm khách hàng ------ BỎ
+
+Nhân viên cập nhật khách hàng
+Nhân viên khóa khách hàng
+Nhân viên xóa khách hàng
+
+Nhân viên tìm sản phẩm
+Nhân viên thêm sản phẩm
+Nhân viên cập nhật sản phẩm
+Nhân viên xóa sản phẩm
+
+Khách hàng đăng ký thành viên
+Khách hàng tìm sản phẩm
+Khách hàng mua sản phẩm
+Khách hàng thanh toán
+Khách hàng cập nhật thông tin cá nhân
+Khách hàng đổi trả sản phẩm ----BỎ
