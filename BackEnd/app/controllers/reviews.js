@@ -171,12 +171,12 @@ module.exports = {
           commentArray.push(commentdata);
         }
       } else {
-        return res.status(400).json({ message: "Không tìm thấy!!!" })
+        return res.status(404).json({ message: "Không tìm thấy!!!" })
       }
       if (commentArray != null && commentArray != '') {
         return res.status(200).json(commentArray);
       }
-      return res.status(404).json({ message: "Không có" });
+      return res.status(400).json({ message: "Không có" });
 
     } catch (error) {
       return res.status(500).json(error);
