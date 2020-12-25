@@ -11,7 +11,7 @@ router.use((req, res, next) => {
   next();
 });
 
-
+router.get('/searchCommentByBook', reviewController.getCommentByBook)
 router.get('/', reviewController.getListReview);
 router.post('/', reviewController.createReview);
 router.get('/commentchild', reviewController.getListCommentChild)
@@ -23,5 +23,6 @@ router.route('/:reviewId')
   //    .patch(reviewController.updateReview )
   //   .put(reviewController.updateReview)
   .delete(reviewController.deleteReview);
+
 
 module.exports = router;

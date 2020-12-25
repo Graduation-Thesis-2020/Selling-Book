@@ -151,6 +151,36 @@ module.exports = {
 
 
 
-}
+  },
+
+  getCommentByBook: async (req, res, next) => {
+    let searchOptions = {}
+    if (req.query.title != null && req.query.title != '') {
+      searchOptions.title = new RegExp(req.query.title, 'i')
+    }
+    try {
+
+      let books = await Book.find(searchOptions);
+      let i;
+      //   let bookIdArray = [];
+      let commentArray = [];
+      if (books != null && books != '') {
+        for (i = 0; i < books.length; i++) {
+          //  bookIdArray.push(books[i]._id);
+          let commentdata = await Review.find({ bookId: books[i]._id });
+          commentArray.push(commentdata);
+        }
+      } else {
+        return res.status(400).json({ message: "Không tìm thấy!!!" })
+      }
+      if (commentArray != null && commentArray != '') {
+        return res.status(200).json(commentArray);
+      }
+      return res.status(404).json({ message: "Không có" });
+
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  }
 
 }
