@@ -198,7 +198,9 @@ module.exports = {
     try {
       const orderdata = await Order.findById(orderId);
       orderdata.status = req.body.status;
-      orderdata.isPaid = req.body.isPaid ;
+      if (orderdata.isPaid != true) {
+        orderdata.isPaid = req.body.isPaid;
+      }
       orderdata.save();
       return res.status(200).json(orderdata);
     } catch (error) {
@@ -221,28 +223,28 @@ module.exports = {
     // } catch (error) {
     //   return res.status(500).json(error);
     // }
-     let filteredData = [];
-     let orderdata = await Order.find();
-     let orderlength = orderdata.length;
+    let filteredData = [];
+    let orderdata = await Order.find();
+    let orderlength = orderdata.length;
     //return res.status(200).json(orderlength);
     let i = 0;
-    let filterday = req.params.day ;
+    let filterday = req.params.day;
     //return res.status(200).json(req.body.day);
     for (i = 0; i < orderlength; i++) {
       let date = orderdata[i].created;
-      let orderFilter = orderdata[i] ;
-      let dated =  ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '-' +((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' +  date.getFullYear();
+      let orderFilter = orderdata[i];
+      let dated = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '-' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
 
       //Filter dates from 2011 and newer
-      if (dated == filterday){
+      if (dated == filterday) {
         filteredData.push(orderFilter);
       }
     }
-    
+
     if (filteredData != null && filteredData != '') {
       return res.status(200).json(filteredData);
     }
-    return res.status(404).json({message:" Không tìm thấy!!!!"});
+    return res.status(404).json({ message: " Không tìm thấy!!!!" });
 
 
   }
