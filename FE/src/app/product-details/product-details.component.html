@@ -381,11 +381,11 @@
 
             <div class="row pt-2 pr-3" *ngIf="showChild && each._id==idChild">
               <div class="col-auto">
-                <div class="img-reponsiveChild" *ngIf="!each.userId.imageUrl">
+                <div class="img-reponsiveChild" *ngIf="!imageUser">
                   <img src="https://www.freeiconspng.com/uploads/customers-icon-3.png" alt="">
                 </div>
-                <div class="img-reponsive" *ngIf="each.userId.imageUrl">
-                  <img src="{{each.userId.imageUrl}}" alt="">
+                <div class="img-reponsiveChild" *ngIf="imageUser">
+                  <img src="{{imageUser}}" alt="">
                 </div>
               </div>
 

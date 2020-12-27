@@ -265,7 +265,7 @@ export class CheckoutComponent implements OnInit {
         localStorage.removeItem('cart');
         localStorage.removeItem('cartCheckout');
         this._snackBar.open("Đặt hàng thành công","Đóng", {
-          panelClass: "snackbarConfig",
+          panelClass: "snackbarConfig1",
           duration: 3000,
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
@@ -291,11 +291,12 @@ export class CheckoutComponent implements OnInit {
         localStorage.removeItem('cart');
         localStorage.removeItem('cartCheckout');
         this._snackBar.open("Đặt hàng thành công","Đóng", {
-          panelClass: "snackbarConfig",
+          panelClass: "snackbarConfig1",
           duration: 3000,
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
         });
+        setTimeout(function(){ window.location.reload(); }, 0);
         this.router1.navigateByUrl('/', { skipLocationChange: true }).then(() => {
           this.router1.navigate(['/setting/order']);  });
       });

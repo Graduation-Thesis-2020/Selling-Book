@@ -34,7 +34,7 @@ export class OrderService {
   orderByDay(date: string): Observable<AllOrder[]>{
     return this.http.get<AllOrder[]>(`${this.orderURL}/orderbyday/${date}`).pipe();
   }
-  UpdateStatus(id,status: ChangeStatus){
-    return this.http.patch(`${this.orderURL}/${id}`, status).pipe();
+  UpdateStatus(id,status: ChangeStatus): Observable<AllOrder>{
+    return this.http.patch<AllOrder>(`${this.orderURL}/${id}`, status).pipe();
   }
 }

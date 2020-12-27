@@ -63,6 +63,8 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { AdminEmployeeAccountComponent } from './admin-employee-account/admin-employee-account.component';
 import { AdminAdminAccountComponent } from './admin-admin-account/admin-admin-account.component';
+import { AdminStatisticsComponent } from './admin-statistics/admin-statistics.component';
+import { ChartsModule, ThemeService } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -106,6 +108,7 @@ import { AdminAdminAccountComponent } from './admin-admin-account/admin-admin-ac
     ForgotPasswordComponent,
     AdminEmployeeAccountComponent,
     AdminAdminAccountComponent,
+    AdminStatisticsComponent,
 
   ],
   imports: [
@@ -129,9 +132,10 @@ import { AdminAdminAccountComponent } from './admin-admin-account/admin-admin-ac
     MatCardModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatTabsModule
+    MatTabsModule,
+    ChartsModule
   ],
-  providers: [DefaultLayoutUserComponent,],
+  providers: [DefaultLayoutUserComponent,ThemeService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

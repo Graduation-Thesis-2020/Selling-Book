@@ -41,6 +41,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { AuthGuard, AuthAdminGuard, ChildGuard, AuthAdminFunctionGuard, AuthLoginFunctionGuard } from './service/auth-guard';
 import { AdminEmployeeAccountComponent } from './admin-employee-account/admin-employee-account.component';
 import { AdminAdminAccountComponent } from './admin-admin-account/admin-admin-account.component';
+import { AdminStatisticsComponent } from './admin-statistics/admin-statistics.component';
+
 const routes: Routes = [
 
   //{path: 'home', component: HomeComponent, canActivate:[]},
@@ -97,12 +99,14 @@ const routes: Routes = [
     {path: 'customer', component: AdminUserComponent},
     {path: 'employee', component: AdminEmployeeAccountComponent,canActivate: [AuthAdminFunctionGuard]},
     {path: 'admin', component: AdminAdminAccountComponent,canActivate: [AuthAdminFunctionGuard]},
+    {path: 'statistics', component: AdminStatisticsComponent,canActivate: [AuthAdminFunctionGuard]},
   ]},
 
 ]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
+
 
 
 exports: [RouterModule],

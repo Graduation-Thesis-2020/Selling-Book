@@ -17,6 +17,7 @@ import { BookNew } from './../models/book';
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 import { FormControl, Validators } from '@angular/forms';
 import { ReviewChildDetail, CommentChild } from './../models/review';
+import { LoginReturn } from '../models/user';
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
@@ -57,6 +58,8 @@ export class ProductDetailsComponent implements OnInit {
   idChild: string = null;
   showAllChild = false;
   idAllChild = null;
+  userRes: LoginReturn;
+  imageUser: string;
   constructor(
     private route: ActivatedRoute,
     private BooksService: BooksService,
@@ -85,6 +88,7 @@ export class ProductDetailsComponent implements OnInit {
      this.getAllPub();
      this.getRating();
      this.loadCart();
+     this.loadUser();
   }
   getAllPub() {
     this.publisherService.getPublishers().subscribe(res => this.pubs = res);
@@ -296,5 +300,9 @@ export class ProductDetailsComponent implements OnInit {
       this.numLike = res;
       this.getReviewDetailfromIDBook();
     }) ;
+  }
+  loadUser() {
+    this.userRes = JSON.parse(localStorage.getItem("currentUser"));
+    this.imageUser = this.userRes.imageUrl;
   }
 }

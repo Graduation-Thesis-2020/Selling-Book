@@ -12,6 +12,7 @@ import { formatDate } from '@angular/common';
 })
 export class AdminOrderComponent implements OnInit {
 
+  orderreturn: AllOrder;
   orders: AllOrder[];
   order: Order1;
   config: any;
@@ -73,7 +74,9 @@ export class AdminOrderComponent implements OnInit {
   changeStatus(){
     const status = this.status;
     const Status: ChangeStatus = { status } as ChangeStatus;
-    this.orderService.UpdateStatus(this.id,Status).subscribe(() => {
+    this.orderService.UpdateStatus(this.id,Status).subscribe(res => {
+      this.orderreturn = res;
+      console.log(this.orderreturn);
       this.getAllOrders();
       this._snackBar.open("Thay đổi thành công!","Đóng", {
         panelClass: "snackbarConfig1",
