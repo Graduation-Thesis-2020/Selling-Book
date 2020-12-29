@@ -60,6 +60,7 @@ export class ProductDetailsComponent implements OnInit {
   idAllChild = null;
   userRes: LoginReturn;
   imageUser: string;
+  idUser: string;
   constructor(
     private route: ActivatedRoute,
     private BooksService: BooksService,
@@ -304,5 +305,23 @@ export class ProductDetailsComponent implements OnInit {
   loadUser() {
     this.userRes = JSON.parse(localStorage.getItem("currentUser"));
     this.imageUser = this.userRes.imageUrl;
+    this.idUser = this.userRes._id;
+  }
+  loadLike(id){
+    let dem =0;
+    console.log(id);
+    console.log(this.idUser);
+
+    for(let i = 0; i< id.length; i++){
+      if(id[i] === this.idUser){
+        dem++
+      }
+    }
+    if(dem==1){
+      return 1;
+
+    } else{
+      return 0;
+    }
   }
 }
