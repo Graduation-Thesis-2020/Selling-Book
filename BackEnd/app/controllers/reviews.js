@@ -78,34 +78,19 @@ module.exports = {
   },
 
   getReviewId: async (req, res, next) => {
-    let bookd = req.params.bookId;
+    let bookId = req.params.bookId;
     try {
-      let bookdata = await Book.findById(bookd);
-      let i;
-      let commentArrayData = [];
+      let bookdata = await Book.findById(bookId).populate([{
+        path: 'reviews', select: 'userId review date comment commentChilds likes ', model: Review,
+        populate: { path: 'commentChilds', select: 'userId date comment likes', model: CommentChild, populate: { path: 'userId', select: 'name imageUrl imageId', model: User } }
+      }, {
+        path: 'reviews', select: 'userId review date comment commentChilds likes ', model: Review, populate: { path: 'userId', select: 'name imageUrl imageId', model: User }
+      },]);
+      let commentData = bookdata.reviews;
       if (bookdata != null && bookdata != '') {
-        let commentArray = bookdata.reviews;
-        for (i = 0; i < commentArray.length; i++) {
-          let commentData = await Review.findById(commentArray[i]).populate([{
-            path: 'bookId', select: 'title', model: book
-          }, {
-            path: 'userId', select: 'name email imageUrl imageId', model: User
-          }, {
-            path: 'commentChilds', select: 'userId date comment likes', model: CommentChild,
-            populate: { path: 'userId', select: 'name imageUrl imageId', model: User }
-          }]);
-          
-          if (commentData != null && commentData != '') {
-            commentArrayData.push(commentData);
-          }
-        }
-        if (commentArrayData != null && commentArrayData != '') {
-          return res.status(200).json(commentArrayData);
-        }
-        return res.status(400).json({ message: "không có nhận xét nào" });
-      } else {
-        return res.status(404).json({ message: "Không tìm thấy!!!" });
+        return res.status(200).json(commentData);
       }
+      return res.status(404).json({ message: "Không tìm thấy" });
     } catch (error) {
       return res.status(500).json({ message: "Lỗi rồi" });
     }
@@ -119,7 +104,10 @@ module.exports = {
       }, {
         path: 'userId', select: 'name email imageUrl imageId', model: User
       }]);
-      return res.status(200).json(datareview);
+      if (datareview != null && datareview != '') {
+        return res.status(200).json(datareview);
+      }
+      return res.status(404).json({ message: "Không tìm thấy!!!" });
     } catch {
       return res.status(404).json({
         message: "No valid entry found for provided ID "
@@ -208,6 +196,8 @@ module.exports = {
           }
           return res.status(400).json({ message: "Không có!!!" });
 
+        } else {
+          return res.status(400).json({ message: "Không có bình luận nào!!!!" })
         }
       } else {
         return res.status(404).json({ message: "Không tìm thấy!!!" });
