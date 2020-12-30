@@ -78,21 +78,39 @@ module.exports = {
   },
 
   getReviewId: async (req, res, next) => {
-    let id = req.params.reviewId;
+    let bookd = req.params.bookId;
     try {
-      let datareview = await Review.findById(id).populate([{
-        path: 'bookId', select: 'title', model: book
-      }, {
-        path: 'commentChilds', select: 'userId date comment likes', model: CommentChild,
-        populate: { path: 'userId', select: 'name imageUrl imageId', model: User }
-      }]);
-      return res.status(200).json(datareview);
-    } catch {
-      return res.status(404).json({
-        message: "No valid entry found for provided ID "
-      })
+      let bookdata = await Book.findById(bookd);
+      let i;
+      let commentArrayData = [];
+      if (bookdata != null && bookdata != '') {
+        let commentArray = bookdata.reviews;
+        for (i = 0; i < commentArray.length; i++) {
+          let commentData = await Review.findById(commentArray[i]).populate([{
+            path: 'bookId', select: 'title', model: book
+          }, {
+            path: 'userId', select: 'name email imageUrl imageId', model: User
+          }, {
+            path: 'commentChilds', select: 'userId date comment likes', model: CommentChild,
+            populate: { path: 'userId', select: 'name imageUrl imageId', model: User }
+          }]);
+          
+          if (commentData != null && commentData != '') {
+            commentArrayData.push(commentData);
+          }
+        }
+        if (commentArrayData != null && commentArrayData != '') {
+          return res.status(200).json(commentArrayData);
+        }
+        return res.status(400).json({ message: "không có nhận xét nào" });
+      } else {
+        return res.status(404).json({ message: "Không tìm thấy!!!" });
+      }
+    } catch (error) {
+      return res.status(500).json({ message: "Lỗi rồi" });
     }
   },
+
   getCommentChildId: async (req, res, next) => {
     let id = req.params.commentChildId;
     try {
@@ -168,12 +186,12 @@ module.exports = {
       if (books != null && books != '') {
 
         for (i = 0; i < books.length; i++) {
-          for (j = 0; j < books[i].reviews.length ; j++) {
+          for (j = 0; j < books[i].reviews.length; j++) {
             commentArray.push(books[i].reviews[j]);
           }
-         
+
         }
-     //   return res.status(200).json(commentArray);
+        //   return res.status(200).json(commentArray);
         if (commentArray != null && commentArray != '') {
           for (i = 0; i < commentArray.length; i++) {
             let commentdata = await Review.findById(commentArray[i]).populate([{
@@ -191,7 +209,7 @@ module.exports = {
           return res.status(400).json({ message: "Không có!!!" });
 
         }
-      }else{
+      } else {
         return res.status(404).json({ message: "Không tìm thấy!!!" });
       }
 

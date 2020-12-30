@@ -15,7 +15,7 @@ const cloudinary = require('cloudinary');
 const order = require('../models/order');
 const orderDetail = require('../models/orderDetail');
 //const nodemailer = require('nodemailer');
-const { verifyEmail, mailVefiryNotification, generalRandomCode, forgetPassWord } = require('../middleware/midemail');
+const { verifyEmail, mailVefiryNotification, generalRandomCode, forgetPassWord, notificationCreateOrder } = require('../middleware/midemail');
 
 
 // TEST THANH TOÁN PAYPAL
@@ -424,7 +424,7 @@ module.exports = {
       await newOrderDetail.save();
 
       order.orderDetailId = newOrderDetail._id;
-
+      notificationCreateOrder(userInfo.email,userInfo.name,order)
       return res.status(201).json({
         message: 'Successfully bought book!',
         order

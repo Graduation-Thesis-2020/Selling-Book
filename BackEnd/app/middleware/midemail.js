@@ -157,10 +157,47 @@ forgetPassWord = (email, name, code) => {
     }
   })
 }
+
+notificationCreateOrder = (email, name, code) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORDEMAIL
+    }
+  });
+
+  let mailOptions = {
+    from: `${process.env.EMAIL}`,
+    to: `${email}`,
+    subject: "Xác nhận đơn hàng",
+    html: "<p style='font-size:25px'><b style='color:black'>Chào mừng đến với The Book Store</b></p>"
+      + "</br>"
+      + `<p style='color:black' >Xin chào ${name}.</p>`
+      + `<p style='color:black'>Địa chỉ email đang dùng : ${email} </p>`
+      + "<p style='color:black'>Anh/chị đã yêu cầu đổi mật khẩu tại.</p>"
+      + `<p style='color:black'> ${code} là mã xác minh tài khoản của bạn.</p>`
+      //  + "<div><span style='padding:14px 35px;background:#357ebd'><a href='http://localhost:4200/home' style='font-size:16px' style='text-decoration:none' style='color:#fff' target='_blank' data-saferedirecturl='http://localhost:4200/home'> <b style='color:#fff'>Đến cửa hàng của chúng tôi</b> </a></span></div>"
+      + `<p style='color:black'><p style='text-align: right'>Nếu Anh/chị có bất kỳ câu hỏi nào, xin liên hệ với chúng tôi tại ${process.env.EMAIL}</p></p>`
+      + "<p style='color:black'><p style='text-align: right'><i>Trân trọng,</i></p></p>"
+      + "<p style='color:black'><p style='text-align: right'><b>Ban quản trị cửa hàng The Book Store</b></p></p>",
+
+  };
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+      // return res.status(500).json(error);
+    } else {
+      //  console.log("Email sent: ", info.response);
+      return res.status(200).json({ Email_sent: info.response });
+    }
+  })
+}
 module.exports = {
   verifyEmail,
   verifyEmailAdmin,
   mailVefiryNotification,
   forgetPassWord,
-  generalRandomCode
+  generalRandomCode,
+  notificationCreateOrder
 }
