@@ -302,6 +302,13 @@ export class ProductDetailsComponent implements OnInit {
       this.getReviewDetailfromIDBook();
     }) ;
   }
+  LikeCmtChild(id){
+    const token = localStorage.getItem('token');
+    this.ReviewService.LikeCommentChild(id, token).subscribe(res => {
+      this.numLike = res;
+      this.getReviewDetailfromIDBook();
+    }) ;
+  }
   loadUser() {
     this.userRes = JSON.parse(localStorage.getItem("currentUser"));
     this.imageUser = this.userRes.imageUrl;

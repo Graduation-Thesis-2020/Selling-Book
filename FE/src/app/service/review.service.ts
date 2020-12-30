@@ -81,6 +81,15 @@ export class ReviewsService {
     const url = `${this.UserURL}/like/${id}`;
     return this.http.get(url, httpOptions).pipe();
   }
+  LikeCommentChild( id: string, token: string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    const url = `${this.UserURL}/likecommentchild/${id}`;
+    return this.http.get(url, httpOptions).pipe();
+  }
   searchReviewAdmin(id: string): Observable<ReviewDetail[]> {
     const url = `${this.URL}/CommentByBook/search?title=${id}`;
     return this.http.get<ReviewDetail[]>(url).pipe();
