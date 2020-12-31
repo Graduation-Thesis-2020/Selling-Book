@@ -20,7 +20,8 @@ router.get('/commentchild', reviewController.getListCommentChild)
   .delete('/commentchild/:commentChildId', reviewController.deleteCommentChild)
   .get('/CommentByBook/search', reviewController.getCommentByBook)
 
-router.get('/:bookId/book', reviewController.getReviewId) // Get by Id Book
+router.get('/:bookId/book', reviewController.getReviewByBook) // Get by Id Book
+  .get('/:reviewId', reviewController.getReviewId)
 
 router.delete('/:reviewId', reviewController.deleteReview);
 

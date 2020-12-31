@@ -78,6 +78,27 @@ module.exports = {
   },
 
   getReviewId: async (req, res, next) => {
+    let reviewId = req.params.reviewId;
+
+    try {
+      let reviewData = await Review.findById(reviewId).populate([{
+       path: 'commentChilds', select: 'userId date comment likes', model: CommentChild, populate: { path: 'userId', select: 'name imageUrl imageId', model: User } 
+      }, {
+        path: 'bookId', select: 'title', model: book
+      }, {
+        path: 'userId', select: 'name email imageUrl imageId', model: User
+      },]);
+      if (reviewData != null && reviewData != '') {
+        return res.status(200).json(reviewData);
+      }
+      return res.status(404).json({ message: "Không tìm thấy!!!" });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+
+  },
+
+  getReviewByBook: async (req, res, next) => {
     let bookId = req.params.bookId;
     try {
       let bookdata = await Book.findById(bookId).populate([{
@@ -95,7 +116,6 @@ module.exports = {
       return res.status(500).json({ message: "Lỗi rồi" });
     }
   },
-
   getCommentChildId: async (req, res, next) => {
     let id = req.params.commentChildId;
     try {
