@@ -51,7 +51,10 @@ router.get('/logout', passport.authenticate('jwt', { session: false }), Admin.lo
 // TEST PRIVATE
 router.get('/secret', passport.authenticate('jwt', { session: false }), authenUser, Admin.secret)
 
-
+// STATISTICIAL
+router.get('/statistical/day/:day', passport.authenticate('jwt', { session: false }), authenUser, Admin.getStatisticalDay)
+  .get('/statistical/quarter/:quarter', passport.authenticate('jwt', { session: false }), authenUser, Admin.getStatisticalQuarter)
+  .get('/statistical/month/:month', passport.authenticate('jwt', { session: false }), authenUser, Admin.getStatisticalMonth)
 // Management Employee
 //router.get('/secret', passport.authenticate('jwt', { session: false }), Admin.secret)
 

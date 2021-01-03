@@ -424,7 +424,7 @@ module.exports = {
       await newOrderDetail.save();
 
       order.orderDetailId = newOrderDetail._id;
-      notificationCreateOrder(userInfo.email,userInfo.name,order)
+      notificationCreateOrder(userInfo.email, userInfo.name, order)
       return res.status(201).json({
         message: 'Successfully bought book!',
         order
@@ -664,15 +664,20 @@ module.exports = {
         commentLikeLength = commentLike.length;
         for (i = 0; i < commentLikeLength; i++) {
           if (userId.toString() == commentLike[i]) {
-            commentData.likes.remove(userId);
+            commentData.likes.remove(commentLike[i]);
             await commentData.save();
-          } else {
-            commentData.likes.push(userId);
-            await commentData.save();
+            break;
           }
         }
+        if (i == commentLikeLength) {
+          // if (userId.toString() !== commentLike[i]) {
+          commentData.likes.push(userId);
+          await commentData.save();
+          //}
+        }
         return res.status(200).json(commentData.likes.length);
-      } else {
+      }
+      else {
         commentData.likes.push(userId);
         await commentData.save();
         return res.status(200).json(commentData.likes.length);
@@ -695,10 +700,12 @@ module.exports = {
           if (userId.toString() == commentLike[i]) {
             commentChildData.likes.remove(userId);
             await commentChildData.save();
-          } else {
-            commentChildData.likes.push(userId);
-            await commentChildData.save();
+            break;
           }
+        }
+        if (i == commentLikeLength) {
+          commentChildData.likes.push(userId);
+          await commentChildData.save();
         }
         return res.status(200).json(commentChildData.likes.length);
       } else {
