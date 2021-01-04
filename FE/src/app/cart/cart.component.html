@@ -180,7 +180,7 @@
 
     </div>
 
-    <div class="container pl-0 pr-0">
+    <div class="container pl-0 pr-0" *ngIf="countItem>0">
       <div class="item" *ngFor="let item of items; let i = index">
         <div class="row mr-0 ml-0 pb-2" >
           <div class="col-auto">
@@ -255,6 +255,10 @@
 
     </div>
 
+    <div class="container pl-0 pr-0" *ngIf="countItem==0">
+      <div style="text-align: center;">Hiện không có sản phẩm nào trong giỏ hàng</div>
+
+    </div>
     <div class="pay">
       <div class="row">
         <div class="col">
@@ -265,14 +269,14 @@
           </div>
         </div>
         <div class="col-auto" *ngIf="token">
-          <div class="back1">
+          <div class="back1" *ngIf="countItem>0">
             <a [routerLink]="['/infocarts']" (click)="itemcheckout()"
               >Tiếp tục <i class="fa fa-arrow-right"></i>
             </a>
           </div>
         </div>
         <div class="col-auto" *ngIf="!token">
-          <div class="back1">
+          <div class="back1" >
             <a [routerLink]="['/infocarts']"   data-toggle="modal" data-target="#ModalLog"
               >Tiếp tục <i class="fa fa-arrow-right"></i>
             </a>

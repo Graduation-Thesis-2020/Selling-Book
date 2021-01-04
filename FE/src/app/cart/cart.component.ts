@@ -29,6 +29,7 @@ export class CartComponent implements OnInit {
   auts: Author[];
   cates1: Cate[];
   token = localStorage.getItem("token");
+  cartstoreage = JSON.parse(localStorage.getItem("cart"));
   constructor(
     private route: ActivatedRoute,
     private BooksService: BooksService,
