@@ -18,14 +18,14 @@
         <div class="row">
           <div class="col-4">
             <div div class="icon-item">
-              <i class="fas fa-cubes"></i>
+              <i class="fas fa-user-check"></i>
             </div>
 
           </div>
           <div class="col-8" >
             <div class="data-item">
-              <p class="p1">250</p>
-              <p class="p2">Đơn Hàng</p>
+              <p class="p1">50</p>
+              <p class="p2">Khách hàng</p>
             </div>
           </div>
         </div>
@@ -36,14 +36,14 @@
         <div class="row">
           <div class="col-4">
             <div div class="icon-item">
-              <i class="fas fa-cubes"></i>
+              <i class="fas fa-user-plus"></i>
             </div>
 
           </div>
           <div class="col-8" >
             <div class="data-item">
-              <p class="p1">250</p>
-              <p class="p2">Đơn Hàng</p>
+              <p class="p1">10</p>
+              <p class="p2">Khách hàng mới</p>
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@
           <div class="col-8" >
             <div class="data-item">
               <p class="p1">250</p>
-              <p class="p2">Đơn Hàng</p>
+              <p class="p2">Đơn hàng</p>
             </div>
           </div>
         </div>
@@ -72,14 +72,14 @@
         <div class="row">
           <div class="col-4">
             <div div class="icon-item">
-              <i class="fas fa-cubes"></i>
+              <i class="fas fa-hand-holding-usd"></i>
             </div>
 
           </div>
           <div class="col-8" >
             <div class="data-item">
-              <p class="p1">250</p>
-              <p class="p2">Đơn Hàng</p>
+              <p class="p1">7000000 đ</p>
+              <p class="p2">Doanh thu</p>
             </div>
           </div>
         </div>
@@ -91,6 +91,7 @@
     <div class="col-sm-6 ">
       <!-- BarChart -->
       <div style="display: block;" class="item-chart">
+        <div style="text-align: center; padding-top: 10px; font-weight: 500; font-size: 20px;">Tình trạng đơn hàng</div>
         <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
           [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
         </canvas>
@@ -98,7 +99,9 @@
     </div>
     <!-- PieChart -->
     <div class="col-sm-6 ">
+
       <div style="display: block;" class="item-chart">
+        <div style="text-align: center; padding-top: 10px; font-weight: 500; font-size: 20px">Hình thức thanh toán</div>
         <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
           [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
         </canvas>
@@ -109,6 +112,7 @@
       <div class="col-sm-6  ">
         <!-- LineChart -->
         <div style="display: block;" class="item-chart">
+          <div style="text-align: center; padding-top: 10px; font-weight: 500; font-size: 20px">Tổng doanh thu</div>
           <canvas baseChart  [datasets]="lineChartData" [labels]="lineChartLabels"
             [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
             [chartType]="lineChartType" [plugins]="lineChartPlugins">
@@ -119,6 +123,7 @@
       <!-- PieChart -->
       <div class="col-sm-6 ">
         <div style="display: block;" class="item-chart">
+          <div style="text-align: center; padding-top: 10px; font-weight: 500; font-size: 20px">Hình thức thanh toán</div>
           <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
             [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
           </canvas>

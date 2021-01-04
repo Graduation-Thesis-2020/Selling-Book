@@ -12,25 +12,25 @@ export class AdminStatisticsComponent implements OnInit {
    public pieChartOptions: ChartOptions = {
     responsive: true,
   };
-  public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
-  public pieChartData: SingleDataSet = [300, 500, 100];
+  public pieChartLabels: Label[] = ['Thanh toán khi nhận hàng',  'Thanh toán PayPal'];
+  public pieChartData: SingleDataSet = [700, 300];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [];
   public barChartOptions: ChartOptions = {
     responsive: true,
   };
-  public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  public barChartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [];
 
   public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
+    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Đã giao' },
+    { data: [8, 8, 6, 9, 6, 7, 1], label: 'Hủy' }
   ];
   public lineChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
+    { data: [6500000, 5900000, 8000000, 8100000, 5600000, 5500000, 4000000], label: 'Doanh thu(vnđ)' },
   ];
   public lineChartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public lineChartOptions: ChartOptions  = {
