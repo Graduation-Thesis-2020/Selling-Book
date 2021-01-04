@@ -419,37 +419,7 @@ module.exports = {
     }
   },
 
-  getStatisticalDay: async (req, res, next) => {
-   
-    let filteredData = [];
-    let orderdata = await Order.find();
-    let orderlength = orderdata.length;
   
-    let i = 0;
-    let filterday = req.params.day;
-    
-    for (i = 0; i < orderlength; i++) {
-      let date = orderdata[i].created;
-      let orderFilter = orderdata[i];
-      let dated = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) ;//+ '-' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
-      return res.status(200).json(dated);
-      if (dated == filterday) {
-        filteredData.push(orderFilter);
-      }
-    }
-
-    if (filteredData != null && filteredData != '') {
-      return res.status(200).json(filteredData);
-    }
-    return res.status(404).json({ message: " Không tìm thấy!!!!" });
-
-  },
-  getStatisticalQuarter: async (req, res, next) => {
-
-  },
-  getStatisticalMonth: async (req, res, next) => {
-
-  }
 
 
 }

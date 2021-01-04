@@ -16,7 +16,7 @@ module.exports = {
         path: 'userId', select: 'name email imageUrl imageId', model: User
       }, {
         path: 'commentChilds', select: 'userId date comment likes', model: CommentChild,
-        populate: { path: 'userId', select: 'name imageUrl imageId', model: User }
+        populate: { path: 'userId', select: 'name email imageUrl imageId', model: User }
       }]);
       return res.status(200).json(review);
     } catch (error) {
@@ -82,7 +82,7 @@ module.exports = {
 
     try {
       let reviewData = await Review.findById(reviewId).populate([{
-       path: 'commentChilds', select: 'userId date comment likes', model: CommentChild, populate: { path: 'userId', select: 'name imageUrl imageId', model: User } 
+       path: 'commentChilds', select: 'userId date comment likes', model: CommentChild, populate: { path: 'userId', select: 'name email imageUrl imageId', model: User } 
       }, {
         path: 'bookId', select: 'title', model: book
       }, {
@@ -103,9 +103,9 @@ module.exports = {
     try {
       let bookdata = await Book.findById(bookId).populate([{
         path: 'reviews', select: 'userId review date comment commentChilds likes ', model: Review,
-        populate: { path: 'commentChilds', select: 'userId date comment likes', model: CommentChild, populate: { path: 'userId', select: 'name imageUrl imageId', model: User } }
+        populate: { path: 'commentChilds', select: 'userId date comment likes', model: CommentChild, populate: { path: 'userId', select: 'name email imageUrl imageId', model: User } }
       }, {
-        path: 'reviews', select: 'userId review date comment commentChilds likes ', model: Review, populate: { path: 'userId', select: 'name imageUrl imageId', model: User }
+        path: 'reviews', select: 'userId review date comment commentChilds likes ', model: Review, populate: { path: 'userId', select: 'name email imageUrl imageId', model: User }
       },]);
       let commentData = bookdata.reviews;
       if (bookdata != null && bookdata != '') {

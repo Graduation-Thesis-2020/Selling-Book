@@ -1,5 +1,6 @@
 const express = require("express");
 const Admin = require('../controllers/admins');
+const Statistical = require('../controllers/statisticals');
 const router = express.Router();
 const passport = require('passport');
 const passportConfig = require('../middleware/passport');
@@ -52,9 +53,12 @@ router.get('/logout', passport.authenticate('jwt', { session: false }), Admin.lo
 router.get('/secret', passport.authenticate('jwt', { session: false }), authenUser, Admin.secret)
 
 // STATISTICIAL
-router.get('/statistical/day/:day', passport.authenticate('jwt', { session: false }), authenUser, Admin.getStatisticalDay)
-  .get('/statistical/quarter/:quarter', passport.authenticate('jwt', { session: false }), authenUser, Admin.getStatisticalQuarter)
-  .get('/statistical/month/:month', passport.authenticate('jwt', { session: false }), authenUser, Admin.getStatisticalMonth)
+router.get('/statistical/day/:day', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByDay)
+  .get('/statistical/week/:week', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByDay)
+  .get('/statistical/quarter/:quarter', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByQuarter)
+  .get('/statistical/month/:month', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByMonth)
+  .get('/statistical/year/:year', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByDay)
+
 // Management Employee
 //router.get('/secret', passport.authenticate('jwt', { session: false }), Admin.secret)
 
