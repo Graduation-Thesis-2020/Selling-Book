@@ -19,18 +19,20 @@
 
     </div>
   </div>
-  <div style="margin-top: 10px" class="table-responsive">
+  <div style="margin-top: 10px; margin-bottom: 50px;" class="table-responsive">
     <table class="table table-bordered table-striped table-hover table-responsive-lg">
       <thead style="background-color: rgb(138, 219, 155);">
         <tr>
           <th>No.</th>
-          <th style="width: 300px">Tên Sách</th>
-          <th>Tài khoản</th>
+          <th style="width: 250px">Tên Sách</th>
+          <th >Tài khoản</th>
           <th style="width: 200px">Tên khách</th>
-          <th style="width: 500px">Bình Luận</th>
+          <th style="width: 450px">Bình Luận</th>
           <th>Đánh Giá</th>
           <th>Ngày</th>
-          <th>Thao tác</th>
+          <th>Lượt thích</th>
+          <th style="width: 100px">Phản hồi</th>
+          <th>Xóa</th>
         </tr>
       </thead>
       <tbody *ngIf="!messError">
@@ -38,19 +40,24 @@
           <td>{{ i + 1 }}</td>
           <td class="text-info font-weight-bold">{{ rv.bookId.title }}</td>
           <td>{{ rv.userId.email }}</td>
-          <td>{{ rv.userId.name }}</td>
+          <td class="text-dark font-weight-bold">{{ rv.userId.name }}</td>
           <td>{{ rv.comment }}</td>
           <td class="text-danger">
             <b>{{ rv.review }}</b
             ><i class="fas fa-heart" style="margin-left: 10px"></i>
           </td>
           <td>{{ rv.date | date: 'dd/MM/yyyy' }}</td>
+          <td class="text-primary">
+            <b>{{ rv.likes.length }}</b><i class="far fa-thumbs-up" style="margin-left: 10px"></i>
+          </td>
+          <td  style="text-align: center;">
+            <button type="button" class="btn btn-outline-success"  data-toggle="modal" data-target="#ModalCommentChild"  (click)=getOneReview(rv._id)>
+              <span class="badge badge-light">{{rv.commentChilds.length}}</span>  <i class="far fa-comments pl-2"></i>
+            </button>
+          </td>
           <td style="width: 40px" style="text-align: center;">
-            <i
-              class="fas fa-trash text-warning"
-              data-toggle="modal" data-target="#ModalDelReview" (click)=shareId(rv._id)
-              title="Xóa"
-            ></i>
+            <i class="fas fa-trash text-warning"
+              data-toggle="modal" data-target="#ModalDelReview" (click)=shareId(rv._id) title="Xóa"></i>
           </td>
 
         </tr>
@@ -68,7 +75,7 @@
     </table>
     <pagination-controls
       style="text-align: center"
-      (pageChange)="pageChanged($event)" *ngIf="reviews.length>15"
+      (pageChange)="pageChanged($event)" *ngIf="reviews.length>10"
     ></pagination-controls>
   </div>
 </div>
@@ -77,7 +84,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ModalDelReviewLabel" style="font-weight: 700; font-size: 24px; color: crimson;">Xóa nhận xét
+        <h5 class="modal-title" id="ModalDelReviewLabel" style="font-weight: 600; font-size: 24px; color: crimson;">Xóa nhận xét
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -92,6 +99,64 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-info" (click)="del()"data-dismiss="modal">Có</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Comment Child -->
+<div class="modal fade" id="ModalCommentChild" tabindex="-1" aria-labelledby="ModalCommentChildLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalCommentChildLabel" style="font-weight: 600; font-size: 24px; color: rgb(224, 192, 46);">Chi tiết các nhận xét phản hồi
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <div style="margin-top: 10px; margin-bottom: 50px;" class="table-responsive">
+            <table class="table table-bordered table-striped table-hover table-responsive-lg">
+              <thead style="background-color: rgb(221, 230, 168);">
+                <tr>
+                  <th>No.</th>
+                  <th >Tài khoản</th>
+                  <th style="width: 200px">Tên khách</th>
+                  <th style="width: 450px">Bình Luận</th>
+                  <th>Ngày</th>
+                  <th>Lượt thích</th>
+                  <th>Xóa</th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr *ngFor="let child of reviewChildArray; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ child.userId.email }}</td>
+                  <td class="text-dark font-weight-bold">{{ child.userId.name }}</td>
+                  <td>{{ child.comment }}</td>
+                  <td>{{ child.date | date: 'dd/MM/yyyy' }}</td>
+                  <td class="text-primary">
+                    <b>{{ child.likes.length }}</b><i class="far fa-thumbs-up" style="margin-left: 10px"></i>
+                  </td>
+                  <td style="width: 40px" style="text-align: center;">
+                    <i class="fas fa-times-circle text-danger" style="font-size: 20px;"
+                      (click)=delChild(child._id) title="Xóa"></i>
+                  </td>
+
+                </tr>
+              </tbody>
+
+            </table>
+          </div>
+        </div>
+        <div>
+        </div>
+      </div>
+      <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 
       </div>

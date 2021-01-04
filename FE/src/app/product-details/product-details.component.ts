@@ -33,6 +33,7 @@ export class ProductDetailsComponent implements OnInit {
   reviews: Review[];
   reviewsDetail: ReviewBook;
   detail: ReviewDetail[] =[];
+  comment: ReviewDetail[];
   detailChild: ReviewChildDetail[];
   addreivew: Review;
   author: Author;
@@ -75,8 +76,6 @@ export class ProductDetailsComponent implements OnInit {
         };}
 
    ngOnInit() {
-
-
      this.getBookfromRoute();
      this.getReviewfromIDBook();
      this.getReviewDetailfromIDBook();
@@ -90,6 +89,7 @@ export class ProductDetailsComponent implements OnInit {
      this.getRating();
      this.loadCart();
      this.loadUser();
+    //  this.getCommentFromIDBook();
   }
   getAllPub() {
     this.publisherService.getPublishers().subscribe(res => this.pubs = res);
@@ -122,21 +122,24 @@ export class ProductDetailsComponent implements OnInit {
 
   }
   getReviewDetailfromIDBook() {
+    console.time("old");
     const id = this.route.snapshot.paramMap.get('id');
     this.ReviewService.getReviewdetailFromID(id).subscribe(res => {
       this.reviewsDetail = res;
       this.detail = this.reviewsDetail.reviews;
       this.detail.reverse();
-      console.log(this.detail);
-
-      // this.detailChild= this.detail.commentChilds;
-      // for(var i =0; i<this.detail.length; i++){
-      //   this.detailChild= this.detail[i].commentChilds;
-      // }
-      // this.detailChild.reverse();
-      // console.log("detail Child: ---------" +this.detailChild)
     });
-
+    console.timeEnd("old");
+  }
+  getCommentFromIDBook() {
+    console.time("new");
+    const id = this.route.snapshot.paramMap.get('id');
+    this.ReviewService.getCommentFromIDBook(id).subscribe(res => {
+      this.detail = res;
+      console.log(this.detail);
+      this.detail.reverse();
+    });
+    console.timeEnd("new");
   }
 
   save( comment: string) {
@@ -145,8 +148,8 @@ export class ProductDetailsComponent implements OnInit {
     const token = localStorage.getItem('token');
     const review = this.currentRate;
     const newReview: Review = { review, comment } as Review;
-    this.ReviewService.addReview(newReview, bookId, token).subscribe(res => {this.addreivew = res; this.getReviewDetailfromIDBook();});
-    this.getReviewfromIDBook();
+    this.ReviewService.addReview(newReview, bookId, token).subscribe(res => {this.addreivew = res; this.getCommentFromIDBook();});
+
   }
    getAuthorfromIDBook() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -292,22 +295,20 @@ export class ProductDetailsComponent implements OnInit {
     const commentChild: CommentChild = {comment} as CommentChild;
     const id = this.route.snapshot.paramMap.get('id');
     this.ReviewService.CommentChild(commentChild, id ,token, this.idChild).subscribe(()=> {
-      this.getReviewDetailfromIDBook();
+      this.getCommentFromIDBook();
     });
   }
   LikeCmtParent(id){
     const token = localStorage.getItem('token');
     this.ReviewService.LikeComment(id, token).subscribe(res => {
-      this.numLike = res;
-      this.getReviewDetailfromIDBook();
-    }) ;
+      this.getCommentFromIDBook();
+    })
   }
   LikeCmtChild(id){
     const token = localStorage.getItem('token');
     this.ReviewService.LikeCommentChild(id, token).subscribe(res => {
-      this.numLike = res;
-      this.getReviewDetailfromIDBook();
-    }) ;
+      this.getCommentFromIDBook();
+    })
   }
   loadUser() {
     this.userRes = JSON.parse(localStorage.getItem("currentUser"));
@@ -316,8 +317,6 @@ export class ProductDetailsComponent implements OnInit {
   }
   loadLike(id){
     let dem =0;
-    console.log(id);
-    console.log(this.idUser);
 
     for(let i = 0; i< id.length; i++){
       if(id[i] === this.idUser){

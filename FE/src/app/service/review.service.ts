@@ -5,7 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Books, Books1 } from '../models/book';
 import { RootObj, RootObj2 } from '../models/root-obj';
 import { ApiService } from './api.service';
-import { CommentChild, Rating, Review, ReviewBook, ReviewDetail } from '../models/review';
+import { CommentChild, Rating, Review, ReviewBook, ReviewChildDetail, ReviewDetail } from '../models/review';
 
 
 
@@ -35,13 +35,17 @@ export class ReviewsService {
   }
 
 
-  getReviewFromID(id: string): Observable<Review> {
+  getReviewFromID(id: string): Observable<ReviewDetail> {
     const url = `${this.URL}/${id}`;
-    return this.http.get<Review>(url).pipe();
+    return this.http.get<ReviewDetail>(url).pipe();
   }
   getReviewdetailFromID(id: string): Observable<ReviewBook> {
     const url = `${this.BookURL}/${id}`;
     return this.http.get<ReviewBook>(url).pipe();
+  }
+  getCommentFromIDBook(id: string): Observable<ReviewDetail[]> {
+    const url = `${this.URL}/${id}/book`;
+    return this.http.get<ReviewDetail[]>(url).pipe();
   }
   getReviewFromIDBook(id: string): Observable<Review[]> {
     const url = `${this.BookURL}/${id}/reviews`;
@@ -58,6 +62,9 @@ export class ReviewsService {
   }
   delete(id: string): Observable<Review> {
     return this.http.delete<Review>(`${this.URL}/${id}`);
+  }
+  deleteChild(idChild: string): Observable<ReviewChildDetail> {
+    return this.http.delete<ReviewChildDetail>(`${this.URL}/commentchild/${idChild}`);
   }
   getRatingBook(id: string): Observable<Rating> {
     const url = `${this.BookURL}/${id}/averageReview`;
