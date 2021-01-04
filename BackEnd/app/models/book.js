@@ -23,9 +23,15 @@ const bookSchema = new Schema({
     type: Number, 
     required: true
   },
+  originalPrice: { 
+    type: Number
+  },
   availableQuantity: {
     type:Number, 
     required: true
+  },
+  originalQuantity: {
+    type:Number
   },
   imageUrl: {
     type: String

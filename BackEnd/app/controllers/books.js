@@ -78,7 +78,9 @@ module.exports = {
 
       book.pageCount = req.body.pageCount;
       book.price = req.body.price;
+      book.originalPrice = req.body.originalPrice;
       book.availableQuantity = req.body.availableQuantity;
+      book.originalQuantity = req.body.originalQuantity;
 
       book.author = req.body.author;
 
@@ -412,7 +414,9 @@ module.exports = {
           book.publishDate = req.body.publishDate;
           book.pageCount = req.body.pageCount;
           book.price = req.body.price;
+          book.originalPrice = req.body.originalPrice;
           book.availableQuantity = req.body.availableQuantity;
+          book.originalQuantity = req.body.originalQuantity;
 
           book.author = req.body.author;
           //  book.categories.push(req.body.categories);
@@ -460,7 +464,9 @@ module.exports = {
           book.publishDate = req.body.publishDate;
           book.pageCount = req.body.pageCount;
           book.price = req.body.price;
+          book.originalPrice = req.body.originalPrice;
           book.availableQuantity = req.body.availableQuantity;
+          book.originalQuantity = req.body.originalQuantity;
 
           book.author = req.body.author;
           //  book.categories.push(req.body.categories);

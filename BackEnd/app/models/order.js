@@ -47,6 +47,11 @@ const schema = new Schema({
     default: Date.now,
     required: true
   },
+  completed: {
+    type: Date,
+    default: Date.now,
+    required: true
+  },
   totalPrice: {
     type: Number
   },
