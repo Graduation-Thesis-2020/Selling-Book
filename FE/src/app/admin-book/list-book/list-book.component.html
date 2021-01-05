@@ -40,7 +40,9 @@
           <th style="width: 200px">Tác Giả</th>
           <th style="width: 300px">Nhà xuất bản</th>
           <th>Ngày xuất bản</th>
-          <th>Giá</th>
+          <th>Giá nhập</th>
+          <th>Giá bán</th>
+          <th>Giá giảm</th>
           <th>Có sẵn</th>
           <th>Ảnh</th>
           <th>Thao tác</th>
@@ -53,7 +55,9 @@
           <td>{{ each.author.name }}</td>
           <td>{{ each.publisher.name }}</td>
           <td>{{ each.publishDate | date: "dd/MM/yyyy" }}</td>
+          <td>{{ each.originalPrice }}</td>
           <td>{{ each.price }}</td>
+          <td>{{ each.discount }}</td>
           <td>{{ each.availableQuantity }}</td>
           <td><img src="{{ each.imageUrl }}" class="backgr" /></td>
           <td style="width: 90px">
@@ -97,7 +101,7 @@
                   <input #title1 type="text" class="form-control" [(ngModel)]="book.title" placeholder="Devil K" name="title"/>
                 </div>
                 <div class="attr">
-                  <h3>Tên Tác Giả</h3>
+                  <h3>Tên tác giả</h3>
                   <select class="custom-select" #author1>
                     <option *ngFor="let aut of author" [value]="aut._id" [selected]="aut._id === book.author._id">
                       {{ aut.name }}
@@ -105,7 +109,7 @@
                   </select>
                 </div>
                 <div class="attr">
-                  <h3>Nhà Xuất Bản</h3>
+                  <h3>Nhà xuất bản</h3>
                   <select class="custom-select" #publisher1  >
                     <option *ngFor="let pub of pub" [value]="pub._id" [selected]="pub._id === book.publisher._id">
                       {{ pub.name }}
@@ -114,41 +118,48 @@
                 </div>
 
                 <div class="attr">
-                  <h3>Ngày Xuất Bản</h3>
+                  <h3>Ngày xuất bản</h3>
                   <input #publishDate1 type="date" class="form-control" [ngModel]="book.publishDate | date:'yyyy-MM-dd'" name="publishDate"
                     placeholder="ngày xuất bản" />
+                </div>
+
+                <div class="attr">
+                  <h3>Số trang</h3>
+                  <input #pageCount1 type="number" class="form-control" [(ngModel)]="book.pageCount" placeholder="Trần" name="pageCount"/>
                 </div>
 
                 <div class="attr">
                   <h3>Mô tả</h3>
                   <textarea #description1 type="text" class="form-control" [(ngModel)]="book.description" placeholder="Trần" name="description"></textarea>
                 </div>
-
               </div>
+
               <div class="col-sm-6" >
-
-
-
                 <div class="attr">
-                  <h3>Số Trang</h3>
-                  <input #pageCount1 type="number" class="form-control" [(ngModel)]="book.pageCount" placeholder="Trần" name="pageCount"/>
+                  <h3>Giá nhập</h3>
+                  <input #originalPrice1 type="number" class="form-control" [(ngModel)]="book.originalPrice"  name="originalPrice" />
                 </div>
                 <div class="attr">
-                  <h3>Giá</h3>
-                  <input #price1 type="number" class="form-control" [(ngModel)]="book.price" placeholder="Trần" name="price"/>
+                  <h3>Giá bán</h3>
+                  <input #price1 type="number" class="form-control" [(ngModel)]="book.price"  name="price"/>
                 </div>
                 <div class="attr">
-                  <h3>Giảm Giá</h3>
-                  <input #discount1 type="number" class="form-control" [(ngModel)]="book.discount" placeholder="Trần" name="discount"/>
+                  <h3>Giảm giá</h3>
+                  <input #discount1 type="number" class="form-control" [(ngModel)]="book.discount" name="discount"/>
+                </div>
+                <div class="attr">
+                  <h3>Số lượng nhập</h3>
+                  <input #originalQuantity1 type="number" class="form-control" [(ngModel)]="book.originalQuantity" name="originalQuantity"
+                    />
                 </div>
                 <div class="attr">
                   <h3>Số lượng có sẵn</h3>
                   <input #availableQuantity1 type="number" class="form-control" [(ngModel)]="book.availableQuantity" name="availableQuantity"
-                    placeholder="Trần" />
+                />
                 </div>
 
                 <div >
-                  <h3>Thể Loại</h3>
+                  <h3>Thể loại</h3>
 
                   <div class="form-check form-check-inline" *ngFor="let item of book.categories">
                     <input type="checkbox" class="form-check-input" checked
@@ -218,8 +229,8 @@
       <div class="modal-footer">
 
         <button class="btn btn-success btn-circle pull-right" title="Edit" type="submit" data-dismiss="modal"
-                    (click)="saveEdit(title1.value, description1.value,publishDate1.value, pageCount1.value,
-                              price1.value, availableQuantity1.value, publisher1.value, author1.value, discount1.value, FileUpload1)">
+                    (click)="saveEdit(title1.value, description1.value,publishDate1.value, pageCount1.value, originalPrice1.value,
+                              price1.value, originalQuantity1.value, availableQuantity1.value, publisher1.value, author1.value, discount1.value, FileUpload1)">
                     Lưu <i class="fa fa-check-square-o"></i></button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
       </div>
@@ -271,7 +282,10 @@
                   <input #publishDateA type="date" class="form-control"
                     placeholder="ngày xuất bản" />
                 </div>
-
+                <div class="attr">
+                  <h3>Số Trang</h3>
+                  <input #pageCountA type="number" class="form-control" />
+                </div>
                 <div class="attr">
                   <h3>Mô tả</h3>
                   <textarea #descriptionA type="text" class="form-control" placeholder="Nhập nội dung mô tả" ></textarea>
@@ -279,20 +293,21 @@
 
               </div>
               <div class="col-sm-6" >
-
-
-
                 <div class="attr">
-                  <h3>Số Trang</h3>
-                  <input #pageCountA type="number" class="form-control" />
+                  <h3>Giá Nhập</h3>
+                  <input #originalPriceA type="number" class="form-control" />
                 </div>
                 <div class="attr">
-                  <h3>Giá</h3>
+                  <h3>Giá Bán</h3>
                   <input #priceA type="number" class="form-control" />
                 </div>
                 <div class="attr">
                   <h3>Giảm Giá</h3>
                   <input #discountA type="number" class="form-control" />
+                </div>
+                <div class="attr">
+                  <h3>Số lượng nhập</h3>
+                  <input #originalQuantityA type="number" class="form-control" />
                 </div>
                 <div class="attr">
                   <h3>Số lượng có sẵn</h3>
@@ -335,8 +350,8 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-success btn-circle pull-right" title="Add" type="submit" data-dismiss="modal"
-                    (click)="saveAdd(titleA.value, descriptionA.value,publishDateA.value, pageCountA.value,
-                              priceA.value, availableQuantityA.value, publisherA.value, authorA.value, discountA.value, FileUpload)">
+                    (click)="saveAdd(titleA.value, descriptionA.value,publishDateA.value, pageCountA.value, originalPriceA.value,
+                              priceA.value,originalQuantityA.value, availableQuantityA.value, publisherA.value, authorA.value, discountA.value, FileUpload)">
                     Tạo <i class="fa fa-check-square-o"></i></button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 

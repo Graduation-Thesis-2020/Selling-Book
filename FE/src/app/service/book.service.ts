@@ -115,15 +115,17 @@ export class BooksService {
 
     return this.http.post<Books1>(this.bookURL, formData)
   }
-  addBookss1(title: string, description: string,publishDate:Date, pageCount: number,
-    price: number , availableQuantity: number , publisher: string , author: string,
+  addBookss1(title: string, description: string,publishDate:Date, pageCount: number, originalPrice: number,
+    price: number , originalQuantity:number, availableQuantity: number , publisher: string , author: string,
      categories: string[] , discount: number , image: File): Observable<any> {
     var formData: any = new FormData();
     formData.append('title', title);
     formData.append('description', description);
     formData.append('publishDate',publishDate);
     formData.append('pageCount', pageCount);
+    formData.append('originalPrice', originalPrice);
     formData.append('price', price);
+    formData.append('originalQuantity', originalQuantity);
     formData.append('availableQuantity', availableQuantity);
     formData.append('publisher', publisher);
     formData.append('author', author);
@@ -152,8 +154,8 @@ export class BooksService {
 
     return this.http.put<Books1>(`${this.bookURL}/${book._id}`, formData, httpOptions).pipe();
   }
-  EditBookss1(_id:string, title: string, description: string,publishDate:Date, pageCount: number,
-    price: number , availableQuantity: number , publisher: string , author: string,
+  EditBookss1(_id:string, title: string, description: string,publishDate:Date, pageCount: number, originalPrice: number,
+    price: number ,originalQuantity:number, availableQuantity: number , publisher: string , author: string,
      categories: string[] , discount: number , image: File): Observable<any> {
     var formData: any = new FormData();
     formData.append('_id', _id);
@@ -161,7 +163,9 @@ export class BooksService {
     formData.append('description', description);
     formData.append('publishDate',publishDate);
     formData.append('pageCount', pageCount);
+    formData.append('originalPrice', originalPrice);
     formData.append('price', price);
+    formData.append('originalQuantity', originalQuantity);
     formData.append('availableQuantity', availableQuantity);
     formData.append('publisher', publisher);
     formData.append('author', author);

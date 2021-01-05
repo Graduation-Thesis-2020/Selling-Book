@@ -194,7 +194,9 @@ export class CheckoutComponent implements OnInit {
     else{
       this.countItem = 0;
     }
-    this.totalUSD = totalUSD
+    this.totalUSD = Math.round(totalUSD* 100.0) / 100.0;
+    console.log(this.totalUSD);
+
 
   }
 
@@ -290,7 +292,7 @@ export class CheckoutComponent implements OnInit {
         console.log(this.order);
         localStorage.removeItem('cart');
         localStorage.removeItem('cartCheckout');
-        this._snackBar.open("Đặt hàng thành công","Đóng", {
+        this._snackBar.open("Thanh toán thành công","Đóng", {
           panelClass: "snackbarConfig1",
           duration: 3000,
           horizontalPosition: this.horizontalPosition,

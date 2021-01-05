@@ -100,19 +100,19 @@ export class AddBookComponent implements OnInit {
   await alert('Thêm Thành Công!');
 
   }
-  save(title: string, description: string,publishDate: Date, pageCount: number,
-    price: number , availableQuantity: number , publisher: string , author: string, discount: number , image: File ) {
+  // save(title: string, description: string,publishDate: Date, pageCount: number,
+  //   price: number , availableQuantity: number , publisher: string , author: string, discount: number , image: File ) {
 
-  let categories: any[] = [];
-  categories = this.tempArr.category;
-  console.log(categories);
-  this.BooksService.addBookss1(title, description, publishDate, pageCount, price,
-     availableQuantity, publisher, author, categories, discount, image ).subscribe(res => this.BookData = res,
-                                     error => this.showMessage = error);
-  console.log(this.BookData);
-  alert('Thêm Thành Công!');
+  // let categories: any[] = [];
+  // categories = this.tempArr.category;
+  // console.log(categories);
+  // this.BooksService.addBookss1(title, description, publishDate, pageCount, price,
+  //    availableQuantity, publisher, author, categories, discount, image ).subscribe(res => this.BookData = res,
+  //                                    error => this.showMessage = error);
+  // console.log(this.BookData);
+  // alert('Thêm Thành Công!');
 
-  }
+  // }
 
   onFileChanged(event: any) {
     this.files = event.target.files;

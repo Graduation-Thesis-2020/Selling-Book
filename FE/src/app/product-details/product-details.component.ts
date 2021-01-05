@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BooksService } from '../service/book.service';
 import { Books, Books1 } from '../models/book';
 import { ReviewsService } from '../service/review.service';
@@ -69,7 +69,7 @@ export class ProductDetailsComponent implements OnInit {
     private AuthorsService: AuthorService,
     private CateService: CateService,
     private cartService: CartService,
-    private publisherService: PublisherService,private _snackBar: MatSnackBar,
+    private publisherService: PublisherService,private _snackBar: MatSnackBar, private router: Router
   ) {  this.config = {
         itemsPerPage: 5,
         currentPage: 1
@@ -244,12 +244,13 @@ export class ProductDetailsComponent implements OnInit {
                 localStorage.setItem("cart", JSON.stringify(cart));
               }
             }
-            this._snackBar.open("Thêm thành công","Đóng", {
+            let snackBarRef = this._snackBar.open("Thêm thành công","Xem giỏ hàng", {
               panelClass: "snackbarConfig1",
-              duration: 3000,
+              duration: 10000,
               horizontalPosition: this.horizontalPosition,
               verticalPosition: this.verticalPosition,
             });
+            snackBarRef.onAction().subscribe(()=> this.router.navigate(['/cart']))
             this.loadCart();
           },
           (error) => {

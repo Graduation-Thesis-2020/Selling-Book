@@ -4,7 +4,7 @@ import { BooksService } from '../service/book.service';
 import { CateService } from '../service/cate.service';
 import { Cate } from '../models/cate';
 import { BookPubComponent } from '../book-pub/book-pub.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../service/cart.service';
 import { Mess, Cart, Item } from '../models/cart';
 import { Publisher } from '../models/publisher';
@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
               private CateService: CateService, private route: ActivatedRoute, private cartService: CartService,
               private PubService: PublisherService,
               private AuthorService: AuthorService,
-              private _snackBar: MatSnackBar,) { }
+              private _snackBar: MatSnackBar,private router: Router) { }
 
   ngOnInit() {
     this.getAllBook();
@@ -112,12 +112,13 @@ export class HomeComponent implements OnInit {
                 localStorage.setItem("cart", JSON.stringify(cart));
               }
             }
-            this._snackBar.open("Thêm thành công","Đóng", {
+            let snackBarRef =  this._snackBar.open("Thêm thành công","Xem giỏ hàng", {
               panelClass: "snackbarConfig1",
-              duration: 3000,
+              duration: 10000,
               horizontalPosition: this.horizontalPosition,
               verticalPosition: this.verticalPosition,
             });
+            snackBarRef.onAction().subscribe(()=> this.router.navigate(['/cart']))
             this.loadCart();
           },
           (error) => {

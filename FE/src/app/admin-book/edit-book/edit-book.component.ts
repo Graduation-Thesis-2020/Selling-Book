@@ -59,19 +59,19 @@ export class EditBookComponent implements OnInit {
   //   //alert('Thành Công')
   //   //this.goBack();
   // }
-   save1( title: string, description: string,publishDate: Date, pageCount: number,
-    price: number , availableQuantity: number , publisher: string , author: string, discount: number, image: File ) {
-    const _id: string = this.route.snapshot.paramMap.get('id');
-    let categories: any[] = [];
-    categories = this.tempArr.category;
-    const newBook: Books2 = {_id, title, description,publishDate, pageCount, price, availableQuantity,
-                            publisher, author, categories, discount, image } as Books2;
-    console.log(newBook);
-    this.BookService.EditBookss1(_id, title, description, publishDate, pageCount, price, availableQuantity,
-      publisher, author, categories, discount, image ).subscribe(res => this.book2 = res,
-                                      error => this.showMessage = error);
+  //  save1( title: string, description: string,publishDate: Date, pageCount: number,
+  //   price: number , availableQuantity: number , publisher: string , author: string, discount: number, image: File ) {
+  //   const _id: string = this.route.snapshot.paramMap.get('id');
+  //   let categories: any[] = [];
+  //   categories = this.tempArr.category;
+  //   const newBook: Books2 = {_id, title, description,publishDate, pageCount, price, availableQuantity,
+  //                           publisher, author, categories, discount, image } as Books2;
+  //   console.log(newBook);
+  //   this.BookService.EditBookss1(_id, title, description, publishDate, pageCount, price, availableQuantity,
+  //     publisher, author, categories, discount, image ).subscribe(res => this.book2 = res,
+  //                                     error => this.showMessage = error);
 
-  }
+  // }
   // async save2( title: string, description: string,publishDate: Date, pageCount: number,
   //   price: number , availableQuantity: number , publisher: string , author: string,
   //   categories: string , discount: number , image: File ) {

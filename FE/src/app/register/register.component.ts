@@ -93,12 +93,13 @@ export class RegisterComponent implements OnInit {
     console.log(newUser);
     this.serService.Signup(newUser).subscribe( res => {
       this.user = res;
-      this._snackBar.open("Đăng ký thành công","Đóng", {
+      let snackBarRef =  this._snackBar.open("Đăng ký thành công","Đăng Nhập", {
         panelClass: "snackbarConfig1",
-        duration: 5000,
+        duration: 10000,
         horizontalPosition: this.horizontalPosition,
         verticalPosition: this.verticalPosition,
-      }); 
+      });
+      snackBarRef.onAction().subscribe(()=> this.router.navigate(['/login']));
       },
       (error) => {
         this.showMessage = error;

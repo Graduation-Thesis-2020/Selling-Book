@@ -57,6 +57,7 @@ export class UserOrderComponent implements OnInit {
     const token = localStorage.getItem('token');
     this.UserService.GetAllOrder(token).subscribe(order => {
       this.order = order;
+      this.order.reverse();
       this.all = this.order.length;
       for(var i = 0; i< this.all ; i++){
         if(this.order[i].status=='Chờ xác nhận'){

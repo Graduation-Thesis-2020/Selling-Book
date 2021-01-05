@@ -117,12 +117,13 @@ export class BookPubComponent implements OnInit {
                 localStorage.setItem("cart", JSON.stringify(cart));
               }
             }
-            this._snackBar.open("Thêm thành công","Đóng", {
+            let snackBarRef = this._snackBar.open("Thêm thành công","Xem giỏ hàng", {
               panelClass: "snackbarConfig1",
-              duration: 3000,
+              duration: 10000,
               horizontalPosition: this.horizontalPosition,
               verticalPosition: this.verticalPosition,
             });
+            snackBarRef.onAction().subscribe(()=> this.router.navigate(['/cart']))
             this.loadCart();
           },
           (error) => {

@@ -81,6 +81,8 @@ export interface BookEdit {
   _id: string;
   discount: number;
   image: File;
+  originalQuantity: number;
+  originalPrice : number
 }
 export interface BookNew {
   title: string;

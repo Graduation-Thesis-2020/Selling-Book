@@ -158,12 +158,12 @@ export class ListBookComponent implements OnInit {
     }
 
   }
-  saveEdit( title: string, description: string,publishDate: Date, pageCount: number,
-    price: number , availableQuantity: number , publisher: string , author: string, discount: number, image: File ) {
+  saveEdit( title: string, description: string,publishDate: Date, pageCount: number, originalPrice: number,
+    price: number ,originalQuantity: number, availableQuantity: number , publisher: string , author: string, discount: number, image: File ) {
     const _id: string = this.book._id;
     let categories: any[] = [];
     categories = this.tempArr.category;
-    this.BooksService.EditBookss1(_id, title, description, publishDate, pageCount, price, availableQuantity,
+    this.BooksService.EditBookss1(_id, title, description, publishDate, pageCount,originalPrice, price,originalQuantity, availableQuantity,
       publisher, author, categories, discount, image ).subscribe(
         res => {
           this.book2 = res;
@@ -186,14 +186,14 @@ export class ListBookComponent implements OnInit {
           });
         });
   }
-  saveAdd( title: string, description: string,publishDate: Date, pageCount: number,
-    price: number , availableQuantity: number , publisher: string , author: string, discount: number, image: File ) {
+  saveAdd( title: string, description: string,publishDate: Date, pageCount: number, originalPrice: number,
+    price: number ,originalQuantity: number, availableQuantity: number , publisher: string , author: string, discount: number, image: File ) {
     let categories: any[] = [];
     categories = this.tempArrAdd.categoryAdd;
     // const newBook : Books2 = { title, description, publishDate, pageCount, price, availableQuantity,
     //   publisher, author, categories, discount, image} as Books2;
     // console.log("new: "+newBook);
-    this.BooksService.addBookss1(title, description, publishDate, pageCount, price, availableQuantity,
+    this.BooksService.addBookss1(title, description, publishDate, pageCount,originalPrice, price,originalQuantity, availableQuantity,
       publisher, author, categories, discount, image ).subscribe(
         res => {
           this.bookAdd = res;
