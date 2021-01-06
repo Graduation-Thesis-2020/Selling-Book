@@ -707,7 +707,7 @@ ul.nav.tabs {
 	margin-right:6px;
 }
 .mid-2 {
-    padding-bottom: 2em;
+  padding-bottom: 0em;
 }
 .mid-1 {
     padding: 2em 0 0;
@@ -716,7 +716,8 @@ ul.nav.tabs {
     float: right;
 }
 .add{
-	text-align:center;
+  text-align:center;
+  padding-top: 2em;
 }
 .col-m {
     padding: 1em;
@@ -728,7 +729,9 @@ ul.nav.tabs {
 .coming-img img{
   width: 80px;
   height: 80px;
+
 }
+
 .offer-img{
 	position:relative;
 	display:block;

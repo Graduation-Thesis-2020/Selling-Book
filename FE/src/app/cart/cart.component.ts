@@ -193,7 +193,8 @@ export class CartComponent implements OnInit {
         imageId: item.product.imageId,
         imageUrl: item.product.imageUrl,
         qty: item.total,
-        price: price
+        price: price,
+        originalPrice : item.product.originalPrice,
       });
     }
     console.log(books);

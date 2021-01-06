@@ -346,7 +346,7 @@
                 <a routerLink="/details/{{ bk._id }}" class="offer-img">
                   <img src="{{ bk.imageUrl }}" class="img-responsive" alt="" />
                   <div class="offer" *ngIf="bk.discount !== 0">
-                    <p><span>Sale Off</span></p>
+                    <p><span>Giảm giá</span></p>
                   </div>
                 </a>
                 <div class="mid-1">
@@ -367,7 +367,7 @@
                     <div class="clearfix"></div>
                   </div>
 
-                  <div class="add"  *ngIf="bk.price !== 0">
+                  <div class="add"  *ngIf="bk.price !== 0 && bk.availableQuantity !== 0">
                     <button
                       class="btn btn-danger my-cart-btn my-cart-b"
                       (click)="AddtoCart(bk._id)"
@@ -377,6 +377,11 @@
                   </div>
                   <div class="coming-img" style="text-align: center; padding-top: 23px;" *ngIf="bk.price == 0">
                     <img src="https://media.istockphoto.com/vectors/red-rubber-stamp-icon-on-transparent-background-vector-id919297480?b=1&k=6&m=919297480&s=612x612&w=0&h=gkCjvO2o195wYTLNiVKD-7VkajMzgj-_AOmLTmmrL8g=" alt="" width="" height="">
+                  </div>
+                  <div class="soldout-img"  style="text-align: center; " *ngIf="bk.availableQuantity == 0 && bk.price !== 0">
+                    <img
+                      src="https://theme.hstatic.net/1000360022/1000651995/14/sold_out11.png?v=336"
+                      alt="" width="80px" height="80px">
                   </div>
                 </div>
               </div>
@@ -410,7 +415,7 @@
                 <a routerLink="/details/{{ bk._id }}" class="offer-img">
                   <img src="{{ bk.imageUrl }}" class="img-responsive" alt="" />
                   <div class="offer" *ngIf="bk.discount !== 0">
-                    <p><span>Sale Off</span></p>
+                    <p><span>Giảm giá</span></p>
                   </div>
                 </a>
                 <div class="mid-1">
@@ -430,13 +435,18 @@
                     </div>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="add">
+                  <div class="add" *ngIf="bk.price !== 0 && bk.availableQuantity !== 0">
                     <button
                       class="btn btn-danger my-cart-btn my-cart-b"
                       (click)="AddtoCart(bk._id)"
                     >
                       <a [routerLink]="[{ id: bk._id }]"></a>Thêm Giỏ Hàng
                     </button>
+                  </div>
+                  <div class="soldout-img"  style="text-align: center; " *ngIf="bk.availableQuantity == 0 && bk.price !== 0">
+                    <img
+                      src="https://theme.hstatic.net/1000360022/1000651995/14/sold_out11.png?v=336"
+                      alt="" width="80px" height="80px">
                   </div>
                 </div>
               </div>
@@ -509,7 +519,7 @@
                 <a routerLink="/details/{{ bk._id }}" class="offer-img" >
                   <img src="{{ bk.imageUrl }}" class="img-responsive" alt="" />
                   <div class="offer" *ngIf="bk.discount !== 0">
-                    <p><span>Sale Off</span></p>
+                    <p><span>Giảm giá</span></p>
                   </div>
                 </a>
                 <div class="mid-1">
@@ -592,7 +602,7 @@
                 <a routerLink="/details/{{ bk._id }}" class="offer-img">
                   <img src="{{ bk.imageUrl }}" class="img-responsive" alt="" />
                   <div class="offer" *ngIf="bk.discount !== 0">
-                    <p><span>Sale Off</span></p>
+                    <p><span>Giảm giá</span></p>
                   </div>
                 </a>
                 <div class="mid-1">
@@ -612,13 +622,18 @@
                     </div>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="add">
+                  <div class="add" *ngIf="bk.price !== 0 && bk.availableQuantity !== 0">
                     <button
                       class="btn btn-danger my-cart-btn my-cart-b"
                       (click)="AddtoCart(bk._id)"
                     >
                       <a [routerLink]="[{ id: bk._id }]"></a>Thêm Giỏ Hàng
                     </button>
+                  </div>
+                  <div class="soldout-img"  style="text-align: center; " *ngIf="bk.availableQuantity == 0 && bk.price !== 0">
+                    <img
+                      src="https://theme.hstatic.net/1000360022/1000651995/14/sold_out11.png?v=336"
+                      alt="" width="80px" height="80px">
                   </div>
                 </div>
               </div>
@@ -713,7 +728,7 @@
                 <a routerLink="/details/{{ bk._id }}" class="offer-img">
                   <img src="{{ bk.imageUrl }}" class="img-responsive" alt="" />
                   <div class="offer" *ngIf="bk.discount > 0">
-                    <p><span>Sale Off</span></p>
+                    <p><span>Giảm giá</span></p>
                   </div>
                 </a>
                 <div class="mid-1">
@@ -733,13 +748,21 @@
                     </div>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="add">
+                  <div class="add"  *ngIf="bk.price !== 0 && bk.availableQuantity !== 0">
                     <button
                       class="btn btn-danger my-cart-btn my-cart-b"
                       (click)="AddtoCart(bk._id)"
                     >
                       <a [routerLink]="[{ id: bk._id }]"></a>Thêm Giỏ Hàng
                     </button>
+                  </div>
+                  <div class="coming-img" style="text-align: center; padding-top: 23px;" *ngIf="bk.price == 0">
+                    <img src="https://media.istockphoto.com/vectors/red-rubber-stamp-icon-on-transparent-background-vector-id919297480?b=1&k=6&m=919297480&s=612x612&w=0&h=gkCjvO2o195wYTLNiVKD-7VkajMzgj-_AOmLTmmrL8g=" alt="" width="" height="">
+                  </div>
+                  <div class="soldout-img"  style="text-align: center; " *ngIf="bk.availableQuantity == 0 && bk.price !== 0">
+                    <img
+                      src="https://theme.hstatic.net/1000360022/1000651995/14/sold_out11.png?v=336"
+                      alt="" width="80px" height="80px">
                   </div>
                 </div>
               </div>

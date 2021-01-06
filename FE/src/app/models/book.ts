@@ -14,6 +14,8 @@ export interface Books {
   _id: string;
   discount: number;
   image: File;
+  originalQuantity: number;
+  originalPrice : number;
 }
 export interface Books1 {
   title: string;
@@ -82,7 +84,7 @@ export interface BookEdit {
   discount: number;
   image: File;
   originalQuantity: number;
-  originalPrice : number
+  originalPrice : number;
 }
 export interface BookNew {
   title: string;
@@ -108,4 +110,5 @@ export interface BookInCartCheckout {
   imageUrl: string;
   imageId: string;
   bookId: string;
+  originalPrice : number;
 }

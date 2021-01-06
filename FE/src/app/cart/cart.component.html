@@ -173,7 +173,7 @@
         <b class="line"></b>
       </div>
 
-      <div class="num">
+      <div class="num" *ngIf="countItem>0">
         <small>Hiện có</small> [ {{ countItem }} ]
         <small>sản phẩm trong giỏ của bạn</small>
       </div>
@@ -209,7 +209,7 @@
                   <div class="input-group-prepend">
                     <button class="btn btn-outline-secondary btnupdown" (click)="update(i, 'minus')" type="button"> <i class="fa fa-minus"></i></button>
                   </div>
-                  <input type="text" class="form-control inputNum" sytle="width: 20px" value="{{ item.total }}" id="Input_{{ i }}">
+                  <input type="text" class="form-control inputNum" sytle="width: 40px" value="{{ item.total }}" id="Input_{{ i }}">
                   <div class="input-group-append">
                     <button class="btn btn-outline-secondary btnupdown" (click)="update(i, 'plus')" type="button"><i class="fa fa-plus"></i></button>
                   </div>
@@ -256,8 +256,12 @@
     </div>
 
     <div class="container pl-0 pr-0" *ngIf="countItem==0">
-      <div style="text-align: center;">Hiện không có sản phẩm nào trong giỏ hàng</div>
-
+      <div class="nothing">
+        <img src="https://www.vexels.com/media/users/3/218179/isolated/thumb/f3aa1da2feec7a973c3e244760548bc3-shopping-fox-cute-illustration-by-vexels.png" alt="">
+        <div>
+          <span>Hiện không có sản phẩm nào trong giỏ hàng</span>
+        </div>
+      </div>
     </div>
     <div class="pay">
       <div class="row">

@@ -32,6 +32,11 @@
   height: 120px;
   margin-top: 70px;
 }
+
+.soldout-img{
+  margin-top: 4em;
+  text-align: center;
+}
 .rate span{
   font-size: 24px;
 }
@@ -88,7 +93,7 @@
   font-size: 28px;
 }
 .mid-2 {
-  margin-top: 2em;
+  margin-top: 1em;
 }
 .more li {
   margin-top: 30px;

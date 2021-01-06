@@ -167,7 +167,9 @@
                   <a routerLink="/books/{{ books.author._id }}/authors/{{books.author.name}}  "> {{ author.name }}</a>
                 </div>
               </div>
-
+            </div>
+            <div style="margin-top: 10px;" *ngIf="books.price !== 0">
+              <span style="color: darkgray; font-weight: normal;">Có sẵn: {{books.availableQuantity}} sản phẩm</span>
             </div>
 
             <div class="mid-2" *ngIf="books.price !== 0">
@@ -175,7 +177,6 @@
               <p class="price" *ngIf="books.discount > 0">
                 <label>{{ books.price }} đ</label><em class="item_price">{{ books.discount }} đ</em>
               </p>
-
             </div>
 
             <div class="coming-img" style="text-align: center; padding-top: 23px;" *ngIf="books.price == 0">
@@ -184,13 +185,17 @@
                 alt="" width="" height="">
             </div>
 
-            <div class="add-cart" *ngIf="books.price !== 0">
+            <div class="add-cart" *ngIf="books.price !== 0 && books.availableQuantity !== 0">
               <button class="btn btn-danger my-cart-btn my-cart-b" (click)="AddtoCart(books._id)">
                 Thêm Giỏ Hàng
               </button>
             </div>
 
-
+            <div class="soldout-img" *ngIf="books.availableQuantity == 0 && books.price !== 0">
+              <img
+                src="https://theme.hstatic.net/1000360022/1000651995/14/sold_out11.png?v=336"
+                alt="" width="150px" height="150px">
+            </div>
 
 
 
