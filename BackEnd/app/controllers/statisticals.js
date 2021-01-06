@@ -3,6 +3,7 @@ const Publisher = require('../models/publisher');
 const Book = require('../models/book');
 const Order = require('../models/order');
 const OrderDetail = require('../models/orderDetail');
+const { findById } = require('../models/user');
 
 module.exports = {
 
@@ -206,6 +207,75 @@ module.exports = {
       return res.status(200).json(filteredData);
     }
     return res.status(404).json({ message: " Không có!!!!" });
+
+  },
+
+  getStatisticalAllBookTotalPrice: async (req, res, next) => {
+    try {
+      let orderDetailData = await OrderDetail.find();
+      let bookDataDetail = await Book.find();
+      let i, j;
+      let BookArray = [];
+      let Revenue, Profit, Quantity;
+      for (i = 0; i < orderDetailData.length; i++) {
+        for (j = 0; j < orderDetailData[i].books.length; j++) {
+          let bookdata = orderDetailData[i].books[j];
+          let NXBxTG = await Book.findById(bookdata.bookId);
+          Revenue = bookdata.price * bookdata.qty;
+          Profit = Revenue - (bookdata.originalPrice * bookdata.qty);
+          Quantity = bookdata.qty;
+          if (NXBxTG != null && NXBxTG != '') {
+            let BookDetail = {
+              bookId: bookdata.bookId,
+              title: bookdata.title,
+              imageUrl: bookdata.imageUrl,
+              imageId: bookdata.imageId,
+              Publisher: NXBxTG.publisher,
+              Author: NXBxTG.author,
+              Quantity: Quantity,
+              Revenue: Revenue,
+              Profit: Profit
+            }
+            BookArray.push(BookDetail);
+          } else {
+            let BookDetail = {
+              bookId: bookdata.bookId,
+              title: bookdata.title,
+              imageUrl: bookdata.imageUrl,
+              imageId: bookdata.imageId,
+              //   Publisher: NXBxTG.publisher,
+              //    Author: NXBxTG.author,
+              Quantity: Quantity,
+              Revenue: Revenue,
+              Profit: Profit
+            }
+            BookArray.push(BookDetail);
+          }
+        }
+      }
+
+      for (i = 0; i < BookArray.length - 1; i++) {
+        for (j = i + 1; j < BookArray.length; j++) {
+          if (BookArray[i].bookId.toString() == BookArray[j].bookId.toString()) {
+            BookArray[i].Quantity += BookArray[j].Quantity;
+            BookArray[i].Revenue += BookArray[j].Revenue;
+            BookArray[i].Profit += BookArray[j].Profit;
+            let index = j;
+            for (let k = index + 1; k < BookArray.length; k++) {
+              BookArray[k-1] = BookArray[k];
+            }
+            BookArray.length -- ;
+          }
+        }
+      }
+
+
+      return res.status(200).json(BookArray);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  },
+  getStatisticalAllBookTotalPriceInMonth: async (req, res, next) => {
 
   }
 }
