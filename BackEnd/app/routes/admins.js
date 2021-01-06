@@ -58,7 +58,10 @@ router.get('/statistical/day/:day', passport.authenticate('jwt', { session: fals
   .get('/statistical/quarter/:quarter', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByQuarter)
   .get('/statistical/month/:month', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByMonth)
   .get('/statistical/year/:year', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByDay)
+
   .get('/statistical/AllCustomerTotalPrice', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalAllCustomerTotalPrice)
+  .get('/statistical/newCustomerInMonth', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalnewCustomerInMonth)
+  .get('/statistical/newCustomerInMonth', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalnewCustomerInMonth)
 
 // Management Employee
 //router.get('/secret', passport.authenticate('jwt', { session: false }), Admin.secret)

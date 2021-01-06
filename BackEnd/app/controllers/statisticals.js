@@ -121,5 +121,31 @@ module.exports = {
     } catch (error) {
       return res.status(500).json(error);
     }
+  },
+
+  getStatisticalnewCustomerInMonth: async (req, res, next) => {
+    let userData = await User.find({ role: 0 });
+    let dateNow = new Date;
+    let datedNow = ((dateNow.getMonth() > 8) ? (dateNow.getMonth() + 1) : ('0' + (dateNow.getMonth() + 1))) + '-' + dateNow.getFullYear();
+    //   return res.status(200).json(datedNow);
+
+
+    let filteredData = [];
+
+    let i = 0;
+    for (i = 0; i < userData.length; i++) {
+      let date = userData[i].createdAt;
+
+      let dated = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+      if (dated == datedNow) {
+        filteredData.push(userData[i]);
+      }
+    }
+
+    if (filteredData != null && filteredData != '') {
+      return res.status(200).json(filteredData);
+    }
+    return res.status(404).json({ message: " Không có!!!!" });
+
   }
 }
