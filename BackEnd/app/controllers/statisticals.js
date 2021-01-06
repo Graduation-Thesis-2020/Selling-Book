@@ -2,6 +2,7 @@ const User = require('../models/user');
 const Publisher = require('../models/publisher');
 const Book = require('../models/book');
 const Order = require('../models/order');
+const OrderDetail = require('../models/orderDetail');
 
 module.exports = {
 
@@ -11,6 +12,8 @@ module.exports = {
     let orderdata = await Order.find();
     let orderlength = orderdata.length;
     let totalPrice = 0, totalBill = 0;
+    let totalOriginalPrice = 0;
+    let totalFinalPrice ;
     let i = 0;
     let filterday = req.params.day;
 
@@ -22,13 +25,19 @@ module.exports = {
       if (dated == filterday && orderFilter.status == "Đã giao") {
         totalOrderDetail.push(orderFilter);
         totalPrice += orderFilter.totalPrice;
+        let j;
+        let orderDetailData = await OrderDetail.findOne({ orderId: orderFilter._id })
+        for (j = 0; j < orderDetailData.books.length; j++) {
+          totalOriginalPrice += (orderDetailData[j].originalPrice * orderDetailData[j].qty);
+        }
+        totalFinalPrice = totalPrice - totalOriginalPrice ;
       }
     }
 
     if (totalOrderDetail != null && totalOrderDetail != '') {
       totalBill = totalOrderDetail.length;
       return res.status(200).json({
-        totalPrice: totalPrice,
+        totalPrice: totalFinalPrice,
         totalBill: totalBill,
         totalOrderDetail
       });
@@ -41,7 +50,7 @@ module.exports = {
 
   },
   getStatisticalByMonth: async (req, res, next) => {
-    
+
     let totalOrderDetail = [];
     let orderdata = await Order.find();
     let orderlength = orderdata.length;
