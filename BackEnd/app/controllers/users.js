@@ -424,7 +424,15 @@ module.exports = {
       await newOrderDetail.save();
 
       order.orderDetailId = newOrderDetail._id;
+      await order.save();
       notificationCreateOrder(userInfo.email, userInfo.name, order)
+      let i;
+      for (i = 0; i < newOrderDetail.books.length; i++) {
+        let bookdata = newOrderDetail.books[i];
+        let findedBook = await Book.findById(bookdata.bookId);
+        findedBook.availableQuantity -= bookdata.qty;
+        await findedBook.save();
+      }
       return res.status(201).json({
         message: 'Successfully bought book!',
         order
@@ -553,9 +561,17 @@ module.exports = {
   },
 
   updateOrder: async (req, res, next) => {
-    const orderId = req.params.orderId;
+    let orderId = req.params.orderId;
     try {
-      const orderdata = await Order.findById(orderId);
+      let orderdata = await Order.findById(orderId);
+      let orderDetailData = await OrderDetail.findOne({ orderId: orderId });
+      let i;
+      for (i = 0; i < orderDetailData.books.length; i++) {
+        let bookdata = orderDetailData.books[i];
+        let findedBook = await Book.findById(bookdata.bookId);
+        findedBook.availableQuantity += bookdata.qty;
+        await findedBook.save();
+      }
       orderdata.status = req.body.status;
       await orderdata.save();
       return res.status(200).json(orderdata);

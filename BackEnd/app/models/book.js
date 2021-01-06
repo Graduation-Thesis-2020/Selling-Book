@@ -4,47 +4,47 @@ const Schema = mongoose.Schema;
 
 // schema book
 const bookSchema = new Schema({
-  title: { 
+  title: {
     type: String,
-     required: true
-    },
+    required: true
+  },
   description: {
     type: String
   },
   publishDate: {
-    type: Date , 
+    type: Date,
     required: false
   },
   pageCount: {
     type: Number,
-     required: true
-    },
-  price: { 
-    type: Number, 
     required: true
   },
-  originalPrice: { 
+  price: {
+    type: Number,
+    required: true
+  },
+  originalPrice: {
     type: Number
   },
   availableQuantity: {
-    type:Number, 
+    type: Number,
     required: true
   },
   originalQuantity: {
-    type:Number
+    type: Number
   },
   imageUrl: {
     type: String
   },
   imageId: {
     type: String
-    },
+  },
   publisher: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Publisher'
   },
   author: {
-     type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Author'
   },
   categories: [{

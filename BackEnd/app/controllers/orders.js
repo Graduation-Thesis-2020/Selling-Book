@@ -28,19 +28,20 @@ module.exports = {
 
 
   // Delete Order
-  deleteOrder: (req, res, next) => {
-    Order.remove({ _id: req.params.orderId })
-      .exec()
-      .then(result => {
-        res.status(200).json({
-          message: "Order deleted"
-        });
-      })
-      .catch(err => {
-        res.status(500).json({
-          error: err
-        });
-      });
+  deleteOrder: async (req, res, next) => {
+    let orderId = req.params.orderId;
+    try {
+      let orderDetailData = await OrderDetail.findOne({ orderId: orderId });
+      let orderData = await Order.findById(orderId);
+      
+      await orderData.remove();
+      await orderData.save();
+      await orderDetailData.remove();
+      await orderDetailData.save();
+      return res.status(200).json({ message: "Xóa thành công!!!!" });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   },
 
   // Get order by orderID
@@ -65,7 +66,7 @@ module.exports = {
   },
 
   // Checkout and Create Order
-  createOrder: (req, res, next) => {
+  createOrder: async (req, res, next) => {
 
     const userInfo = req.user;
     const order = new Order({
@@ -98,7 +99,14 @@ module.exports = {
       newOrderDetail.save();
 
       order.orderDetailId = newOrderDetail._id;
-
+      order.save();
+      let i;
+      for (i = 0; i < newOrderDetail.books.length; i++) {
+        let bookdata = newOrderDetail.books[i];
+        let findedBook = await Book.findById(bookdata.bookId);
+        findedBook.availableQuantity -= bookdata.qty;
+        findedBook.save();
+      }
       return res.status(201).json({
         message: 'Successfully bought book!',
         order
@@ -194,14 +202,31 @@ module.exports = {
   },
 
   updateOrder: async (req, res, next) => {
-    const orderId = req.params.orderId;
+    let orderId = req.params.orderId;
     try {
-      const orderdata = await Order.findById(orderId);
+      let orderdata = await Order.findById(orderId);
       orderdata.status = req.body.status;
+      let orderDetailData = await OrderDetail.findOne({ orderId: orderId });
+      let i;
+      if (req.body.status == "Hủy") {
+        for (i = 0; i < orderDetailData.books.length; i++) {
+          let bookdata = orderDetailData.books[i];
+          let findedBook = await Book.findById(bookdata.bookId);
+          findedBook.availableQuantity += bookdata.qty;
+          await findedBook.save();
+        }
+      } else {
+        for (i = 0; i < orderDetailData.books.length; i++) {
+          let bookdata = orderDetailData.books[i];
+          let findedBook = await Book.findById(bookdata.bookId);
+          findedBook.availableQuantity -= bookdata.qty;
+          await findedBook.save();
+        }
+      }
       if (orderdata.isPaid != true) {
         orderdata.isPaid = req.body.isPaid;
       }
-      orderdata.save();
+      await orderdata.save();
       return res.status(200).json(orderdata);
     } catch (error) {
       return res.status(500).json(error);
