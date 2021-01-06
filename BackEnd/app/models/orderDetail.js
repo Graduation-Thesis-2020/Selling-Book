@@ -20,9 +20,7 @@ const cartSchema = new Schema({
     imageId: {
       type: String
     },
-    originalPrice: {
-      type: Number
-    },
+    originalPrice: Number,
     price: Number,
     qty: Number,
 
