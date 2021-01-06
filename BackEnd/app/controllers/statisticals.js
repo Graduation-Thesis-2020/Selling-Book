@@ -13,7 +13,7 @@ module.exports = {
     let orderlength = orderdata.length;
     let totalPrice = 0, totalBill = 0;
     let totalOriginalPrice = 0;
-    let totalFinalPrice ;
+    let totalFinalPrice;
     let i = 0;
     let filterday = req.params.day;
 
@@ -27,17 +27,19 @@ module.exports = {
         totalPrice += orderFilter.totalPrice;
         let j;
         let orderDetailData = await OrderDetail.findOne({ orderId: orderFilter._id })
+        // return res.status(200).json(orderDetailData)
         for (j = 0; j < orderDetailData.books.length; j++) {
-          totalOriginalPrice += (orderDetailData[j].originalPrice * orderDetailData[j].qty);
+          totalOriginalPrice += (orderDetailData.books[j].originalPrice * orderDetailData.books[j].qty);
         }
-        totalFinalPrice = totalPrice - totalOriginalPrice ;
+        totalFinalPrice = totalPrice - totalOriginalPrice;
       }
     }
 
     if (totalOrderDetail != null && totalOrderDetail != '') {
       totalBill = totalOrderDetail.length;
       return res.status(200).json({
-        totalPrice: totalFinalPrice,
+        totalRevenue: totalPrice,
+        totalProfit: totalFinalPrice,
         totalBill: totalBill,
         totalOrderDetail
       });
@@ -79,5 +81,45 @@ module.exports = {
     }
     return res.status(404).json({ message: " Không tìm thấy!!!!" });
 
+  },
+
+  getStatisticalAllCustomerTotalPrice: async (req, res, next) => {
+
+    try {
+      let userData = await User.find({ role: 0 });
+      let i, j;
+      let totalPrice = 0;
+      let AllCustomerPrice = [];
+      for (i = 0; i < userData.length; i++) {
+        let findedOrder = await Order.find({ userId: userData[i]._id });
+        for (j = 0; j < findedOrder.length; j++) {
+          totalPrice += findedOrder[j].totalPrice;
+        }
+        let CustomerPrice = {
+          email: userData[i].email,
+          fullname: userData[i].name,
+          phone: userData[i].phone,
+          imageUrl: userData[i].imageUrl,
+          imageId: userData[i].imageId,
+          role: userData[i].role,
+          totalPrice: totalPrice
+        };
+        AllCustomerPrice.push(CustomerPrice);
+        totalPrice = 0;
+      }
+      for (i = 0; i < AllCustomerPrice.length - 1; i++) {
+        for (j = i + 1; j < AllCustomerPrice.length; j++) {
+          if (AllCustomerPrice[j].totalPrice > AllCustomerPrice[i].totalPrice) {
+            let a = AllCustomerPrice[j];
+            AllCustomerPrice[j] = AllCustomerPrice[i];
+            AllCustomerPrice[i] = a;
+
+          }
+        }
+      }
+      return res.status(200).json(AllCustomerPrice)
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   }
 }
