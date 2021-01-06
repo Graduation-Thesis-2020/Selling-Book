@@ -93,7 +93,9 @@ module.exports = {
       for (i = 0; i < userData.length; i++) {
         let findedOrder = await Order.find({ userId: userData[i]._id });
         for (j = 0; j < findedOrder.length; j++) {
-          totalPrice += findedOrder[j].totalPrice;
+          if (findedOrder[j].status == "Đã giao") {
+            totalPrice += findedOrder[j].totalPrice;
+          }
         }
         let CustomerPrice = {
           email: userData[i].email,
@@ -130,38 +132,52 @@ module.exports = {
       let i, j;
       let totalPrice = 0;
       let AllCustomerPrice = [];
-      let dateNow = new Date;
-      let datedNow = ((dateNow.getMonth() > 8) ? (dateNow.getMonth() + 1) : ('0' + (dateNow.getMonth() + 1))) + '-' + dateNow.getFullYear();
+      //  let dateNow = new Date;
+      //   let datedNow = ((dateNow.getMonth() > 8) ? (dateNow.getMonth() + 1) : ('0' + (dateNow.getMonth() + 1))) + '-' + dateNow.getFullYear();
 
-
+      let filtermonth = req.params.month;
+      let dated;
       for (i = 0; i < userData.length; i++) {
         let findedOrder = await Order.find({ userId: userData[i]._id });
         for (j = 0; j < findedOrder.length; j++) {
-          totalPrice += findedOrder[j].totalPrice;
-        }
-        let CustomerPrice = {
-          email: userData[i].email,
-          fullname: userData[i].name,
-          phone: userData[i].phone,
-          imageUrl: userData[i].imageUrl,
-          imageId: userData[i].imageId,
-          role: userData[i].role,
-          totalPrice: totalPrice
-        };
-        AllCustomerPrice.push(CustomerPrice);
-        totalPrice = 0;
-      }
-      for (i = 0; i < AllCustomerPrice.length - 1; i++) {
-        for (j = i + 1; j < AllCustomerPrice.length; j++) {
-          if (AllCustomerPrice[j].totalPrice > AllCustomerPrice[i].totalPrice) {
-            let a = AllCustomerPrice[j];
-            AllCustomerPrice[j] = AllCustomerPrice[i];
-            AllCustomerPrice[i] = a;
-
+          let date = findedOrder[j].created;
+          dated = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+          if (dated == filtermonth && findedOrder[j].status == "Đã giao") {
+            totalPrice += findedOrder[j].totalPrice;
           }
         }
+        if (totalPrice != 0) {
+          let CustomerPrice = {
+            email: userData[i].email,
+            fullname: userData[i].name,
+            phone: userData[i].phone,
+            imageUrl: userData[i].imageUrl,
+            imageId: userData[i].imageId,
+            role: userData[i].role,
+            filterMonth: filtermonth,
+            totalPrice: totalPrice
+          };
+          AllCustomerPrice.push(CustomerPrice);
+        }
+
+        totalPrice = 0;
       }
-      return res.status(200).json(AllCustomerPrice)
+      if (AllCustomerPrice != null && AllCustomerPrice != '') {
+        for (i = 0; i < AllCustomerPrice.length - 1; i++) {
+          for (j = i + 1; j < AllCustomerPrice.length; j++) {
+            if (AllCustomerPrice[j].totalPrice > AllCustomerPrice[i].totalPrice) {
+              let a = AllCustomerPrice[j];
+              AllCustomerPrice[j] = AllCustomerPrice[i];
+              AllCustomerPrice[i] = a;
+
+            }
+          }
+        }
+        return res.status(200).json(AllCustomerPrice);
+      } else {
+        return res.status(404).json({ message: "Không có!!!" });
+      }
+
     } catch (error) {
       return res.status(500).json(error);
     }
@@ -169,10 +185,10 @@ module.exports = {
 
   getStatisticalnewCustomerInMonth: async (req, res, next) => {
     let userData = await User.find({ role: 0 });
-   // let dateNow = new Date;
- //   let datedNow = ((dateNow.getMonth() > 8) ? (dateNow.getMonth() + 1) : ('0' + (dateNow.getMonth() + 1))) + '-' + dateNow.getFullYear();
+    // let dateNow = new Date;
+    //   let datedNow = ((dateNow.getMonth() > 8) ? (dateNow.getMonth() + 1) : ('0' + (dateNow.getMonth() + 1))) + '-' + dateNow.getFullYear();
     //   return res.status(200).json(datedNow);
-    let filtermonth = req.params.month ;
+    let filtermonth = req.params.month;
 
     let filteredData = [];
 
