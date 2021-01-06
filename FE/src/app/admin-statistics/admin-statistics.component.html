@@ -1,134 +1,60 @@
-<div class="contain-custom">
-  <div class="cart-row">
-    <div class="date-search">
+<div class="cus-container">
 
-        <div class="input-group" style="width: 450px">
-          <input #t type="date" class="form-control" >
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button"  ><i class="fas fa-search"></i></button>
-          </div>
-        </div>
 
+<div style="margin-right: 50px; margin-left: 50px">
+  <h1 style="padding-top: 30px">Thống Kê</h1>
+  <div class="ser-t">
+    <b></b>
+    <span><i></i></span>
+    <b class="line"></b>
+  </div>
+</div>
+
+<div class="mid">
+  <div class="mid-1">
+    <div class="title">
+      <span >Thống kê doanh thu theo ngày/tháng/năm</span>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-3">
+        <button class="btn btn-outline-secondary btnStat" type="button" routerLink="/admin/statistics/day"> <i class="fas fa-chart-bar"></i> Doanh thu theo ngày</button>
+      </div>
+      <div class="col-sm-3">
+        <button class="btn btn-outline-secondary btnStat" type="button" routerLink="/admin/statistics/month"> <i class="fas fa-chart-bar"></i> Doanh thu theo tháng</button>
+      </div>
+      <div class="col-sm-3">
+        <button class="btn btn-outline-secondary btnStat" type="button" routerLink="/admin/statistics/year" > <i class="fas fa-chart-bar"></i> Doanh thu theo năm</button>
+      </div>
     </div>
   </div>
 
-  <div class="row" style="margin-bottom: 20px;">
-    <div class="col-sm-3">
-      <div class="cart-item">
-        <div class="row">
-          <div class="col-4">
-            <div div class="icon-item">
-              <i class="fas fa-user-check"></i>
-            </div>
-
-          </div>
-          <div class="col-8" >
-            <div class="data-item">
-              <p class="p1">50</p>
-              <p class="p2">Khách hàng</p>
-            </div>
-          </div>
+  <div class="mid-2">
+    <div class="row">
+      <div class="col-sm-3 mid-3">
+        <div class="title-2">
+          <span >Thống kê khách hàng</span>
+        </div>
+        <div>
+          <button class="btn btn-outline-secondary btnStat-2" type="button" routerLink="/admin/statistics/customer">
+            <i class="fas fa-chart-pie"></i> Thống kê chi tiêu khách hàng</button>
         </div>
       </div>
-    </div>
-    <div class="col-sm-3">
-      <div class="cart-item" style="background-color: cornflowerblue;">
-        <div class="row">
-          <div class="col-4">
-            <div div class="icon-item">
-              <i class="fas fa-user-plus"></i>
-            </div>
-
-          </div>
-          <div class="col-8" >
-            <div class="data-item">
-              <p class="p1">10</p>
-              <p class="p2">Khách hàng mới</p>
-            </div>
-          </div>
+      <div class="col-sm-3 mid-3">
+        <div class="title-2">
+          <span >Thống kê sản phẩm </span>
         </div>
-      </div>
-    </div>
-    <div class="col-sm-3">
-      <div class="cart-item" style="background-color: rgb(100, 237, 134);">
-        <div class="row">
-          <div class="col-4">
-            <div div class="icon-item">
-              <i class="fas fa-cubes"></i>
-            </div>
-
-          </div>
-          <div class="col-8" >
-            <div class="data-item">
-              <p class="p1">250</p>
-              <p class="p2">Đơn hàng</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-3">
-      <div class="cart-item" style="background-color: rgb(237, 100, 141);">
-        <div class="row">
-          <div class="col-4">
-            <div div class="icon-item">
-              <i class="fas fa-hand-holding-usd"></i>
-            </div>
-
-          </div>
-          <div class="col-8" >
-            <div class="data-item">
-              <p class="p1">7000000 đ</p>
-              <p class="p2">Doanh thu</p>
-            </div>
-          </div>
+        <div>
+          <button class="btn btn-outline-secondary btnStat-2" type="button" routerLink="/admin/statistics/product">
+            <i class="fas fa-chart-pie"></i> Thống kê doanh thu sản phẩm</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-sm-6 ">
-      <!-- BarChart -->
-      <div style="display: block;" class="item-chart">
-        <div style="text-align: center; padding-top: 10px; font-weight: 500; font-size: 20px;">Tình trạng đơn hàng</div>
-        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
-          [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
-        </canvas>
-      </div>
-    </div>
-    <!-- PieChart -->
-    <div class="col-sm-6 ">
+</div>
 
-      <div style="display: block;" class="item-chart">
-        <div style="text-align: center; padding-top: 10px; font-weight: 500; font-size: 20px">Hình thức thanh toán</div>
-        <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
-          [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
-        </canvas>
-      </div>
-    </div>
-  </div>
-    <div class="row" style="padding-top: 2em;">
-      <div class="col-sm-6  ">
-        <!-- LineChart -->
-        <div style="display: block;" class="item-chart">
-          <div style="text-align: center; padding-top: 10px; font-weight: 500; font-size: 20px">Tổng doanh thu</div>
-          <canvas baseChart  [datasets]="lineChartData" [labels]="lineChartLabels"
-            [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend"
-            [chartType]="lineChartType" [plugins]="lineChartPlugins">
-          </canvas>
 
-        </div>
-      </div>
-      <!-- PieChart -->
-      <div class="col-sm-6 ">
-        <div style="display: block;" class="item-chart">
-          <div style="text-align: center; padding-top: 10px; font-weight: 500; font-size: 20px">Hình thức thanh toán</div>
-          <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
-            [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
-          </canvas>
-        </div>
-      </div>
-    </div>
 
-  </div>
+
+</div>

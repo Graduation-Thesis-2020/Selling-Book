@@ -1,3 +1,9 @@
+.messQty{
+  color: red;
+  margin-left: 25px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
 .nothing{
   text-align: center;
   padding-top: 80px;

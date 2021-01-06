@@ -227,9 +227,6 @@
               </div>
             </div>
 
-
-
-
           </div>
           <div class="col-auto pl-0  pt-1" >
             <div class="price" *ngIf="item.product.discount == 0">
@@ -242,6 +239,7 @@
         </div>
      </div>
      <div class="item1 pl-2 pr-3">
+      <div class="messQty" *ngIf="this.messQty"><i class="fas fa-exclamation-triangle"></i> {{this.messQty}}</div>
       <div class="row" style="text-align: right">
         <div class="col-8"></div>
         <div class="col ml-auto" style="  border-top: 1px solid rgb(228, 224, 220); padding-top: 10px;">

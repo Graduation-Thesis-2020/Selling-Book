@@ -28,6 +28,7 @@ export class CartComponent implements OnInit {
   pubs: Publisher[];
   auts: Author[];
   cates1: Cate[];
+  messQty: string;
   token = localStorage.getItem("token");
   cartstoreage = JSON.parse(localStorage.getItem("cart"));
   constructor(
@@ -147,11 +148,21 @@ export class CartComponent implements OnInit {
 
     let cart: any = JSON.parse(localStorage.getItem("cart"));
     let item: Item = JSON.parse(cart[index]);
-    item.total = value;
-    cart[index] = JSON.stringify(item);
-    localStorage.setItem("cart", JSON.stringify(cart));
+    if(item.product.availableQuantity < value){
+      this.messQty = "Số lượng sách "+ item.product.title +" hiện tại chỉ còn " + item.product.availableQuantity +" sản phẩm";
+      console.log(this.messQty);
 
-    this.loadCart();
+    } else {
+      this.messQty = null;
+      console.log(this.messQty);
+      item.total = value;
+      cart[index] = JSON.stringify(item);
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      this.loadCart();
+    }
+
+
   }
   async AddtoCarts() {
     const id = this.route.snapshot.paramMap.get("id");

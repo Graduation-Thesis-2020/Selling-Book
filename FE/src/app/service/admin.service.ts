@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { Login, LoginReturn, Profile, FormChangePassword, User, UpdateEmp } from './../models/user';
-import { AccountStatus, UpdateRoleAdmin } from './../models/admin';
+import { AccountStatus, UpdateRoleAdmin, StatAllCustomer } from './../models/admin';
 
 
 
@@ -121,6 +121,22 @@ export class AdminService {
       })
     };
     return this.http.patch(url, User, httpOptions).pipe();
+  }
+  GetAllStatUser(tokenAdmin: string, id: string): Observable<StatAllCustomer[]> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${tokenAdmin}`
+      })
+    };
+    return this.http.get<StatAllCustomer[]>(`${this.URL}/statistical/AllCustomerTotalPriceInMonth/${id}`, httpOptions).pipe();
+  }
+  GetNumNewCustomer(tokenAdmin: string, date: string): Observable<LoginReturn[]> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${tokenAdmin}`
+      })
+    };
+    return this.http.get<LoginReturn[]>(`${this.URL}/statistical/newCustomerInMonth/${date}`, httpOptions).pipe();
   }
 }
 

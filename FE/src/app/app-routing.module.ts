@@ -42,7 +42,11 @@ import { AuthGuard, AuthAdminGuard, ChildGuard, AuthAdminFunctionGuard, AuthLogi
 import { AdminEmployeeAccountComponent } from './admin-employee-account/admin-employee-account.component';
 import { AdminAdminAccountComponent } from './admin-admin-account/admin-admin-account.component';
 import { AdminStatisticsComponent } from './admin-statistics/admin-statistics.component';
-
+import { AdminStatCustomersComponent } from './admin-statistics/admin-stat-customers/admin-stat-customers.component';
+import { AdminStatProductsComponent } from './admin-statistics/admin-stat-products/admin-stat-products.component';
+import { AdminStatProfitDayComponent } from './admin-statistics/admin-stat-profit-day/admin-stat-profit-day.component';
+import { AdminStatProfitMonthComponent } from './admin-statistics/admin-stat-profit-month/admin-stat-profit-month.component';
+import { AdminStatProfitYearComponent } from './admin-statistics/admin-stat-profit-year/admin-stat-profit-year.component';
 const routes: Routes = [
 
   //{path: 'home', component: HomeComponent, canActivate:[]},
@@ -100,12 +104,18 @@ const routes: Routes = [
     {path: 'employee', component: AdminEmployeeAccountComponent,canActivate: [AuthAdminFunctionGuard]},
     {path: 'admin', component: AdminAdminAccountComponent,canActivate: [AuthAdminFunctionGuard]},
     {path: 'statistics', component: AdminStatisticsComponent,canActivate: [AuthAdminFunctionGuard]},
+    {path: 'statistics/day', component: AdminStatProfitDayComponent,canActivate: [AuthAdminFunctionGuard]},
+    {path: 'statistics/month', component: AdminStatProfitMonthComponent,canActivate: [AuthAdminFunctionGuard]},
+    {path: 'statistics/year', component: AdminStatProfitYearComponent,canActivate: [AuthAdminFunctionGuard]},
+    {path: 'statistics/customer', component: AdminStatCustomersComponent,canActivate: [AuthAdminFunctionGuard]},
+    {path: 'statistics/product', component: AdminStatProductsComponent,canActivate: [AuthAdminFunctionGuard]},
   ]},
 
 ]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
+
 
 
 

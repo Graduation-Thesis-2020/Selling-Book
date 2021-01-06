@@ -299,29 +299,44 @@
               <p>{{each.comment}}</p>
             </div>
             <div class="pl-2" style="font-size: 14px; color: darkgray;">
-              <!-- <span  style="font-weight: 500; color: cornflowerblue;" class="pr-0" *ngFor="let like of each.likes">
-                <span *ngIf="like == idUser" class="pr-0">
-                  <a style="font-weight: 600; color: cornflowerblue;" [routerLink]=""  (click)="LikeCmtParent(each._id)" >
-                    <i class="fas fa-thumbs-up"></i>Đã Thích</a> <span> {{each.likes.length}}</span>
-                </span>
 
-              </span> -->
-              <span  style="font-weight: 600; color: cornflowerblue;" class="pr-0" *ngIf="loadLike(each.likes) == 1">
+              <!-- Đã đăng nhập -->
+              <span  style="font-weight: 600; color: cornflowerblue;" class="pr-0" *ngIf="loadLike(each.likes) == 1 && current">
                 <span >
                   <a style="font-weight: 600; color: cornflowerblue;" [routerLink]=""  (click)="LikeCmtParent(each._id)" >
                     <i class="fas fa-thumbs-up"></i>Thích</a> <span style="font-weight: 600;"> {{each.likes.length}}</span>
                 </span>
               </span>
-              <span  style="font-weight: 400; color: cornflowerblue;" class="pr-0" *ngIf="loadLike(each.likes) == 0">
+              <span  style="font-weight: 400; color: cornflowerblue;" class="pr-0" *ngIf="loadLike(each.likes) == 0 && current">
                 <span >
                   <a style="font-weight: 400; color: cornflowerblue;" [routerLink]=""  (click)="LikeCmtParent(each._id)" >
                     <i class="far fa-thumbs-up"></i>Thích</a> <span style="font-weight: 600;"> {{each.likes.length}}</span>
                 </span>
               </span>
 
-              <a [routerLink]="" style="font-weight: 400; color: cornflowerblue;" class="pl-2 pr-2" (click)="showCmtChild(each._id)">
+              <a [routerLink]="" style="font-weight: 400; color: cornflowerblue;" class="pl-2 pr-2" (click)="showCmtChild(each._id)" *ngIf="current">
               <i class="far fa-comment-dots"></i>Trả lời
               </a>
+              <!-- Đã đăng nhập -->
+
+              <!-- Chưa đăng nhập -->
+              <span  style="font-weight: 600; color: cornflowerblue;" class="pr-0" *ngIf="loadLike(each.likes) == 1 && !current">
+                <span >
+                  <a style="font-weight: 600; color: cornflowerblue;" [routerLink]=""  data-toggle="modal" data-target="#NeedLogin" >
+                    <i class="fas fa-thumbs-up"></i>Thích</a> <span style="font-weight: 600;"> {{each.likes.length}}</span>
+                </span>
+              </span>
+              <span  style="font-weight: 400; color: cornflowerblue;" class="pr-0" *ngIf="loadLike(each.likes) == 0 && !current">
+                <span >
+                  <a style="font-weight: 400; color: cornflowerblue;" [routerLink]=""  data-toggle="modal" data-target="#NeedLogin" >
+                    <i class="far fa-thumbs-up"></i>Thích</a> <span style="font-weight: 600;"> {{each.likes.length}}</span>
+                </span>
+              </span>
+
+              <a [routerLink]="" style="font-weight: 400; color: cornflowerblue;" class="pl-2 pr-2" data-toggle="modal" data-target="#NeedLogin" *ngIf="!current">
+              <i class="far fa-comment-dots"></i>Trả lời
+              </a>
+              <!-- Chưa đăng nhập -->
               Ngày đăng: {{each.date | date: 'dd/MM/yyyy'}}
             </div>
 
@@ -346,27 +361,44 @@
                     <p>{{child.comment}}</p>
                   </div>
                   <div  style="font-size: 14px; color: darkgray;">
-                    <!-- <span  style="font-weight: 500; color: cornflowerblue;" class="pr-2">
-                      <a style="font-weight: 500; color: cornflowerblue;" [routerLink]="" >  <i class="fas fa-thumbs-up"></i>Thích</a>
-                    <span> {{child.likes.length}}</span>
-                    </span> -->
 
-                    <span  style="font-weight: 600; color: cornflowerblue;" class="pr-0" *ngIf="loadLike(child.likes) == 1">
+                    <!-- Đã đăng nhập -->
+                    <span  style="font-weight: 600; color: cornflowerblue;" class="pr-0" *ngIf="loadLike(child.likes) == 1 && current">
                       <span >
                         <a style="font-weight: 600; color: cornflowerblue;" [routerLink]=""  (click)="LikeCmtChild(child._id)" >
                           <i class="fas fa-thumbs-up"></i>Thích</a> <span style="font-weight: 600;"> {{child.likes.length}}</span>
                       </span>
                     </span>
-                    <span  style="font-weight: 400; color: cornflowerblue;" class="pr-0" *ngIf="loadLike(child.likes) == 0">
+                    <span  style="font-weight: 400; color: cornflowerblue;" class="pr-0" *ngIf="loadLike(child.likes) == 0 && current">
                       <span >
                         <a style="font-weight: 400; color: cornflowerblue;" [routerLink]=""  (click)="LikeCmtChild(child._id)" >
                           <i class="far fa-thumbs-up"></i>Thích</a> <span style="font-weight: 600;"> {{child.likes.length}}</span>
                       </span>
                     </span>
 
-                    <a [routerLink]="" style="font-weight: 500; color: cornflowerblue;" class="pl-2 pr-2" (click)="showCmtChild(each._id)">
+                    <a [routerLink]="" style="font-weight: 500; color: cornflowerblue;" class="pl-2 pr-2" (click)="showCmtChild(each._id)" *ngIf="current">
                     <i class="far fa-comment-dots"></i>Trả lời
                     </a>
+                    <!-- Đã đăng nhập -->
+
+                    <!-- Chưa đăng nhập -->
+                    <span  style="font-weight: 600; color: cornflowerblue;" class="pr-0" *ngIf="loadLike(child.likes) == 1 && !current">
+                      <span >
+                        <a style="font-weight: 600; color: cornflowerblue;" [routerLink]=""   data-toggle="modal" data-target="#NeedLogin" >
+                          <i class="fas fa-thumbs-up"></i>Thích</a> <span style="font-weight: 600;"> {{child.likes.length}}</span>
+                      </span>
+                    </span>
+                    <span  style="font-weight: 400; color: cornflowerblue;" class="pr-0" *ngIf="loadLike(child.likes) == 0 && !current">
+                      <span >
+                        <a style="font-weight: 400; color: cornflowerblue;" [routerLink]=""   data-toggle="modal" data-target="#NeedLogin" >
+                          <i class="far fa-thumbs-up"></i>Thích</a> <span style="font-weight: 600;"> {{child.likes.length}}</span>
+                      </span>
+                    </span>
+
+                    <a [routerLink]="" style="font-weight: 500; color: cornflowerblue;" class="pl-2 pr-2"  data-toggle="modal" data-target="#NeedLogin" *ngIf="!current">
+                    <i class="far fa-comment-dots"></i>Trả lời
+                    </a>
+                    <!-- Chưa đăng nhập -->
                     Ngày đăng: {{child.date | date: 'dd/MM/yyyy'}}
                   </div>
                 </div>
@@ -452,6 +484,34 @@
 
 
 
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="NeedLogin" tabindex="-1" aria-labelledby="NeedLoginLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="NeedLoginLabel" style="font-weight: 700; font-size: 24px;">Thông báo
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-body">
+          <p>Bạn cần<span style="font-size: 18px; font-weight: 500;"> đăng nhập!!</span></p>
+
+        </div>
+        <div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" routerLink="/login" data-dismiss="modal">Đăng nhập</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
     </div>
   </div>
 </div>

@@ -65,6 +65,11 @@ import { AdminEmployeeAccountComponent } from './admin-employee-account/admin-em
 import { AdminAdminAccountComponent } from './admin-admin-account/admin-admin-account.component';
 import { AdminStatisticsComponent } from './admin-statistics/admin-statistics.component';
 import { ChartsModule, ThemeService } from 'ng2-charts';
+import { AdminStatProfitDayComponent } from './admin-statistics/admin-stat-profit-day/admin-stat-profit-day.component';
+import { AdminStatProfitMonthComponent } from './admin-statistics/admin-stat-profit-month/admin-stat-profit-month.component';
+import { AdminStatProfitYearComponent } from './admin-statistics/admin-stat-profit-year/admin-stat-profit-year.component';
+import { AdminStatCustomersComponent } from './admin-statistics/admin-stat-customers/admin-stat-customers.component';
+import { AdminStatProductsComponent } from './admin-statistics/admin-stat-products/admin-stat-products.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -109,6 +114,11 @@ import { ChartsModule, ThemeService } from 'ng2-charts';
     AdminEmployeeAccountComponent,
     AdminAdminAccountComponent,
     AdminStatisticsComponent,
+    AdminStatProfitDayComponent,
+    AdminStatProfitMonthComponent,
+    AdminStatProfitYearComponent,
+    AdminStatCustomersComponent,
+    AdminStatProductsComponent,
 
   ],
   imports: [
