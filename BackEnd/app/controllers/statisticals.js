@@ -286,8 +286,10 @@ module.exports = {
         }
       }
 
-
-      return res.status(200).json(BookArray);
+      if (BookArray != null && BookArray != '') {
+        return res.status(200).json(BookArray);
+      }
+      return res.status(404).json({ message: "Không có !!!" });
     } catch (error) {
       return res.status(500).json(error);
     }
@@ -374,8 +376,10 @@ module.exports = {
         }
       }
 
-
-      return res.status(200).json(BookArray);
+      if (BookArray != null && BookArray != '') {
+        return res.status(200).json(BookArray);
+      }
+      return res.status(404).json({ message: "Không có!!!" });
     } catch (error) {
       return res.status(500).json(error);
     }

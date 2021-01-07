@@ -59,6 +59,7 @@ router.get('/statistical/day/:day', passport.authenticate('jwt', { session: fals
   .get('/statistical/month/:month', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByMonth)
   .get('/statistical/year/:year', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByDay)
 
+  
   .get('/statistical/AllCustomerTotalPriceInMonth/All', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalAllCustomerTotalPrice)
   .get('/statistical/AllCustomerTotalPriceInMonth/:month', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalAllCustomerTotalPriceInMonth)
   
