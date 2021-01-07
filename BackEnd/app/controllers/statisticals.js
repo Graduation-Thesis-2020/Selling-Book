@@ -3,6 +3,8 @@ const Publisher = require('../models/publisher');
 const Book = require('../models/book');
 const Order = require('../models/order');
 const OrderDetail = require('../models/orderDetail');
+//const Publisher = require('../models/publisher');
+const Author = require('../models/author');
 const { findById } = require('../models/user');
 
 module.exports = {
@@ -220,7 +222,11 @@ module.exports = {
       for (i = 0; i < orderDetailData.length; i++) {
         for (j = 0; j < orderDetailData[i].books.length; j++) {
           let bookdata = orderDetailData[i].books[j];
-          let NXBxTG = await Book.findById(bookdata.bookId);
+          let NXBxTG = await Book.findById(bookdata.bookId).populate([{
+            path: 'author', select: 'name', model: Author
+          }, {
+            path: 'publisher', select: 'name', model: Publisher
+          }]);
           Revenue = bookdata.price * bookdata.qty;
           Profit = Revenue - (bookdata.originalPrice * bookdata.qty);
           Quantity = bookdata.qty;
@@ -262,9 +268,20 @@ module.exports = {
             BookArray[i].Profit += BookArray[j].Profit;
             let index = j;
             for (let k = index + 1; k < BookArray.length; k++) {
-              BookArray[k-1] = BookArray[k];
+              BookArray[k - 1] = BookArray[k];
             }
-            BookArray.length -- ;
+            BookArray.length--;
+          }
+        }
+      }
+
+      for (i = 0; i < BookArray.length - 1; i++) {
+        for (j = i + 1; j < BookArray.length; j++) {
+          if (BookArray[j].Quantity > BookArray[i].Quantity) {
+            let a = BookArray[j];
+            BookArray[j] = BookArray[i];
+            BookArray[i] = a;
+
           }
         }
       }
@@ -276,6 +293,91 @@ module.exports = {
     }
   },
   getStatisticalAllBookTotalPriceInMonth: async (req, res, next) => {
+    try {
+      let orderDetailData = await OrderDetail.find();
+      let bookDataDetail = await Book.find();
+      let filtermonth = req.params.month;
+      let i, j;
+      let BookArray = [];
+      let Revenue, Profit, Quantity;
+      for (i = 0; i < orderDetailData.length; i++) {
+        for (j = 0; j < orderDetailData[i].books.length; j++) {
+          let filterOrder = await Order.findById(orderDetailData[i].orderId);
+          let date = filterOrder.created;
+          let dated = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+          if (dated == filtermonth) {
+            let bookdata = orderDetailData[i].books[j];
+            let NXBxTG = await Book.findById(bookdata.bookId).populate([{
+              path: 'author', select: 'name', model: Author
+            }, {
+              path: 'publisher', select: 'name', model: Publisher
+            }]);
+            Revenue = bookdata.price * bookdata.qty;
+            Profit = Revenue - (bookdata.originalPrice * bookdata.qty);
+            Quantity = bookdata.qty;
+            if (NXBxTG != null && NXBxTG != '') {
+              let BookDetail = {
+                bookId: bookdata.bookId,
+                title: bookdata.title,
+                imageUrl: bookdata.imageUrl,
+                imageId: bookdata.imageId,
+                Publisher: NXBxTG.publisher,
+                Author: NXBxTG.author,
+                SaleMonth: filtermonth,
+                Quantity: Quantity,
+                Revenue: Revenue,
+                Profit: Profit
+              }
+              BookArray.push(BookDetail);
+            } else {
+              let BookDetail = {
+                bookId: bookdata.bookId,
+                title: bookdata.title,
+                imageUrl: bookdata.imageUrl,
+                imageId: bookdata.imageId,
+                SaleMonth: filtermonth,
+                //   Publisher: NXBxTG.publisher,
+                //    Author: NXBxTG.author,
+                Quantity: Quantity,
+                Revenue: Revenue,
+                Profit: Profit
+              }
+              BookArray.push(BookDetail);
+            }
+          }
+        }
+      }
 
+      for (i = 0; i < BookArray.length - 1; i++) {
+        for (j = i + 1; j < BookArray.length; j++) {
+          if (BookArray[i].bookId.toString() == BookArray[j].bookId.toString()) {
+            BookArray[i].Quantity += BookArray[j].Quantity;
+            BookArray[i].Revenue += BookArray[j].Revenue;
+            BookArray[i].Profit += BookArray[j].Profit;
+            let index = j;
+            for (let k = index + 1; k < BookArray.length; k++) {
+              BookArray[k - 1] = BookArray[k];
+            }
+            BookArray.length--;
+          }
+        }
+      }
+
+      for (i = 0; i < BookArray.length - 1; i++) {
+        for (j = i + 1; j < BookArray.length; j++) {
+          if (BookArray[j].Quantity > BookArray[i].Quantity) {
+            let a = BookArray[j];
+            BookArray[j] = BookArray[i];
+            BookArray[i] = a;
+
+          }
+        }
+      }
+
+
+      return res.status(200).json(BookArray);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
   }
 }
