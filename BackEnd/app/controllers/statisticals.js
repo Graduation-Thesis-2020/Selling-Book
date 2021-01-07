@@ -94,7 +94,7 @@ module.exports = {
       if (orderData[i].status == "Đã giao") {
         let orderDetailData = await OrderDetail.findOne({ orderId: orderData[i]._id });
         let date = orderData[i].created;
-        let dated =  date.getFullYear();
+        let dated = date.getFullYear();
 
         if (dated == filterday) {
           Revenue = orderData[i].totalPrice;
@@ -148,7 +148,7 @@ module.exports = {
   },
   getStatisticalByMonth: async (req, res, next) => {
 
-  
+
     let totalOrderDetail = [];
     let Revenue, Profit, Quantity;
     let TotalRevenue = 0, TotalProfit = 0;
@@ -163,7 +163,7 @@ module.exports = {
       if (orderData[i].status == "Đã giao") {
         let orderDetailData = await OrderDetail.findOne({ orderId: orderData[i]._id });
         let date = orderData[i].created;
-        let dated =  ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+        let dated = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
 
         if (dated == filterday) {
           Revenue = orderData[i].totalPrice;
@@ -193,6 +193,23 @@ module.exports = {
     }
 
     if (totalOrderDetail != null && totalOrderDetail != '') {
+      totalBill = totalOrderDetail.length;
+      // for (i = 0; i < totalOrderDetail.length - 1; i++) {
+      //   for (j = i + 1; j < totalOrderDetail.length; j++) {
+      //     if (totalOrderDetail[i].email == totalOrderDetail[j].email) {
+      //       totalOrderDetail[i].Quantity += totalOrderDetail[j].Quantity;
+      //       totalOrderDetail[i].Revenue += totalOrderDetail[j].Revenue;
+      //       totalOrderDetail[i].Profit += totalOrderDetail[j].Profit;
+      //       let index = j;
+      //       for (let k = index + 1; k < totalOrderDetail.length; k++) {
+      //         totalOrderDetail[k - 1] = totalOrderDetail[k];
+      //       }
+      //       totalOrderDetail.length--;
+      //     }
+      //   }
+      // }
+
+
       for (i = 0; i < totalOrderDetail.length - 1; i++) {
         for (j = i + 1; j < totalOrderDetail.length; j++) {
           if (totalOrderDetail[j].Revenue > totalOrderDetail[i].Revenue) {
@@ -204,7 +221,7 @@ module.exports = {
       }
 
 
-      totalBill = totalOrderDetail.length;
+      // totalBill = totalOrderDetail.length;
       return res.status(200).json({
         totalRevenue: TotalRevenue,
         totalProfit: TotalProfit,
@@ -519,5 +536,264 @@ module.exports = {
     } catch (error) {
       return res.status(500).json(error);
     }
-  }
+  },
+
+  getStatisticalByMonthViewTotal: async (req, res, next) => {
+
+
+    let totalOrderDetail = [];
+    let Revenue, Profit, Quantity;
+    let TotalRevenue = 0, TotalProfit = 0;
+    let orderData = await Order.find();
+    let totalOriginal = 0;
+    let totalBill = 0;
+    let Bill = 0;
+    let j;
+    let i = 0;
+    let k;
+    let filterday = req.params.month;
+
+    for (i = 0; i < orderData.length; i++) {
+      if (orderData[i].status == "Đã giao") {
+        let orderDetailData = await OrderDetail.findOne({ orderId: orderData[i]._id });
+        let date = orderData[i].created;
+        let dated = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+
+        let completedDay = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '-' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+        // let checkDate = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate()));
+        if (dated == filterday) {
+          Revenue = orderData[i].totalPrice;
+          for (j = 0; j < orderDetailData.books.length; j++) {
+            totalOriginal += (orderDetailData.books[j].originalPrice * orderDetailData.books[j].qty);
+          }
+          Profit = Revenue - totalOriginal;
+
+
+          let orderElement = {
+            //   orderId: orderData[i]._id,
+            //  email: orderData[i].email,
+            //  name: orderData[i].name,
+            //  phone: orderData[i].phone,
+            //   status: orderData[i].status,
+            //    isPaid: orderData[i].isPaid,
+            Bill: 1,
+            completedDay: completedDay,
+            Revenue: Revenue,
+            OriginalPrice: totalOriginal,
+            Profit: Profit
+          }
+          TotalRevenue += Revenue;
+          TotalProfit += Profit;
+          totalOrderDetail.push(orderElement);
+          totalOriginal = 0;
+          totalBill++;
+          //   Bill = 0;
+        }
+      }
+    }
+
+    if (totalOrderDetail != null && totalOrderDetail != '') {
+
+      for (i = 0; i < totalOrderDetail.length - 1; i++) {
+        for (j = i + 1; j < totalOrderDetail.length; j++) {
+          if (totalOrderDetail[i].completedDay == totalOrderDetail[j].completedDay) {
+            totalOrderDetail[i].OriginalPrice += totalOrderDetail[j].OriginalPrice;
+            totalOrderDetail[i].Revenue += totalOrderDetail[j].Revenue;
+            totalOrderDetail[i].Profit += totalOrderDetail[j].Profit;
+            totalOrderDetail[i].Bill++;
+            let index = j;
+            for (k = index + 1; k < totalOrderDetail.length; k++) {
+              totalOrderDetail[k - 1] = totalOrderDetail[k];
+            }
+            totalOrderDetail.length--;
+          }
+        }
+      }
+
+      for (i = 0; i < totalOrderDetail.length - 1; i++) {
+        for (j = i + 1; j < totalOrderDetail.length; j++) {
+          if (totalOrderDetail[i].completedDay == totalOrderDetail[j].completedDay) {
+            totalOrderDetail[i].OriginalPrice += totalOrderDetail[j].OriginalPrice;
+            totalOrderDetail[i].Revenue += totalOrderDetail[j].Revenue;
+            totalOrderDetail[i].Profit += totalOrderDetail[j].Profit;
+            totalOrderDetail[i].Bill += totalOrderDetail[j].Bill;
+            let index = j;
+            for (k = index + 1; k < totalOrderDetail.length; k++) {
+              totalOrderDetail[k - 1] = totalOrderDetail[k];
+            }
+            totalOrderDetail.length--;
+          }
+        }
+      }
+
+      for (i = 0; i < totalOrderDetail.length - 1; i++) {
+        for (j = i + 1; j < totalOrderDetail.length; j++) {
+          if (totalOrderDetail[i].completedDay == totalOrderDetail[j].completedDay) {
+            totalOrderDetail[i].OriginalPrice += totalOrderDetail[j].OriginalPrice;
+            totalOrderDetail[i].Revenue += totalOrderDetail[j].Revenue;
+            totalOrderDetail[i].Profit += totalOrderDetail[j].Profit;
+            totalOrderDetail[i].Bill += totalOrderDetail[j].Bill;
+            let index = j;
+            for (k = index + 1; k < totalOrderDetail.length; k++) {
+              totalOrderDetail[k - 1] = totalOrderDetail[k];
+            }
+            totalOrderDetail.length--;
+          }
+        }
+      }
+
+
+
+
+      for (i = 0; i < totalOrderDetail.length - 1; i++) {
+        for (j = i + 1; j < totalOrderDetail.length; j++) {
+          if (totalOrderDetail[j].Revenue > totalOrderDetail[i].Revenue) {
+            let a = totalOrderDetail[j];
+            totalOrderDetail[j] = totalOrderDetail[i];
+            totalOrderDetail[i] = a;
+          }
+        }
+      }
+
+
+      //      totalBill = totalOrderDetail.length;
+      return res.status(200).json({
+        totalRevenue: TotalRevenue,
+        totalProfit: TotalProfit,
+        totalBill: totalBill,
+        totalOrderDetail
+      });
+    }
+    return res.status(404).json({ message: " Không tìm thấy!!!!" });
+
+  },
+
+  getStatisticalByYearViewTotal: async (req, res, next) => {
+
+
+    let totalOrderDetail = [];
+    let Revenue, Profit, Quantity;
+    let TotalRevenue = 0, TotalProfit = 0;
+    let orderData = await Order.find();
+    let totalOriginal = 0;
+    let totalBill = 0;
+    let Bill = 0;
+    let j;
+    let i = 0;
+    let k;
+    let filterday = req.params.year;
+
+    for (i = 0; i < orderData.length; i++) {
+      if (orderData[i].status == "Đã giao") {
+        let orderDetailData = await OrderDetail.findOne({ orderId: orderData[i]._id });
+        let date = orderData[i].created;
+        let dated = date.getFullYear();
+
+        let completedDay = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+        if (dated == filterday) {
+          Revenue = orderData[i].totalPrice;
+          for (j = 0; j < orderDetailData.books.length; j++) {
+            totalOriginal += (orderDetailData.books[j].originalPrice * orderDetailData.books[j].qty);
+          }
+          Profit = Revenue - totalOriginal;
+
+
+          let orderElement = {
+            //   orderId: orderData[i]._id,
+            //  email: orderData[i].email,
+            //  name: orderData[i].name,
+            //  phone: orderData[i].phone,
+            //   status: orderData[i].status,
+            //    isPaid: orderData[i].isPaid,
+            Bill: 1,
+            completedDay: completedDay,
+            Revenue: Revenue,
+            OriginalPrice: totalOriginal,
+            Profit: Profit
+          }
+          TotalRevenue += Revenue;
+          TotalProfit += Profit;
+          totalOrderDetail.push(orderElement);
+          totalOriginal = 0;
+          totalBill++;
+          //   Bill = 0;
+        }
+      }
+    }
+
+    if (totalOrderDetail != null && totalOrderDetail != '') {
+
+      for (i = 0; i < totalOrderDetail.length - 1; i++) {
+        for (j = i + 1; j < totalOrderDetail.length; j++) {
+          if (totalOrderDetail[i].completedDay == totalOrderDetail[j].completedDay) {
+            totalOrderDetail[i].OriginalPrice += totalOrderDetail[j].OriginalPrice;
+            totalOrderDetail[i].Revenue += totalOrderDetail[j].Revenue;
+            totalOrderDetail[i].Profit += totalOrderDetail[j].Profit;
+            totalOrderDetail[i].Bill++;
+            let index = j;
+            for (k = index + 1; k < totalOrderDetail.length; k++) {
+              totalOrderDetail[k - 1] = totalOrderDetail[k];
+            }
+            totalOrderDetail.length--;
+          }
+        }
+      }
+
+      for (i = 0; i < totalOrderDetail.length - 1; i++) {
+        for (j = i + 1; j < totalOrderDetail.length; j++) {
+          if (totalOrderDetail[i].completedDay == totalOrderDetail[j].completedDay) {
+            totalOrderDetail[i].OriginalPrice += totalOrderDetail[j].OriginalPrice;
+            totalOrderDetail[i].Revenue += totalOrderDetail[j].Revenue;
+            totalOrderDetail[i].Profit += totalOrderDetail[j].Profit;
+            totalOrderDetail[i].Bill += totalOrderDetail[j].Bill;
+            let index = j;
+            for (k = index + 1; k < totalOrderDetail.length; k++) {
+              totalOrderDetail[k - 1] = totalOrderDetail[k];
+            }
+            totalOrderDetail.length--;
+          }
+        }
+      }
+
+      for (i = 0; i < totalOrderDetail.length - 1; i++) {
+        for (j = i + 1; j < totalOrderDetail.length; j++) {
+          if (totalOrderDetail[i].completedDay == totalOrderDetail[j].completedDay) {
+            totalOrderDetail[i].OriginalPrice += totalOrderDetail[j].OriginalPrice;
+            totalOrderDetail[i].Revenue += totalOrderDetail[j].Revenue;
+            totalOrderDetail[i].Profit += totalOrderDetail[j].Profit;
+            totalOrderDetail[i].Bill += totalOrderDetail[j].Bill;
+            let index = j;
+            for (k = index + 1; k < totalOrderDetail.length; k++) {
+              totalOrderDetail[k - 1] = totalOrderDetail[k];
+            }
+            totalOrderDetail.length--;
+          }
+        }
+      }
+
+
+
+
+      for (i = 0; i < totalOrderDetail.length - 1; i++) {
+        for (j = i + 1; j < totalOrderDetail.length; j++) {
+          if (totalOrderDetail[j].Revenue > totalOrderDetail[i].Revenue) {
+            let a = totalOrderDetail[j];
+            totalOrderDetail[j] = totalOrderDetail[i];
+            totalOrderDetail[i] = a;
+          }
+        }
+      }
+
+
+      //      totalBill = totalOrderDetail.length;
+      return res.status(200).json({
+        totalRevenue: TotalRevenue,
+        totalProfit: TotalProfit,
+        totalBill: totalBill,
+        totalOrderDetail
+      });
+    }
+    return res.status(404).json({ message: " Không tìm thấy!!!!" });
+
+  },
 }

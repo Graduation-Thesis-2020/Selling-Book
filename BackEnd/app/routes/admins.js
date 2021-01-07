@@ -59,6 +59,9 @@ router.get('/statistical/orderday/:day', passport.authenticate('jwt', { session:
   .get('/statistical/ordermonth/:month', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByMonth)
   .get('/statistical/orderyear/:year', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByYear)
 
+  .get('/statistical/ordermonth/:month/ViewTotal', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByMonthViewTotal)
+  .get('/statistical/orderyear/:year/ViewTotal', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByYearViewTotal)
+
 
   .get('/statistical/AllCustomerTotalPriceInMonth/All', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalAllCustomerTotalPrice)
   .get('/statistical/AllCustomerTotalPriceInMonth/:month', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalAllCustomerTotalPriceInMonth)
