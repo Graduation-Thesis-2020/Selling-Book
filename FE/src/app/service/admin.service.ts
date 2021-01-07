@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { Login, LoginReturn, Profile, FormChangePassword, User, UpdateEmp } from './../models/user';
-import { AccountStatus, UpdateRoleAdmin, StatAllCustomer } from './../models/admin';
+import { AccountStatus, UpdateRoleAdmin, StatAllCustomer, StatAllProduct, StatDay, StatMonthHaveStatDay } from './../models/admin';
 
 
 
@@ -138,6 +138,37 @@ export class AdminService {
     };
     return this.http.get<LoginReturn[]>(`${this.URL}/statistical/newCustomerInMonth/${date}`, httpOptions).pipe();
   }
+  GetAllStatProduct(tokenAdmin: string, id: string): Observable<StatAllProduct[]> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${tokenAdmin}`
+      })
+    };
+    return this.http.get<StatAllProduct[]>(`${this.URL}/statistical/AllBookTotalPriceInMonth/${id}`, httpOptions).pipe();
+  }
+  GetAllStatDay(tokenAdmin: string, id: string): Observable<StatDay> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${tokenAdmin}`
+      })
+    };
+    return this.http.get<StatDay>(`${this.URL}/statistical/orderday/${id}`, httpOptions).pipe();
+  }
+  GetStatMonth(tokenAdmin: string, id: string): Observable<StatDay> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${tokenAdmin}`
+      })
+    };
+    return this.http.get<StatDay>(`${this.URL}/statistical/ordermonth/${id}`, httpOptions).pipe();
+  }
+  GetStatMonthHaveStatDay(tokenAdmin: string, id: string): Observable<StatMonthHaveStatDay> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${tokenAdmin}`
+      })
+    };
+    return this.http.get<StatMonthHaveStatDay>(`${this.URL}/statistical/ordermonth/${id}/ViewTotal`, httpOptions).pipe();
+  }
 }
-
 

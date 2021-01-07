@@ -1,1 +1,149 @@
-<p>admin-stat-profit-year works!</p>
+<div class="contain-custom">
+  <div>
+    <a style="font-weight: 500; color:black" routerLink="/admin/statistics"><i class="fas fa-angle-double-left" ></i> Thống kê</a>
+  </div>
+  <div style="margin-right: 50px; margin-left: 50px">
+    <h1 style="padding-top: 1 0px; text-align: center;">Doanh thu theo năm</h1>
+    <div class="ser-t">
+      <b></b>
+      <span><i></i></span>
+      <b class="line"></b>
+    </div>
+  </div>
+  <div class="cart-row">
+    <div class="date-search">
+
+      <div class="input-group "  style="width: 450px">
+        <select #id class="custom-select" id="inputGroupSelect02" (change)="selected(id.value)" >
+          <option selected value="2021">2021</option>
+
+        </select>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row" style="margin-bottom: 20px;" *ngIf="!messStatError">
+
+    <div class="col-sm-4">
+      <div class="cart-item" style="background-color: rgb(100, 237, 134);">
+        <div class="row">
+          <div class="col-4">
+            <div div class="icon-item">
+              <i class="fas fa-cubes"></i>
+            </div>
+
+          </div>
+          <div class="col-8" >
+            <div class="data-item">
+              <p class="p1">{{statDay.totalBill}}</p>
+              <p class="p2">Đơn hàng</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="cart-item" style="background-color: rgb(237, 100, 141);">
+        <div class="row">
+          <div class="col-4">
+            <div div class="icon-item">
+              <i class="fas fa-dollar-sign"></i>
+            </div>
+
+          </div>
+          <div class="col-8" >
+            <div class="data-item">
+              <p class="p1">{{statDay.totalRevenue}} vnđ</p>
+              <p class="p2">Doanh thu</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="cart-item" style="background-color: rgb(100, 187, 237);">
+        <div class="row">
+          <div class="col-4">
+            <div div class="icon-item">
+              <i class="fas fa-hand-holding-usd"></i>
+            </div>
+
+          </div>
+          <div class="col-8" >
+            <div class="data-item">
+              <p class="p1">{{statDay.totalProfit}} vnđ</p>
+              <p class="p2">Lợi nhuận</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center;" *ngIf="messStatError">
+    <span>Chưa có dữ liệu thống kê!</span>
+  </div>
+  <div class="row" *ngIf="!messStatError">
+    <div class="col-sm-6 ">
+      <!-- BarChart -->
+      <div style="display: block;" class="item-chart" *ngIf="barChartData" >
+        <div style="text-align: center; padding-top: 10px; font-weight: 500; font-size: 20px;">Doanh thu - Lợi nhuận(vnđ)</div>
+        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+          [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+        </canvas>
+      </div>
+    </div>
+
+    <div class="col-sm-6 ">
+      <!-- BarChart -->
+      <div style="display: block;" class="item-chart" *ngIf="barChartData1" >
+        <div style="text-align: center; padding-top: 10px; font-weight: 500; font-size: 20px;">Tổng hóa đơn theo tháng</div>
+        <canvas baseChart [datasets]="barChartData1" [labels]="barChartLabels" [options]="barChartOptions"
+          [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+        </canvas>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="margin-top: 30px; margin-bottom: 20px" *ngIf="!messStatError">
+    <table
+      class="table table-bordered table-striped table-hover table-responsive-lg"
+    >
+      <thead style="background-color: rgb(148, 202, 219)">
+        <tr>
+          <th>No.</th>
+          <th>Mã đơn hàng</th>
+          <th>Tên khách</th>
+          <th>Số điện thoại</th>
+          <th>Thanh toán</th>
+          <th>Giá tiền(vnđ)</th>
+          <th>Lợi nhuận(vnđ)</th>
+        </tr>
+      </thead>
+      <tbody >
+        <tr *ngFor="let stat of statDay.totalOrderDetail | paginate: config; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ stat.orderId }}</td>
+          <td class="text-info font-weight-bold">{{ stat.name }}</td>
+          <td>{{ stat.phone }}</td>
+          <td [ngSwitch]="stat.isPaid" style="font-size: 16px; font-weight: 600;">
+            <span *ngSwitchCase="true" style="color: coral;">PayPal</span>
+            <span *ngSwitchCase="false" style="color: rgb(63, 212, 44);">Trực tiếp</span>
+          </td>
+          <td>{{ stat.Revenue }}</td>
+          <td>{{ stat.Profit }}</td>
+
+        </tr>
+      </tbody>
+
+    </table>
+    <pagination-controls
+      style="text-align: center"
+      (pageChange)="pageChanged($event)" *ngIf="statDay.totalOrderDetail.length>10"
+    ></pagination-controls>
+  </div>
+
+  </div>

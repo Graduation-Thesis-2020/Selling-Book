@@ -1,6 +1,7 @@
 .contain-custom {
-  padding: 3em 4em 4em 4em;
+  padding: 1em 4em 4em 4em;
   background-color: whitesmoke;
+  min-height: 970px;
 }
 .item-chart{
   background-color: white;
