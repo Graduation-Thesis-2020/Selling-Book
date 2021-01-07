@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, Color } from 'ng2-charts';
 import { AdminService } from 'src/app/service/admin.service';
-import { StatDay, StatMonthHaveStatDay } from './../../models/admin';
+import { StatDay, StatMonthHaveStatDay, StatOrderDetail } from './../../models/admin';
 
 @Component({
   selector: 'app-admin-stat-profit-year',
@@ -61,6 +61,7 @@ export class AdminStatProfitYearComponent implements OnInit {
   ArraytotalProfit : number[] =[];
   ArraytotalBill: number[] =[];
   ArraytotalLabel: string[]=[];
+  statDateDetail: StatOrderDetail[];
   ngOnInit() {
     this.getCurrentDay();
     this.getStatYear();
@@ -78,6 +79,8 @@ export class AdminStatProfitYearComponent implements OnInit {
   getStatYear(){
     console.log("abc: "+this.date);
     this.adminService.GetStatYear(this.tokenAdmin, this.date).subscribe(res=> {this.statDay = res;
+      this.statDateDetail = this.statDay.totalOrderDetail;
+      this.statDateDetail.reverse();
         console.log(this.statDay);
 
      },err => {this.messStatError = err;});

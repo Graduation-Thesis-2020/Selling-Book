@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, Color } from 'ng2-charts';
 import { AdminService } from 'src/app/service/admin.service';
-import { StatDay, StatMonthHaveStatDay } from './../../models/admin';
+import { StatDay, StatMonthHaveStatDay, StatOrderDetail } from './../../models/admin';
 
 @Component({
   selector: 'app-admin-stat-profit-month',
@@ -48,6 +48,7 @@ export class AdminStatProfitMonthComponent implements OnInit {
   barChartLabels1: Label[]
   barChartData1: ChartDataSets[]
   statDay: StatDay;
+  statDateDetail: StatOrderDetail[];
   statMonthEachDay: StatMonthHaveStatDay;
   day: Date;
   date: string;
@@ -78,6 +79,8 @@ export class AdminStatProfitMonthComponent implements OnInit {
   getStatMonth(){
     console.log("abc: "+this.date);
     this.adminService.GetStatMonth(this.tokenAdmin, this.date).subscribe(res=> {this.statDay = res;
+      this.statDateDetail = this.statDay.totalOrderDetail;
+      this.statDateDetail.reverse();
         console.log(this.statDay);
 
      },err => {this.messStatError = err;});

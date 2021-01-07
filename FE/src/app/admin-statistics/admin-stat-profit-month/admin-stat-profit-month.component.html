@@ -128,17 +128,19 @@
           <th>Mã đơn hàng</th>
           <th>Tên khách</th>
           <th>Số điện thoại</th>
+          <th>Ngày giao</th>
           <th>Thanh toán</th>
           <th>Giá tiền(vnđ)</th>
           <th>Lợi nhuận(vnđ)</th>
         </tr>
       </thead>
       <tbody >
-        <tr *ngFor="let stat of statDay.totalOrderDetail | paginate: config; let i = index">
+        <tr *ngFor="let stat of statDateDetail | paginate: config; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ stat.orderId }}</td>
           <td class="text-info font-weight-bold">{{ stat.name }}</td>
           <td>{{ stat.phone }}</td>
+          <td>{{ stat.completedDay }}</td>
           <td [ngSwitch]="stat.isPaid" style="font-size: 16px; font-weight: 600;">
             <span *ngSwitchCase="true" style="color: coral;">PayPal</span>
             <span *ngSwitchCase="false" style="color: rgb(63, 212, 44);">Trực tiếp</span>
