@@ -125,15 +125,15 @@ module.exports = {
     }
 
     if (totalOrderDetail != null && totalOrderDetail != '') {
-      for (i = 0; i < totalOrderDetail.length - 1; i++) {
-        for (j = i + 1; j < totalOrderDetail.length; j++) {
-          if (totalOrderDetail[j].Revenue > totalOrderDetail[i].Revenue) {
-            let a = totalOrderDetail[j];
-            totalOrderDetail[j] = totalOrderDetail[i];
-            totalOrderDetail[i] = a;
-          }
-        }
-      }
+      // for (i = 0; i < totalOrderDetail.length - 1; i++) {
+      //   for (j = i + 1; j < totalOrderDetail.length; j++) {
+      //     if (totalOrderDetail[j].Revenue > totalOrderDetail[i].Revenue) {
+      //       let a = totalOrderDetail[j];
+      //       totalOrderDetail[j] = totalOrderDetail[i];
+      //       totalOrderDetail[i] = a;
+      //     }
+      //   }
+      // }
 
 
       totalBill = totalOrderDetail.length;
@@ -212,15 +212,15 @@ module.exports = {
       // }
 
 
-      for (i = 0; i < totalOrderDetail.length - 1; i++) {
-        for (j = i + 1; j < totalOrderDetail.length; j++) {
-          if (totalOrderDetail[j].Revenue > totalOrderDetail[i].Revenue) {
-            let a = totalOrderDetail[j];
-            totalOrderDetail[j] = totalOrderDetail[i];
-            totalOrderDetail[i] = a;
-          }
-        }
-      }
+      // for (i = 0; i < totalOrderDetail.length - 1; i++) {
+      //   for (j = i + 1; j < totalOrderDetail.length; j++) {
+      //     if (totalOrderDetail[j].Revenue > totalOrderDetail[i].Revenue) {
+      //       let a = totalOrderDetail[j];
+      //       totalOrderDetail[j] = totalOrderDetail[i];
+      //       totalOrderDetail[i] = a;
+      //     }
+      //   }
+      // }
 
 
       // totalBill = totalOrderDetail.length;
