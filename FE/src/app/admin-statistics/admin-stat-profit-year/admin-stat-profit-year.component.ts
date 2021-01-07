@@ -63,29 +63,29 @@ export class AdminStatProfitYearComponent implements OnInit {
   ArraytotalLabel: string[]=[];
   ngOnInit() {
     this.getCurrentDay();
-    this.getStatMonth();
-    this.getStatMonthHaveStatDay();
+    this.getStatYear();
+    this.getStatYearHaveStatMonth();
   }
 
   selected(t){
     this.date = t;
     console.log(this.date);
-    this.getStatMonth();
+    this.getStatYearHaveStatMonth();
   }
   pageChanged(event) {
     this.config.currentPage = event;
   }
-  getStatMonth(){
+  getStatYear(){
     console.log("abc: "+this.date);
-    this.adminService.GetStatMonth(this.tokenAdmin, this.date).subscribe(res=> {this.statDay = res;
+    this.adminService.GetStatYear(this.tokenAdmin, this.date).subscribe(res=> {this.statDay = res;
         console.log(this.statDay);
 
      },err => {this.messStatError = err;});
      this.messStatError = null;
 
    }
-   getStatMonthHaveStatDay(){
-    this.adminService.GetStatMonthHaveStatDay(this.tokenAdmin, this.date).subscribe(res=> {this.statMonthEachDay = res;
+   getStatYearHaveStatMonth(){
+    this.adminService.GetStatYearHaveStatMonth(this.tokenAdmin, this.date).subscribe(res=> {this.statMonthEachDay = res;
         console.log("each: "+this.statMonthEachDay);
         // barchart
         for(let i =0; i<this.statMonthEachDay.totalOrderDetail.length; i++){

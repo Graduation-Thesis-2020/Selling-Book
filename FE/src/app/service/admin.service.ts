@@ -170,5 +170,21 @@ export class AdminService {
     };
     return this.http.get<StatMonthHaveStatDay>(`${this.URL}/statistical/ordermonth/${id}/ViewTotal`, httpOptions).pipe();
   }
+  GetStatYear(tokenAdmin: string, id: string): Observable<StatDay> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${tokenAdmin}`
+      })
+    };
+    return this.http.get<StatDay>(`${this.URL}/statistical/orderyear/${id}`, httpOptions).pipe();
+  }
+  GetStatYearHaveStatMonth(tokenAdmin: string, id: string): Observable<StatMonthHaveStatDay> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${tokenAdmin}`
+      })
+    };
+    return this.http.get<StatMonthHaveStatDay>(`${this.URL}/statistical/orderyear/${id}/ViewTotal`, httpOptions).pipe();
+  }
 }
 
