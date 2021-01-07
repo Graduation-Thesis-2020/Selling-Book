@@ -53,13 +53,13 @@ router.get('/logout', passport.authenticate('jwt', { session: false }), Admin.lo
 router.get('/secret', passport.authenticate('jwt', { session: false }), authenUser, Admin.secret)
 
 // STATISTICIAL
-router.get('/statistical/day/:day', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByDay)
-  .get('/statistical/week/:week', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByDay)
-  .get('/statistical/quarter/:quarter', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByQuarter)
-  .get('/statistical/month/:month', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByMonth)
-  .get('/statistical/year/:year', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByDay)
+router.get('/statistical/orderday/:day', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByDay)
+  //.get('/statistical/week/:week', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByDay)
+//  .get('/statistical/quarter/:quarter', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByQuarter)
+  .get('/statistical/ordermonth/:month', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByMonth)
+  .get('/statistical/orderyear/:year', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalByYear)
 
-  
+
   .get('/statistical/AllCustomerTotalPriceInMonth/All', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalAllCustomerTotalPrice)
   .get('/statistical/AllCustomerTotalPriceInMonth/:month', passport.authenticate('jwt', { session: false }), authenUser, Statistical.getStatisticalAllCustomerTotalPriceInMonth)
   

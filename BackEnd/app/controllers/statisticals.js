@@ -12,37 +12,64 @@ module.exports = {
   getStatisticalByDay: async (req, res, next) => {
 
     let totalOrderDetail = [];
-    let orderdata = await Order.find();
-    let orderlength = orderdata.length;
-    let totalPrice = 0, totalBill = 0;
-    let totalOriginalPrice = 0;
-    let totalFinalPrice;
+    let Revenue, Profit, Quantity;
+    let TotalRevenue = 0, TotalProfit = 0;
+    let orderData = await Order.find();
+    let totalOriginal = 0;
+    let totalBill = 0;
+    let j;
     let i = 0;
     let filterday = req.params.day;
 
-    for (i = 0; i < orderlength; i++) {
-      let date = orderdata[i].created;
-      let orderFilter = orderdata[i];
-      let dated = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '-' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+    for (i = 0; i < orderData.length; i++) {
+      if (orderData[i].status == "Đã giao") {
+        let orderDetailData = await OrderDetail.findOne({ orderId: orderData[i]._id });
+        let date = orderData[i].created;
+        let dated = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '-' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
 
-      if (dated == filterday && orderFilter.status == "Đã giao") {
-        totalOrderDetail.push(orderFilter);
-        totalPrice += orderFilter.totalPrice;
-        let j;
-        let orderDetailData = await OrderDetail.findOne({ orderId: orderFilter._id })
-        // return res.status(200).json(orderDetailData)
-        for (j = 0; j < orderDetailData.books.length; j++) {
-          totalOriginalPrice += (orderDetailData.books[j].originalPrice * orderDetailData.books[j].qty);
+        if (dated == filterday) {
+          Revenue = orderData[i].totalPrice;
+          for (j = 0; j < orderDetailData.books.length; j++) {
+            totalOriginal += (orderDetailData.books[j].originalPrice * orderDetailData.books[j].qty);
+          }
+          Profit = Revenue - totalOriginal;
+          let orderElement = {
+            orderId: orderData[i]._id,
+            email: orderData[i].email,
+            name: orderData[i].name,
+            phone: orderData[i].phone,
+            status: orderData[i].status,
+            isPaid: orderData[i].isPaid,
+            completedDay: filterday,
+            Revenue: Revenue,
+            OriginalPrice: totalOriginal,
+            Profit: Profit
+          }
+          TotalRevenue += Revenue;
+          TotalProfit += Profit;
+          totalOrderDetail.push(orderElement);
+          totalOriginal = 0;
+          //    totalBill++;
         }
-        totalFinalPrice = totalPrice - totalOriginalPrice;
       }
     }
 
     if (totalOrderDetail != null && totalOrderDetail != '') {
+      for (i = 0; i < totalOrderDetail.length - 1; i++) {
+        for (j = i + 1; j < totalOrderDetail.length; j++) {
+          if (totalOrderDetail[j].Revenue > totalOrderDetail[i].Revenue) {
+            let a = totalOrderDetail[j];
+            totalOrderDetail[j] = totalOrderDetail[i];
+            totalOrderDetail[i] = a;
+          }
+        }
+      }
+
+
       totalBill = totalOrderDetail.length;
       return res.status(200).json({
-        totalRevenue: totalPrice,
-        totalProfit: totalFinalPrice,
+        totalRevenue: TotalRevenue,
+        totalProfit: TotalProfit,
         totalBill: totalBill,
         totalOrderDetail
       });
@@ -51,33 +78,136 @@ module.exports = {
 
 
   },
-  getStatisticalByQuarter: async (req, res, next) => {
-
-  },
-  getStatisticalByMonth: async (req, res, next) => {
+  getStatisticalByYear: async (req, res, next) => {
 
     let totalOrderDetail = [];
-    let orderdata = await Order.find();
-    let orderlength = orderdata.length;
-    let totalPrice = 0, totalBill = 0;
+    let Revenue, Profit, Quantity;
+    let TotalRevenue = 0, TotalProfit = 0;
+    let orderData = await Order.find();
+    let totalOriginal = 0;
+    let totalBill = 0;
+    let j;
     let i = 0;
-    let filterMonth = req.params.month;
+    let filterday = req.params.year;
 
-    for (i = 0; i < orderlength; i++) {
-      let date = orderdata[11].created;
-      let orderFilter = orderdata[i];
-      let dated = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
-      return res.status(404).json(dated);
-      if (dated == filterday && orderFilter.status == "Đã giao") {
-        totalOrderDetail.push(orderFilter);
-        totalPrice += orderFilter.totalPrice;
+    for (i = 0; i < orderData.length; i++) {
+      if (orderData[i].status == "Đã giao") {
+        let orderDetailData = await OrderDetail.findOne({ orderId: orderData[i]._id });
+        let date = orderData[i].created;
+        let dated =  date.getFullYear();
+
+        if (dated == filterday) {
+          Revenue = orderData[i].totalPrice;
+          for (j = 0; j < orderDetailData.books.length; j++) {
+            totalOriginal += (orderDetailData.books[j].originalPrice * orderDetailData.books[j].qty);
+          }
+          Profit = Revenue - totalOriginal;
+          let orderElement = {
+            orderId: orderData[i]._id,
+            email: orderData[i].email,
+            name: orderData[i].name,
+            phone: orderData[i].phone,
+            status: orderData[i].status,
+            isPaid: orderData[i].isPaid,
+            completedDay: filterday,
+            Revenue: Revenue,
+            OriginalPrice: totalOriginal,
+            Profit: Profit
+          }
+          TotalRevenue += Revenue;
+          TotalProfit += Profit;
+          totalOrderDetail.push(orderElement);
+          totalOriginal = 0;
+          //    totalBill++;
+        }
       }
     }
 
     if (totalOrderDetail != null && totalOrderDetail != '') {
+      for (i = 0; i < totalOrderDetail.length - 1; i++) {
+        for (j = i + 1; j < totalOrderDetail.length; j++) {
+          if (totalOrderDetail[j].Revenue > totalOrderDetail[i].Revenue) {
+            let a = totalOrderDetail[j];
+            totalOrderDetail[j] = totalOrderDetail[i];
+            totalOrderDetail[i] = a;
+          }
+        }
+      }
+
+
       totalBill = totalOrderDetail.length;
       return res.status(200).json({
-        totalPrice: totalPrice,
+        totalRevenue: TotalRevenue,
+        totalProfit: TotalProfit,
+        totalBill: totalBill,
+        totalOrderDetail
+      });
+    }
+    return res.status(404).json({ message: " Không tìm thấy!!!!" });
+
+  },
+  getStatisticalByMonth: async (req, res, next) => {
+
+  
+    let totalOrderDetail = [];
+    let Revenue, Profit, Quantity;
+    let TotalRevenue = 0, TotalProfit = 0;
+    let orderData = await Order.find();
+    let totalOriginal = 0;
+    let totalBill = 0;
+    let j;
+    let i = 0;
+    let filterday = req.params.month;
+
+    for (i = 0; i < orderData.length; i++) {
+      if (orderData[i].status == "Đã giao") {
+        let orderDetailData = await OrderDetail.findOne({ orderId: orderData[i]._id });
+        let date = orderData[i].created;
+        let dated =  ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+
+        if (dated == filterday) {
+          Revenue = orderData[i].totalPrice;
+          for (j = 0; j < orderDetailData.books.length; j++) {
+            totalOriginal += (orderDetailData.books[j].originalPrice * orderDetailData.books[j].qty);
+          }
+          Profit = Revenue - totalOriginal;
+          let orderElement = {
+            orderId: orderData[i]._id,
+            email: orderData[i].email,
+            name: orderData[i].name,
+            phone: orderData[i].phone,
+            status: orderData[i].status,
+            isPaid: orderData[i].isPaid,
+            completedDay: filterday,
+            Revenue: Revenue,
+            OriginalPrice: totalOriginal,
+            Profit: Profit
+          }
+          TotalRevenue += Revenue;
+          TotalProfit += Profit;
+          totalOrderDetail.push(orderElement);
+          totalOriginal = 0;
+          //    totalBill++;
+        }
+      }
+    }
+
+    if (totalOrderDetail != null && totalOrderDetail != '') {
+      for (i = 0; i < totalOrderDetail.length - 1; i++) {
+        for (j = i + 1; j < totalOrderDetail.length; j++) {
+          if (totalOrderDetail[j].Revenue > totalOrderDetail[i].Revenue) {
+            let a = totalOrderDetail[j];
+            totalOrderDetail[j] = totalOrderDetail[i];
+            totalOrderDetail[i] = a;
+          }
+        }
+      }
+
+
+      totalBill = totalOrderDetail.length;
+      return res.status(200).json({
+        totalRevenue: TotalRevenue,
+        totalProfit: TotalProfit,
         totalBill: totalBill,
         totalOrderDetail
       });
@@ -222,40 +352,43 @@ module.exports = {
       for (i = 0; i < orderDetailData.length; i++) {
         for (j = 0; j < orderDetailData[i].books.length; j++) {
           let bookdata = orderDetailData[i].books[j];
-          let NXBxTG = await Book.findById(bookdata.bookId).populate([{
-            path: 'author', select: 'name', model: Author
-          }, {
-            path: 'publisher', select: 'name', model: Publisher
-          }]);
-          Revenue = bookdata.price * bookdata.qty;
-          Profit = Revenue - (bookdata.originalPrice * bookdata.qty);
-          Quantity = bookdata.qty;
-          if (NXBxTG != null && NXBxTG != '') {
-            let BookDetail = {
-              bookId: bookdata.bookId,
-              title: bookdata.title,
-              imageUrl: bookdata.imageUrl,
-              imageId: bookdata.imageId,
-              Publisher: NXBxTG.publisher,
-              Author: NXBxTG.author,
-              Quantity: Quantity,
-              Revenue: Revenue,
-              Profit: Profit
+          let orderStatus = await Order.findById(orderDetailData[i].orderId);
+          if (orderStatus != null && orderStatus != '' && orderStatus.status == "Đã giao") {
+            let NXBxTG = await Book.findById(bookdata.bookId).populate([{
+              path: 'author', select: 'name', model: Author
+            }, {
+              path: 'publisher', select: 'name', model: Publisher
+            }]);
+            Revenue = bookdata.price * bookdata.qty;
+            Profit = Revenue - (bookdata.originalPrice * bookdata.qty);
+            Quantity = bookdata.qty;
+            if (NXBxTG != null && NXBxTG != '') {
+              let BookDetail = {
+                bookId: bookdata.bookId,
+                title: bookdata.title,
+                imageUrl: bookdata.imageUrl,
+                imageId: bookdata.imageId,
+                Publisher: NXBxTG.publisher,
+                Author: NXBxTG.author,
+                Quantity: Quantity,
+                Revenue: Revenue,
+                Profit: Profit
+              }
+              BookArray.push(BookDetail);
+            } else {
+              let BookDetail = {
+                bookId: bookdata.bookId,
+                title: bookdata.title,
+                imageUrl: bookdata.imageUrl,
+                imageId: bookdata.imageId,
+                //   Publisher: NXBxTG.publisher,
+                //    Author: NXBxTG.author,
+                Quantity: Quantity,
+                Revenue: Revenue,
+                Profit: Profit
+              }
+              BookArray.push(BookDetail);
             }
-            BookArray.push(BookDetail);
-          } else {
-            let BookDetail = {
-              bookId: bookdata.bookId,
-              title: bookdata.title,
-              imageUrl: bookdata.imageUrl,
-              imageId: bookdata.imageId,
-              //   Publisher: NXBxTG.publisher,
-              //    Author: NXBxTG.author,
-              Quantity: Quantity,
-              Revenue: Revenue,
-              Profit: Profit
-            }
-            BookArray.push(BookDetail);
           }
         }
       }
@@ -305,46 +438,49 @@ module.exports = {
       for (i = 0; i < orderDetailData.length; i++) {
         for (j = 0; j < orderDetailData[i].books.length; j++) {
           let filterOrder = await Order.findById(orderDetailData[i].orderId);
-          let date = filterOrder.created;
-          let dated = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
-          if (dated == filtermonth) {
-            let bookdata = orderDetailData[i].books[j];
-            let NXBxTG = await Book.findById(bookdata.bookId).populate([{
-              path: 'author', select: 'name', model: Author
-            }, {
-              path: 'publisher', select: 'name', model: Publisher
-            }]);
-            Revenue = bookdata.price * bookdata.qty;
-            Profit = Revenue - (bookdata.originalPrice * bookdata.qty);
-            Quantity = bookdata.qty;
-            if (NXBxTG != null && NXBxTG != '') {
-              let BookDetail = {
-                bookId: bookdata.bookId,
-                title: bookdata.title,
-                imageUrl: bookdata.imageUrl,
-                imageId: bookdata.imageId,
-                Publisher: NXBxTG.publisher,
-                Author: NXBxTG.author,
-                SaleMonth: filtermonth,
-                Quantity: Quantity,
-                Revenue: Revenue,
-                Profit: Profit
+          // let orderStatus = await Order.findById( orderDetailData[i].orderId);
+          if (filterOrder != null && filterOrder != '' && filterOrder.status == "Đã giao") {
+            let date = filterOrder.created;
+            let dated = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+            if (dated == filtermonth) {
+              let bookdata = orderDetailData[i].books[j];
+              let NXBxTG = await Book.findById(bookdata.bookId).populate([{
+                path: 'author', select: 'name', model: Author
+              }, {
+                path: 'publisher', select: 'name', model: Publisher
+              }]);
+              Revenue = bookdata.price * bookdata.qty;
+              Profit = Revenue - (bookdata.originalPrice * bookdata.qty);
+              Quantity = bookdata.qty;
+              if (NXBxTG != null && NXBxTG != '') {
+                let BookDetail = {
+                  bookId: bookdata.bookId,
+                  title: bookdata.title,
+                  imageUrl: bookdata.imageUrl,
+                  imageId: bookdata.imageId,
+                  Publisher: NXBxTG.publisher,
+                  Author: NXBxTG.author,
+                  SaleMonth: filtermonth,
+                  Quantity: Quantity,
+                  Revenue: Revenue,
+                  Profit: Profit
+                }
+                BookArray.push(BookDetail);
+              } else {
+                let BookDetail = {
+                  bookId: bookdata.bookId,
+                  title: bookdata.title,
+                  imageUrl: bookdata.imageUrl,
+                  imageId: bookdata.imageId,
+                  SaleMonth: filtermonth,
+                  //   Publisher: NXBxTG.publisher,
+                  //    Author: NXBxTG.author,
+                  Quantity: Quantity,
+                  Revenue: Revenue,
+                  Profit: Profit
+                }
+                BookArray.push(BookDetail);
               }
-              BookArray.push(BookDetail);
-            } else {
-              let BookDetail = {
-                bookId: bookdata.bookId,
-                title: bookdata.title,
-                imageUrl: bookdata.imageUrl,
-                imageId: bookdata.imageId,
-                SaleMonth: filtermonth,
-                //   Publisher: NXBxTG.publisher,
-                //    Author: NXBxTG.author,
-                Quantity: Quantity,
-                Revenue: Revenue,
-                Profit: Profit
-              }
-              BookArray.push(BookDetail);
             }
           }
         }
