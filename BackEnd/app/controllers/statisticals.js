@@ -97,6 +97,7 @@ module.exports = {
         let dated = date.getFullYear();
 
         if (dated == filterday) {
+          let completedDay = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '-' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
           Revenue = orderData[i].totalPrice;
           for (j = 0; j < orderDetailData.books.length; j++) {
             totalOriginal += (orderDetailData.books[j].originalPrice * orderDetailData.books[j].qty);
@@ -109,7 +110,7 @@ module.exports = {
             phone: orderData[i].phone,
             status: orderData[i].status,
             isPaid: orderData[i].isPaid,
-            completedDay: filterday,
+            completedDay: completedDay,
             Revenue: Revenue,
             OriginalPrice: totalOriginal,
             Profit: Profit
@@ -166,6 +167,7 @@ module.exports = {
         let dated = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
 
         if (dated == filterday) {
+          let completedDay = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '-' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
           Revenue = orderData[i].totalPrice;
           for (j = 0; j < orderDetailData.books.length; j++) {
             totalOriginal += (orderDetailData.books[j].originalPrice * orderDetailData.books[j].qty);
@@ -178,7 +180,7 @@ module.exports = {
             phone: orderData[i].phone,
             status: orderData[i].status,
             isPaid: orderData[i].isPaid,
-            completedDay: filterday,
+            completedDay: completedDay,
             Revenue: Revenue,
             OriginalPrice: totalOriginal,
             Profit: Profit
@@ -689,8 +691,9 @@ module.exports = {
         let date = orderData[i].created;
         let dated = date.getFullYear();
 
-        let completedDay = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+      //  let completedDay = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
         if (dated == filterday) {
+          let completedDay = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '-' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
           Revenue = orderData[i].totalPrice;
           for (j = 0; j < orderDetailData.books.length; j++) {
             totalOriginal += (orderDetailData.books[j].originalPrice * orderDetailData.books[j].qty);
