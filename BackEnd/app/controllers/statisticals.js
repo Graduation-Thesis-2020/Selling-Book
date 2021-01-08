@@ -647,15 +647,15 @@ module.exports = {
 
 
 
-      for (i = 0; i < totalOrderDetail.length - 1; i++) {
-        for (j = i + 1; j < totalOrderDetail.length; j++) {
-          if (totalOrderDetail[j].Revenue > totalOrderDetail[i].Revenue) {
-            let a = totalOrderDetail[j];
-            totalOrderDetail[j] = totalOrderDetail[i];
-            totalOrderDetail[i] = a;
-          }
-        }
-      }
+      // for (i = 0; i < totalOrderDetail.length - 1; i++) {
+      //   for (j = i + 1; j < totalOrderDetail.length; j++) {
+      //     if (totalOrderDetail[j].Revenue > totalOrderDetail[i].Revenue) {
+      //       let a = totalOrderDetail[j];
+      //       totalOrderDetail[j] = totalOrderDetail[i];
+      //       totalOrderDetail[i] = a;
+      //     }
+      //   }
+      // }
 
 
       //      totalBill = totalOrderDetail.length;
@@ -693,7 +693,7 @@ module.exports = {
 
       //  let completedDay = ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
         if (dated == filterday) {
-          let completedDay = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '-' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
+          let completedDay =  ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '-' + date.getFullYear();
           Revenue = orderData[i].totalPrice;
           for (j = 0; j < orderDetailData.books.length; j++) {
             totalOriginal += (orderDetailData.books[j].originalPrice * orderDetailData.books[j].qty);
