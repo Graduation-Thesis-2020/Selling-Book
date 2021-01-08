@@ -425,7 +425,7 @@ module.exports = {
 
       order.orderDetailId = newOrderDetail._id;
       await order.save();
-      //  notificationCreateOrder(userInfo.email, userInfo.name, order)
+      notificationCreateOrder(order._id, order.totalPrice, userInfo.email, userInfo.name, userInfo.phone, userInfo.address);
       let i;
       for (i = 0; i < newOrderDetail.books.length; i++) {
         let bookdata = newOrderDetail.books[i];
@@ -438,8 +438,8 @@ module.exports = {
         order
       });
 
-    } catch (error){
-     return res.status(500).json(error);
+    } catch (error) {
+      return res.status(500).json(error);
     }
 
   },
