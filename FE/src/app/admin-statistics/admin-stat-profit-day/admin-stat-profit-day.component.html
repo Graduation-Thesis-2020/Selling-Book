@@ -16,7 +16,7 @@
         <div class="input-group" style="width: 450px">
           <input #t type="date" class="form-control"  (change)="selected(t.value)" >
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button"  ><i class="fas fa-search"></i></button>
+            <button class="btn btn-outline-secondary" type="button" (click)="selected(t.value)" ><i class="fas fa-search"></i></button>
           </div>
         </div>
 
