@@ -1,0 +1,7 @@
+BACK-END:  
+Cài đặt thư viện: npm i --save
+Chạy ứng dụng: npm start
+
+FRONT-END: 
+Cài đặt thư viện: npm i --save
+Chạy ứng dụng: ng serve -o
